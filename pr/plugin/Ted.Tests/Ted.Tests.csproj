@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Offline tests for T-Edition's rules library (plugin/TedRules). No game, no NuGet packages.
+       Run from this folder: dotnet run -c Release [path to ted_data.json] -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <RollForward>Major</RollForward>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\TedRules\*.cs" />
+    <!-- work in progress (TedPlugin compiles only *.cs): tested here before it is renamed to .cs -->
+    <Compile Include="..\TedRules\*.cs.wip" />
+    <Compile Include="*.cs.wip" />
+  </ItemGroup>
+</Project>

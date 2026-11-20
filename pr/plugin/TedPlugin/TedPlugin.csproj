@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PrGame>ff6</PrGame>
+    <AssemblyName>TEdition.PR</AssemblyName>
+  </PropertyGroup>
+  <!-- the modding kit (plugin/PrKit) and the game's BepInEx + interop references; GameDir comes from
+       plugin/PrKit/Games.props. PrKit beside this plugin (the project), else the kit/ submodule (its repo). -->
+  <PropertyGroup>
+    <KitProps>$(MSBuildThisFileDirectory)..\PrKit\PrKit.props</KitProps>
+    <KitProps Condition="!Exists('$(KitProps)')">$(MSBuildThisFileDirectory)..\..\..\kit\pr\plugin\PrKit\PrKit.props</KitProps>
+  </PropertyGroup>
+  <Import Project="$(KitProps)" />
+  <!-- T-Edition's game-free rules (offline-tested in plugin/Ted.Tests) -->
+  <ItemGroup>
+    <Compile Include="..\TedRules\*.cs" />
+  </ItemGroup>
+  <!-- Installing: tools/ted_testinstall.py (a test install on this PC, through the PC test runner); the plugin
+       folder holds only the DLL, the data goes to BepInEx/TEdition (keep the plugins folder small) -->
+</Project>

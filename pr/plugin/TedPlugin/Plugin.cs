@@ -1,0 +1,189 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using BepInEx;
+using BepInEx.Logging;
+using BepInEx.Unity.IL2CPP;
+using HarmonyLib;
+using PrKit;
+using TEdition.Rules;
+using UnityEngine;
+
+namespace TEdition.PR
+{
+    // FF6 T-Edition (Tsushiy; Mato's English 3.0.7 A7 r1, with EX) for the Pixel Remaster: T-Edition's
+    // battle rules on the game's engine (pr/ted/BATTLE_SPEC.md), on the port's data (its Magicite folder
+    // TEdition, from tools/port.py tedition). A mod of its own: Brave New World, Worlds Collide and
+    // Beyond Chaos are separate mods, one active per install. PORTING.md "T-Edition port" is the plan.
+    [BepInPlugin(Guid, "FF6 T-Edition (Pixel Remaster)", Version)]
+    public partial class Plugin : BasePlugin
+    {
+        public const string Guid = "ff6mod.tedition";
+        public const string Version = "0.1.0";
+        public const string ModFolder = "TEdition";   // its Magicite folder, its data folder (BepInEx/TEdition), its saves
+        internal static ManualLogSource L;
+        internal static bool TedMode;                 // T-Edition's data is installed: the rules are on
+        internal static TedData D;
+        internal static string DataDir, DataFile, DataError;
+        internal static FeatureHost Features;
+        internal static Harmony H;
+
+        public override void Load()
+        {
+            L = Log;
+            var clock = System.Diagnostics.Stopwatch.StartNew();
+            Kit.Init(Log, "T-Edition");
+            // plugin data stays out of the plugins folder (BepInEx scans it on every assembly lookup)
+            DataDir = Path.Combine(Paths.BepInExRootPath, ModFolder);
+            DataFile = Path.Combine(DataDir, "ted_data.json");
+            TedMode = MagiciteDir.Has(ModFolder);
+            if (TedMode) L.LogInfo($"T-Edition's data: {MagiciteDir.FolderPath(ModFolder)}");
+            else L.LogWarning($"T-Edition's data isn't installed (no {ModFolder} folder in {MagiciteDir.ImportDir}): its rules are off");
+            try
+            {
+                D = File.Exists(DataFile) ? TedData.Parse(File.ReadAllText(DataFile)) : null;
+                if (D == null) DataError = $"no {DataFile}";
+            }
+            catch (Exception e) { DataError = $"{DataFile}: {e.Message}"; }
+            if (DataError != null) L.LogWarning($"[ted] {DataError}: rules that need the port's lists are off");
+            D ??= new TedData();
+            H = new Harmony(Guid);
+            // T-Edition's own saves, apart from vanilla's and the other mods' (PrKit/ModSaves.cs), synced by Steam Cloud
+            if (TedMode) ModSaves.Apply(H, ModFolder);
+            Features = new FeatureHost(Config, H);
+            Features.Add(new SingleGamepad());   // one controller, one input on the Steam Deck
+            Features.Add(new TedDamage());
+            Features.Add(new TedStatuses());     // its BattleConditionController.Update prefix before the kit's (below)
+            Features.Add(new TedCommands());
+            Features.Add(new TedVictory());
+            Features.ApplyAll();                 // also starts a test run (harness) when one is requested
+            TedHarness.Register();
+            if (TedMode) KitRules();
+            if (TedMode) TedEnemyAi.Apply(H, Path.Combine(DataDir, "ted_ai.json"),
+                Config.Bind("Battle", "ScriptStatusEffects", false,
+                    "Monster scripts may set/clear statuses on themselves and end the battle (SNES AI FB 0B/0C/02; T-Edition's boss deaths). " +
+                    "Off until T-Edition's fights are tested with them.").Value);
+            L.LogInfo($"T-Edition {Version}: data {(TedMode ? "installed" : "missing")}, " +
+                      $"{(DataError == null ? $"ted_data {D.Version} ({D.Items.Count} items, {D.NewWeapons.Count} new weapon rows, {D.HalfIgnoreDefense.Count} half-damage monsters)" : DataError)}; " +
+                      $"load {clock.Elapsed.TotalSeconds:0.00} s");
+            AddComponent<TedRunner>();
+        }
+    }
+
+    // The kit's SNES battle modules T-Edition runs on (PrKit/Ff6): the SNES's ATB fill and command waits
+    // (rules 45-46: T-Edition's wait table; its Haste x144 and monster speed term 4 wait for the kit's
+    // options), the SNES status clock (cadence of rule 50; Stop 9 steps of rule 51 waits for the kit's
+    // option), no hit-rate change from target statuses (rule 21: both lists emptied), no esper level-up
+    // bonuses (rule 4: every esper answers "none").
+    public partial class Plugin
+    {
+        static void KitRules()
+        {
+            System.Func<bool> on = () => TedMode;
+            try
+            {
+                foreach (var (cmd, wait) in StatusMath.CommandWaits) PrKit.Ff6.SnesAtb.SnesCommandWait[cmd] = wait;
+                PrKit.Ff6.SnesAtb.On = on;
+                PrKit.Ff6.SnesAtb.Tag = "[ted]";
+                PrKit.Ff6.SnesAtb.Patch(H);
+            }
+            catch (Exception e) { L.LogError($"[ted] kit ATB: {e.Message}"); }
+            try
+            {
+                PrKit.Ff6.SnesStatusTicks.On = on;
+                PrKit.Ff6.SnesStatusTicks.Tag = "[ted]";
+                PrKit.Ff6.SnesStatusTicks.Patch(H);
+            }
+            catch (Exception e) { L.LogError($"[ted] kit status clock: {e.Message}"); }
+            try
+            {
+                var none = new Dictionary<int, int>();
+                foreach (var id in D.EsperBonusVanilla.Keys) none[id] = 0xFF;
+                IReadOnlyDictionary<int, int> vanilla = D.EsperBonusVanilla;
+                PrKit.Ff6.SnesEsperBonus.Seed = () => TedMode && none.Count > 0 ? none : null;
+                PrKit.Ff6.SnesEsperBonus.Vanilla = () => TedMode && vanilla.Count > 0 ? vanilla : null;
+                PrKit.Ff6.SnesEsperBonus.Tag = "[ted]";
+                PrKit.Ff6.SnesEsperBonus.Patch(H);
+                TedLog.Rule(4, "", () => $"espers give no level-up bonus ({none.Count} espers answer none)");
+            }
+            catch (Exception e) { L.LogError($"[ted] kit esper bonuses: {e.Message}"); }
+        }
+
+        // first frames: the game's static lists exist (their static constructors have run)
+        internal static void FirstFrames()
+        {
+            if (!TedMode || hitRatesDone) return;
+            hitRatesDone = true;
+            try
+            {
+                var plus = new List<Last.Defaine.ConditionType>();
+                var minus = new List<Last.Defaine.ConditionType>();
+                var p = Last.Battle.CalcExecuteFF6.HitRatePlusConditions;
+                var m = Last.Battle.CalcExecuteFF6.HitRateMinusConditions;
+                if (p != null) foreach (var c in p) plus.Add(c);
+                if (m != null) foreach (var c in m) minus.Add(c);
+                var line = PrKit.Ff6.SnesHitRates.Fix("T-Edition", plus, minus);
+                if (line != null) L.LogInfo(line);
+                TedLog.Rule(21, "", () => "no hit-rate change from the target's statuses (both lists emptied)");
+            }
+            catch (Exception e) { L.LogError($"[ted] hit-rate lists: {e.Message}"); }
+        }
+        static bool hitRatesDone;
+    }
+
+    // A rule's first use goes to the log once ("[ted] rule 6 ..."); `tedrules` lists what has fired
+    static class TedLog
+    {
+        static readonly Dictionary<int, int> fired = new Dictionary<int, int>();
+        static readonly object Lock = new object();
+
+        internal static void Rule(int rule, string key, Func<string> text)
+        {
+            lock (Lock) fired[rule] = fired.TryGetValue(rule, out var n) ? n + 1 : 1;
+            Hooks.NoteOnce($"ted-rule-{rule}-{key}", () => $"[ted] rule {rule}: {text()}");
+        }
+
+        internal static int Count(int rule)
+        {
+            lock (Lock) return fired.TryGetValue(rule, out var n) ? n : 0;
+        }
+
+        internal static string Summary()
+        {
+            lock (Lock)
+            {
+                if (fired.Count == 0) return "no rule has fired yet";
+                var parts = new List<string>();
+                var keys = new List<int>(fired.Keys);
+                keys.Sort();
+                foreach (var k in keys) parts.Add($"{k} x{fired[k]}");
+                return "rules fired: " + string.Join(", ", parts);
+            }
+        }
+    }
+
+    // per-frame driver (its own class name: IL2CPP registers runners by name)
+    public class TedRunner : MonoBehaviour
+    {
+        public TedRunner(IntPtr ptr) : base(ptr) { }
+
+        void Update()
+        {
+            try
+            {
+                Plugin.FirstFrames();
+                Plugin.Features?.Update();
+                if (Plugin.TedMode) PrKit.Ff6.SnesStatusTicks.Track();
+                TedEnemyAi.Update();
+                TedHarness.Update();
+            }
+            catch (Exception e) { Hooks.WarnOnce("ted-update", e); }
+        }
+
+        void OnGUI()
+        {
+            try { Plugin.Features?.OnGUI(); }
+            catch (Exception e) { Hooks.WarnOnce("ted-gui", e); }
+        }
+    }
+}
