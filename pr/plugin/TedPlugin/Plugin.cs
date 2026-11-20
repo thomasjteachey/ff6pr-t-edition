@@ -53,13 +53,15 @@ namespace TEdition.PR
             Features = new FeatureHost(Config, H);
             Features.Add(new SingleGamepad());   // one controller, one input on the Steam Deck
             Features.Add(new TedDamage());
+            TedStatuses.ColiseumControl = Config.Bind("Battle", "ColiseumControl", false,
+                "T-Edition's Colosseum: the fighter takes your commands instead of acting on its own (rule 56). Off until it has been seen working in game.").Value;
             Features.Add(new TedStatuses());     // its BattleConditionController.Update prefix before the kit's (below)
             Features.Add(new TedCommands());
             Features.Add(new TedVictory());
             Features.ApplyAll();                 // also starts a test run (harness) when one is requested
             TedHarness.Register();
             if (TedMode) KitRules();
-            if (TedMode) TedEnemyAi.Apply(H, Path.Combine(DataDir, "ted_ai.json"),
+            if (TedMode) TedEnemyAi.Apply(H, Path.Combine(DataDir, "ted_ai.json"), Path.Combine(DataDir, "ted_ex_ai.json"),
                 Config.Bind("Battle", "ScriptStatusEffects", false,
                     "Monster scripts may set/clear statuses on themselves and end the battle (SNES AI FB 0B/0C/02; T-Edition's boss deaths). " +
                     "Off until T-Edition's fights are tested with them.").Value);
@@ -71,10 +73,10 @@ namespace TEdition.PR
     }
 
     // The kit's SNES battle modules T-Edition runs on (PrKit/Ff6): the SNES's ATB fill and command waits
-    // (rules 45-46: T-Edition's wait table; its Haste x144 and monster speed term 4 wait for the kit's
-    // options), the SNES status clock (cadence of rule 50; Stop 9 steps of rule 51 waits for the kit's
-    // option), no hit-rate change from target statuses (rule 21: both lists emptied), no esper level-up
-    // bonuses (rule 4: every esper answers "none").
+    // (rules 45-46: T-Edition's wait table, Haste x144, monster speed term 4), the SNES status clock (cadence
+    // of rule 50; rule 51's Stop 9 steps and rule 45's Haste add 96), no hit-rate change from target statuses
+    // (rule 21: both lists emptied), no esper level-up bonuses (rule 4: every esper answers "none"). Each
+    // plugin compiles its own copy of the kit, so these values never reach another mod.
     public partial class Plugin
     {
         static void KitRules()
@@ -83,6 +85,10 @@ namespace TEdition.PR
             try
             {
                 foreach (var (cmd, wait) in StatusMath.CommandWaits) PrKit.Ff6.SnesAtb.SnesCommandWait[cmd] = wait;
+                // rule 45: Haste x144 (= $3ADD 96 x 1.5) and monsters (Speed + 20) x (255 - 4 x battle speed)
+                PrKit.Ff6.SnesAtb.HasteK = StatusMath.AtbHasteK;
+                PrKit.Ff6.SnesAtb.MonsterSpeedTerm = StatusMath.MonsterSpeedTerm;
+                TedLog.Rule(45, "", () => $"ATB: Haste x{StatusMath.AtbHasteK}, monster speed term {StatusMath.MonsterSpeedTerm} (C2/2482, C2/09DA)");
                 PrKit.Ff6.SnesAtb.On = on;
                 PrKit.Ff6.SnesAtb.Tag = "[ted]";
                 PrKit.Ff6.SnesAtb.Patch(H);
@@ -90,6 +96,10 @@ namespace TEdition.PR
             catch (Exception e) { L.LogError($"[ted] kit ATB: {e.Message}"); }
             try
             {
+                // rules 45 / 51: the status clock's Haste add 96 (vanilla 84), Stop 9 steps (vanilla 18)
+                PrKit.Ff6.SnesStatusClock.AddHaste = StatusMath.AddHaste;
+                PrKit.Ff6.SnesStatusClock.StopSteps = StatusMath.StopSteps;
+                TedLog.Rule(51, "", () => $"status clock: Stop {StatusMath.StopSteps} steps, Haste add {StatusMath.AddHaste}");
                 PrKit.Ff6.SnesStatusTicks.On = on;
                 PrKit.Ff6.SnesStatusTicks.Tag = "[ted]";
                 PrKit.Ff6.SnesStatusTicks.Patch(H);

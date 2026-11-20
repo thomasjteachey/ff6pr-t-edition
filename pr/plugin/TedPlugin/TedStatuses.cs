@@ -33,8 +33,18 @@ namespace TEdition.PR
         static bool On => Plugin.TedMode;
         internal static int Ticks, Drains, Summons;
 
+        internal static bool ColiseumControl;    // config [Battle] ColiseumControl (rule 56), off until seen in game
+
         public override void Apply(Harmony h)
         {
+            if (ColiseumControl)
+            {
+                // 56: the Colosseum fighter takes commands (C2/0126, 092A): the PR's ActSelectQuick.CheckAutoMode
+                // turns to ActSelectColosseum.CreateActDataAuto while BattlePlugManager.IsColosseumBattle; inside
+                // that one check the battle reads as an ordinary one
+                Hooks.Patch(h, typeof(ActSelectQuick), "CheckAutoMode", typeof(TedStatuses), prefix: nameof(AutoMode_Prefix), postfix: nameof(AutoMode_Postfix));
+                Hooks.Patch(h, typeof(BattlePlugManager), "IsColosseumBattle", typeof(TedStatuses), postfix: nameof(Colosseum_Postfix));
+            }
             Hooks.Patch(h, typeof(BattleConditionFunction), "GetRateValue", typeof(TedStatuses), postfix: nameof(Rate_Postfix));
             Hooks.Patch(h, typeof(RegenerationConditionFunction), "GenerateRegeneHeal", typeof(TedStatuses), prefix: nameof(Regen_Prefix));
             Hooks.Patch(h, typeof(SlipConditionFunction), "GenerateSlipDamageTo", typeof(TedStatuses), postfix: nameof(Sap_Postfix));
@@ -112,6 +122,20 @@ namespace TEdition.PR
                 TedLog.Rule(50, "disease", () => $"Disease tick: MP {was} -> {now} (max MP/16 = {loss})");
             }
             catch (Exception e) { Hooks.WarnOnce("TedStatuses.Sap", e); }
+        }
+
+        // --- 56: the Colosseum fighter takes commands ---------------------------------------------------
+
+        [ThreadStatic] static int autoCheck;
+
+        public static void AutoMode_Prefix() => autoCheck++;
+        public static void AutoMode_Postfix() { if (autoCheck > 0) autoCheck--; }
+
+        public static void Colosseum_Postfix(ref bool __result)
+        {
+            if (!On || autoCheck <= 0 || !__result) return;
+            __result = false;
+            TedLog.Rule(56, "", () => "Colosseum fight: the fighter takes commands (no auto act)");
         }
 
         // --- 54: drains -----------------------------------------------------------------------------------

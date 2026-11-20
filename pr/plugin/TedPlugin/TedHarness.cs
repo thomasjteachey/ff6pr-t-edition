@@ -28,6 +28,23 @@ namespace TEdition.PR
             Harness.Register("tedgive", Give, "tedgive ID|sSLOT [n]: a content id (or T-Edition's item slot) into the inventory");
             Harness.Register("tedrules", _ => TedLog.Summary(), "tedrules: the T-Edition rules that have fired");
             Harness.Register("tedsteal", TedSelfTest.Steal, "tedsteal [n]: in a battle, n Steals by the first party member through the game's functions (nothing applied): rate vs T-Edition's chance");
+            Harness.Register("tedgil", TedSelfTest.GilToss, "tedgil: in a battle, the game's Gil Toss value and gil cost (information for rule 29; test runs never save)");
+            Harness.Register("tedcast", TedSelfTest.Cast, "tedcast SLOT ABILITY p0..p3|e0..e5|allies|foes [COMMAND]: a party member's act, queued as the game queues the player's (log shows its damage)");
+            Harness.Register("tedcond", a =>
+            {
+                if (a.Length < 2 || !int.TryParse(a[0], out int slot)) return "error: tedcond SLOT CONDITION [off]";
+                if (!Enum.TryParse<Last.Defaine.ConditionType>(a[1], true, out var type)) return $"error: no condition {a[1]}";
+                var bm = Last.Battle.BattlePlugManager.Instance();
+                if (bm == null || !bm.IsBattle()) return "error: not in a battle";
+                var players = bm.GetPlayerUnits();
+                if (players == null || slot < 0 || slot >= players.Length || players[slot] == null) return $"error: no party member {slot}";
+                var u = players[slot];
+                bool off = a.Length > 2 && a[2] == "off";
+                if (off) bm.BattleConditionController.InterruptRemoveCondition(u, type);
+                else bm.BattleConditionController.InterruptAddCondition(u, type);
+                bool has = u.BattleUnitDataInfo?.GetConfirmedConditionType()?.Contains(type) == true;
+                return $"party {slot}: {type} {(has ? "on" : "off")}";
+            }, "tedcond SLOT CONDITION [off]: a status on/off a party member in battle (Poison, Regeneration, Shell, Trance...)");
             Harness.Register("tedcounters", a =>
             {
                 if (a.Length >= 2 && a[0] == "steal" && int.TryParse(a[1], out int v)) TedCounters.Set(TedCounters.Steal, Math.Clamp(v, 0, 510));

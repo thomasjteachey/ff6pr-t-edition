@@ -32,6 +32,7 @@ namespace TEdition.PR
         internal static DamageSteps.Result LastResult;     // tests: the last result worked out
         internal static string LastInputs = "";
         internal static int Applied;
+        internal static bool NoSplitTest;            // tests: rule 37 off (the game's own split)
         static int cap = 9999;
 
         public override void Apply(Harmony h)
@@ -43,6 +44,29 @@ namespace TEdition.PR
             Hooks.Patch(h, typeof(PlayerCharacterParameter), "ConfirmedResistanceAttributeList", typeof(TedDamage), postfix: nameof(Resist_Postfix));
             Hooks.Patch(h, typeof(EnemyCharacterParameter), "ConfirmedResistanceAttributeList", typeof(TedDamage), postfix: nameof(Resist_Postfix));
             Hooks.Patch(h, typeof(CalcExecuteCorrection), "GetAccessoryPhysicalCorrectionValue", typeof(TedDamage), postfix: nameof(Physical_Postfix));
+            Hooks.Patch(h, typeof(CalcExecuteCorrection), "GetHawkEyeCorrectionValue", typeof(TedDamage), postfix: nameof(HawkEye_Postfix));
+        }
+
+        // 16: Hawk-eye weapons (Cards, Darts, Tarot of Ben, Antares: weapon process HAWK_EYE). The PR rolls an
+        // attack type per act (FunctionProvider.CheckAndSetHawkEyeAttackType) and answers x1.5 ("to land") or
+        // x3 ("to sky", a floating target) here; vanilla's 50% +1 $BC, +3 more vs Float. T-Edition (C2/38EE):
+        // no roll, x2 against a target with Float when the command is Fight, nothing otherwise.
+        public static void HawkEye_Postfix(BattleActData battleActData, ref float __result)
+        {
+            if (!On || battleActData == null) return;
+            try
+            {
+                var type = battleActData.GetHawkEyeAttackType();
+                if (type == BattleActData.HawkEyeAttackType.None) return;   // not a Hawk-eye weapon's act
+                var targets = battleActData.TargetUnitDatas;
+                var t = targets != null && targets.Length > 0 ? targets[0] : null;
+                bool floating = t?.BattleUnitDataInfo?.GetConfirmedConditionType()?.Contains(ConditionType.Leviteto) == true;
+                bool fight = battleActData.Command?.Id == 1;
+                float was = __result, now = fight && floating ? 2f : 1f;
+                __result = now;
+                TedLog.Rule(16, "", () => $"Hawk-eye ({type}, {(fight ? "Fight" : "not Fight")}, target {(floating ? "floating" : "on the ground")}): x{now} (the game's x{was})");
+            }
+            catch (Exception e) { Hooks.WarnOnce("TedDamage.HawkEye", e); }
         }
 
         // 15: the Atlas-type physical boost (CalcExecuteCorrection.PhysicalType 2, "BasketsOfGiants") +25% once,
@@ -157,6 +181,19 @@ namespace TEdition.PR
                     Stamina = attacker.ConfirmedVitality(),
                 };
                 var r = DamageSteps.Apply(hit);
+                // 37: effect $2A (Mysidian Rabbit, Heal Force, Flare Star) no longer divided by the targets
+                // (C2/4115 NOPed): the game's per-target value x the number of targets
+                int aid = ability?.Id ?? 0;
+                if (aid > 0 && (aid == Plugin.D.Ability("mysidian_rabbit") || aid == Plugin.D.Ability("heal_force") ||
+                                aid == Plugin.D.Ability("flare_star")) && !NoSplitTest)
+                {
+                    int n = c.numTarget;
+                    if (n > 1)
+                    {
+                        r.Factor *= n;
+                        r.Rule(37, $"ability {aid} not split over its {n} targets (x{n})");
+                    }
+                }
                 // 15: one +25% magic boost however many Earrings (the game: 1 + 0.25 x the number worn, in
                 // MagicExecution); heals: T-Edition boosts them too (whether the game does: unchecked)
                 if (!physical && !heal && c.userCharaData != null)

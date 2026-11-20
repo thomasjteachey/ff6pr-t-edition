@@ -47,6 +47,10 @@ namespace TEdition.Rules
             return null;
         }
 
+        // PR ability ids of the SNES spells the rules name (mysidian_rabbit, heal_force, flare_star)
+        public readonly Dictionary<string, int> Abilities = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+        public int Ability(string role) => Abilities.TryGetValue(role, out var id) ? id : 0;
+
         // vanilla's esper level-up bonus code (0-16, 0xFF none) by magicite content id (rule 4)
         public readonly Dictionary<int, int> EsperBonusVanilla = new Dictionary<int, int>();
 
@@ -87,6 +91,9 @@ namespace TEdition.Rules
             if (r.TryGetProperty("named", out var named))
                 foreach (var p in named.EnumerateObject())
                     if (p.Value.ValueKind == JsonValueKind.Number) d.Named[p.Name] = p.Value.GetInt32();
+            if (r.TryGetProperty("abilities", out var abl))
+                foreach (var p in abl.EnumerateObject())
+                    if (p.Value.ValueKind == JsonValueKind.Number) d.Abilities[p.Name] = p.Value.GetInt32();
             if (r.TryGetProperty("esper_bonus_vanilla", out var eb))
                 foreach (var pair in eb.EnumerateArray())
                     if (pair.GetArrayLength() == 2 && pair[0].ValueKind == JsonValueKind.Number)

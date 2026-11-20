@@ -85,7 +85,8 @@ static partial class Program
         Check(d.Items.All(i => i.Content > 0 && i.Row > 0 && i.Name.Length > 0), "an item without content/row/name");
         Check(d.NewWeapons.Count == 24 && d.NewWeapons.All(w => w.Row >= 92 && w.Content > 0 && w.Name.Length > 0), $"new weapons {d.NewWeapons.Count}");
         Check(d.DropRates.SequenceEqual(new[] { 68, 19, 8, 5 }), $"drop rates {string.Join("/", d.DropRates)}");
-        Check(d.HalfIgnoreDefense.Count > 0 && d.HalfIgnoreDefense.All(id => id >= 1 && id <= 384), "half-damage monsters");
+        Check(d.HalfIgnoreDefense.Count > 0 && d.HalfIgnoreDefense.All(id => (id >= 1 && id <= 384) || (id >= 1384 && id <= 1511)), "half-damage monsters");
+        Check(d.HalfIgnoreDefenseNew.All(e => d.HalfIgnoreDefense.Contains(1000 + e)), "new monsters as PR 1000 + id");
         Check(d.NamedContent("orichalcum") > 0, "Orichalcum's content id");
         Console.WriteLine($"      {d.Items.Count} items ({d.Items.Count(i => i.Moved)} moved), {d.NewWeapons.Count} new weapons, " +
                           $"{d.HalfIgnoreDefense.Count}+{d.HalfIgnoreDefenseNew.Count} half-damage monsters");

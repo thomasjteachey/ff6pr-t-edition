@@ -8,6 +8,7 @@ using Last.Data.Master;
 using Last.Defaine;
 using Last.Systems;
 using PrKit;
+using TEdition.Rules;
 
 namespace TEdition.PR
 {
@@ -55,6 +56,7 @@ namespace TEdition.PR
             };
             var lines = new List<string>();
             int ok = 0, failed = 0, skipped = 0;
+            try { lines.Add(SplitCase(players.Cast<BattleUnitData>().ToList())); } catch (Exception e) { lines.Add($"Mysidian Rabbit split: error {e.Message}"); }
             foreach (var c in cases)
             {
                 string line;
@@ -106,6 +108,69 @@ namespace TEdition.PR
                           $"thief Lv {p0.BattleUnitDataInfo.Parameter.ConfirmedLevel()}{(other > 0 ? $"; {other} other results" : "")}";
             Kit.Info("[ted] " + line);
             return line;
+        }
+
+        // 29 (information for the rule): the game's Gil Toss (ability 15, GIL_THROW) by the first party member on
+        // one monster and on every monster: its per-target value and the gil it took during the calculation
+        internal static string GilToss(string[] args)
+        {
+            var battle = BattlePlugManager.Instance();
+            if (battle == null || !battle.IsBattle()) return "error: not in a battle";
+            var p0 = battle.GetPlayerUnits()?.FirstOrDefault(p => p?.BattleUnitDataInfo?.Parameter?.CurrentHP > 0);
+            var foes = battle.GetEnemyUnits()?.Where(e => e?.BattleUnitDataInfo?.Parameter?.CurrentHP > 0).Cast<BattleUnitData>().ToArray();
+            if (p0 == null || foes == null || foes.Length == 0) return "error: no living fighters";
+            var ab = Master.Get<Ability>(15);
+            var cmd = Master.Get<Command>(21) ?? Master.Get<Command>(1);
+            if (ab == null) return "error: no ability 15";
+            var udm = Last.Management.UserDataManager.Instance();
+            if (udm == null) return "error: no game";
+            if (udm.OwendGil < 100000) new Last.Management.OwnedItemClient().AddGil(100000 - udm.OwendGil);
+            int lv = p0.BattleUnitDataInfo.Parameter.ConfirmedLevel();
+            int g0 = udm.OwendGil;
+            int one = Value(p0, new[] { foes[0] }, cmd, ab);
+            int g1 = udm.OwendGil;
+            int all = Value(p0, foes, cmd, ab);
+            int g2 = udm.OwendGil;
+            string line = $"tedgil: Lv {lv}: the game's Gil Toss {one} on 1 monster (gil {g0} -> {g1}), {all} each on {foes.Length} (gil {g1} -> {g2}); " +
+                          $"T-Edition: cost {CommandMath.GilTossCost(lv)}, {CommandMath.GilTossDamage(lv)} to each target";
+            Kit.Info("[ted] " + line);
+            return line;
+        }
+
+        // tedcast SLOT ABILITY TARGET [COMMAND]: party member SLOT acts with an ability (a name, "#id", "*multi",
+        // "*ignore") on a target (p0-p3, e0-e5, "allies", "foes"), queued as the game queues the player's act;
+        // `log` then shows the damage (e.g. a Fire bounced off a Reflected ally: rule 53)
+        internal static string Cast(string[] a)
+        {
+            if (a.Length < 3 || !int.TryParse(a[0], out int slot)) return "error: tedcast SLOT ABILITY TARGET [COMMAND]";
+            var bm = BattlePlugManager.Instance();
+            if (bm == null || !bm.IsBattle()) return "error: not in a battle";
+            var players = bm.GetPlayerUnits();
+            var enemies = bm.GetEnemyUnits();
+            if (players == null || slot < 0 || slot >= players.Length || players[slot] == null) return $"error: no party member {slot}";
+            var me = players[slot];
+            var targets = new List<BattleUnitData>();
+            string t = a[2].ToLowerInvariant();
+            if (t == "allies") targets.AddRange(players.Where(p => p != null && p.BattleUnitDataInfo?.Parameter?.CurrentHP > 0));
+            else if (t == "foes") targets.AddRange(enemies.Where(e => e != null && e.BattleUnitDataInfo?.Parameter?.CurrentHP > 0));
+            else if (t.Length >= 2 && int.TryParse(t.Substring(1), out int k))
+            {
+                BattleUnitData u = t[0] == 'p' && k < players.Length ? players[k] : t[0] == 'e' && k < enemies.Length ? enemies[k] : null;
+                if (u != null) targets.Add(u);
+            }
+            if (targets.Count == 0) return $"error: no target {a[2]}";
+            var ab = FindAbility(a[1], me, targets[0]);
+            var cmd = FindCommand(a.Length > 3 ? a[3] : "Magic") ?? Master.Get<Command>(7);
+            if (ab == null) return $"error: no ability {a[1]}";
+            var abilities = new Il2CppSystem.Collections.Generic.List<Ability>();
+            abilities.Add(ab);
+            var arr = new Il2CppReferenceArray<BattleUnitData>(targets.Count);
+            for (int i = 0; i < targets.Count; i++) arr[i] = targets[i];
+            var act = new BattleActData(me, arr, cmd, abilities, BattleActData.ActType.Normal,
+                targets.Count > 1 ? BattleActData.TargetType.AllEnemy : BattleActData.TargetType.SingleEnemy,
+                BattleActData.ArmType.Right, (BattleActData.ActAbilityType)0, 1, false);
+            bm.BattleActExection.SetBattleActData(act);
+            return $"party {slot} casts {AbilityName(ab)} on {a[2]} ({targets.Count} target(s)), queued";
         }
 
         static (HitType, int, int) StealOnce(BattleUnitData attacker, BattleUnitData target, Command cmd, Ability ab)
@@ -188,6 +253,54 @@ namespace TEdition.PR
                 foreach (var (u, t) in added)
                     try { cc.InterruptRemoveCondition(u, t); } catch { }
             }
+        }
+
+        // 37: Mysidian Rabbit on the whole party, the game's own value per target with 1 target and with all,
+        // and T-Edition's (x the number of targets): shows whether the game splits it
+        static string SplitCase(List<BattleUnitData> players)
+        {
+            var ab = Master.Get<Ability>(Plugin.D.Ability("mysidian_rabbit"));
+            var cmd = FindCommand("Magic") ?? Master.Get<Command>(7);
+            if (ab == null || cmd == null || players.Count < 2) return "Mysidian Rabbit split: skipped (no ability or one character)";
+            var p0 = players[0];
+            int one, all, ted;
+            TedDamage.Bypass = true;
+            try
+            {
+                one = Value(p0, new[] { p0 }, cmd, ab);
+                all = Value(p0, players.ToArray(), cmd, ab);
+            }
+            finally { TedDamage.Bypass = false; }
+            ted = Value(p0, players.ToArray(), cmd, ab);
+            string line = $"Mysidian Rabbit (#{ab.Id}) by Lv {p0.BattleUnitDataInfo.Parameter.ConfirmedLevel()}: the game {one} on 1 target, " +
+                          $"{all} each on {players.Count}; T-Edition {ted} each ({(all > 0 && one > 0 && Math.Abs((double)one / all - players.Count) < 0.6 ? "the game splits: x n right" : "CHECK: the game's split isn't 1/n")})";
+            Kit.Info($"[ted] damage self-test: {line}");
+            return line;
+        }
+
+        static int Value(BattleUnitData attacker, BattleUnitData[] targets, Command cmd, Ability ab)
+        {
+            var abilities = new Il2CppSystem.Collections.Generic.List<Ability>();
+            abilities.Add(ab);
+            var arr = new Il2CppReferenceArray<BattleUnitData>(targets.Length);
+            for (int i = 0; i < targets.Length; i++) arr[i] = targets[i];
+            var act = new BattleActData(attacker, arr, cmd, abilities, BattleActData.ActType.Normal,
+                (BattleActData.TargetType)0, BattleActData.ArmType.Right, (BattleActData.ActAbilityType)0, 1, false);
+            var fns = ParameterActFunctionManagment.GetFunction(ab);
+            if (fns == null) return 0;
+            var results = new Il2CppSystem.Collections.Generic.Dictionary<BattleUnitData, ICalcResult>();
+            var attacks = new Il2CppSystem.Collections.Generic.Dictionary<BattleUnitData, ICalcResult>();
+            int value = 0;
+            foreach (var f in fns)
+            {
+                if (f == null) continue;
+                f.Init(act, results, attacks);
+                f.FixedTarget();
+                f.HitCalc();
+                var dic = f.ICalcResultDic ?? results;
+                if (dic != null && dic.ContainsKey(targets[0])) value = dic[targets[0]].GetValue(false);
+            }
+            return value;
         }
 
         static bool Has(BattleUnitData u, ConditionType t) => u.BattleUnitDataInfo?.GetConfirmedConditionType()?.Contains(t) == true;

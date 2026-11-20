@@ -11,7 +11,7 @@ plugins folder). Read by TedRules/TedData.cs, so the offline tests (plugin/Ted.T
   new_weapons        the weapon rows the port added (92+: content id, attack, name)
   drop_rates         MONSTER_DROP_RATE_1.. as the port sets them; drop_monsters: monsters with 3-4 slots
   half_ignore_defense  monsters with T-Edition's monster byte $12 bit 1 ($3C95 bit 1, rule 9 of
-                     pr/ted/BATTLE_SPEC.md): PR ids (SNES id + 1), and SNES ids 384+ (no PR row yet)
+                     pr/ted/BATTLE_SPEC.md): PR ids (SNES id + 1; 1000 + id for the new 384-511), and the SNES ids 384+
   esper_bonus_vanilla  vanilla's esper level-up bonus codes by magicite content id (rule 4: T-Edition has none)
   named, rows        content ids and table rows the rules test for (Orichalcum $66, Elven Darts $6C, Valiant
                      Knife, Atma Weapon, ...; the PR keys Atma and Valiant Knife on weapon rows 30 and 11)
@@ -37,6 +37,8 @@ OUT = os.path.join(P.ROOT, "build", "t-edition", "plugin", "ted_data.json")
 MASTER = os.path.join("master", "Assets", "GameAssets", "Serial", "Data", "Master")
 MESSAGE = os.path.join("message", "Assets", "GameAssets", "Serial", "Data", "Message", "system_en.txt")
 TYPES = {"item": "1", "weapon": "2", "armor": "3"}
+# SNES spells the rules name: effect $2A no longer split (rule 37: Mysidian Rabbit $FE, Heal Force $87, Flare Star $C6)
+NAMED_SPELLS = {"mysidian_rabbit": 0xFE, "heal_force": 0x87, "flare_star": 0xC6}
 # item slots the rules name (T-Edition's ids; pr/ted/battle_commands.md)
 NAMED_SLOTS = {"orichalcum": 0x66, "elven_darts": 0x6C, "valiant_knife": 0x08, "atma_weapon": 0x61,
                "dancing_dagger": 0x06, "dice": 0x50, "fixed_dice": 0x52}
@@ -120,11 +122,14 @@ def main(argv):
         "drop_monsters": drop_monsters,
         "items": items,
         "new_weapons": weapons,
-        "half_ignore_defense": {"pr": [e + 1 for e in half if e < 384], "snes_new": [e for e in half if e >= 384]},
+        # PR monster id: SNES e + 1 for 0-383, 1000 + e for T-Edition's new 384-511 (idmap MONSTER_EXT, the lead)
+        "half_ignore_defense": {"pr": [e + 1 if e < 384 else 1000 + e for e in half], "snes_new": [e for e in half if e >= 384]},
         "named": named,
         "rows": rows,
         # rule 4: T-Edition skips the esper level-up bonus call for everyone (C2/60B2-60DE): the plugin
         # answers every esper as "none" (PrKit SnesEsperBonus), which needs vanilla's codes by content id
+        # PR abilities of the SNES spells the rules name (idmap.spell; T-Edition relocates none)
+        "abilities": {name: M.spell(spell) for name, spell in NAMED_SPELLS.items() if M.spell(spell) is not None},
         "esper_bonus_vanilla": [[M.esper_content(e), r[10]] for e, r in enumerate(S.Rom(P.VANILLA_ROM).table(*S.ESPERS))],
     }
     os.makedirs(os.path.dirname(out_path), exist_ok=True)

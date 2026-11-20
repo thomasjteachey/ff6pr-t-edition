@@ -46,6 +46,11 @@ namespace TEdition.PR
                 prefix: nameof(Defend_Prefix), postfix: nameof(Defend_Postfix));
             Hooks.Patch(h, typeof(global::CommonUtility), "GetRand", typeof(TedCommands), prefix: nameof(GetRand_Prefix), args: new[] { typeof(int) });
             PrKit.Ff6.SnesUmaro.Apply(h, new PrKit.Ff6.SnesUmaroMod { Name = "T-Edition", On = () => On });
+            // 33: Dance is one dance per command and the dancer stays under control (C2/178F-1795 sets and clears
+            // the Dance status at once); BNW's CommandRules hooks (the act's command recorded as it is made,
+            // the Dance status taken off when the act ends). Step odds and no stumble: data.
+            Hooks.Patch(h, typeof(Serial.FF6.Calc.FunctionProvider), "CreateActFunction", typeof(TedCommands), prefix: nameof(Act_Prefix));
+            Hooks.Patch(h, typeof(BattleProgressATB), "ActExectionEndDelegate", typeof(TedCommands), postfix: nameof(ActEnd_Postfix));
         }
 
         public override string Check()
@@ -101,6 +106,33 @@ namespace TEdition.PR
                 foreach (var id in contentIds) if (id > 0 && it.ContentId == id) return true;
             }
             return false;
+        }
+
+        // --- 33: one dance per command ----------------------------------------------------------------------
+
+        const int DanceCommand = 22, DanceStatus = 51;   // condition 51 (type 619), added by every dance (function 9)
+        static readonly Dictionary<IntPtr, int> lastCommand = new Dictionary<IntPtr, int>();
+
+        public static void Act_Prefix(BattleActData battleActData)
+        {
+            if (!On || battleActData?.AttackUnitData == null) return;
+            try { lock (lastCommand) lastCommand[battleActData.AttackUnitData.Pointer] = battleActData.Command?.Id ?? 0; }
+            catch (Exception e) { Hooks.WarnOnce("TedCommands.Act", e); }
+        }
+
+        public static void ActEnd_Postfix(BattleProgressATB __instance, BattleUnitData battleUnitData, bool isCounter)
+        {
+            if (!On || isCounter || battleUnitData == null || !Hooks.IsA<BattleProgressATB>(__instance)) return;
+            try
+            {
+                int cmd;
+                lock (lastCommand)
+                    if (!lastCommand.TryGetValue(battleUnitData.Pointer, out cmd)) return;
+                if (cmd != DanceCommand) return;
+                BattlePlugManager.Instance()?.BattleConditionController?.InterruptRemoveCondition(battleUnitData, DanceStatus);
+                TedLog.Rule(33, "", () => "Dance: one dance per command, the dancer stays under control (Dance status removed)");
+            }
+            catch (Exception e) { Hooks.WarnOnce("TedCommands.Dance", e); }
         }
 
         // --- 28: Orichalcum ---------------------------------------------------------------------------
