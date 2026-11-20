@@ -20,7 +20,8 @@ import repo_publish as R  # noqa: E402
 
 DEFAULT_OUT = os.path.join(os.path.dirname(R.PROJECT), "ff6pr-t-edition")
 # T-Edition's tools that are published: listed one by one, so a workstream's files join once reviewed
-TOOLS = ["profile_tedition.py", "ted_rooms.py", "ted_publish.py", "kitpath.py"]
+TOOLS = ["profile_tedition.py", "ted_rooms.py", "ted_publish.py", "kitpath.py",
+         "ted_events.py", "ted_dialog.py"]      # 2026-11-20: ted-events' first milestone, reviewed
 
 
 def parts():

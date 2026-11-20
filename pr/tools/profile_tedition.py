@@ -46,7 +46,11 @@ LONG_MONSTERS = 0x55D650, 20, 384    # "ENEMY NAMES LONG" (512 there)
 LONG_MAGIC = 0x557890, 8, 54         # "LONG MAGIC NAMES": spells 0-53
 LONG_ATTACKS = 0x557C80, 20, 202     # "LONG ATTK NAMES": spells 54-255 (espers, then skills)
 
-DROP_ODDS = (68, 20, 8, 4)   # T-Edition's four drop slots (its own item-location list: Guard's slot 2 20%...)
+# T-Edition's four drop slots (41/D300, from the victory routine JP C2/5F06): one roll 0-255 per monster
+# that ends the battle dead, slot 0 below 174, 1 below 224, 2 below 244, else 3 = 174/50/20/12 of 256;
+# a picked empty slot drops nothing (the ted-battle session, 2026-11-20). Its roll reads past the RNG table
+# for monsters 32+ (a T-Edition bug that skews their odds by id band): the intended odds are ported.
+DROP_ODDS = (68, 19, 8, 5)
 
 
 def mato_text(raw):
