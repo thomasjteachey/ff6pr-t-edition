@@ -23,8 +23,7 @@ Japanese ROM at `build/t-edition/T-Edition 3.0.7 (Mato).sfc`. None of these are 
     git clone --recurse-submodules <this repo>
     cd pr && python -m venv .venv && .venv/Scripts/pip install -r requirements.txt
     .venv/Scripts/python ../kit/pr/tools/extract.py --game "<your FF6 PR folder>"   # pr/vanilla
-    .venv/Scripts/python ../kit/pr/tools/port.py tedition                          # pr/mods/TEdition
-    PR_MOD=TEdition .venv/Scripts/python -m unittest tests.test_mod                # port checks
+    .venv/Scripts/python tools/ted_build.py --test                                 # pr/mods/TEdition + port checks
 
 ## Credits
 

@@ -292,6 +292,13 @@ class TEdition(Profile):
     name = "tedition"
     mod_name = "TEdition"
     rename_all = False
+
+    @property
+    def out(self):
+        """The porter's own output: tools/ted_build.py merges it with the workstreams' folders into
+        mods/TEdition (what is installed), so a bare `port.py tedition` never overwrites that."""
+        return os.path.join(P.ROOT, "mods", "TEditionPort")
+
     # T-Edition rebuilt FF6's item list (110 vanilla items in other slots, weapons in shield slots...):
     # each slot's PR row and look by name and kind (tools/item_identity.py)
     item_identity = True
