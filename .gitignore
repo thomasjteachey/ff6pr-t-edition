@@ -1,0 +1,16 @@
+bin/
+obj/
+__pycache__/
+*.pyc
+.venv/
+.vs/
+pr/vanilla/
+pr/build/
+pr/cache/
+pr/mods/
+pr/plugin/PrKit/Games.props
+rom/
+build/
+*.sfc
+*.smc
+mods/

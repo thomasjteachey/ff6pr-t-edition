@@ -1,0 +1,20 @@
+{
+  "_doc": [
+    "Every mod this project ships, for tools/kit.py (package, deploy, check) and pr/MODDING.md.",
+    "Paths are relative to pr/. A mod is a BepInEx plugin, a Magicite data folder, or both:",
+    "  name          folder name: BepInEx/plugins/<name> and Magicite/<name>",
+    "  game          ff1..ff6 (the plugin is built against that game's code)",
+    "  plugin        project: the plugin's folder (dotnet build -c Release); files/dirs: [source, name in the plugin folder]",
+    "  magicite      the built Magicite folder; magicite_skip: file names left out of it",
+    "  build         commands run from pr/ before the plugin is built (data scripts); {python} = the venv's",
+    "  exclusive     mods sharing this tag are never installed together (deploy shelves the others)",
+    "  keep          plugin sub-folders a reinstall leaves in place (player data, e.g. WC's seeds)",
+    "  deploy        a mod's own deploy command, used instead of the generic one",
+    "  version / version_file + version_key: the package's version suffix",
+    "  package_leave_out  plugin-folder paths the zip leaves out (made on the player's machine from their game);",
+    "                     package_magicite false: the Magicite folder too; player_setup: the script the plugin",
+    "                     runs to make them (the packager checks the plugin's DLL names it)",
+    "  readme_note   extra paragraph in the package README"
+  ],
+  "mods": {}
+}
