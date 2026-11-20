@@ -212,6 +212,128 @@ class Roms:
         return [m for m in range(511) if any(d[0x4D0000 + 33 * m:0x4D0000 + 33 * m + 33])]
 
 
+# --- EX's records for the merged mod (decided with the user, 2026-11-20: the boss room, its 12 fights and
+# Omega Weapon as a 13th; pr/ted/EX_PLAN.md) ----------------------------------------------------------
+# EX's monsters get ids past T-Edition's 512 (PR 1000 + id, idmap.MONSTER_EXT), its formations ids past
+# 768 (party 30000 + f). A fight whose monsters change formation (AI F2: Golbez's second form...) is ONE
+# formation here, every form listed, the later ones hidden at the start: the kit's AI host has no F2, so
+# tools/ted_ex_ai.py turns each F2 into F5 show/hide over these slots.
+EX_IDS = {e: EX_MONSTER_BASE + e - 256 for e in EX_MONSTER_BLOCK}
+EX_IDS[OMEGA_WEAPON] = EX_MONSTER_BASE + len(EX_MONSTER_BLOCK)          # 539
+OMEGA_REWARD = bytes((239, 239, 0, 0, 230, 230, 230, 230))   # Mato's optional patch (41/F860): steal Megalixir
+# x2, drop item 230 Omega Weapon ("Alternative Omega Weapon Steal And Drop EX ONLY.ips")
+SPECIAL_NAMES = 0x54D730     # Mato's "ENEMY MOVES" table (as 3.0.7): 20 B x 512
+MONSTER_GRAPHICS = 0x0F1A00  # CF/1A00, 5 B x 512 (as 3.0.7)
+FORMATION_AP = 0x33F000      # F3/F000, 1 B x 768
+
+
+def fights(R=None):
+    """The 13 boss-room fights: [{label, pack (EX's; None for Omega), entry (EX formation), formation (the
+    merged one's id, 768+), bit (SNES event bit set on a win; None = to allocate), bg (SNES battle
+    background of the 4D command)}]."""
+    R = R or Roms()
+    rom, prog = R.prog("ted-ex")
+    bgs = {}
+    for (off, mode), ins in prog.code.items():
+        if ins.name == "battle" and HUB_MAP in prog.maps_of[off]:
+            bgs[ins.args["pack"]] = ins.args["bg"]
+    out = []
+    for label, pack, bit in HUB_BOSSES:
+        f0 = R.event_pack(R.ex, pack)[0]
+        out.append({"label": label, "pack": pack, "entry": f0, "formation": EX_FORMATION_BASE + f0, "bit": bit,
+                    "bg": bgs.get(pack)})
+    out.append({"label": "Omega Weapon", "pack": None, "entry": OMEGA_FORMATION,
+                "formation": EX_FORMATION_BASE + len(HUB_FORMATIONS), "bit": None, "bg": 25})   # 792; the den's bg
+    return out
+
+
+def _slots(d, f):
+    """{slot: (EX monster, position byte, shown at the start)} of every slot formation f names."""
+    r = d[FORMATIONS + 15 * f:FORMATIONS + 15 * f + 15]
+    return {s: (r[2 + s] | ((r[14] >> s & 1) << 8), r[8 + s], bool(r[1] >> s & 1)) for s in range(6) if r[2 + s] != 0xFF}
+
+
+def fight_layout(R, f0):
+    """One fight's merged formation: its entry formation's slots, then every formation its monsters' AI
+    changes to (F2, transitively), each of those slots kept where it is when free (or holding the same
+    monster), else moved to a free slot. -> (slots {slot: (EX monster, pos, shown)}, maps {formation:
+    {its slot: merged slot}}, order [formations])."""
+    d = R.ex
+    merged = {s: v for s, v in _slots(d, f0).items()}
+    maps = {f0: {s: s for s in merged}}
+    order, todo = [f0], [f0]
+    while todo:
+        f = todo.pop(0)
+        for s, (e, _, _) in _slots(d, f).items():
+            main, ctr = ai(d, e)
+            for n, a in main + ctr:
+                if n != "formation":
+                    continue
+                g = (a[1] | a[2] << 8) & 0x3FF
+                if g in maps:
+                    continue
+                m = {}
+                for t, (ge, pos, shown) in sorted(_slots(d, g).items()):
+                    if t in merged and merged[t][0] == ge:
+                        m[t] = t
+                        continue
+                    k = t if t not in merged else next(k for k in range(6) if k not in merged)
+                    merged[k] = (ge, pos, False)       # a later form: hidden until its F2
+                    m[t] = k
+                maps[g] = m
+                order.append(g)
+                todo.append(g)
+    return merged, maps, order
+
+
+def ex_records(R=None):
+    """EX's records renumbered for the merged mod, in port_monster_ext's grown-table formats:
+    monsters {512..539: 32 B}, monster_items {id: 8 B} (Omega Weapon: Mato's optional reward),
+    monster_graphics {id: 5 B}, monster_names / special_names {id: str}, formations {768+: 15 B, the entry
+    formation's record with monster bytes of EX's ids}, formation_monsters {768+: [(id, x, y, shown)]} (the
+    merged fight: authoritative, ids past 511), formation_flags {f: 4 B}, formation_ap {f: int},
+    event_backgrounds {f: SNES battle background}, layouts {f: fight_layout()}, ex_slot {id: EX's own slot}."""
+    R = R or Roms()
+    d = R.ex
+    out = {k: {} for k in ("monsters", "monster_items", "monster_graphics", "monster_names", "special_names",
+                           "formations", "formation_monsters", "formation_flags", "formation_ap", "event_backgrounds",
+                           "layouts", "ex_slot")}
+    for e, i in EX_IDS.items():
+        out["monsters"][i] = d[MONSTERS + 32 * e:MONSTERS + 32 * e + 32]
+        out["monster_items"][i] = OMEGA_REWARD if e == OMEGA_WEAPON else d[MONSTER_ITEMS + 8 * e:MONSTER_ITEMS + 8 * e + 8]
+        out["monster_graphics"][i] = d[MONSTER_GRAPHICS + 5 * e:MONSTER_GRAPHICS + 5 * e + 5]
+        out["monster_names"][i] = R.name(d, e)
+        out["special_names"][i] = mato(d[SPECIAL_NAMES + 20 * e:SPECIAL_NAMES + 20 * e + 20])
+        out["ex_slot"][i] = e
+    for fi in fights(R):
+        f0, f = fi["entry"], fi["formation"]
+        slots, maps, order = fight_layout(R, f0)
+        out["formations"][f] = d[FORMATIONS + 15 * f0:FORMATIONS + 15 * f0 + 15]
+        out["formation_monsters"][f] = [(EX_IDS[e], pos >> 4, pos & 15, shown) for s, (e, pos, shown) in sorted(slots.items())]
+        out["formation_flags"][f] = d[FORMATION_FLAGS + 4 * f0:FORMATION_FLAGS + 4 * f0 + 4]
+        out["formation_ap"][f] = d[FORMATION_AP + f0]
+        out["event_backgrounds"][f] = fi["bg"]
+        out["layouts"][f] = {"slots": {s: (EX_IDS[e], pos, shown) for s, (e, pos, shown) in slots.items()},
+                             "maps": maps, "order": order}
+    return out
+
+
+class ExSprites:
+    """EX's monster sprites for the merged ids 512-539 (port_monster_ext's art matching: sprite(e) ->
+    snes_sprites.Sprite). EX keeps 3.0.7's sprite layout (graphics entries CF/1A00, tiles by monster id
+    F0/F4/F5, palettes 41/6200: 48 monsters with 3.0.7's entries have 3.0.7's palettes there; EX's code
+    copies in banks 44/45/47 that read 43/0000 aren't run), so profile_tedition's reader reads its ROM."""
+
+    def __init__(self, R=None):
+        import profile_tedition as PT
+        self._r = PT.MonsterSprites((R or Roms()).ex)
+        self._slot = {v: k for k, v in EX_IDS.items()}
+
+    def sprite(self, e):
+        s = self._slot.get(e)
+        return self._r.sprite(s) if s is not None else None
+
+
 # --- the EX content set -------------------------------------------------------------------------------
 def by_map(prog):
     out = collections.defaultdict(list)
