@@ -107,6 +107,24 @@ TABLES = [
 
 IMAGE_SIZE = 0x400000
 IMG_AI_PTRS, IMG_AI_DATA = 0x300000, 0x300400   # past the US ROM's 3 MB: T-Edition's AI (30 KB)
+# T-Edition's grown tables, whole, past the AI (0x300000-0x3103FF) in the image (ff6snes.extended;
+# port_monster_ext): (name, image offset, T-Edition's file offset, record size, count)
+EXT_TABLES = [
+    ("formations", 0x320000, FORMATIONS, 15, 768),
+    ("formation_flags", 0x323000, FORMATION_FLAGS, 4, 768),
+    ("formation_ap", 0x323C00, AP, 1, 768),
+    ("monsters", 0x324000, MONSTERS, 32, 512),
+    ("monster_items", 0x328000, MONSTER_ITEMS, 8, 512),   # written as the US layout's 4 bytes
+    ("sketches", 0x328800, SKETCHES, 2, 512),
+    ("monster_graphics", 0x328C00, 0x0F1A00, 5, 512),     # CF/1A00 (C1/2064, C1/24E6, C3/B8CC; vanilla D2/7000)
+    ("map_properties", 0x329600, MAP_PROPS, 33, 512),
+]
+ENEMY_NAMES_512 = 0x55D650, 20, 512   # "ENEMY NAMES LONG": all 512
+SPECIAL_NAMES = 0x54D730, 20, 512     # "ENEMY MOVES BEGN": each monster's special attack name
+# Monster sprites (T-Edition's C1/2045 hook stores the monster id at $6400, C0/D978 picks the tiles'
+# bank by it): tiles at F0/0000 + 8 x pointer (vanilla E9/7000), F4/0000 for monsters 417-431, F5/0000
+# for 480-511; palettes 41/6200 (vanilla D2/7820); stencils as vanilla (D2/A820, its big ones moved)
+SPRITE_PALETTES = 0x416200
 
 
 def word(d, a):
@@ -138,40 +156,26 @@ def build():
     rep = ["T-Edition 3.0.7 (Mato) -> US layout: records T-Edition changed (vs the JP ROM), by table"]
     rep += [f"  {name}: {c} of {n}" for name, (c, n) in stats.items()]
 
-    # formations that now hold T-Edition's new monsters (384+) keep the US formation (the PR has no
-    # such monsters yet); packs and event packs pointing at formations 576+ (new) or at those fall
-    # back on another formation of the same pack, or the US pack
+    # T-Edition grew the monster and formation tables (512 / 768; the US layout holds 384 / 576): the
+    # whole grown tables go past 3 MB in the image too, registered below for the porter
+    # (ff6snes.extended; tools/port_monster_ext.py: PR monster rows 1000 + e, parties for formations
+    # 576-767 and for those under 576 that now hold new monsters). Packs keep T-Edition's formations.
     new_monsters = sorted({e for f in range(768) for e in formation_monsters(mod, FORMATIONS, f) if e >= 384})
-    kept = [f for f in range(576) if any(e >= 384 for e in formation_monsters(mod, FORMATIONS, f))]
-    for f in kept:
-        img[0x0F6200 + 15 * f:0x0F6200 + 15 * f + 15] = us[0x0F6200 + 15 * f:0x0F6200 + 15 * f + 15]
-    bad = set(kept)
+    under = [f for f in range(576) if any(e >= 384 for e in formation_monsters(mod, FORMATIONS, f))]
     new_forms = {f for f in range(576, 768) if any(mod[FORMATIONS + 15 * f:FORMATIONS + 15 * f + 15])}
-
-    def fix_packs(base, count, n):
-        refs = lost = whole = 0
-        for p in range(count):
-            at = base + 2 * n * p
-            ids = [word(img, at + 2 * k) for k in range(n)]
-            ok = [v for v in ids if (v & 0x3FF) < 576 and (v & 0x3FF) not in bad]
-            if len(ok) == n:
-                continue
-            refs += n - len(ok)
-            if ok:
-                for k, v in enumerate(ids):
-                    if v not in ok:
-                        img[at + 2 * k:at + 2 * k + 2] = ok[0].to_bytes(2, "little")
-                lost += 1
-            else:
-                img[at:at + 2 * n] = us[at:at + 2 * n]
-                whole += 1
-        return refs, lost, whole
-    pr, pl, pw = fix_packs(0x0F4800, 256, 4)
-    er, el, ew = fix_packs(0x0F5000, 256, 2)
+    ext = {}
+    for name, at, src, size, count in EXT_TABLES:
+        raw = mod[src:src + size * count]
+        if name == "monster_items":   # T-Edition's 8 bytes -> the US layout's 4
+            size, raw = 4, b"".join(monster_items(raw[8 * e:8 * e + 8]) for e in range(count))
+        img[at:at + len(raw)] = raw
+        ext[name] = (at, size, count)
+    refs = sum(1 for p in range(256) for k in range(4) if (word(img, 0x0F4800 + 8 * p + 2 * k) & 0x3FF) >= 576)
+    erefs = sum(1 for p in range(256) for k in range(2) if (word(img, 0x0F5000 + 4 * p + 2 * k) & 0x3FF) >= 576)
     rep.append(f"  new monsters (384-511) in T-Edition's formations: {len(new_monsters)}; formations "
-               f"576-767 in use: {len(new_forms)}; formations under 576 now holding new monsters (kept US): {len(kept)}")
-    rep.append(f"  random packs: {pr} formation slots on new formations/monsters ({pl} packs kept their "
-               f"other formations, {pw} packs kept the US pack); event packs: {er} slots ({el} partly, {ew} US pack)")
+               f"576-767 in use: {len(new_forms)}; formations under 576 now holding new monsters: {len(under)}")
+    rep.append(f"  grown tables past 3 MB (port_monster_ext): {', '.join(ext)}; random pack slots on "
+               f"formations 576+: {refs}, event pack slots: {erefs}")
 
     # chests: T-Edition's 513 offsets (maps 0-511) into its own data; the US layout has 416 maps
     ptrs = [word(mod, CHEST_PTRS + 2 * m) for m in range(513)]
@@ -198,8 +202,9 @@ def build():
 
     # AI: T-Edition's 30 KB of scripts don't fit the US table (14.6 KB): past the 3 MB, read through
     # the snes_ai.script hook below
-    img[IMG_AI_PTRS:IMG_AI_PTRS + 768] = mod[AI_PTRS:AI_PTRS + 768]
-    img[IMG_AI_DATA:IMG_AI_DATA + 0x10000] = mod[AI_DATA:AI_DATA + 0x10000]
+    img[IMG_AI_PTRS:IMG_AI_PTRS + 1024] = mod[AI_PTRS:AI_PTRS + 1024]   # all 512 monsters' (384+: port_monster_ext)
+    ai = mod[AI_DATA:AI_DATA + 0x10000]   # (the ROM ends 0xA710 bytes after AI_DATA: a shorter slice
+    img[IMG_AI_DATA:IMG_AI_DATA + len(ai)] = ai   # here would shrink the image and move what follows)
     ai_changed = sum(A.parse(img, IMG_AI_DATA + word(img, IMG_AI_PTRS + 2 * e)) !=
                      A.parse(jp, A.AI_DATA + word(jp, A.AI_PTRS + 2 * e)) for e in range(384))
     rep.append(f"  monster AI: {ai_changed} of 384 scripts changed "
@@ -211,12 +216,69 @@ def build():
     data = bytes(img)
     S.MEMORY[os.path.abspath(MATO)] = data
     _Image.data, _Image.mod, _Image.report = data, mod, rep
+    import port_monster_ext as X
+    X.register(data, ext, monster_base=1000, monster_names=long_names(mod, ENEMY_NAMES_512),
+               special_names=long_names(mod, SPECIAL_NAMES), sprites=MonsterSprites(mod),
+               event_maps=event_maps())
     hook_readers(mato_names(mod))
     os.makedirs(os.path.dirname(REPORT), exist_ok=True)
     with open(REPORT, "w", encoding="utf-8") as f:
         f.write("\n".join(rep) + "\n")
     print("\n".join(rep))
     return data
+
+
+def long_names(mod, table):
+    a, w, n = table
+    return [mato_text(mod[a + w * i:a + w * (i + 1)]) for i in range(n)]
+
+
+def event_maps():
+    """{formation: [SNES maps]} where T-Edition's events fight it (ted-events' catalog,
+    data/snes_event_ted_catalog.json, when built): the porter's default look for their parties."""
+    import json
+    path = os.path.join(P.ROOT, "data", "snes_event_ted_catalog.json")
+    if not os.path.exists(path):
+        return {}
+    out = {}
+    for ev in json.load(open(path, encoding="utf-8")):
+        for b in ev.get("battles") or []:
+            out.setdefault(b["formation"], set()).add(ev["map"])
+    return {f: sorted(m) for f, m in out.items()}
+
+
+class MonsterSprites:
+    """T-Edition's monster sprites as snes_sprites.Sprites reads vanilla's (entries CF/1A00, tiles by
+    monster id, palettes 41/6200): port_monster_ext matches each new monster with vanilla's art."""
+
+    def __init__(self, mod):
+        import snes_sprites as SS
+
+        class _Rom:
+            data = mod
+
+            def b(self, a, n):
+                return mod[a:a + n]
+
+        class _Sprites(SS.Sprites):
+            def entry(self, i):
+                e = mod[0x0F1A00 + 5 * i:0x0F1A05 + 5 * i]
+                return e[0] | e[1] << 8, bool(e[2] & 0x80), (e[2] & 3) << 8 | e[3], e[4]
+
+            def palette(self, pal_index, bpp3):
+                raw = mod[SPRITE_PALETTES + 16 * pal_index:SPRITE_PALETTES + 16 * pal_index + (16 if bpp3 else 32)]
+                return [SS.snes_rgb(raw[2 * k] | raw[2 * k + 1] << 8) for k in range(len(raw) // 2)]
+
+            def sprite(self, i):
+                self.bank = 0xF5 if i >= 0x1E0 else 0xF4 if 0x1A1 <= i < 0x1B0 else 0xF0
+                return super().sprite(i)
+
+            def tile(self, at, bpp3):   # snes_sprites asks for E9/7000 + 8 x pointer + n
+                return super().tile(((self.bank - 0xC0) << 16) + at - SS.GFX, bpp3)
+        self._s = _Sprites(_Rom())
+
+    def sprite(self, e):
+        return self._s.sprite(e)
 
 
 class Names:
@@ -302,8 +364,37 @@ class TEdition(Profile):
     # T-Edition rebuilt FF6's item list (110 vanilla items in other slots, weapons in shield slots...):
     # each slot's PR row and look by name and kind (tools/item_identity.py)
     item_identity = True
-    # its four drop slots: the PR picks a drop slot by these game-wide odds (MONSTER_DROP_RATE_1..8)
-    game_constants = {f"MONSTER_DROP_RATE_{k + 1}": (odds, 0) for k, odds in enumerate(DROP_ODDS + (0,) * 4)}
+    # its four drop slots: the PR picks a drop slot by these game-wide odds (MONSTER_DROP_RATE_1..8);
+    # its damage cap 32000 (C2/0C88) and Near Fatal at a quarter of max HP (C2/4523): pr/ted/BATTLE_SPEC.md 12, 47
+    game_constants = dict({f"MONSTER_DROP_RATE_{k + 1}": (odds, 0) for k, odds in enumerate(DROP_ODDS + (0,) * 4)},
+                          MAX_HIT_VALUE=(32000, 0), RATE_HAVE_NEAR_DEATH=(4, 0))
+    # Image is lost on a dodge half the time (vanilla a quarter; C2/232C): the spec's rule 22
+    condition_tuning = {19: {"until_value": "50"}}
+    # monsters on T-Edition's own SNES AI in the plugin (the kit's SnesAiHost; TedPlugin/TedEnemyAi.cs): no AI engine
+    # changes in the spec, status effects of scripts off until its fights are tested (the plugin's [Battle] option)
+    snes_ai = True
+    snes_ai_rules = "vanilla"
+    snes_ai_status = False
+    # every weapon's critical hit rate: T-Edition rolls random(256) < 20 (vanilla < 8; C2/33FE): the spec's rule 18
+    weapon_critical_rate = 8
+
+    def extra_data(self, rom):
+        """Data beside the Magicite groups for T-Edition's other tools and its plugin.
+        ted_items.json: each item slot's PR table, row and content id as the item identity step chose them
+        (rows it made exist only after the port), so ted_maps fills new maps' chests from it."""
+        items = {}
+        for s in range(255):
+            m = M.item(s)
+            if m:
+                items[str(s)] = {"table": m[0], "id": m[1], "content": M.item_content(s),
+                                 "name": _Image.names.items[s] if _Image.names else ""}
+        out = {"ted_items.json": {"items": items}}
+        # ted_ai.json: the monsters' SNES scripts for the plugin's SnesAiHost (TedEnemyAi reads it from BepInEx/TEdition)
+        import port_ai
+        sa = getattr(port_ai.port, "snes_ai", None)
+        if sa is not None and self.snes_ai:
+            out["ted_ai.json"] = {"snes_ai": sa}
+        return out
 
     def item_mod_items(self, rom):
         import item_identity as I
