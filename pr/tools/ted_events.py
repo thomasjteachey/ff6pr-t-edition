@@ -202,75 +202,22 @@ def _translator_class():
     import event_translate as T
 
     class TedTranslator(T.Translator):
-        """event_translate.Translator with T-Edition's text and the PR map's entities."""
+        """event_translate.Translator with T-Edition's text (Mato's lines as TED_* keys)."""
         texts = None
-        layers = None
 
         def dialog(self, key):
             return self.texts.keys(key)
 
-        def npc_entity(self, n):
-            """SNES NPC n of this map -> the PR entity standing on its spot (the map's entity layers,
-            the scene's layer first)."""
-            if self.snes_map is None or self.pr_map is None:
+        def party_for(self, formation):
+            """T-Edition's formations 576-767, and those holding its new monsters 384-511, wait for
+            the porter's parties (none yet: their battles stay stubs, listed in needs_formations)."""
+            import profile_tedition as PT
+            mons = PT.formation_monsters(self.rom.data, PT.FORMATIONS, formation) if formation < 768 else []
+            if formation >= 576 or any(m >= 384 for m in mons):
                 return None
-            det = _npcs(self.rom).get((self.snes_map, n))
-            if det is None:
-                return None
-            spot = self.local(det["x"], det["y"])
-            best = None
-            for k, (layer, objs) in enumerate(pr_entities(self.pr_map, self.layers)):
-                for name, x, y, eid in objs:
-                    if not eid or name in NOT_NPCS:
-                        continue
-                    d = abs(x - spot[0]) + abs(y - spot[1])
-                    if d <= 2 and (best is None or (d, k) < best[0]):   # the PR moved a few by a tile or two
-                        best = ((d, k), eid)
-            return best[1] if best else None
+            return super().party_for(formation)
 
     return TedTranslator
-
-
-_npc_cache = {}
-
-
-def _npcs(rom):
-    """{(map, NPC index): its record's details} (entry_points' NPCs, kept per ROM)."""
-    if id(rom) not in _npc_cache:
-        _npc_cache[id(rom)] = {(e[2], e[3]["npc"]): e[3] for e in E.entry_points(rom) if e[1] in ("npc", "npc_object")}
-    return _npc_cache[id(rom)]
-
-
-NOT_NPCS = {"PointIn", "GotoMap", "OpenTrigger", "TileAnimRegion", "MoveArea", "MapRange", "EffectEntity_fire"}
-
-
-def pr_entities(pr_map, prefer=None):
-    """[(layer, [(object name, x, y, entity id)])] of a PR map: the preferred entity layer first,
-    then the others its package lists, then entity_default."""
-    import snes_maps
-    path = snes_maps.pr_tilemaps().get(pr_map)
-    if not path:
-        return []
-    room = os.path.dirname(path)
-    pk = json.load(open(os.path.join(os.path.dirname(room), "package.json"), encoding="utf-8"))
-    entry = next((m for m in pk["map"] if m["name"] == pr_map), {})
-    names = [x["name"] for x in entry.get("entity", [])]
-    if prefer in names:
-        names.remove(prefer)
-        names.insert(0, prefer)
-    out = []
-    for nm in names + ["entity_default"]:
-        f = os.path.join(room, nm + ".json")
-        if not os.path.exists(f):
-            continue
-        objs = []
-        for lay in json.load(open(f, encoding="utf-8")).get("layers", []):
-            for o in lay.get("objects") or []:
-                props = {q["name"]: q["value"] for q in o.get("properties", [])}
-                objs.append((o.get("name", ""), int(o["x"] // 16), int(o["y"] // 16) - (1 if "gid" in o else 0),
-                             props.get("entity_id")))
-        out.append((nm, objs))
-    return out
 
 
 def build(out=OUT, events=EVENTS, write=True):
@@ -436,6 +383,190 @@ def _build(out, events, write, T, MG, PD, snes_maps):
         with open(REPORT, "w", encoding="utf-8") as f:
             json.dump(report, f, ensure_ascii=False, indent=1)
     return report, mod
+
+
+# --- what T-Edition added or changed, event by event ----------------------------------------------
+CATALOG = os.path.join(E.P.ROOT, "data", "snes_event_ted_catalog.json")
+NEW_MAPS = 416          # T-Edition's maps 416-511 are its own (ted-maps: data/ted_maps.json)
+
+
+def changed_entries(rom=None, prog=None, jp=None, jprog=None):
+    """T-Edition's entry points whose scene is new or changed: the code it reaches isn't the JP ROM's
+    at the same addresses, or the entry itself points elsewhere than the JP ROM's (same map, kind and
+    NPC/tile). -> [(address, kind, map, detail)] (one per address)."""
+    import event_translate as T
+    rom = rom or load("ted")
+    prog = prog or E.Program(rom).walk_all()
+    jp = jp or E.load("jp")
+    jentries = {}
+    for off, kind, m, det in E.entry_points(jp):
+        key = (kind, m, det["npc"] if isinstance(det, dict) else det)
+        jentries[key] = off
+    out, seen = [], set()
+    for off, kind, m, det in prog.entries:
+        if off in seen or (off, "vehicle" if m in E.WORLD_MAPS and kind != "npc" else "field") not in prog.code:
+            continue
+        key = (kind, m, det["npc"] if isinstance(det, dict) else det)
+        moved = jentries.get(key) != off
+        changed = moved
+        if not changed:
+            for ins in T.scene(prog, off):
+                a = E.event_file(ins.off, len(rom.data))
+                if a + ins.size > len(jp.data) or rom.data[a:a + ins.size] != jp.data[a:a + ins.size]:
+                    changed = True
+                    break
+        if changed:
+            seen.add(off)
+            out.append((off, kind, m, det))
+    return out
+
+
+def catalog(write=True):
+    """Every new or changed T-Edition event, translated (not written): its map, kind, first line,
+    translated/stub counts, battles (pack, formation, whether it needs the porter's new monsters
+    384-511 or formations 576-767) and warps into T-Edition's new maps. -> list (and
+    data/snes_event_ted_catalog.json)."""
+    import event_translate as T
+    import idmap as M
+    import profile_tedition as PT
+    import ted_dialog as D
+    saved = dict(M.ITEM_OVERRIDES)
+    M.ITEM_OVERRIDES.clear()
+    M.ITEM_OVERRIDES.update(item_overrides())
+    try:
+        rom = load("ted")
+        prog = E.Program(rom).walk_all()
+        texts = Texts(rom)
+        Tr = _translator_class()
+        d = rom.data
+        rows = []
+        for off, kind, m, det in changed_entries(rom, prog):
+            mode = "vehicle" if m in E.WORLD_MAPS and kind != "npc" else "field"
+            sc = T.scene(prog, off, mode)
+            summ = T.snes_summary(sc)
+            first = ""
+            for k in summ.get("dialogs", []):
+                ee = isinstance(k, tuple)
+                first = D.text(d, D.file_of(d, D.PTRS2 if ee else D.PTRS, k[1] if ee else k))
+                first = " ".join(first.split())[:90]
+                if first:
+                    break
+            battles = []
+            for ins in sc:
+                if ins.name in ("battle", "battle_nogameover", "v_battle"):
+                    a = 0x0F5000 + 4 * ins.args["pack"]
+                    f = (d[a] | d[a + 1] << 8) & 0x7FFF
+                    mons = PT.formation_monsters(d, PT.FORMATIONS, f) if f < 768 else []
+                    battles.append({"at": E.fmt(ins.off), "pack": ins.args["pack"], "formation": f,
+                                    "monsters": mons, "needs_porter": f >= 576 or any(x >= 384 for x in mons)})
+            new_maps = sorted({ins.args["map"] for ins in sc if ins.name in ("map", "map_fade", "v_map", "v_map2")
+                               and NEW_MAPS <= ins.args["map"] < 0x1FF})
+            row = {"event": E.fmt(off), "kind": kind, "map": m, "detail": det if not isinstance(det, dict) else
+                   {k: det[k] for k in ("npc", "x", "y")}, "first_line": first, "instructions": len(sc),
+                   "battles": battles, "new_maps": new_maps, "on_new_map": m >= NEW_MAPS}
+            try:
+                t = Tr(rom, "x", snes_map=m, alloc=T.FlagAlloc(None), prog=prog)
+                t.texts = texts
+                t.translate(off, mode)
+                row["translated"] = sum(t.done.values())
+                row["stubs"] = dict(t.stubs)
+                row["needs_formations"] = sorted(t.needs_formations)
+            except Exception as ex:          # noted, not hidden
+                row["error"] = f"{type(ex).__name__}: {ex}"
+            rows.append(row)
+    finally:
+        M.ITEM_OVERRIDES.clear()
+        M.ITEM_OVERRIDES.update(saved)
+    if write:
+        with open(CATALOG, "w", encoding="utf-8") as f:
+            json.dump(rows, f, ensure_ascii=False, indent=1)
+    return rows
+
+
+if __name__ == "__main__" and sys.argv[1:2] == ["catalog"]:
+    rows = catalog()
+    vanilla = [r for r in rows if not r["on_new_map"]]
+    print(f"{len(rows)} new or changed events ({len(vanilla)} on vanilla maps, {len(rows) - len(vanilla)} on new maps)")
+    need = sorted({b["formation"] for r in rows for b in r["battles"] if b["needs_porter"]})
+    print(f"formations needing the porter (576+ or new monsters): {len(need)}: {need}")
+    sys.exit(0)
+
+
+# the README's events (NEW EVENT DETAILS, then NEW PUB QUEST DETAILS), each found by what its scenes
+# say (a pattern over Mato's lines): its entry points, maps, translation counts and battles
+README_EVENTS = [
+    ("Ruby's Shine", r"Carbuncle"),
+    ("Test of Strength", r"[Tt]est (you|of)|worthy of my power"),
+    ("Stolen Magicite", r"Golem"),
+    ("Deep Earth Dweller", r"[Dd]weller|[Dd]eep [Ee]arth"),
+    ("Encounter / Reunion / Big Bridge (Gilgamesh)", r"Gilgamesh"),
+    ("Titan", r"Titan"),
+    ("Descendants of the Summoners", r"[Ss]ummoner|Mist Dragon"),
+    ("Odin", r"\bOdin\b"),
+    ("Lord of the Seas", r"Leviathan"),
+    ("Love Eternal", r"Asura"),
+    ("The Eight Dragons", r"[Dd]ragon"),
+    ("Diabolos", r"Diabolos"),
+    ("Sealed Legends", r"sealed weapon|[Cc]rystal"),
+    ("Father and Daughter / A Mother's Love", r"Relm.*Strago|Strago.*Shadow"),
+    ("Successorship", r"Vargas"),
+    ("Monsters Love It", r"Veldt.*monsters|monsters.*Veldt"),
+    ("Owzer's Collection", r"Owzer"),
+    ("Molulu's Present", r"Molulu"),
+    ("Showdown at the Coliseum", r"Excalibur"),
+    ("Long Live Ultros", r"Ultros"),
+]
+
+
+def readme_table(write=True):
+    """[(README event, [(entry, kind, map, on a new map, stubs, needs formations)])], from the
+    catalog's events whose scenes show a line matching the event's pattern."""
+    import re
+    import event_translate as T
+    import ted_dialog as D
+    rom = load("ted")
+    prog = E.Program(rom).walk_all()
+    d = rom.data
+    with open(CATALOG, encoding="utf-8") as f:
+        cat = json.load(f)
+    lines = {}
+
+    def says(key):
+        if key not in lines:
+            ee = isinstance(key, tuple)
+            lines[key] = " ".join(D.text(d, D.file_of(d, D.PTRS2 if ee else D.PTRS, key[1] if ee else key)).split())
+        return lines[key]
+
+    scene_lines = {}
+    for r in cat:
+        off = E.parse_addr(r["event"])
+        mode = "vehicle" if r["map"] in E.WORLD_MAPS and r["kind"] != "npc" else "field"
+        scene_lines[r["event"]] = [says(k) for k in T.snes_summary(T.scene(prog, off, mode)).get("dialogs", [])]
+    out = []
+    for name, rx in README_EVENTS:
+        hits = []
+        for r in cat:
+            if any(re.search(rx, t) for t in scene_lines[r["event"]]):
+                hits.append({"event": r["event"], "kind": r["kind"], "map": r["map"], "on_new_map": r["on_new_map"],
+                             "instructions": r["instructions"], "stubs": r.get("stubs"),
+                             "needs_formations": r.get("needs_formations", []), "new_maps": r["new_maps"]})
+        out.append({"readme": name, "events": hits})
+    if write:
+        with open(os.path.join(E.P.ROOT, "data", "snes_event_ted_readme.json"), "w", encoding="utf-8") as f:
+            json.dump(out, f, ensure_ascii=False, indent=1)
+    return out
+
+
+if __name__ == "__main__" and sys.argv[1:2] == ["readme"]:
+    for row in readme_table():
+        ev = row["events"]
+        vanilla = [e for e in ev if not e["on_new_map"]]
+        need = sorted({f for e in ev for f in e["needs_formations"]})
+        print(f"{row['readme']}: {len(ev)} events ({len(vanilla)} on vanilla maps); formations waiting: {need}")
+        for e in ev[:6]:
+            print(f"    {e['event']} {e['kind']} map {e['map']}{' (new)' if e['on_new_map'] else ''} "
+                  f"{e['instructions']} instr, stubs {e['stubs']}, new maps {e['new_maps']}")
+    sys.exit(0)
 
 
 if __name__ == "__main__":

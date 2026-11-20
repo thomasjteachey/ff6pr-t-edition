@@ -21,11 +21,11 @@ import repo_publish as R  # noqa: E402
 DEFAULT_OUT = os.path.join(os.path.dirname(R.PROJECT), "ff6pr-t-edition")
 # T-Edition's tools that are published: listed one by one, so a workstream's files join once reviewed
 TOOLS = ["profile_tedition.py", "ted_rooms.py", "ted_publish.py", "kitpath.py",
-         "ted_events.py", "ted_dialog.py"]      # 2026-11-20: ted-events' first milestone, reviewed
+         "ted_events.py", "ted_dialog.py", "ted_battle.py"]      # 2026-11-20: ted-events' first milestone, reviewed
 
 
 def parts():
-    out = [("pr/tools", TOOLS)]
+    out = [("pr/tools", TOOLS), ("pr/ted", ["**"])]   # pr/ted: T-Edition's own docs (the battle spec)
     for folder in ("pr/plugin/TedPlugin", "pr/plugin/TedRules", "pr/plugin/Ted.Tests"):
         if os.path.isdir(os.path.join(R.PROJECT, *folder.split("/"))):
             out.append((folder, ["**"]))
