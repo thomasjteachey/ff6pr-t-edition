@@ -366,6 +366,17 @@ class WineOldMan(unittest.TestCase):
         ops, _ = t.instr(prog().code[(E.parse_addr("CB/8138"), "field")], False, None)
         self.assertTrue(ops[0]["operands"]["sValues"][0].startswith("TED:timer_start"))
 
+    def test_lead_status(self):
+        # EC mm a (the top member has a status in mm: CD/D5F8 tests Imp, 20) -> TED:leadstatus + a Branch on map var 0
+        import event_translate as T
+        t = TE._translator_class()(prog().rom, "x", alloc=T.FlagAlloc(None), prog=prog())
+        ops, _ = t.instr(prog().code[(E.parse_addr("CD/D5F8"), "field")], False, None)
+        self.assertEqual([(o["mnemonic"], o["operands"]["sValues"][0]) for o in ops],
+                         [("SysCall", "TED:leadstatus 20 0"), ("Branch", "MapLocalVariable")])
+        # 89 cc ll hh (CD/D614: 89 32 20 00, party member 2 turns Imp) -> TED:status add 32 0020
+        ops, _ = t.instr(prog().code[(E.parse_addr("CD/D614"), "field")], False, None)
+        self.assertEqual(ops[0]["operands"]["sValues"][0], "TED:status add 32 0020")
+
     def test_load_safe(self):
         # inside a room's load script: fades instant, no waits (ted-8 hung on timed ColorFades there)
         import event_translate as T

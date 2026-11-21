@@ -36,6 +36,15 @@ namespace TEdition.PR
                 var m = Member(a.Length > 0 ? a[0] : "0");
                 return m == null ? "error: tedstatus <party 0-3|cN>" : $"{m.Name}: {string.Join(" | ", TedStatusPage.Lines(m, true))}";
             }, "tedstatus [party 0-3|cN]: the element and immunity lines the status screen shows (audit U4), with element ids");
+            Harness.Register("tedcall", a =>
+            {
+                if (a.Length == 0) return "error: tedcall <call> (e.g. leadstatus 20 3 | timer_start 0 600 0x50 sc_x | status add 31 0020 | cmp 1E70 0 5)";
+                string call = "TED:" + string.Join(" ", a);
+                int r = TedSysCalls.Run(call, null);
+                var ds = Last.Interpreter.DataStorage.Instance;
+                string vars = ds == null ? "" : string.Join(" ", System.Linq.Enumerable.Range(0, 8).Select(i => $"{i}={ds.Get(Last.Interpreter.DataStorage.Category.kMapLocalVariable, i)}"));
+                return $"tedcall {call}: result {r}; map-local {vars}; timers: {TedTimers.Last}; cmp: {TedRam.Last}";
+            }, "tedcall <call>: runs a TED: SysCall as a script would (no shops), then the map-local variables 0-7");
             Harness.Register("tedcostume", a =>
             {
                 if (a.Length == 2 && int.TryParse(a[0], out int c) && int.TryParse(a[1], out int k)) TedCostumes.Wear(c, k);
@@ -197,8 +206,25 @@ namespace TEdition.PR
                     if (m.DropRate == 100) rate100++;
                 }
             Expect(four + three > 0, "no monster has a third or fourth drop slot");
-            Expect(Plugin.D.DropMonsters == 0 || four + three == Plugin.D.DropMonsters,
-                   $"monsters with 3-4 drop slots: game {four + three}, port {Plugin.D.DropMonsters}");
+            // like for like (ted-8: the game's 281 rows include the PR's own copies, the port's 220 only changed rows):
+            // each monster T-Edition gives a 3rd or 4th drop (ted_data drop_monster_ids, from its ROM) has one in game
+            int listed = 0, missing = 0, extra = 0;
+            var missingIds = new List<int>();
+            if (all != null)
+                foreach (var kv in all)
+                {
+                    var m = kv.Value;
+                    if (m == null) continue;
+                    bool has = m.DropContentId3 != 0 || m.DropContentId4 != 0;
+                    if (Plugin.D.DropMonsterIds.Contains(m.Id))
+                    {
+                        listed++;
+                        if (!has) { missing++; if (missingIds.Count < 8) missingIds.Add(m.Id); }
+                    }
+                    else if (has) extra++;
+                }
+            Expect(Plugin.D.DropMonsterIds.Count == 0 || missing == 0,
+                   $"monsters T-Edition gives a 3rd/4th drop: {missing} of {listed} without one in game ({string.Join(",", missingIds)})");
             var consts = Constants("MONSTER_DROP_RATE_");
             var want = Plugin.D.DropRates;
             for (int k = 1; k <= 8; k++)
@@ -210,7 +236,7 @@ namespace TEdition.PR
             string rates = string.Join("/", Enumerable.Range(1, 4).Select(k => consts.TryGetValue($"MONSTER_DROP_RATE_{k}", out int v) ? v : -1));
             var head = $"tedcheck: {checks - bad.Count}/{checks} ok; new weapon rows {weaponsOk}/{Plugin.D.NewWeapons.Count}; " +
                        $"items {itemsOk}/{Plugin.D.Items.Count} (moved rows {movedOk}/{moved}); monsters {monsters}: {four} with 4 drop slots, " +
-                       $"{three} with 3, {rate100} at drop rate 100; MONSTER_DROP_RATE {rates}";
+                       $"{three} with 3 ({listed} of T-Edition's {Plugin.D.DropMonsterIds.Count} 3-4-slot monsters in game, {extra} other rows), {rate100} at drop rate 100; MONSTER_DROP_RATE {rates}";
             if (Plugin.DataError != null) return $"{head}; tedcheck FAILED: {Plugin.DataError}";
             return bad.Count == 0 ? $"{head}; tedcheck passed"
                                   : $"{head}; tedcheck FAILED ({bad.Count}): {string.Join("; ", bad.Take(6))}";

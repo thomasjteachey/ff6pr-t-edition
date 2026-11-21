@@ -78,6 +78,7 @@ namespace TEdition.PR
             if (TedMode) TedBlocker.Patch(H);   // audit M38: Golem / Interceptor blocks against defense 119
             if (TedMode) TedUltima.Patch(H);   // audit I12: the Ultima Weapon's blade at T-Edition's damage thresholds
             if (TedMode) TedBarrage.Patch(H);   // audit M34: the Offering's hits at normal accuracy
+            if (TedMode) TedRibbon.Patch(H);   // audit M15: equipment statuses beat immunity (Cursed Shield + Ribbon)
             // audit G12: MP damage pink, MP healing blue (the kit's SnesMpNumbers)
             if (TedMode) PrKit.Ff6.SnesMpNumbers.Apply(H, new PrKit.Ff6.SnesMpNumbersMod
             {
@@ -254,6 +255,7 @@ namespace TEdition.PR
                 TedMagitek.Update();
                 TedTimers.Update();   // T-Edition's field timers (TED:timer_start)
                 TedMpCritical.Update();   // audit I3: the PR's MP Critical weapon list -> T-Edition's
+                TedRageOrder.Update();   // audit U10: Gau's stored Rages in name order
                 PrKit.Ff6.SnesMpNumbers.Update();
                 TedHarness.Update();
             }

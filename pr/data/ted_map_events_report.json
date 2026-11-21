@@ -1,6 +1,6 @@
 {
  "stats": {
-  "stubs as nops": 453,
+  "stubs as nops": 451,
   "scripts": 208,
   "npcs": 455,
   "entrances": 79,
@@ -2750,11 +2750,10 @@
    "script": "sc_tedm_03D5B0",
    "script_id": 10068,
    "stubs": {
-    "flow": 1,
     "party": 3
    },
    "translated": {
-    "flow": 6,
+    "flow": 7,
     "wait": 6,
     "object": 3,
     "dialog": 2,
@@ -2769,11 +2768,10 @@
    "script": "sc_tedm_03D5F0",
    "script_id": 10069,
    "stubs": {
-    "flow": 1,
     "party": 3
    },
    "translated": {
-    "flow": 6,
+    "flow": 7,
     "wait": 4,
     "dialog": 2,
     "map": 1

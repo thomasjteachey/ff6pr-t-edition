@@ -30,6 +30,7 @@ namespace TEdition.Rules
         public string Made = "";
         public int[] DropRates = { 68, 19, 8, 5 };
         public int DropMonsters;            // monsters the port gave 3 or 4 drop slots
+        public readonly HashSet<int> DropMonsterIds = new HashSet<int>();   // PR ids of T-Edition's monsters filling drop slot 3 or 4
         public readonly List<Item> Items = new List<Item>();
         public readonly List<Weapon> NewWeapons = new List<Weapon>();
         // PR monster ids with T-Edition's monster byte $12 bit 1 ($3C95 bit 1): half damage from
@@ -80,6 +81,8 @@ namespace TEdition.Rules
                 d.DropRates = list.ToArray();
             }
             d.DropMonsters = Int(r, "drop_monsters");
+            if (r.TryGetProperty("drop_monster_ids", out var dmi))
+                foreach (var v in dmi.EnumerateArray()) if (v.ValueKind == JsonValueKind.Number) d.DropMonsterIds.Add(v.GetInt32());
             if (r.TryGetProperty("items", out var items))
                 foreach (var e in items.EnumerateArray())
                     d.Items.Add(new Item

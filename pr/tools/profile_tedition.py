@@ -48,6 +48,8 @@ CHEST_ITEM_BANK = 0x10, 256          # a chest's type bit 4: its content byte na
 LONG_MONSTERS = 0x55D650, 20, 384    # "ENEMY NAMES LONG" (512 there)
 LONG_MAGIC = 0x557890, 8, 54         # "LONG MAGIC NAMES": spells 0-53
 LONG_ATTACKS = 0x557C80, 20, 202     # "LONG ATTK NAMES": spells 54-255 (espers, then skills)
+SWDTECH_NAMES = 0x55A990, 12, 8      # "SWDTCH NAMES": Bushido's 8 names ("Tachi Fang" ...), spell slots 85-92
+BUSHIDO_SLOTS = 85, 8
 
 # T-Edition's four drop slots (41/D300, from the victory routine JP C2/5F06): one roll 0-255 per monster
 # that ends the battle dead, slot 0 below 174, 1 below 224, 2 below 244, else 3 = 174/50/20/12 of 256;
@@ -108,6 +110,18 @@ def mato_desc(raw):
         else:
             out.append(DESC_CHARS.get(b, ""))
     return "\n".join(t for t in (" ".join(line.split()) for line in "".join(out).split("\n")) if t)
+
+
+def bushido_names():
+    """Mato's 8 Bushido names without the menu's "Tachi " prefix (the PR's own names have none): Fang, Sky, Tiger, Dance,
+    Dragon, Snow, Moon, Flower (T-Edition renamed the last four techniques; the PR calls them Flurry ... Oblivion)."""
+    build()
+    at, size, n = SWDTECH_NAMES
+    out = []
+    for k in range(n):
+        name = mato_text(_Image.mod[at + size * k:at + size * (k + 1)])
+        out.append(name[len("Tachi "):] if name.startswith("Tachi ") else name)
+    return out
 
 
 def mato_descriptions():
@@ -787,6 +801,11 @@ class TEdition(Profile):
             elif kind == "spells":
                 for i in range(256):
                     if M.spell(i) in content4:
+                        if BUSHIDO_SLOTS[0] <= i < BUSHIDO_SLOTS[0] + BUSHIDO_SLOTS[1]:
+                            # Bushido's names are their own table (the spell table holds a leftover there: slot 85
+                            # is "Joker Doom" in vanilla too, which renamed the PR's Fang)
+                            yield i, content4[M.spell(i)]["mes_id_name"], bushido_names()[i - BUSHIDO_SLOTS[0]], None
+                            continue
                         yield i, content4[M.spell(i)]["mes_id_name"], names.spells[i], names.spell_icons[i]
             elif kind == "monsters":
                 for e in range(384):

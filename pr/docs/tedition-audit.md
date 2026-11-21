@@ -34,22 +34,22 @@ stalled ("the battle doesn't end") and ted-monsters hit `KeyNotFoundException` i
 
 | Area | Rows | TESTED | PORTED | PARTIAL | MISSING | LEFT OUT |
 |---|---:|---:|---:|---:|---:|---:|
-| Mechanics/battle | 44 | 5 | 33 | 3 | 2 | 1 |
+| Mechanics/battle | 44 | 5 | 34 | 3 | 1 | 1 |
 | Items and equipment | 21 | 1 | 19 | 1 | 0 | 0 |
-| Characters/commands/espers/magic | 31 | 1 | 20 | 7 | 3 | 0 |
+| Characters/commands/espers/magic | 31 | 1 | 21 | 6 | 3 | 0 |
 | Monsters/formations/AI | 9 | 1 | 6 | 2 | 0 | 0 |
 | Maps | 9 | 2 | 5 | 2 | 0 | 0 |
 | Events/story scenes | 44 | 0 | 7 | 32 | 5 | 0 |
-| Pub quests | 20 | 0 | 0 | 20 | 0 | 0 |
+| Pub quests | 20 | 0 | 7 | 13 | 0 | 0 |
 | NG+/post-game | 8 | 0 | 3 | 5 | 0 | 0 |
 | Costumes/dressing room | 10 | 0 | 6 | 3 | 0 | 1 |
 | Music | 8 | 0 | 4 | 3 | 1 | 0 |
-| Graphics | 14 | 1 | 5 | 6 | 2 | 0 |
-| Menus/UI/rooms (Collection, Achievements, Track Record) | 11 | 0 | 6 | 4 | 0 | 1 |
+| Graphics | 14 | 1 | 5 | 6 | 1 | 1 |
+| Menus/UI/rooms (Collection, Achievements, Track Record) | 11 | 0 | 7 | 3 | 0 | 1 |
 | Text/translation | 10 | 1 | 5 | 0 | 2 | 2 |
 | EX | 13 | 0 | 9 | 1 | 0 | 3 |
 | Platform patches (outside the game) | 4 | 0 | 0 | 0 | 0 | 4 |
-| **All** | **256** | **12** | **128** | **89** | **15** | **12** |
+| **All** | **256** | **12** | **138** | **80** | **13** | **13** |
 
 ## 2. Weighted completion
 
@@ -58,22 +58,22 @@ as a battle rule), so this is a feature count, not the effort-weighted table in 
 
 | Area | Counted rows | Done (T + P + PARTIAL/2) | Completion |
 |---|---:|---:|---:|
-| Mechanics/battle | 43 | 39.5 | 92% |
+| Mechanics/battle | 43 | 40.5 | 94% |
 | Items and equipment | 21 | 20.5 | 98% |
-| Characters/commands/espers/magic | 31 | 24.5 | 79% |
+| Characters/commands/espers/magic | 31 | 25 | 81% |
 | Monsters/formations/AI | 9 | 8 | 89% |
 | Maps | 9 | 8 | 89% |
 | Events/story scenes | 44 | 23 | 52% |
-| Pub quests | 20 | 10 | 50% |
+| Pub quests | 20 | 13.5 | 68% |
 | NG+/post-game | 8 | 5.5 | 69% |
 | Costumes/dressing room | 9 | 7.5 | 83% |
 | Music | 8 | 5.5 | 69% |
-| Graphics | 14 | 9 | 64% |
-| Menus/UI/rooms (Collection, Achievements, Track Record) | 10 | 8 | 80% |
+| Graphics | 13 | 9 | 69% |
+| Menus/UI/rooms (Collection, Achievements, Track Record) | 10 | 8.5 | 85% |
 | Text/translation | 8 | 6 | 75% |
 | EX | 10 | 9.5 | 95% |
 | Platform patches (outside the game) | 0 | 0 | (all LEFT OUT) |
-| **All** | **244** | **184.5** | **76%** |
+| **All** | **243** | **190** | **78%** |
 
 Read with care: only 12 of the 244 counted rows (5%) have been seen working in game; the 92 PORTED rows are code or data
 that has never run through its real trigger. PORTING.md's own estimate (~60%, effort-weighted) is close to this count,
@@ -105,7 +105,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | M12 | Weakness quarters defense instead of x2 | change §2 "Weakness Attribute" | TESTED | spec 7, `TedDamage.cs:170-196`; teddamage "Fire on a monster ... rules' factor x1.038 [6,7] ok" | — |
 | M13 | Multi-element attacks: each element counted separately | change §2 "Multiple Attribute Attacks" | PORTED | spec 6, `TedDamage.cs:306-323` (Resist_Postfix); teddamage "a multi-element spell on a monster: skipped" | — |
 | M14 | Half damage from defense-ignoring attacks on flagged monsters | change §2 "Protection Against Defense-Ignoring Damage" | PORTED | `DamageSteps.cs:182-185` (spec 9); list from `tools/ted_plugin_data.py:13` | — |
-| M15 | Equipment statuses win over Ribbon (Cursed Shield stays cursed) | change §2 "Status Ailments" | MISSING | spec 52, deferred (progress 11-20: "deferred ... 52(b,d,e,f)"); no code | status-set hook keeping equipment statuses through immunity [TedPlugin] |
+| M15 | Equipment statuses win over Ribbon (Cursed Shield stays cursed) | change §2 "Status Ailments" | PORTED | TedRibbon.cs: PlayerCharacterParameter.ConfirmedResistanceCondtionList postfix drops, from a character's immunities, the statuses its own equipment grants (GetEquipmentConfirmedConditionList), so a Cursed Shield's statuses stay on a Ribbon wearer (spec 52's documented intent) | ted-8pc's Ribbon + Cursed Shield step (log 'rule 52') |
 | M16 | Near Fatal at 1/4 HP (Cover, desperation, SOS relics follow) | change §2 "Critical Health" | PORTED | `profile_tedition.py:609` RATE_HAVE_NEAR_DEATH 4 | — |
 | M17 | "Critical Health" element: percent spells only inflict Near Fatal; Near-Fatal-immune monsters dodge them | change §2; EX history (Gravity/Tornado change) | PORTED | percent groups as data (rule 49); TedNearFatal.cs: BattleFunction2.HitCalc postfix turns a hit of a percent spell (ted_data percent_abilities, 15) on a monster immune to Near Fatal (ted_data near_fatal_immune: byte $15 bit 1, 229 of 512) into a miss | whether the PR still misses death-immune bosses (spec 48: death immunity no longer matters): probe Gravity on a boss |
 | M18 | Percent damage: listed spells on current HP, the rest (Diabolos 3/4, Wave Cannon 9/16) on max HP | history 2.9.5/2.9.7; spec 49 | PORTED | `ted_plugin_data.percent_damage` run by `ted_build.py:88-89` | — |
@@ -176,7 +176,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | C8 | Relm learns magic by level | change §3 Relm | PORTED | `ted_build.py:379-407` (spec 5) | — |
 | C9 | Esper data: spells taught, MP costs, new espers (Titan, Odin, Leviathan, Asura, Bahamut, Diabolos, Ultima, ...) | change §2 "Summoning Eidolons"; Mato README | PORTED | port_report "learning: 177 rows changed (60 esper spells)"; docs/tedition.md:35 "espers (27, 181 learning rows)" | — |
 | C10 | Trance: x1.5 damage, magic taken x2/3 | change §3 Terra | TESTED | teddamage "Fight by a Morphed character ... [40] ok" and "monster Fire on a Morphed character ... [10] ok" | — |
-| C11 | Cyan: Bushido effects/accuracy (Tiger = MaxHP-HP; Snow/Moon/Flower) | change §3 Cyan | PARTIAL | effects through the spell data; no Bushido rename in the port's text (`port_spells.py:242-246` renames only on a changed display name) | carry the renames and descriptions [lead] |
+| C11 | Cyan: Bushido effects/accuracy (Tiger = MaxHP-HP; Snow/Moon/Flower) | change §3 Cyan | PORTED | 2026-11-21 lead: Bushido named from Mato's own SWDTCH NAMES table (55/A990: Fang, Sky, Tiger, Dance, Dragon, Snow, Moon, Flower, the menu's Tachi prefix dropped as the PR's names have none); the spell table's leftover at slot 85 (Joker Doom) no longer renames Fang; Mato's Bushido descriptions (T4); effects through the spell data | test in game |
 | C12 | Cyan: Bushido gauge fills faster | change §3 Cyan | MISSING | the PR's Bushido has no filling gauge: the level is picked, then Cyan charges (the Accumulate condition, ConditionType 421); T-Edition's faster gauge (C1, not located) has no direct counterpart | lead's call: shorten the PR's charge time by T-Edition's factor once found in C1, or LEFT OUT [TedPlugin] |
 | C13 | Shadow: Interceptor blocks 2/3, one fixed counter (Twin Fang) | change §3 Shadow | PORTED | `TedCommands.cs:284-313` (spec 38) | — |
 | C14 | Shadow never leaves at random | change §3 Shadow | PORTED | `TedVictory.cs:118-128` (spec 58) | — |
@@ -239,11 +239,11 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | E7 | New Kefka battle on the Floating Continent | readme.html §7; Mato README | MISSING | no wired event found (CA/5A0C, map 10, unscripted) | find and wire [ted-events] |
 | E8 | Shadow always gets off the Floating Continent | change §3 Shadow | MISSING | not located in the catalog | [ted-events] |
 | E9 | WoR Figaro cave: collapsed soldier heals for free | readme.html §7 | MISSING | not located | [ted-events] |
-| E10 | Water's Harmony learnable in the WoR | change §3 Mog | PARTIAL | Underwater Cave (map 481) events scripted (69 commands) | logic stubs: 6 status_add, 2 if_lead_status (TED:leadstatus asked of TedPlugin) [ted-events]; test in game |
+| E10 | Water's Harmony learnable in the WoR | change §3 Mog | PARTIAL | Underwater Cave (map 481) events scripted (69 commands); the lead-status tests translate through TED:leadstatus (11-21) | logic stubs: 6 status_add [ted-events]; test in game |
 | E11 | Final battle: Gogo/Umaro lines, party select | history | PARTIAL | map 12: CA/3F2B/3F3B/3F73 scripted, CA/3F13, CD/15E0 not | [ted-events] |
 | E12 | New merchants (Phantom Train ghost, Doma, Esper Village, Mobliz, Fanatics' Tower, Narshe WoR) | history 3.0.0 and earlier | PARTIAL | `TedSysCalls.cs:47-58` TED:shop; used in 59 script files of mods/TEdition; not run | play one shop [ted-events] |
 | E13 | Beginner's House tutors rewritten, advanced-info NPC | readme translation; history | PARTIAL | maps 104-107 talk events scripted with 0 stubs; CD/4C79, CD/4B62 not | [ted-events] |
-| E14 | Perfect banquet score (Ribbon, achievement) | Quick Advice; 3.0.0 | PARTIAL | CC/91B6 (map 250) wired: 6 stubs in 156 commands: 4 switch + 2 bit_set (logic) | the switch and bit_set [ted-events]; play it [ted-ex] |
+| E14 | Perfect banquet score (Ribbon, achievement) | Quick Advice; 3.0.0 | PARTIAL | CC/91B6 (map 250) wired: the banquet switch translates now; 2 bit_set stubs (logic) left | the 2 bit_sets [ted-events]; play it [ted-ex] |
 | E15 | Ruby's Shine | spoiler_free_new_quests; Mato README | PARTIAL | 5/5 events scripted, 20% stubs (`snes_event_ted_readme.json`) | [ted-events] |
 | E16 | Test of Strength | same | PARTIAL | 9/11 scripted, 21% stubs | [ted-events] |
 | E17 | Stolen Magicite (Catoblepas; Carbuncle in WoR) | same; 2.9.5 | PARTIAL | 1/1 scripted, 11% stubs | [ted-ex] |
@@ -280,25 +280,25 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | ID | Feature | Source | Status | Evidence | Work needed [owner] |
 |---|---|---|---|---|---|
 | Q1 | Pub job boards (6 pubs) | Mato README "NEW PUB QUEST DETAILS" | PARTIAL | `tools/ted_quests.py` BATCH wired; ted-7 ted-quests: "sc_tedq_q_ca7d09_20071_4_d didn't start (not in map 42's list ...)" for 44 scripts | reinstall, rerun ted-quests [ted-ex] |
-| Q2 | Cave Monster Cleanup (South Figaro, WoB) | same | PARTIAL | South Figaro pub group: all events built; stubs: 1 case_test (logic), 2 spotlight + 1 song (cosmetic) | translate the case_test [ted-events]; play it [ted-ex] |
-| Q3 | Defend Mt. Kolts! | same | PARTIAL | South Figaro pub group: all events built; stubs: 1 case_test (logic), 2 spotlight + 1 song (cosmetic) | translate the case_test [ted-events]; play it [ted-ex] |
+| Q2 | Cave Monster Cleanup (South Figaro, WoB) | same | PORTED | South Figaro pub group: all events built; 3 stubs in 568 commands, all cosmetic (2 spotlight, 1 song); no logic stubs (06:36) | play it in game (quests-2 runs the scripts) [ted-ex] |
+| Q3 | Defend Mt. Kolts! | same | PORTED | South Figaro pub group: all events built; 3 stubs in 568 commands, all cosmetic (2 spotlight, 1 song); no logic stubs (06:36) | play it in game (quests-2 runs the scripts) [ted-ex] |
 | Q4 | I'll Buy Anything! (Nikeah) | same | PARTIAL | Nikeah pub group: all events built; stubs: 10 random_jump + 2 gil_add (logic) | random_jump (BD) and gil_add translation [ted-events]; play it [ted-ex] |
-| Q5 | A Helping Hand (Kohlingen) | same | PARTIAL | Kohlingen pub group: all events built; stubs: 4 case_test (logic), 3 mosaic + 2 sound (cosmetic) | translate the 4 case_tests [ted-events]; play it [ted-ex] |
-| Q6 | The Dream Opera | same | PARTIAL | Kohlingen pub group: all events built; stubs: 4 case_test (logic), 3 mosaic + 2 sound (cosmetic) | translate the 4 case_tests [ted-events]; play it [ted-ex] |
-| Q7 | Requiem (Setzer's lines) | same | PARTIAL | Kohlingen pub group: all events built; stubs: 4 case_test (logic), 3 mosaic + 2 sound (cosmetic) | translate the 4 case_tests [ted-events]; play it [ted-ex] |
+| Q5 | A Helping Hand (Kohlingen) | same | PARTIAL | Kohlingen pub group: all events built; stubs: 1 case_test (logic), 3 mosaic + 2 sound (cosmetic) in 1,587 commands | the last case_test [ted-events]; play it [ted-ex] |
+| Q6 | The Dream Opera | same | PARTIAL | Kohlingen pub group: all events built; stubs: 1 case_test (logic), 3 mosaic + 2 sound (cosmetic) in 1,587 commands | the last case_test [ted-events]; play it [ted-ex] |
+| Q7 | Requiem (Setzer's lines) | same | PARTIAL | Kohlingen pub group: all events built; stubs: 1 case_test (logic), 3 mosaic + 2 sound (cosmetic) in 1,587 commands | the last case_test [ted-events]; play it [ted-ex] |
 | Q8 | Transporting Goods (Albrook) | same | PARTIAL | Albrook pub group: all events built; stubs: 4 gil_add (logic), 1 mosaic (cosmetic) | gil_add translation [ted-events]; play it [ted-ex] |
 | Q9 | Finding Food (Albrook WoR, repeatable) | same | PARTIAL | Albrook pub group: all events built; stubs: 4 gil_add (logic), 1 mosaic (cosmetic) | gil_add translation [ted-events]; play it [ted-ex] |
 | Q10 | Wanted! Research Materials (scholar, Goddess Bell) | same | PARTIAL | Albrook pub group: all events built; stubs: 4 gil_add (logic), 1 mosaic (cosmetic); needs the Goddess Bell of N4 | gil_add [ted-events]; Goddess Bell (N4) [ted-maps]; play it [ted-ex] |
-| Q11 | Defeat the Cave Monsters (South Figaro WoR, repeatable) | same | PARTIAL | South Figaro pub group: all events built; stubs: 1 case_test (logic), 2 spotlight + 1 song (cosmetic) | translate the case_test [ted-events]; play it [ted-ex] |
-| Q12 | A Girl's Wish | same | PARTIAL | South Figaro pub group: all events built; stubs: 1 case_test (logic), 2 spotlight + 1 song (cosmetic) | translate the case_test [ted-events]; play it [ted-ex] |
-| Q13 | Victory Drinks | same | PARTIAL | South Figaro pub group: all events built; stubs: 1 case_test (logic), 2 spotlight + 1 song (cosmetic) | translate the case_test [ted-events]; play it [ted-ex] |
+| Q11 | Defeat the Cave Monsters (South Figaro WoR, repeatable) | same | PORTED | South Figaro pub group: all events built; 3 stubs in 568 commands, all cosmetic (2 spotlight, 1 song); no logic stubs (06:36) | play it in game (quests-2 runs the scripts) [ted-ex] |
+| Q12 | A Girl's Wish | same | PORTED | South Figaro pub group: all events built; 3 stubs in 568 commands, all cosmetic (2 spotlight, 1 song); no logic stubs (06:36) | play it in game (quests-2 runs the scripts) [ted-ex] |
+| Q13 | Victory Drinks | same | PORTED | South Figaro pub group: all events built; 3 stubs in 568 commands, all cosmetic (2 spotlight, 1 song); no logic stubs (06:36) | play it in game (quests-2 runs the scripts) [ted-ex] |
 | Q14 | Delivery Service (Nikeah, Duane) | same | PARTIAL | Nikeah pub group: all events built; stubs: 10 random_jump + 2 gil_add (logic) | random_jump (BD) and gil_add translation [ted-events]; play it [ted-ex] |
-| Q15 | A Dancer's Depression (opens the Dressing Room) | same | PARTIAL | Kohlingen pub group: all events built; stubs: 4 case_test (logic), 3 mosaic + 2 sound (cosmetic) | translate the 4 case_tests [ted-events]; play it [ted-ex] |
+| Q15 | A Dancer's Depression (opens the Dressing Room) | same | PARTIAL | Kohlingen pub group: all events built; stubs: 1 case_test (logic), 3 mosaic + 2 sound (cosmetic) in 1,587 commands | the last case_test [ted-events]; play it [ted-ex] |
 | Q16 | The Will to Live for Tomorrow (Phantom Forest foe) | same | PARTIAL | Nikeah pub group: all events built; stubs: 10 random_jump + 2 gil_add (logic) | random_jump (BD) and gil_add translation [ted-events]; play it [ted-ex] |
-| Q17 | A Restful Sleep (Kohlingen, Darill's grave) | same | PARTIAL | Kohlingen pub group: all events built; stubs: 4 case_test (logic), 3 mosaic + 2 sound (cosmetic) | translate the 4 case_tests [ted-events]; play it [ted-ex] |
-| Q18 | Imitation's Secret (Narshe pub, Gogo's quiz) | same | PARTIAL | Narshe pub group (46 events on ted-maps' rooms): stubs: 4 quiz case_tests, 4 timer_start + 9 timer_reset (logic), 5 sound (cosmetic); the plugin's field timer is in (TED:timer_*, TedTimers.cs) | the quiz's case tests and the timer stubs to TED:timer_* [ted-events]; play it [ted-ex] |
+| Q17 | A Restful Sleep (Kohlingen, Darill's grave) | same | PARTIAL | Kohlingen pub group: all events built; stubs: 1 case_test (logic), 3 mosaic + 2 sound (cosmetic) in 1,587 commands | the last case_test [ted-events]; play it [ted-ex] |
+| Q18 | Imitation's Secret (Narshe pub, Gogo's quiz) | same | PORTED | Narshe pub group (map 461 etc., 46 events on ted-maps' rooms): 5 stubs in 2,277 commands, all sound; the quiz's case tests and the field timers (TED:timer_start/reset) translate (06:36) | play it in game (quests-2 runs the scripts) [ted-ex] |
 | Q19 | Night Patrol (timed, repeatable, reward changes) | same | PARTIAL | maps 473-476 scripted, 8-23% stubs; SNES:timer_start 6, SNES:timer_reset 14 stubs remain; the plugin side is in: TED:timer_start/_reset/_left (TedTimers.cs, on-screen countdown, expiry script) | ted-events: translate the timer stubs to TED:timer_* (format sent 11-21) [ted-events]; play it |
-| Q20 | Super Doctor D (Zozo) | same | PARTIAL | Zozo pub: 2 events wired; stubs: 4 if_lead_status (logic), 5 sound (cosmetic) | if_lead_status translation [ted-events]; play it [ted-ex] |
+| Q20 | Super Doctor D (Zozo) | same | PORTED | Zozo pub: 2 events wired; 5 stubs in 242 commands, all sound; if_lead_status -> TED:leadstatus (06:36) | play it in game (quests-2 runs the scripts) [ted-ex] |
 
 ### NG+/post-game
 
@@ -357,7 +357,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | G10 | Animations for new/changed spells (Blink, Flood, Comet, Toad, Holy's new graphic ...) | change §2 "Magic"; 3.0.0 | PARTIAL | port_report "spells using their own slot's look (no name match): 10:Toad, 19:Flood, 20:Scourge, ... 32:Comet, 50:Blink ..." | pick PR effects per spell [lead] |
 | G11 | Casting motions (White, Summon), Time magic animation and sound, Trance casting, Cyan's battle entry | change §2 "Magic Casting Motions"; §3 | MISSING | no code | [TedPlugin] |
 | G12 | MP damage in pink, MP healing in blue | change §2 "MP Damage/Recovery Display" | PORTED | 2026-11-21 TedPlugin: MP numbers in T-Edition's colours (kit SnesMpNumbers, reviewed) | test in game |
-| G13 | Window types 2-8 after other Square games | change §1 "Window Type"; windowtype.html | MISSING | no code (MEDIA_INVENTORY §4.4 "not examined") | decide: PR window skins or leave out [lead] |
+| G13 | Window types 2-8 after other Square games | change §1 "Window Type"; windowtype.html | LEFT OUT | the PR draws its own windows: T-Edition's SNES window types (after other Square games) have no counterpart; the PR's own window options stay (lead, 2026-11-21) |  |
 | G14 | Weapon and item icons/battle sprites changed | EX history | PARTIAL | item identity: new rows take a template item's look (port_report "48 rows took their template's look") | [bc-sprites] |
 
 ### Menus/UI/rooms (Collection, Achievements, Track Record)
@@ -373,7 +373,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | U7 | Select in battle: icons for Reraise, Defend, Runic, Sky, Charm, Love Token, Cloudy Heaven | change §2 "Information Display of Status Ailments of Allies" | PARTIAL | TedAllyStatus.cs: Select held in battle shows each ally's Reraise/Defend/Runic/Sky (PR ConditionType 602/1/612/626) in a box; harness tedallies prints the lines | Charm, Love Token, Cloudy Heaven are T-Edition mechanics with no PR status (port them first); words, not T-Edition's icons; check Select does nothing else in the PR's battle |
 | U8 | Play time past 99:59 | change §1 "3 Digit Playtime" | PORTED | no cap in the PR: UserSaveData.playTime is an unbounded double, PlayTimeStringProvider.GetPlayTime formats hours unbounded (decompiled, tools/decomp/ted_umaro2) |  |
 | U9 | Treasure message depends on the party lead | change §1 "Treasure Chest Message" | PORTED | TedChestLines.cs: EventActionTreasure.GetMessage prefix points the chest's T0001_01_01 at TED_CHEST_<lead 00-13> (T-Edition's EE dialogues 657-670, ted_plugin_data.chest_rule into system_en via ted_build data_rules); empty lead/Banon/Ghost/Leo keep the generic line | open a chest in game (English) |
-| U10 | Rage list in alphabetical order | change §3 Gau | PARTIAL | TedRageOrder.cs: OwnedCharacterClient.Sort postfix sorts command 23's list by name | confirm the battle menu uses that sort (run) |
+| U10 | Rage list in alphabetical order | change §3 Gau | PORTED | TedRageOrder.cs: Gau's stored Rage entries kept in name order outside battle (OwnedAbilityList, every 2 s; the battle menu lists the stored order) plus the field menu's OwnedCharacterClient.Sort postfix for command 23 | see Gau's Rage list in battle |
 | U11 | Hidden debug win (Select+Up) | spec 59 | LEFT OUT | spec 59 "do not port" | — |
 
 ### Text/translation

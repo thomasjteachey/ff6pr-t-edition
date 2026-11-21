@@ -329,6 +329,23 @@ def _translator_class():
                 self.report[("flow", "chest bit -> treasure flag")] += 1
                 return [T.op("Branch", i=[idx, 0, "@L_%06X" % tgt], s=[cat, T.EQ, "imm"],
                              comment="SNES 5B: chest bit %d" % (0x80 + ins.args["bit"]))], True
+            if ins.name == "status_add":
+                # 89 cc ll hh: give character cc (00-0F, party slot 31-34) the statuses in byte 1 ll / byte 2 hh ->
+                # TedPlugin's TED:status add <cc> <hhll> (the game's own AddCondition); 88 stays the PR's RemoveCondition
+                import event_translate as T
+                self.done["party"] += 1
+                self.report[("party", "status add -> TED:status")] += 1
+                return [T.op("SysCall", s=["TED:status add %02X %02X%02X" % (ins.raw[1], ins.raw[3], ins.raw[2])],
+                             comment="SNES 89 %s" % ins.raw.hex(" ").upper())], True
+            if ins.name == "if_lead_status":
+                # EC mm a: jump if the party's top member has any status in mask mm (status byte 1: 01 Dark ... 20 Imp,
+                # 40 Petrify, 80 Wound) -> TedPlugin's TED:leadstatus (map variable 0 = 1 / 0), then a Branch on it
+                import event_translate as T
+                tgt = next(x for k, x in ins.targets if k == "cond")
+                self.done["flow"] += 1
+                self.report[("flow", "lead status -> TED:leadstatus")] += 1
+                return [T.op("SysCall", s=["TED:leadstatus %02X 0" % ins.args["status"]], comment="SNES EC %02X" % ins.args["status"]),
+                        T.op("Branch", i=[0, 1, "@L_%06X" % tgt], s=["MapLocalVariable", T.EQ, "imm"])], True
             if ins.name == "timer_start":
                 # A0: field timer n (0-3) running `frames`, then its event -> TedPlugin's TED:timer_start <n> <frames>
                 # <flags> <script>: the event translated as a script of this room (listed in its package: the plugin

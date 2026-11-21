@@ -416,6 +416,9 @@ def main(argv):
     rates = {r["key_name"]: int(r["value1"]) for r in mod_csv("game_constant_int")}
     drop_rates = [rates.get(f"MONSTER_DROP_RATE_{k}", 0) for k in range(1, 5)]
     drop_monsters = sum(1 for r in mod_csv("monster") if r.get("drop_content_id3", "0") not in ("", "0"))
+    # tedcheck's like-for-like list (ted-8, 2026-11-21: it compared every game row, Coliseum copies included, with the
+    # port's changed rows): the PR ids of T-Edition's monsters that fill drop slot 3 or 4 (its 8-byte records at
+    # MONSTER_ITEMS, drops in bytes 4-7, $FF empty); tedcheck wants a 3rd or 4th drop on each in game
 
     with open(T.MATO, "rb") as f:            # the 6 MB ROM itself (S.Rom(T.MATO) is the US-layout image)
         raw = f.read()
@@ -438,6 +441,8 @@ def main(argv):
         "made": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
         "drop_rates": drop_rates,
         "drop_monsters": drop_monsters,
+        "drop_monster_ids": [e + 1 if e < 384 else 1000 + e for e in range(512)
+                             if raw[T.MONSTER_ITEMS + 8 * e + 6] != 0xFF or raw[T.MONSTER_ITEMS + 8 * e + 7] != 0xFF],
         "items": items,
         "new_weapons": weapons,
         # PR monster id: SNES e + 1 for 0-383, 1000 + e for T-Edition's new 384-511 (idmap MONSTER_EXT, the lead)
