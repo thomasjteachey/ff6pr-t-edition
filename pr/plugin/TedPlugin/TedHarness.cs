@@ -27,6 +27,7 @@ namespace TEdition.PR
             Harness.Register("tedcheck", _ => Check(), "tedcheck: the port's rows as the game has them (new weapons, item names, drops)");
             Harness.Register("tedgive", Give, "tedgive ID|sSLOT [n]: a content id (or T-Edition's item slot) into the inventory");
             Harness.Register("tedrules", _ => TedLog.Summary(), "tedrules: the T-Edition rules that have fired");
+            Harness.Register("tedtile", TedTiles.Harness, "tedtile [#LAYER CELL [TILEID]]: field map layers / a cell's tile / write a tile at runtime (timed; T-Edition's tile changes)");
             Harness.Register("tedcoliseum", _ => TedColiseum.Summary(), "tedcoliseum: T-Edition's Coliseum wagers and boss rewards loaded, the last match's choice");
             Harness.Register("tedcostume", a =>
             {

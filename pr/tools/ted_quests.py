@@ -102,6 +102,57 @@ def _place_npc(rom, prog, Tr, texts, alloc, ids, mod, m, det, addr, name, script
             "needs_formations": sorted(t.needs_formations)}
 
 
+VANILLA_NPC_BASE = 5900          # entity ids of vanilla NPCs placed anew (ted-ex's 5500-5999; _place_npc's 5500+)
+STANDINS_FILE = os.path.join(P.ROOT, "data", "ted_quests_npc_standins.json")   # for bc-sprites, as ted-events'
+
+
+def _place_vanilla_npc(rom, prog, Tr, texts, alloc, ids, mod, m, det, addr, name, scripts, fixed, hidden,
+                       standins, taken_ms):
+    """A vanilla NPC the PR room has none of (no PR NPC within 3 tiles; the lead, 11-21): a new NPC object
+    as ted-events' TE.build adds them: in the room TE.npc_rooms picks (walkable there, the map's world), its
+    look from TE.npc_look (a stand-in listed for bc-sprites), hidden by the room's map script while its SNES
+    show bit is clear (written after the loop from `hidden`), talking runs the event. Rooms whose map script
+    another folder ships are left out (one owner per map script) and reported. -> [rows]"""
+    import snes_events as E
+    import snes_maps as SM
+    import ted_events as TE
+    rec = TE.npc_records(m).get(det["npc"]) or {}
+    rows = []
+    for pr, (px, py) in TE.npc_rooms(m, (det["x"], det["y"])):
+        where = _room_of(pr)
+        ms = TE.map_script_name(pr) if where else None
+        if ms is None or ms in taken_ms:
+            rows.append({"pr_map": pr, "blocked": "no map script" if ms is None else ms + " is another folder's"})
+            continue
+        group, folder = where
+        room = os.path.dirname(SM.pr_tilemaps()[pr])
+        sn = "sc_tedq_%s_%s_new" % (name, pr[4:].lower())
+        t = Tr(rom, sn, snes_map=m, alloc=alloc, prog=prog, pr_map=pr)
+        t.texts = texts
+        sc = t.translate(E.parse_addr(addr))
+        scripts[(group, folder, pr)].append((sn, sc))
+        for a, s2, w in t.after:
+            dest = _room_of(w) if w and w != pr else (group, folder)
+            if dest is not None:
+                scripts[(dest[0], dest[1], w or pr)].append((a, s2))
+                mod.table("script").add({"script_name": a}, id=ids.get(a))
+        sid = ids.get(sn)
+        mod.table("script").add({"script_name": sn}, id=sid)
+        key = (room, group, folder, pr)
+        eid = VANILLA_NPC_BASE + len(fixed[key])
+        look, standin = TE.npc_look(rom, det["sprite"])
+        fixed[key].append(TE.npc_object(px, py, eid, look, TE.DIRECTION.get(rec.get("direction", 2), 4), sid,
+                                        "TEditionNPC_%d_%d" % (m, det["npc"])))
+        hidden.setdefault((group, folder, pr), []).append((m, det["npc"], det["bit"], eid))
+        if standin:
+            standins.append({"sprite": det["sprite"], "snes_map": m, "npc": det["npc"], "pr_map": pr,
+                             "look": look, "entity": eid, "event": addr})
+        rows.append({"pr_map": pr, "layer": "entity_default", "object": eid, "was": None, "now": sn,
+                     "script_id": sid, "asset_id": look, "standin": standin, "translated": sum(t.done.values()),
+                     "stubs": dict(t.stubs), "needs_formations": sorted(t.needs_formations)})
+    return rows
+
+
 def trigger_entities(snes_map, x, y):
     """[(PR map, room dir, group, folder, layer, Tiled object id, its script id)] for the PR's scripted
     triggers (the PR's form of an event tile: action_id 2, object_type 2/5/30) at SNES (x, y) in every PR
@@ -393,6 +444,11 @@ def build(out=OUT, events=None, write=True, log=print):
     added = collections.defaultdict(list)       # (room dir, group, folder, PR map) -> [new NPC objects]
     owners = {}                                 # (room, group, folder, PR map, layer, object) -> (index, name, script)
     sprite_matched, unmatched = [], []          # vanilla NPCs wired by look anywhere in the room / still unmatched
+    fixed = collections.defaultdict(list)       # (room, group, folder, PR map) -> [new vanilla NPC objects, ids kept]
+    hidden, standins, blocked = {}, [], []      # (group, folder, PR map) -> [(SNES map, NPC, show bit, entity)]
+    import glob
+    taken_ms = {os.path.basename(f)[:-5] for d in ("TEditionEvents", "TEditionMaps")
+                for f in glob.glob(os.path.join(P.ROOT, "mods", d, "map_*", "**", "sc_map_*.json"), recursive=True)}
     saved = dict(M.ITEM_OVERRIDES)
     M.ITEM_OVERRIDES.clear()
     M.ITEM_OVERRIDES.update(TE.item_overrides())
@@ -492,6 +548,13 @@ def build(out=OUT, events=None, write=True, log=print):
                     pass
                 elif not wired and kind == "npc" and not is_vanilla:   # an NPC T-Edition added where the PR room has nobody: a new entity
                     placed = _place_npc(rom, prog, Tr, texts, alloc, ids, mod, m, det, addr, name, scripts, added)
+                elif not wired and kind == "npc" and is_vanilla and not targets:   # a vanilla NPC the PR dropped
+                    rows = _place_vanilla_npc(rom, prog, Tr, texts, alloc, ids, mod, m, det, addr, name, scripts,
+                                              fixed, hidden, standins, taken_ms)
+                    ok = [r for r in rows if "blocked" not in r]
+                    wired.extend(ok[1:])
+                    blocked.extend((addr, m, det["npc"], r["pr_map"], r["blocked"]) for r in rows if "blocked" in r)
+                    placed = ok[0] if ok else None
                 elif not wired and kind == "tile":  # a tile T-Edition added: a new trigger
                     placed = _place_trigger(rom, prog, Tr, texts, alloc, ids, mod, m, det, addr, name, scripts, added)
                 if placed:
@@ -542,7 +605,30 @@ def build(out=OUT, events=None, write=True, log=print):
                     entry["script"].append({"name": sn, "asset": f"{pr}/{sn}"})
         mod.asset(group, f"{RES}/{folder}/package.json", json.dumps(pk, ensure_ascii=False, separators=(",", ":")),
                   key="package")
-    for key in added:
+    # the rooms' map scripts for the vanilla NPCs placed anew: hide each while its SNES show bit is clear
+    # (a bit with no PR tie: always shown), then the PR's own map script (as TE.build's prologue)
+    for (group, folder, pr), items in hidden.items():
+        import event_translate as T
+        ms = TE.map_script_name(pr)
+        t = Tr(rom, ms, snes_map=items[0][0], alloc=alloc, prog=prog, pr_map=pr)
+        t.texts = texts
+        ops = []
+        for m_, n, bit, eid in items:
+            if t.untied(bit):
+                continue
+            cat, idx = t.flag(bit)
+            skip = "shown_%d" % eid
+            ops += [T.op("Branch", i=[idx, 1, "@" + skip], s=[cat, T.EQ, "imm"],
+                         comment="SNES map %d NPC %d: shown while bit %03X is set" % (m_, n, bit))]
+            ops += t.puppet_ops([eid], [[T.op("Hide", kind=2)]])
+            ops += [T.lab(skip)]
+        label = t.graft(Sc.load(ms), callable_=True)
+        sc = t.assemble(ms, [T.lab("Main")] + ops + [T.op("Call", i=["@" + label], comment="the PR's own " + ms),
+                                                     T.op("Exit")], t.blocks)
+        nop_stubs(sc)                    # (in place; it returns a count)
+        mod.asset(group, f"{RES}/{folder}/{pr}/{ms}.json", json.dumps(sc, ensure_ascii=False, separators=(",", ":")),
+                  key=f"{pr}/{ms}")
+    for key in list(added) + list(fixed):
         edits.setdefault((key[0], key[1], key[2], key[3], "entity_default"), {})
     for (room, group, folder, pr, lay), objs in edits.items():
         doc = _json(os.path.join(room, lay + ".json"))
@@ -552,6 +638,9 @@ def build(out=OUT, events=None, write=True, log=print):
             for k, o in enumerate(added[(room, group, folder, pr)]):
                 obj = RM._objects([o], first_id=NEW_OBJECT_BASE + k)[0]
                 layer["objects"].append(obj)
+        if lay == "entity_default" and fixed.get((room, group, folder, pr)):
+            layer = next(x for x in doc["layers"] if x.get("type") == "objectgroup")
+            layer["objects"].extend(fixed[(room, group, folder, pr)])
         for layer in doc.get("layers", []):
             for o in layer.get("objects") or []:
                 if o["id"] in objs:
@@ -572,8 +661,14 @@ def build(out=OUT, events=None, write=True, log=print):
         os.makedirs(os.path.dirname(REPORT), exist_ok=True)
         with open(REPORT, "w", encoding="utf-8") as f:
             json.dump(report, f, ensure_ascii=False, indent=1)
+        text = json.dumps({"about": "tools/ted_quests.py: vanilla NPCs placed anew on a stand-in look (the PR has "
+                                    "no sprite for their SNES sprite), for bc-sprites, as data/ted_npc_standins.json",
+                           "npcs": standins}, ensure_ascii=False, indent=1)
+        if not os.path.exists(STANDINS_FILE) or open(STANDINS_FILE, encoding="utf-8").read() != text:
+            with open(STANDINS_FILE, "w", encoding="utf-8") as f:
+                f.write(text)
         with open(os.path.join(os.path.dirname(REPORT), "npc_match.json"), "w", encoding="utf-8") as f:
-            json.dump({"by_look": sprite_matched, "unmatched": unmatched,
+            json.dump({"by_look": sprite_matched, "unmatched": unmatched, "blocked": blocked,
                        "conflicts": [c for r in report for c in r.get("conflicts", [])]}, f, indent=1)
     log(f"vanilla NPCs matched by look anywhere in the room: {len(sprite_matched)}, still unmatched: "
         f"{len(unmatched)}; conflicts {[(c['pr_map'], c['object'], c['merged']) for r in report for c in r.get('conflicts', [])]}")

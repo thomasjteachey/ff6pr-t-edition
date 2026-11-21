@@ -119,7 +119,7 @@ def installed_bgm():
     return out
 
 
-def map_rules(rom, pack_slots):
+def map_rules(rom, pack_slots, game_songs=None):
     """BgmRules "maps": each PR room of a SNES map whose song is one of T-Edition's own plays it, in place of the
     bgm id the room asks for: its installed map.csv bgm_id, the PR track of the map's vanilla song (the PR's map
     scripts start many rooms' music; a new map: its source room's), or 1000 + song once ted-maps writes that.
@@ -138,11 +138,23 @@ def map_rules(rom, pack_slots):
         return pr_track.get(us[US_MAP_PROPS + MAP_SIZE * snes_map + MAP_SONG])
 
     rules, clash = {}, []
-    counts = {"new": 0, "vanilla": 0}
+    counts = {"new": 0, "vanilla": 0, "game": 0}
+    game, kept = set(), set()     # vanilla songs the rules name (a "songs" slot with pr_bgm); maps set to 0 (go on)
+    game_songs = game_songs or {}
 
     def add(pr_id, song, kind, snes_map):
         if song not in pack_slots:
-            return
+            # one of vanilla's songs: the game's own track, where T-Edition gave the map another song than vanilla's
+            # (a new map, or a vanilla map it changed); 0 (the song goes on) is left to the game
+            track = game_songs.get(str(song)) if song else None
+            vanilla = us[US_MAP_PROPS + MAP_SIZE * snes_map + MAP_SONG] if snes_map is not None and 0 <= snes_map < 416 else None
+            if not song:
+                kept.add(snes_map if kind == "vanilla" else ("new", pr_id))
+                return
+            if not track or (kind == "vanilla" and song == vanilla):
+                return
+            game.add(song)
+            counts["game"] += 1
         prev = rules.get(str(pr_id))
         if prev and prev["slot"] != song:
             clash.append(pr_id)
@@ -167,9 +179,11 @@ def map_rules(rom, pack_slots):
         for room in pairs.get(str(m), []):
             if room.get("pr_id"):
                 add(room["pr_id"], song, "vanilla", m)
-    note = (f"{counts['new']} rooms of new maps, {counts['vanilla']} rooms of vanilla maps play T-Edition's own songs"
+    note = (f"{counts['new']} rooms of new maps, {counts['vanilla']} rooms of vanilla maps play T-Edition's own songs "
+            f"({counts['game']} of them one of vanilla's songs by the game's track); {len(kept)} maps/rooms set to 0 (the song "
+            f"goes on) left to the game"
             + (f"; {len(clash)} rooms shared by maps with different songs kept their first ({clash[:6]})" if clash else ""))
-    return rules, note
+    return rules, note, game
 
 
 PLAYER_LIST = os.path.join(PR, "vanilla", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "sound_player_list.csv")
@@ -234,7 +248,7 @@ def battle_rules(rom, table, rules, pack_slots, names_=None):
     """BgmRules "battles" {PR monster party: {"slot"}} (each party plays its formation's song: one of the pack's,
     or a slot naming the game's own track; -1 the field song goes on) and "fanfares" (the same for the victory
     fanfare: the player picks it per battle), for every party the game and the port have for T-Edition's 768
-    formations (idmap.party, port_encounters.party_ids over the installed monster_party.csv). Parties whose
+    formations and EX's fights (idmap.party, port_encounters.party_ids over the installed monster_party.csv). Parties whose
     battle_bgm_asset_id is 0 (an event keeps its music) and choices equal to what the game plays anyway are left
     out. Adds "songs" entries with pr_bgm for vanilla's songs the choices name."""
     import csv
@@ -283,9 +297,19 @@ def battle_rules(rom, table, rules, pack_slots, names_=None):
         return s is not None and s.get("pr_bgm") == party_bgm
 
     battles, fanfares, kept = {}, {}, 0
-    for f in range(768):
+    # T-Edition's 768 formations, then EX's fights (formations 768+, tools/ted_ex.py: read from EX's ROM at its own
+    # entry formation; EX's songs are 3.0.7's, byte for byte)
+    fights = [(f, rom, f) for f in range(768)]
+    try:
+        import ted_ex as X
+        R = X.Roms()
+        ex = SS.unheader(bytes(R.ex))
+        fights += [(fi["formation"], ex, fi["entry"]) for fi in X.fights(R)]
+    except Exception as e:          # no EX ROM here: T-Edition's own fights only
+        missing.append(f"EX ({e.__class__.__name__})")
+    for f, src, f0 in fights:
         ids = list(E.party_ids(f, parties)) + ([M.party(f)] if f < 576 else [])
-        battle, fanfare = formation_music(rom, f)
+        battle, fanfare = formation_music(src, f0)
         b, v = battle_slot(battle), fanfare_slot(fanfare)
         for p in ids:
             row = parties.get(p)
@@ -392,7 +416,11 @@ def build(out=OUT, every=False, log=print):
             songs[slot] = dict(s, name=name, title=title)
             rules["tracks"][str(BGM_BASE + slot)] = slot
             rules["songs"]["%X" % slot] = {"name": name, "title": title}
-    rules["maps"], map_notes = map_rules(rom, set(songs))
+    rules["maps"], map_notes, game_songs = map_rules(rom, set(songs), table["songs"])
+    for song in sorted(game_songs):       # vanilla songs a map plays: their slot names the game's track
+        info = main_names.get(song)
+        rules["songs"].setdefault("%X" % song, {"name": (info or {}).get("name") or "song %02X" % song, "title": "",
+                                                "pr_bgm": table["songs"][str(song)]})
     battle_notes = battle_rules(rom, table, rules, set(songs), (main_names, second_names))
     meta = {"lookahead_patch": False, "echo_delay": 5, "mod": "T-Edition 3.0.7 (Mato)",
             "about": "T-Edition's own songs (tools/ted_music.py): C5 songs at their number, bank-43 songs at $100 + n; "

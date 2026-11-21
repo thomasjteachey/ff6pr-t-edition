@@ -92,6 +92,14 @@ namespace TEdition.PR
                 }
                 else if (parts.Length == 2 && parts[0] == "bump" && int.TryParse(parts[1], out int bump) && bump >= 0 && bump < TedCounters.Count)
                     TedCounters.Bump(bump);
+                else if (parts.Length >= 2 && parts[0] == "tiles")
+                {
+                    var line = TedTiles.Apply(parts[1..]);   // T-Edition's 73/74 tile changes (TedTiles.cs)
+                    Hooks.NoteOnce($"ted-tiles-{TedTiles.Calls % 20}", () => $"[ted tiles] {name.Length} chars: {line}");
+                }
+                else if (parts.Length == 4 && parts[0] == "roster" && int.TryParse(parts[1], out int rc) && int.TryParse(parts[2], out int rbit)
+                         && int.TryParse(parts[3], out int rvar))
+                    TedRoster.Call(rc, rbit, rvar);   // T-Edition's $1850+c bit tests (TedRoster.cs)
                 else if (parts.Length == 3 && parts[0] == "costume" && int.TryParse(parts[1], out int costumeOf) && int.TryParse(parts[2], out int k))
                     TedCostumes.Wear(costumeOf, k);   // the dressing room (TedCostumes.cs)
                 else Kit.Warn($"[ted] unknown call {name}");

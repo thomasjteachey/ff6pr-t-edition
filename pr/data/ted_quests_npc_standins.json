@@ -1,0 +1,41 @@
+{
+ "about": "tools/ted_quests.py: vanilla NPCs placed anew on a stand-in look (the PR has no sprite for their SNES sprite), for bc-sprites, as data/ted_npc_standins.json",
+ "npcs": [
+  {
+   "sprite": 174,
+   "snes_map": 235,
+   "npc": 7,
+   "pr_map": "Map_20441_2",
+   "look": 51,
+   "entity": 5900,
+   "event": "CA/BF41"
+  },
+  {
+   "sprite": 249,
+   "snes_map": 283,
+   "npc": 0,
+   "pr_map": "Map_30771_1",
+   "look": 51,
+   "entity": 5900,
+   "event": "CC/D6E1"
+  },
+  {
+   "sprite": 138,
+   "snes_map": 408,
+   "npc": 1,
+   "pr_map": "Map_30811_2",
+   "look": 51,
+   "entity": 5900,
+   "event": "CC/1F3F"
+  },
+  {
+   "sprite": 233,
+   "snes_map": 408,
+   "npc": 3,
+   "pr_map": "Map_30811_2",
+   "look": 51,
+   "entity": 5901,
+   "event": "CC/2051"
+  }
+ ]
+}

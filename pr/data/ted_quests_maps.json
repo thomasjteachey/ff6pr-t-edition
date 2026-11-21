@@ -222,8 +222,8 @@
   "npcs": [],
   "tiles": [
    {
-    "x": 8,
-    "y": 10,
+    "x": 14,
+    "y": 11,
     "script": "sc_tedq_ce0480_tile",
     "script_id": 9744
    }

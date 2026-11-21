@@ -654,6 +654,15 @@
    "map": 194,
    "first_line": "With the monsters running amok, I don't have much merchandise in stock...",
    "npc": 2
+  },
+  {
+   "event": "CB/A295",
+   "map": 123,
+   "first_line": "Doman Sentry: To the king, with all haste!",
+   "tile": [
+    4,
+    34
+   ]
   }
  ]
 }

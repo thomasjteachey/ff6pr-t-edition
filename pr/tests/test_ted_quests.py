@@ -92,6 +92,11 @@ class Folder(unittest.TestCase):
         missing = []
         for f in glob.glob(os.path.join(root, "map_*", "**", "sc_*.json"), recursive=True):
             room, sn = os.path.basename(os.path.dirname(f)), os.path.basename(f)[:-5]
+            with open(f, encoding="utf-8") as fh:
+                doc = json.load(fh)
+            self.assertTrue(isinstance(doc, dict) and doc.get("Mnemonics"), f"{room}/{sn} isn't a script")
+            if sn.startswith("sc_map_"):
+                continue                 # a room's own load script, replaced (listed in the vanilla package)
             if not ((room, sn) in listed or (room, sn) in for_maps or sn in mains or sn in entrances):
                 missing.append((room, sn))
         self.assertEqual(missing, [])

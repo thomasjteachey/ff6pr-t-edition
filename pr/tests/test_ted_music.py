@@ -64,8 +64,8 @@ class TedMusicPack(unittest.TestCase):
     def test_maps(self):
         maps = self.rules["maps"]
         self.assertGreater(len(maps), 100)
-        for pr_id, m in maps.items():
-            self.assertIn(m["slot"], self.slots)
+        for pr_id, m in maps.items():          # a pack song, or one of vanilla's by the game's track
+            self.assertTrue(m["slot"] in self.slots or self.rules["songs"].get("%X" % m["slot"], {}).get("pr_bgm"), f"room {pr_id}")
             self.assertIn(T.BGM_BASE + m["slot"], m["from"])
 
 

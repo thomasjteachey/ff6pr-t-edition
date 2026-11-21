@@ -44,6 +44,7 @@ namespace TEdition.PR
             Hooks.Patch(h, typeof(PlayerCharacterParameter), "ConfirmedResistanceAttributeList", typeof(TedDamage), postfix: nameof(Resist_Postfix));
             Hooks.Patch(h, typeof(EnemyCharacterParameter), "ConfirmedResistanceAttributeList", typeof(TedDamage), postfix: nameof(Resist_Postfix));
             Hooks.Patch(h, typeof(CalcExecuteCorrection), "GetAccessoryPhysicalCorrectionValue", typeof(TedDamage), postfix: nameof(Physical_Postfix));
+            Hooks.Patch(h, typeof(CalcExecuteCorrection), "GetAccessoryMagicCorrectionValue", typeof(TedDamage), postfix: nameof(MagicBoost_Postfix));
             Hooks.Patch(h, typeof(CalcExecuteCorrection), "GetHawkEyeCorrectionValue", typeof(TedDamage), postfix: nameof(HawkEye_Postfix));
         }
 
@@ -101,6 +102,17 @@ namespace TEdition.PR
             public IntPtr Target;
             public int[] Elements;
             public int ViewsServed;
+            public int HealEarrings = -1;      // rule 15 on a heal: the relics worn (-1: not a heal or none)
+            public bool GameBoostedHeal;       // the game asked for the Earring boost during this heal
+        }
+
+        [ThreadStatic] static Calc healCalc;
+        [ThreadStatic] static bool ownAsk;
+
+        // rule 15 (heals): notes whether the game itself asks for the Earring boost while computing a heal
+        public static void MagicBoost_Postfix()
+        {
+            if (!ownAsk && healCalc != null) healCalc.GameBoostedHeal = true;
         }
 
         [ThreadStatic] static Calc current;
@@ -216,9 +228,21 @@ namespace TEdition.PR
                              $"{(hit.Defending ? ", defending" : "")}{(hit.BackRow ? ", back row" : "")}{(hit.TargetMorph ? ", Morphed" : "")}" +
                              $"{(hit.AttackerMorph ? ", Morphed attacker" : "")}{(hit.HalfFlag ? ", half-damage monster" : "")}" +
                              $"{(hit.Atma ? $", Atma (Lv {hit.Level}, Sta {hit.Stamina})" : "")}";
-                if (Math.Abs(r.Factor - 1.0) < 1e-9 && r.View == DamageSteps.View.None && r.Fired.Count == 0) return;
-                state = new Calc { R = r, Target = target.Pointer, Elements = elems };
+                // 15 (heals): T-Edition's Earring boost covers healing magic too (C2/0D47); how many are worn
+                int healEarrings = -1;
+                if (heal && c.userCharaData != null)
+                {
+                    int n = 0;
+                    ownAsk = true;
+                    try { CalcExecuteCorrection.GetAccessoryMagicCorrectionValue(CalcExecuteCorrection.MagicType.Earring, c.userCharaData, out n); }
+                    catch (Exception) { n = 0; }
+                    finally { ownAsk = false; }
+                    if (n >= 1) healEarrings = n;
+                }
+                if (Math.Abs(r.Factor - 1.0) < 1e-9 && r.View == DamageSteps.View.None && r.Fired.Count == 0 && healEarrings < 0) return;
+                state = new Calc { R = r, Target = target.Pointer, Elements = elems, HealEarrings = healEarrings };
                 if (r.View != DamageSteps.View.None) current = state;
+                if (healEarrings > 0) healCalc = state;
             }
             catch (Exception e) { Hooks.WarnOnce("TedDamage.Enter", e); }
         }
@@ -227,6 +251,15 @@ namespace TEdition.PR
         {
             if (__state == null) return;
             if (current == __state) current = null;
+            if (healCalc == __state) healCalc = null;
+            if (__state.HealEarrings > 0)
+            {
+                // the game boosted the heal (1 + 0.25 n): capped at one +25%; it didn't: T-Edition's +25% added
+                int n = __state.HealEarrings;
+                if (__state.GameBoostedHeal && n >= 2) { __state.R.Factor *= 1.25 / (1 + 0.25 * n); __state.R.Rule(15, $"heal: {n} boost relics, +25% once (the game's +{25 * n}%)"); }
+                else if (!__state.GameBoostedHeal) { __state.R.Factor *= 1.25; __state.R.Rule(15, $"heal: +25% from {n} boost relic(s) (the game gives heals none)"); }
+                __state.HealEarrings = 0;
+            }
             try
             {
                 if (__result == null) return;

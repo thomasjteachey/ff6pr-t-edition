@@ -46,6 +46,9 @@ namespace TEdition.PR
                 prefix: nameof(Defend_Prefix), postfix: nameof(Defend_Postfix));
             Hooks.Patch(h, typeof(global::CommonUtility), "GetRand", typeof(TedCommands), prefix: nameof(GetRand_Prefix), args: new[] { typeof(int) });
             PrKit.Ff6.SnesUmaro.Apply(h, new PrKit.Ff6.SnesUmaroMod { Name = "T-Edition", On = () => On });
+            // 36: T-Edition's Power Belt (a new relic on free row 97) is Umaro's snow relic (Rampage); the PR's
+            // ActSelectUmalo.Init tests Blizzard Orb's content (296, a row T-Edition gave another item) and Rage Ring's (297)
+            Hooks.Patch(h, typeof(ActSelectUmalo), "Init", typeof(TedCommands), postfix: nameof(UmaroInit_Postfix));
             // 33: Dance is one dance per command and the dancer stays under control (C2/178F-1795 sets and clears
             // the Dance status at once); BNW's CommandRules hooks (the act's command recorded as it is made,
             // the Dance status taken off when the act ends). Step odds and no stumble: data.
@@ -55,6 +58,28 @@ namespace TEdition.PR
             // takes the absorbed spell's MP as its recovery value, a successful Sketch sets the monster it drew
             Hooks.Patch(h, typeof(MagicSealSwordConditionFunction), "SetRecoveryValue", typeof(TedCommands), postfix: nameof(Runic_Postfix));
             Hooks.Patch(h, typeof(SketchConditionFunction), "SetMonsterId", typeof(TedCommands), postfix: nameof(Sketch_Postfix));
+        }
+
+        public const int PowerBeltSlot = 226, RageRingContent = 297;
+
+        static T AsEnum<T>(T _, int v) where T : struct, Enum => (T)Enum.ToObject(typeof(T), v);
+
+        public static void UmaroInit_Postfix(ActSelectUmalo __instance, BattleUnitData battleUnitData)
+        {
+            try
+            {
+                if (!On || __instance == null) return;
+                int type = (int)__instance.umaloType;
+                if (type < 0 || type > 3) return;              // 4: Magitek, the PR's own
+                var c = battleUnitData?.TryCast<BattlePlayerData>()?.ownedCharacterData;
+                int belt = Plugin.D.BySlot(PowerBeltSlot)?.Content ?? 0;
+                if (c == null || belt <= 0) return;
+                int t = (Wears(c, new[] { RageRingContent }) ? 1 : 0) | (Wears(c, new[] { belt }) ? 2 : 0);
+                if (t == type) return;
+                __instance.umaloType = AsEnum(__instance.umaloType, t);
+                TedLog.Rule(36, "belt", () => $"Umaro's relic set {type} -> {t} (Power Belt content {belt} is his snow relic)");
+            }
+            catch (Exception e) { Hooks.WarnOnce("ted-umaro-belt", e); }
         }
 
         public override string Check()

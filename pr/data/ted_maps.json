@@ -9,11 +9,11 @@
  ],
  "map_ids": [
   644,
-  751
+  752
  ],
  "script_ids": [
   629,
-  736
+  737
  ],
  "maps": {
   "415": {
@@ -124,9 +124,9 @@
    "how": "convert",
    "group": "map_20371",
    "like": "Map_20371_2",
-   "cells": 1593,
+   "cells": 4035,
    "no_pr_tile": 0,
-   "guessed": 45,
+   "guessed": 107,
    "look": {
     "sets": [
      15,
@@ -496,9 +496,9 @@
    "how": "convert",
    "group": "map_20371",
    "like": "Map_20371_2",
-   "cells": 1830,
+   "cells": 4096,
    "no_pr_tile": 1,
-   "guessed": 59,
+   "guessed": 121,
    "look": {
     "sets": [
      15,
@@ -700,9 +700,9 @@
    "how": "convert",
    "group": "map_20371",
    "like": "Map_20371_2",
-   "cells": 939,
+   "cells": 4096,
    "no_pr_tile": 3,
-   "guessed": 42,
+   "guessed": 104,
    "look": {
     "sets": [
      15,
@@ -953,9 +953,9 @@
    "how": "convert",
    "group": "map_20371",
    "like": "Map_20371_2",
-   "cells": 2019,
+   "cells": 4091,
    "no_pr_tile": 3,
-   "guessed": 114,
+   "guessed": 177,
    "look": {
     "sets": [
      15,
@@ -1345,7 +1345,7 @@
    "like": "Map_30651_1",
    "cells": 1733,
    "no_pr_tile": 2,
-   "guessed": 36,
+   "guessed": 34,
    "look": {
     "sets": [
      25,
@@ -1614,7 +1614,7 @@
    "like": "Map_30651_1",
    "cells": 1264,
    "no_pr_tile": 4,
-   "guessed": 14,
+   "guessed": 9,
    "look": {
     "sets": [
      25,
@@ -2602,7 +2602,7 @@
    "like": "Map_30651_1",
    "cells": 1054,
    "no_pr_tile": 2,
-   "guessed": 196,
+   "guessed": 189,
    "look": {
     "sets": [
      25,
@@ -2776,7 +2776,7 @@
    "like": "Map_30651_1",
    "cells": 483,
    "no_pr_tile": 0,
-   "guessed": 20,
+   "guessed": 19,
    "look": {
     "sets": [
      25,
@@ -7914,40 +7914,24 @@
    "entrance_event": "CD4CE2",
    "tile_commands": 0,
    "properties": "3c0480000300008402ed8004048928620f110000000000aaa31600076100000004",
-   "how": "convert",
-   "group": "map_20140",
-   "like": "Map_20140",
-   "cells": 4093,
-   "no_pr_tile": 254,
-   "guessed": 1647,
-   "look": {
-    "sets": [
-     4,
-     5,
-     52,
-     7
-    ],
-    "tilesets": [
-     1,
-     2
+   "how": "clone",
+   "source": {
+    "snes_map": 217,
+    "pr_maps": [
+     "Map_20230"
     ]
    },
-   "tiers": [
-    "graphics",
-    "sets",
-    "tilesets",
-    "bg1"
-   ],
+   "patched_cells": 0,
    "rooms": [
     {
-     "pr_map": "Map_20140_1",
+     "pr_map": "Map_20230_1",
      "pr_id": 663,
-     "group": "map_20140",
-     "kind": "convert",
-     "source": "Map_20140",
+     "group": "map_20230",
+     "kind": "clone",
+     "source": "Map_20230",
      "dx": 0,
      "dy": 0,
-     "script": "sc_map_20140_1",
+     "script": "sc_map_20230_1",
      "script_id": 648
     }
    ],
@@ -7970,12 +7954,12 @@
      "flags": 0,
      "pr": [
       [
-       "Map_20140_1",
+       "Map_20230_1",
        38,
        46
       ],
       [
-       "Map_20140_1",
+       "Map_20230_1",
        39,
        46
       ]
@@ -8007,17 +7991,17 @@
      "flags": 0,
      "pr": [
       [
-       "Map_20140_1",
+       "Map_20230_1",
        22,
        19
       ],
       [
-       "Map_20140_1",
+       "Map_20230_1",
        23,
        19
       ],
       [
-       "Map_20140_1",
+       "Map_20230_1",
        24,
        19
       ]
@@ -8049,17 +8033,17 @@
      "flags": 0,
      "pr": [
       [
-       "Map_20140_1",
+       "Map_20230_1",
        25,
        41
       ],
       [
-       "Map_20140_1",
+       "Map_20230_1",
        26,
        41
       ],
       [
-       "Map_20140_1",
+       "Map_20230_1",
        27,
        41
       ]
@@ -8091,17 +8075,17 @@
      "flags": 0,
      "pr": [
       [
-       "Map_20140_1",
+       "Map_20230_1",
        45,
        29
       ],
       [
-       "Map_20140_1",
+       "Map_20230_1",
        46,
        29
       ],
       [
-       "Map_20140_1",
+       "Map_20230_1",
        47,
        29
       ]
@@ -8133,17 +8117,17 @@
      "flags": 0,
      "pr": [
       [
-       "Map_20140_1",
+       "Map_20230_1",
        54,
        24
       ],
       [
-       "Map_20140_1",
+       "Map_20230_1",
        55,
        24
       ],
       [
-       "Map_20140_1",
+       "Map_20230_1",
        56,
        24
       ]
@@ -8171,12 +8155,12 @@
      "flags": 0,
      "pr": [
       [
-       "Map_20140_1",
+       "Map_20230_1",
        32,
        6
       ],
       [
-       "Map_20140_1",
+       "Map_20230_1",
        33,
        6
       ]
@@ -8207,7 +8191,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20140_1",
+     "pr_map": "Map_20230_1",
      "pr_id": 663,
      "pr_x": 34,
      "pr_y": 23
@@ -8230,7 +8214,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20140_1",
+     "pr_map": "Map_20230_1",
      "pr_id": 663,
      "pr_x": 39,
      "pr_y": 39
@@ -8253,7 +8237,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20140_1",
+     "pr_map": "Map_20230_1",
      "pr_id": 663,
      "pr_x": 24,
      "pr_y": 33
@@ -8276,7 +8260,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20140_1",
+     "pr_map": "Map_20230_1",
      "pr_id": 663,
      "pr_x": 33,
      "pr_y": 46
@@ -8299,7 +8283,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20140_1",
+     "pr_map": "Map_20230_1",
      "pr_id": 663,
      "pr_x": 57,
      "pr_y": 28
@@ -8322,7 +8306,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20140_1",
+     "pr_map": "Map_20230_1",
      "pr_id": 663,
      "pr_x": 23,
      "pr_y": 26
@@ -8345,7 +8329,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20140_1",
+     "pr_map": "Map_20230_1",
      "pr_id": 663,
      "pr_x": 42,
      "pr_y": 30
@@ -8368,7 +8352,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20140_1",
+     "pr_map": "Map_20230_1",
      "pr_id": 663,
      "pr_x": 33,
      "pr_y": 17
@@ -8391,7 +8375,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20140_1",
+     "pr_map": "Map_20230_1",
      "pr_id": 663,
      "pr_x": 0,
      "pr_y": 0
@@ -8407,7 +8391,7 @@
    "bgm_id": null,
    "points": [
     {
-     "pr_map": "Map_20140_1",
+     "pr_map": "Map_20230_1",
      "pr_id": 663,
      "pr_x": 33,
      "pr_y": 7,
@@ -8418,7 +8402,7 @@
      ]
     },
     {
-     "pr_map": "Map_20140_1",
+     "pr_map": "Map_20230_1",
      "pr_id": 663,
      "pr_x": 23,
      "pr_y": 21,
@@ -8429,7 +8413,7 @@
      ]
     },
     {
-     "pr_map": "Map_20140_1",
+     "pr_map": "Map_20230_1",
      "pr_id": 663,
      "pr_x": 26,
      "pr_y": 42,
@@ -8440,7 +8424,7 @@
      ]
     },
     {
-     "pr_map": "Map_20140_1",
+     "pr_map": "Map_20230_1",
      "pr_id": 663,
      "pr_x": 38,
      "pr_y": 47,
@@ -8451,7 +8435,7 @@
      ]
     },
     {
-     "pr_map": "Map_20140_1",
+     "pr_map": "Map_20230_1",
      "pr_id": 663,
      "pr_x": 46,
      "pr_y": 30,
@@ -8462,7 +8446,7 @@
      ]
     },
     {
-     "pr_map": "Map_20140_1",
+     "pr_map": "Map_20230_1",
      "pr_id": 663,
      "pr_x": 55,
      "pr_y": 25,
@@ -8913,40 +8897,24 @@
    "entrance_event": "CE0580",
    "tile_commands": 0,
    "properties": "6c0000000300008402ed800404b5d80200140000000000000f26000700000f0e04",
-   "how": "convert",
-   "group": "map_20090",
-   "like": "Map_20090",
-   "cells": 256,
-   "no_pr_tile": 4,
-   "guessed": 136,
-   "look": {
-    "sets": [
-     4,
-     5,
-     52,
-     7
-    ],
-    "tilesets": [
-     1,
-     2
+   "how": "clone",
+   "source": {
+    "snes_map": 297,
+    "pr_maps": [
+     "Map_30650"
     ]
    },
-   "tiers": [
-    "graphics",
-    "sets",
-    "tilesets",
-    "bg1"
-   ],
+   "patched_cells": 0,
    "rooms": [
     {
-     "pr_map": "Map_20090_1",
+     "pr_map": "Map_30650_1",
      "pr_id": 666,
-     "group": "map_20090",
-     "kind": "convert",
-     "source": "Map_20090",
-     "dx": 0,
-     "dy": 0,
-     "script": "sc_map_20090_1",
+     "group": "map_30650",
+     "kind": "clone",
+     "source": "Map_30650",
+     "dx": 6,
+     "dy": 1,
+     "script": "sc_map_30650_1",
      "script_id": 651
     }
    ],
@@ -9017,74 +8985,74 @@
      "flags": 16,
      "pr": [
       [
-       "Map_20090_1",
-       1,
-       14
-      ],
-      [
-       "Map_20090_1",
-       2,
-       14
-      ],
-      [
-       "Map_20090_1",
-       3,
-       14
-      ],
-      [
-       "Map_20090_1",
-       4,
-       14
-      ],
-      [
-       "Map_20090_1",
-       5,
-       14
-      ],
-      [
-       "Map_20090_1",
-       6,
-       14
-      ],
-      [
-       "Map_20090_1",
+       "Map_30650_1",
        7,
-       14
+       15
       ],
       [
-       "Map_20090_1",
+       "Map_30650_1",
        8,
-       14
+       15
       ],
       [
-       "Map_20090_1",
+       "Map_30650_1",
        9,
-       14
+       15
       ],
       [
-       "Map_20090_1",
+       "Map_30650_1",
        10,
-       14
+       15
       ],
       [
-       "Map_20090_1",
+       "Map_30650_1",
        11,
-       14
+       15
       ],
       [
-       "Map_20090_1",
+       "Map_30650_1",
        12,
-       14
+       15
       ],
       [
-       "Map_20090_1",
+       "Map_30650_1",
        13,
-       14
+       15
       ],
       [
-       "Map_20090_1",
+       "Map_30650_1",
        14,
-       14
+       15
+      ],
+      [
+       "Map_30650_1",
+       15,
+       15
+      ],
+      [
+       "Map_30650_1",
+       16,
+       15
+      ],
+      [
+       "Map_30650_1",
+       17,
+       15
+      ],
+      [
+       "Map_30650_1",
+       18,
+       15
+      ],
+      [
+       "Map_30650_1",
+       19,
+       15
+      ],
+      [
+       "Map_30650_1",
+       20,
+       15
       ]
      ],
      "to": [
@@ -9101,10 +9069,10 @@
      "x": 8,
      "y": 10,
      "event": "CE0480",
-     "pr_map": "Map_20090_1",
+     "pr_map": "Map_30650_1",
      "pr_id": 666,
-     "pr_x": 8,
-     "pr_y": 10
+     "pr_x": 14,
+     "pr_y": 11
     }
    ],
    "song": 0,
@@ -9116,11 +9084,11 @@
    "bgm_id": 0,
    "points": [
     {
-     "pr_map": "Map_20090_1",
+     "pr_map": "Map_30650_1",
      "pr_id": 666,
-     "pr_x": 8,
-     "pr_y": 12,
-     "point_id": 2,
+     "pr_x": 14,
+     "pr_y": 13,
+     "point_id": 3,
      "snes": [
       8,
       12
@@ -12779,7 +12747,7 @@
      ],
      "to": [
       689,
-      1
+      5
      ]
     },
     {
@@ -13136,40 +13104,24 @@
    "entrance_event": "CA5EA9",
    "tile_commands": 0,
    "properties": "0002b1000680008e98c341244c90b83108020000000000555f360080cf00000001",
-   "how": "convert",
-   "group": "map_30011",
-   "like": "Map_30011_6",
-   "cells": 1024,
-   "no_pr_tile": 3,
-   "guessed": 817,
-   "look": {
-    "sets": [
-     14,
-     49,
-     14,
-     14
-    ],
-    "tilesets": [
-     9,
-     38
+   "how": "clone",
+   "source": {
+    "snes_map": 320,
+    "pr_maps": [
+     "Map_30841_1"
     ]
    },
-   "tiers": [
-    "graphics",
-    "sets",
-    "tilesets",
-    "bg1"
-   ],
+   "patched_cells": 0,
    "rooms": [
     {
-     "pr_map": "Map_30011_9",
+     "pr_map": "Map_30841_3",
      "pr_id": 689,
-     "group": "map_30011",
-     "kind": "convert",
-     "source": "Map_30011_6",
-     "dx": 0,
-     "dy": 0,
-     "script": "sc_map_30011_9",
+     "group": "map_30841",
+     "kind": "clone",
+     "source": "Map_30841_1",
+     "dx": 4,
+     "dy": 2,
+     "script": "sc_map_30841_3",
      "script_id": 674
     }
    ],
@@ -13188,9 +13140,9 @@
      "flags": 16,
      "pr": [
       [
-       "Map_30011_9",
-       18,
-       13
+       "Map_30841_3",
+       22,
+       15
       ]
      ],
      "to": [
@@ -13212,14 +13164,14 @@
      "flags": 16,
      "pr": [
       [
-       "Map_30011_9",
-       22,
-       25
+       "Map_30841_3",
+       26,
+       27
       ]
      ],
      "to": [
       689,
-      2
+      6
      ]
     },
     {
@@ -13236,14 +13188,14 @@
      "flags": 0,
      "pr": [
       [
-       "Map_30011_9",
-       6,
-       5
+       "Map_30841_3",
+       10,
+       7
       ]
      ],
      "to": [
       689,
-      4
+      8
      ]
     },
     {
@@ -13260,9 +13212,9 @@
      "flags": 16,
      "pr": [
       [
-       "Map_30011_9",
-       6,
-       22
+       "Map_30841_3",
+       10,
+       24
       ]
      ],
      "to": [
@@ -13283,44 +13235,44 @@
    "bgm_id": null,
    "points": [
     {
-     "pr_map": "Map_30011_9",
+     "pr_map": "Map_30841_3",
      "pr_id": 689,
-     "pr_x": 18,
-     "pr_y": 12,
-     "point_id": 1,
+     "pr_x": 22,
+     "pr_y": 14,
+     "point_id": 5,
      "snes": [
       18,
       12
      ]
     },
     {
-     "pr_map": "Map_30011_9",
+     "pr_map": "Map_30841_3",
      "pr_id": 689,
-     "pr_x": 6,
-     "pr_y": 6,
-     "point_id": 2,
+     "pr_x": 10,
+     "pr_y": 8,
+     "point_id": 6,
      "snes": [
       6,
       6
      ]
     },
     {
-     "pr_map": "Map_30011_9",
+     "pr_map": "Map_30841_3",
      "pr_id": 689,
-     "pr_x": 6,
-     "pr_y": 21,
-     "point_id": 3,
+     "pr_x": 10,
+     "pr_y": 23,
+     "point_id": 7,
      "snes": [
       6,
       21
      ]
     },
     {
-     "pr_map": "Map_30011_9",
+     "pr_map": "Map_30841_3",
      "pr_id": 689,
-     "pr_x": 22,
-     "pr_y": 24,
-     "point_id": 4,
+     "pr_x": 26,
+     "pr_y": 26,
+     "point_id": 8,
      "snes": [
       22,
       24
@@ -13376,7 +13328,7 @@
      ],
      "to": [
       689,
-      3
+      7
      ]
     },
     {
@@ -13597,7 +13549,7 @@
    "source": {
     "snes_map": 12,
     "pr_maps": [
-     "Map_20391_1"
+     "Map_20391_2"
     ]
    },
    "patched_cells": 2,
@@ -13607,7 +13559,7 @@
      "pr_id": 692,
      "group": "map_20391",
      "kind": "clone",
-     "source": "Map_20391_1",
+     "source": "Map_20391_2",
      "dx": 0,
      "dy": 0,
      "script": "sc_map_20391_4",
@@ -15244,40 +15196,24 @@
    "entrance_event": "CA5EA9",
    "tile_commands": 0,
    "properties": "3c0480000300008402ed8004048928620f110000000000aaa3010007ed00000004",
-   "how": "convert",
-   "group": "map_20140",
-   "like": "Map_20140",
-   "cells": 4093,
-   "no_pr_tile": 295,
-   "guessed": 602,
-   "look": {
-    "sets": [
-     4,
-     5,
-     52,
-     7
-    ],
-    "tilesets": [
-     1,
-     2
+   "how": "clone",
+   "source": {
+    "snes_map": 217,
+    "pr_maps": [
+     "Map_20230"
     ]
    },
-   "tiers": [
-    "graphics",
-    "sets",
-    "tilesets",
-    "bg1"
-   ],
+   "patched_cells": 0,
    "rooms": [
     {
-     "pr_map": "Map_20140_2",
+     "pr_map": "Map_20230_2",
      "pr_id": 699,
-     "group": "map_20140",
-     "kind": "convert",
-     "source": "Map_20140",
+     "group": "map_20230",
+     "kind": "clone",
+     "source": "Map_20230",
      "dx": 0,
      "dy": 0,
-     "script": "sc_map_20140_2",
+     "script": "sc_map_20230_2",
      "script_id": 684
     }
    ],
@@ -15300,12 +15236,12 @@
      "flags": 0,
      "pr": [
       [
-       "Map_20140_2",
+       "Map_20230_2",
        38,
        46
       ],
       [
-       "Map_20140_2",
+       "Map_20230_2",
        39,
        46
       ]
@@ -15337,17 +15273,17 @@
      "flags": 0,
      "pr": [
       [
-       "Map_20140_2",
+       "Map_20230_2",
        22,
        19
       ],
       [
-       "Map_20140_2",
+       "Map_20230_2",
        23,
        19
       ],
       [
-       "Map_20140_2",
+       "Map_20230_2",
        24,
        19
       ]
@@ -15379,17 +15315,17 @@
      "flags": 0,
      "pr": [
       [
-       "Map_20140_2",
+       "Map_20230_2",
        25,
        41
       ],
       [
-       "Map_20140_2",
+       "Map_20230_2",
        26,
        41
       ],
       [
-       "Map_20140_2",
+       "Map_20230_2",
        27,
        41
       ]
@@ -15421,17 +15357,17 @@
      "flags": 0,
      "pr": [
       [
-       "Map_20140_2",
+       "Map_20230_2",
        45,
        29
       ],
       [
-       "Map_20140_2",
+       "Map_20230_2",
        46,
        29
       ],
       [
-       "Map_20140_2",
+       "Map_20230_2",
        47,
        29
       ]
@@ -15463,17 +15399,17 @@
      "flags": 0,
      "pr": [
       [
-       "Map_20140_2",
+       "Map_20230_2",
        54,
        24
       ],
       [
-       "Map_20140_2",
+       "Map_20230_2",
        55,
        24
       ],
       [
-       "Map_20140_2",
+       "Map_20230_2",
        56,
        24
       ]
@@ -15501,12 +15437,12 @@
      "flags": 0,
      "pr": [
       [
-       "Map_20140_2",
+       "Map_20230_2",
        32,
        6
       ],
       [
-       "Map_20140_2",
+       "Map_20230_2",
        33,
        6
       ]
@@ -15537,7 +15473,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20140_2",
+     "pr_map": "Map_20230_2",
      "pr_id": 699,
      "pr_x": 29,
      "pr_y": 46
@@ -15560,7 +15496,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 1,
-     "pr_map": "Map_20140_2",
+     "pr_map": "Map_20230_2",
      "pr_id": 699,
      "pr_x": 29,
      "pr_y": 47
@@ -15583,7 +15519,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20140_2",
+     "pr_map": "Map_20230_2",
      "pr_id": 699,
      "pr_x": 35,
      "pr_y": 23
@@ -15606,7 +15542,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20140_2",
+     "pr_map": "Map_20230_2",
      "pr_id": 699,
      "pr_x": 52,
      "pr_y": 41
@@ -15629,7 +15565,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20140_2",
+     "pr_map": "Map_20230_2",
      "pr_id": 699,
      "pr_x": 27,
      "pr_y": 29
@@ -15652,7 +15588,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20140_2",
+     "pr_map": "Map_20230_2",
      "pr_id": 699,
      "pr_x": 38,
      "pr_y": 40
@@ -15675,7 +15611,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20140_2",
+     "pr_map": "Map_20230_2",
      "pr_id": 699,
      "pr_x": 41,
      "pr_y": 37
@@ -15698,7 +15634,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20140_2",
+     "pr_map": "Map_20230_2",
      "pr_id": 699,
      "pr_x": 24,
      "pr_y": 36
@@ -15721,7 +15657,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20140_2",
+     "pr_map": "Map_20230_2",
      "pr_id": 699,
      "pr_x": 0,
      "pr_y": 0
@@ -15744,7 +15680,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20140_2",
+     "pr_map": "Map_20230_2",
      "pr_id": 699,
      "pr_x": 0,
      "pr_y": 0
@@ -15760,7 +15696,7 @@
    "bgm_id": null,
    "points": [
     {
-     "pr_map": "Map_20140_2",
+     "pr_map": "Map_20230_2",
      "pr_id": 699,
      "pr_x": 32,
      "pr_y": 7,
@@ -15771,7 +15707,7 @@
      ]
     },
     {
-     "pr_map": "Map_20140_2",
+     "pr_map": "Map_20230_2",
      "pr_id": 699,
      "pr_x": 23,
      "pr_y": 21,
@@ -15782,7 +15718,7 @@
      ]
     },
     {
-     "pr_map": "Map_20140_2",
+     "pr_map": "Map_20230_2",
      "pr_id": 699,
      "pr_x": 26,
      "pr_y": 42,
@@ -15793,7 +15729,7 @@
      ]
     },
     {
-     "pr_map": "Map_20140_2",
+     "pr_map": "Map_20230_2",
      "pr_id": 699,
      "pr_x": 38,
      "pr_y": 47,
@@ -15804,7 +15740,7 @@
      ]
     },
     {
-     "pr_map": "Map_20140_2",
+     "pr_map": "Map_20230_2",
      "pr_id": 699,
      "pr_x": 46,
      "pr_y": 30,
@@ -15815,7 +15751,7 @@
      ]
     },
     {
-     "pr_map": "Map_20140_2",
+     "pr_map": "Map_20230_2",
      "pr_id": 699,
      "pr_x": 55,
      "pr_y": 25,
@@ -22623,7 +22559,7 @@
    "source": {
     "snes_map": 406,
     "pr_maps": [
-     "Map_30811_2"
+     "Map_30811_5"
     ]
    },
    "patched_cells": 0,
@@ -22633,7 +22569,7 @@
      "pr_id": 723,
      "group": "map_30811",
      "kind": "clone",
-     "source": "Map_30811_2",
+     "source": "Map_30811_5",
      "dx": 0,
      "dy": 0,
      "script": "sc_map_30811_8",
@@ -23460,7 +23396,7 @@
       ]
      ],
      "to": [
-      728,
+      752,
       1
      ]
     }
@@ -24678,6 +24614,7 @@
    "source": {
     "snes_map": 406,
     "pr_maps": [
+     "Map_30811_5",
      "Map_30811_2"
     ]
    },
@@ -24688,11 +24625,22 @@
      "pr_id": 728,
      "group": "map_30811",
      "kind": "clone",
-     "source": "Map_30811_2",
+     "source": "Map_30811_5",
      "dx": 0,
      "dy": 0,
      "script": "sc_map_30811_9",
      "script_id": 713
+    },
+    {
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
+     "group": "map_30811",
+     "kind": "clone",
+     "source": "Map_30811_2",
+     "dx": 0,
+     "dy": 0,
+     "script": "sc_map_30811_11",
+     "script_id": 737
     }
    ],
    "exits": [
@@ -24710,7 +24658,7 @@
      "flags": 16,
      "pr": [
       [
-       "Map_30811_9",
+       "Map_30811_11",
        7,
        24
       ]
@@ -24789,8 +24737,8 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
      "pr_x": 13,
      "pr_y": 9
     },
@@ -24812,8 +24760,8 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
      "pr_x": 15,
      "pr_y": 10
     },
@@ -24835,8 +24783,8 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
      "pr_x": 17,
      "pr_y": 12
     },
@@ -24881,8 +24829,8 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
      "pr_x": 17,
      "pr_y": 16
     },
@@ -24904,8 +24852,8 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
      "pr_x": 15,
      "pr_y": 18
     },
@@ -24927,8 +24875,8 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
      "pr_x": 13,
      "pr_y": 19
     },
@@ -24950,8 +24898,8 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
      "pr_x": 11,
      "pr_y": 18
     },
@@ -24973,8 +24921,8 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
      "pr_x": 9,
      "pr_y": 16
     },
@@ -24996,8 +24944,8 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
      "pr_x": 8,
      "pr_y": 14
     },
@@ -25019,8 +24967,8 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
      "pr_x": 9,
      "pr_y": 12
     },
@@ -25042,8 +24990,8 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
      "pr_x": 11,
      "pr_y": 10
     }
@@ -25054,8 +25002,8 @@
      "x": 13,
      "y": 10,
      "event": "CE99E0",
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
      "pr_x": 13,
      "pr_y": 10
     },
@@ -25064,8 +25012,8 @@
      "x": 15,
      "y": 11,
      "event": "CE9A00",
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
      "pr_x": 15,
      "pr_y": 11
     },
@@ -25074,8 +25022,8 @@
      "x": 17,
      "y": 13,
      "event": "CE9A20",
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
      "pr_x": 17,
      "pr_y": 13
     },
@@ -25104,8 +25052,8 @@
      "x": 15,
      "y": 19,
      "event": "CE9A80",
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
      "pr_x": 15,
      "pr_y": 19
     },
@@ -25114,8 +25062,8 @@
      "x": 13,
      "y": 20,
      "event": "CE9AA0",
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
      "pr_x": 13,
      "pr_y": 20
     },
@@ -25124,8 +25072,8 @@
      "x": 11,
      "y": 19,
      "event": "CE9AC0",
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
      "pr_x": 11,
      "pr_y": 19
     },
@@ -25134,8 +25082,8 @@
      "x": 9,
      "y": 17,
      "event": "CE9AE0",
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
      "pr_x": 9,
      "pr_y": 17
     },
@@ -25144,8 +25092,8 @@
      "x": 8,
      "y": 15,
      "event": "CE9B00",
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
      "pr_x": 8,
      "pr_y": 15
     },
@@ -25154,8 +25102,8 @@
      "x": 9,
      "y": 13,
      "event": "CE9B20",
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
      "pr_x": 9,
      "pr_y": 13
     },
@@ -25164,8 +25112,8 @@
      "x": 11,
      "y": 11,
      "event": "CE9B40",
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
      "pr_x": 11,
      "pr_y": 11
     }
@@ -25181,23 +25129,23 @@
     {
      "pr_map": "Map_30811_9",
      "pr_id": 728,
-     "pr_x": 7,
-     "pr_y": 23,
-     "point_id": 1,
-     "snes": [
-      7,
-      23
-     ]
-    },
-    {
-     "pr_map": "Map_30811_9",
-     "pr_id": 728,
      "pr_x": 23,
      "pr_y": 18,
      "point_id": 2,
      "snes": [
       23,
       18
+     ]
+    },
+    {
+     "pr_map": "Map_30811_11",
+     "pr_id": 752,
+     "pr_x": 7,
+     "pr_y": 23,
+     "point_id": 1,
+     "snes": [
+      7,
+      23
      ]
     }
    ]
@@ -25944,7 +25892,7 @@
       ]
      ],
      "to": [
-      514,
+      517,
       100
      ]
     },
@@ -25968,7 +25916,7 @@
       ]
      ],
      "to": [
-      514,
+      517,
       101
      ]
     },
@@ -31642,7 +31590,7 @@
    "dest": 439,
    "to": [
     666,
-    2
+    3
    ],
    "pr": [
     [
@@ -32084,7 +32032,7 @@
    ],
    "pr": [
     [
-     "Map_30811_2",
+     "Map_30811_5",
      31,
      6
     ]
@@ -32105,7 +32053,7 @@
    ],
    "pr": [
     [
-     "Map_30811_2",
+     "Map_30811_5",
      36,
      6
     ]
@@ -32381,7 +32329,7 @@
      "map_id": 666,
      "object_id": 0,
      "object_type": 3,
-     "point_id": 2,
+     "point_id": 3,
      "script_id": 0
     }
    }
@@ -32919,7 +32867,7 @@
     }
    }
   ],
-  "Map_30811_2": [
+  "Map_30811_5": [
    {
     "name": "PointIn",
     "x": 31,

@@ -63,7 +63,7 @@
    "wait ok": 3
   },
   "build": {
-   "added_npcs": 39,
+   "added_npcs": 40,
    "hidden_by_map_script": 18,
    "standins": [
     {
@@ -487,16 +487,15 @@
   "pr_map": "Map_30531_4",
   "translated": {
    "flow": 7,
+   "map": 14,
    "wait": 12,
    "screen": 6,
-   "map": 2,
    "object": 13,
    "dialog": 1,
    "battle": 1
   },
   "stubs": {
    "flow": 3,
-   "map": 12,
    "sound": 5,
    "flag": 1
   },
@@ -513,8 +512,6 @@
   ],
   "wired_stubs": {
    "sound": 1,
-   "tiles_set": 4,
-   "tiles_set_later": 2,
    "bit_set": 1
   },
   "detail": {
@@ -525,9 +522,8 @@
    "flow ok": 6,
    "flow stub:engine_bit": 2,
    "flow stub:untied_bit": 1,
-   "map no-op": 2,
-   "map stub:tiles_set": 8,
-   "map stub:tiles_set_later": 4,
+   "map tiles -> CueAnim": 12,
+   "map tiles redraw": 2,
    "object ok": 13,
    "screen ok": 6,
    "sound stub:sound": 5,
@@ -2983,7 +2979,7 @@
    "screen": 74,
    "wait": 25,
    "party": 15,
-   "map": 3,
+   "map": 5,
    "camera": 2,
    "sound": 4,
    "menu": 1
@@ -2991,7 +2987,7 @@
   "stubs": {
    "flow": 1,
    "party": 3,
-   "map": 3,
+   "map": 1,
    "object": 4,
    "sound": 2
   },
@@ -3018,7 +3014,8 @@
    "flow repeat end": 2,
    "flow stub:switch": 1,
    "map learned arrival": 3,
-   "map stub:tiles_set": 3,
+   "map stub:tiles_set": 1,
+   "map tiles -> CueAnim": 2,
    "menu ok": 1,
    "object NPC show bit -> Hide": 3,
    "object camera": 44,
@@ -3054,7 +3051,7 @@
    "screen": 74,
    "wait": 25,
    "party": 15,
-   "map": 3,
+   "map": 5,
    "camera": 2,
    "sound": 4,
    "menu": 1
@@ -3062,7 +3059,7 @@
   "stubs": {
    "flow": 1,
    "party": 3,
-   "map": 3,
+   "map": 1,
    "object": 4,
    "sound": 2
   },
@@ -3089,7 +3086,8 @@
    "flow repeat end": 2,
    "flow stub:switch": 1,
    "map learned arrival": 3,
-   "map stub:tiles_set": 3,
+   "map stub:tiles_set": 1,
+   "map tiles -> CueAnim": 2,
    "menu ok": 1,
    "object NPC show bit -> Hide": 3,
    "object camera": 44,
@@ -3125,7 +3123,7 @@
    "screen": 74,
    "wait": 25,
    "party": 15,
-   "map": 3,
+   "map": 5,
    "camera": 2,
    "sound": 4,
    "menu": 1
@@ -3133,7 +3131,7 @@
   "stubs": {
    "flow": 1,
    "party": 3,
-   "map": 3,
+   "map": 1,
    "object": 4,
    "sound": 2
   },
@@ -3160,7 +3158,8 @@
    "flow repeat end": 2,
    "flow stub:switch": 1,
    "map learned arrival": 3,
-   "map stub:tiles_set": 3,
+   "map stub:tiles_set": 1,
+   "map tiles -> CueAnim": 2,
    "menu ok": 1,
    "object NPC show bit -> Hide": 3,
    "object camera": 44,
@@ -3296,7 +3295,7 @@
    "dialog": 9,
    "camera": 2,
    "screen": 69,
-   "map": 2,
+   "map": 3,
    "party": 2,
    "menu": 1,
    "flag": 2,
@@ -3304,8 +3303,7 @@
   },
   "stubs": {
    "sound": 2,
-   "party": 2,
-   "map": 1
+   "party": 2
   },
   "wired": [
    {
@@ -3326,7 +3324,7 @@
    "flow repeat": 3,
    "flow repeat end": 3,
    "map learned arrival": 2,
-   "map stub:tiles_set": 1,
+   "map tiles -> CueAnim": 1,
    "menu ok": 1,
    "object NPC show bit -> Hide": 1,
    "object NPC show bit -> Show": 1,
@@ -3527,13 +3525,13 @@
    "sound": 2,
    "wait": 7,
    "battle": 1,
-   "screen": 1
+   "screen": 1,
+   "map": 1
   },
   "stubs": {
    "flow": 3,
    "party": 15,
-   "sound": 1,
-   "map": 1
+   "sound": 1
   },
   "wired": [
    {
@@ -3557,7 +3555,7 @@
    "flow stub:engine_bit": 1,
    "flow stub:switch": 1,
    "flow stub:untied_bit": 1,
-   "map stub:tiles_set": 1,
+   "map tiles -> CueAnim": 1,
    "object no-op": 7,
    "object ok": 33,
    "party no-op": 2,
@@ -3860,6 +3858,48 @@
    "dialog ok": 1,
    "flow ok": 5,
    "menu ok": 3
+  }
+ },
+ {
+  "event": "CB/A295",
+  "script": "sc_ted_cba295",
+  "pr_map": "Map_20101_1",
+  "translated": {
+   "flow": 3,
+   "flag": 3,
+   "object": 21,
+   "dialog": 7,
+   "map": 2,
+   "sound": 3,
+   "wait": 8,
+   "camera": 2
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0119",
+    "entity": 1,
+    "was": "sc_e_0119",
+    "now": "sc_ted_cba295_l0119",
+    "script_id": 11018,
+    "object_type": 2,
+    "vanilla_part": "sc_e_0119"
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "camera no-op": 2,
+   "dialog ok": 7,
+   "flag engine bit, nothing in the PR": 1,
+   "flag ok": 2,
+   "flow ok": 3,
+   "map learned arrival": 1,
+   "map tiles -> CueAnim": 1,
+   "object camera": 6,
+   "object no-op": 1,
+   "object ok": 20,
+   "sound ok": 3,
+   "wait ok": 8
   }
  }
 ]

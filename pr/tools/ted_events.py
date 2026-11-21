@@ -95,9 +95,17 @@ def dialog_offsets(d, ptrs=DIALOG_PTRS, count=None):
     return out
 
 
+_choice_memo = {}
+
+
 def _choices(rom):
+    """ted_dialog.choice_counts, once per process per ROM (a copy each call: callers may change it)."""
+    import hashlib
     import ted_dialog
-    return ted_dialog.choice_counts(rom.data)
+    key = hashlib.sha1(bytes(rom.data)).hexdigest()
+    if key not in _choice_memo:
+        _choice_memo[key] = ted_dialog.choice_counts(rom.data)
+    return dict(_choice_memo[key])
 
 
 def load(name="ted"):
@@ -288,6 +296,69 @@ def _translator_class():
         CASE_SCOPE = {"case_party": 0, "case_created": 1, "case_recruited": 1, "case_available": 1, "case_parties": 1}
 
         def _instr_bits(self, ins, sub, last):
+            if ins.name in ("tiles_set", "tiles_set_later", "tiles_refresh") and self.pr_map:
+                # the PR changes map tiles only through regions its maps carry (TileAnimRegion objects, played
+                # by CueAnim: the Big Bridge's staircase): a change over such a region cues it; 75 (redraw) needs
+                # nothing; any other change -> TedPlugin's TED:tiles (copies each changed cell from a cell of the
+                # same PR map that shows the new look; on passability changes the cell's PR collision too:
+                # tile_plan), or nothing when the PR map already shows the change
+                import event_translate as T
+                if ins.name == "tiles_refresh":
+                    self.done["map"] += 1
+                    self.report[("map", "tiles redraw")] += 1
+                    return [], True
+                a_ = ins.args
+                m, pr = self.snes_map, self.pr_map
+                if self.tile_map and self.tile_map[0] != self.snes_map:   # after a map load: that map's room
+                    import snes_maps as SM
+                    import ted_maps as TM
+                    m = self.tile_map[0]
+                    hit = (SM.to_pr if m < TM.VANILLA_MAPS else TM.to_pr)(m, *self.tile_map[1:])
+                    pr = hit[0] if hit else None
+                    if pr is None:
+                        return self.left(ins, "tiles on a map with no PR room")
+                off = room_offset(m, pr) if m is not None else None
+                px, py = (a_["x"] + off[0], (a_["y"] & 0x3F) + off[1]) if off else (a_["x"], a_["y"] & 0x3F)
+                ents = tile_regions(pr, (px, py, max(1, a_["w"]), max(1, a_["h"])))
+                if ents:
+                    self.done["map"] += 1
+                    self.report[("map", "tiles -> CueAnim")] += 1
+                    return self.puppet_ops(ents, [[T.op("CueAnim", kind=2)] for _ in ents]), True
+                if m is not None:
+                    p = tile_plan(m, pr, a_["x"], a_["y"], a_["w"], a_["h"], bytes(ins.raw[5:]), tile_writes(self.prog))
+                    if p["tag"] == "none":
+                        self.done["map"] += 1
+                        self.report[("map", "tiles: the PR map shows it")] += 1
+                        return [], True
+                    if p["cells"]:
+                        self.done["map"] += 1
+                        self.report[("map", "tiles -> TED:tiles " + p["tag"])] += 1
+                        return [T.op("SysCall", s=[tiles_syscall(p["cells"])],
+                                     comment="SNES %02X %s on map %d" % (ins.op, p["tag"], m))], True
+            if ins.name in ("battle_bit_set", "battle_bit_clear", "if_battle_bit_clear") and \
+                    ins.args["bit"] not in VANILLA_BATTLE_BITS:
+                # T-Edition's own battle bits (B7-B9 on $1DC9+: 01-3E, 69-6F): story flags its events set and
+                # test (the inn dreams' chapters), saved like event bits -> its own PR flags (keys B00 + bit)
+                import event_translate as T
+                cat, idx = self.flag(BATTLE_KEY + ins.args["bit"])
+                note = "SNES battle bit %02X" % ins.args["bit"]
+                self.done["flag"] += 1
+                self.report[("flag", "battle bit -> flag")] += 1
+                if ins.name == "if_battle_bit_clear":
+                    tgt = next(t for kk, t in ins.targets if kk == "cond")
+                    return [T.op("Branch", i=[idx, 0, "@L_%06X" % tgt], s=[cat, T.EQ, "imm"], comment=note)], True
+                return [T.op("SetFlag" if ins.name == "battle_bit_set" else "ResetFlag", i=[idx], s=[cat],
+                             comment=note)], True
+            if ins.name == "if_bit1850_clear" and ins.args["bit"] & 7 != 6 and ins.args["bit"] >> 3 < 14:
+                # A5's other bits (party number 0-2, battle order 3-4, back row 5): TedPlugin's TED:roster reads the
+                # SNES-equivalent bit from the PR's party into map variable 0; clear -> the jump
+                import event_translate as T
+                c, k = ins.args["bit"] >> 3, ins.args["bit"] & 7
+                tgt = next(t for kk, t in ins.targets if kk == "cond")
+                self.done["flow"] += 1
+                self.report[("flow", "A5 roster bit")] += 1
+                return [T.op("SysCall", s=["TED:roster %d %d 0" % (c, k)], comment="SNES A5 %02X" % ins.args["bit"]),
+                        T.op("Branch", i=[0, 0, "@L_%06X" % tgt], s=["MapLocalVariable", T.EQ, "imm"])], True
             if ins.name == "party_active" and 1 <= ins.args["party"] <= 3:
                 # 46 n: party n takes over (multi-party scenes) -> the PR's ChangePartySlot [n, 1, 0] (its form where
                 # paired vanilla scenes keep the switch)
@@ -497,7 +568,12 @@ def _translator_class():
 
         vanilla_at = None    # {SNES address: PR script}: from there on the code is vanilla's, which that PR script does
 
+        tile_map = None      # (SNES map, x, y) of the scene's last map load: where its later tile changes draw
+
         def instr(self, ins, sub, last):
+            if ins.name in ("map", "map_fade") and ins.args.get("map", 0x1FF) < 0x1FF and \
+                    ins.args["map"] not in E.WORLD_MAPS:
+                self.tile_map = (ins.args["map"], ins.args.get("x", 0), ins.args.get("y", 0))
             if ins.name == "sound" and T_maps_se(ins.args["sound"]) is None and ted_se(ins.args["sound"]) is not None:
                 import event_translate as T
                 self.done[ins.cls] += 1
@@ -888,6 +964,330 @@ def T_maps_se(sound):
     return T.maps()["se"].get(sound)
 
 
+_tile_layers, _tile_models, _mod_tilemaps = {}, {}, None
+
+
+def mod_tilemaps():
+    """{PR map name: tilemap.json} of ted-maps' new rooms (mods/TEditionMaps)."""
+    global _mod_tilemaps
+    if _mod_tilemaps is None:
+        import glob
+        _mod_tilemaps = {os.path.basename(os.path.dirname(p)): p for p in glob.glob(os.path.join(
+            E.P.ROOT, "mods", "TEditionMaps", "map_*", "Assets", "GameAssets", "Serial", "Res", "Map", "*", "*",
+            "tilemap.json"))}
+    return _mod_tilemaps
+
+
+def pr_cells(pr_map):
+    """snes_rooms' per-cell rows ((Bottom, Ground, Upper, Ceil refs), collision) of a vanilla PR map or of
+    one of ted-maps' new rooms; None when it has no tilemap."""
+    import snes_maps as SM
+    import snes_rooms as R
+    tm = SM.pr_tilemaps()
+    added = pr_map not in tm and pr_map in mod_tilemaps()
+    if pr_map not in tm and not added:
+        return None
+    if added:
+        tm[pr_map] = mod_tilemaps()[pr_map]
+    try:
+        return R._cells(pr_map)[0]
+    finally:
+        if added:
+            del tm[pr_map]
+
+
+def tile_layers(m):
+    """(BG1, BG2, (US BG1, US BG2) or None, tile props) of T-Edition map m as its entrance event leaves it;
+    the US layouts for a vanilla map (the PR drew those)."""
+    if m not in _tile_layers:
+        import snes_maps as SM
+        import snes_rooms as R
+        import ted_maps as TM
+        data = TM.rom()
+        bg1, bg2, _ = TM.shown_layouts(data, load("ted"), m)
+        us = None
+        if m < TM.VANILLA_MAPS:
+            u = R.vanilla().us
+            us = (SM.layout(u, m, 0), SM.layout(u, m, 1))
+        _tile_layers[m] = (bg1, bg2, us, SM.tile_props(data, m, TM.TED.props))
+    return _tile_layers[m]
+
+
+def room_offset(m, pr_map):
+    """(dx, dy): SNES map m's tile -> PR map pr_map's tile, or None."""
+    import snes_maps as SM
+    import ted_maps as TM
+    if m < TM.VANILLA_MAPS:
+        mt = next((mt for mt in SM.pr_maps(m) if mt.pr == pr_map), None)
+        if mt:
+            return mt.dx, mt.dy
+    for r in (TM.table()["maps"].get(str(m)) or {}).get("rooms", []):
+        if r["pr_map"] == pr_map:
+            return r["dx"], r["dy"]
+    return None
+
+
+def pr_group(pr_map):
+    """The Magicite asset group of a vanilla PR map, or of one of ted-maps' new rooms (data/ted_maps.json)."""
+    import snes_maps as SM
+    import snes_rooms as R
+    import ted_maps as TM
+    if pr_map in SM.pr_tilemaps():
+        return R.group_of(pr_map)
+    for rec in TM.table()["maps"].values():
+        for r in rec.get("rooms", []):
+            if r["pr_map"] == pr_map:
+                return r.get("group")
+    return None
+
+
+def _tile_model(m, pr_map, bg1, bg2):
+    if (m, pr_map) not in _tile_models:
+        import snes_rooms as R
+        import ted_maps as TM
+        _tile_models[(m, pr_map)] = R.model(TM.rom(), m, TM.TED.props, group=pr_group(pr_map), rows=bg1,
+                                            t=TM.TED, rows2=bg2)
+    return _tile_models[(m, pr_map)]
+
+
+def _gids(pr_map, stack):
+    """A converter stack (atlas refs per layer) -> the PR map's gids (Bottom, Ground, Upper, Ceil; 0 = none),
+    or None when the map's tilemap lacks one of the atlases."""
+    import snes_rooms as R
+    first = {ts["name"]: ts["firstgid"] for ts in R._tilesets_of.get(pr_map, [])}
+    out = []
+    for r in stack:
+        if not r:
+            out.append(0)
+        elif r[0] in first:
+            out.append((first[r[0]] + (r[1] & ~R.FLIPS)) | (r[1] & R.FLIPS))
+        else:
+            return None
+    return tuple(out)
+
+
+_tile_writes = None
+
+
+def tile_writes(prog=None):
+    """{(SNES map, layer, x, y): True if some write there changes the BG1 tile's SNES properties} for every
+    T-Edition tile change in the catalog's events (data/snes_event_ted_catalog.json), against the map as its
+    entrance event leaves it: the cells a later change may have to put back (tile_plan)."""
+    global _tile_writes
+    if _tile_writes is None:
+        import event_translate as T
+        prog = prog or E.Program(load("ted")).walk_all()
+        out, seen = {}, set()
+        for row in _json(CATALOG):
+            m = row["map"]
+            if m in E.WORLD_MAPS:
+                continue
+            for ins in T.scene(prog, E.parse_addr(row["event"]), "field"):
+                if ins.op not in (0x73, 0x74) or (ins.off, m) in seen:
+                    continue
+                seen.add((ins.off, m))
+                a, tiles = ins.args, bytes(ins.raw[5:])
+                layer, y = a["y"] >> 6, a["y"] & 0x3F
+                bg1, bg2, _, props = tile_layers(m)
+                L = (bg1, bg2)[layer] if layer < 2 else None
+                if not L:
+                    continue
+                for j in range(a["h"]):
+                    for i in range(a["w"]):
+                        cx, cy, n = (a["x"] + i) % len(L[0]), (y + j) % len(L), j * a["w"] + i
+                        if n >= len(tiles) or L[cy][cx] == tiles[n]:
+                            continue
+                        k = (m, layer, cx, cy)
+                        out[k] = out.get(k, False) or (layer == 0 and props[L[cy][cx]] != props[tiles[n]])
+        _tile_writes = out
+    return _tile_writes
+
+
+def tile_plan(m, pr_map, x, y, w, h, tiles, writes=None):
+    """T-Edition's tile change (73/74: x, y | layer << 6, w, h, tiles) on SNES map m, drawn on PR map pr_map
+    -> {"tag": "passability" | "cosmetic" | "none" | why not, "cells": [(px, py, source, attr)], "why": Counter}.
+    A changed cell's source: a cell (sx, sy) of the same PR map that shows the new look as the map loads (the
+    SNES layout's cells with the same new BG1/BG2 pair, and the same 4 neighbours if any; on a vanilla map
+    only where T-Edition's layout is vanilla's, which the PR drew; else a cell with the stack snes_rooms'
+    converter draws for it); else that stack as the map's gids (("gids", (Bottom, Ground, Upper, Ceil)));
+    else None. A cell the PR map already shows that way is left out, unless `writes` (tile_writes()) says
+    another event changes it: then it is put back (its own cell as the map loaded). Passability: a BG1
+    change between tiles with different SNES properties (walls, z-level, bridges, stairs, exits: the field
+    code's walking reads BG1's only); attr = the converter's PR collision value for the new tile (0
+    walkable, 1 blocked, 2-11 the PR's special cells), for a put-back cell the map's own."""
+    import snes_rooms as R
+    import ted_maps as TM
+    layer, y = y >> 6, y & 0x3F
+    if layer > 1:
+        return {"tag": "bg3", "cells": [], "why": collections.Counter()}
+    off = room_offset(m, pr_map)
+    cells = pr_cells(pr_map) if off else None
+    if cells is None:
+        return {"tag": "no PR tiles", "cells": [], "why": collections.Counter()}
+    dx, dy = off
+    bg1, bg2, us, props = tile_layers(m)
+    if bg1 is None or (layer == 1 and bg2 is None):
+        return {"tag": "no layout", "cells": [], "why": collections.Counter()}
+    size = lambda L: (len(L[0]), len(L)) if L else (0, 0)
+    a1, a2, _ = TM.apply_tiles([bg1, bg2, None], (size(bg1), size(bg2), (0, 0)), [(x, y | layer << 6, w, h, tiles)])
+    at = lambda L, i, j: L[j][i] if L and 0 <= j < len(L) and 0 <= i < len(L[0]) else None
+    H, W = len(cells), len(cells[0])
+    L = a1 if layer == 0 else a2
+    writes = writes or {}
+    out, why, passab, mdl = [], collections.Counter(), False, None
+    for j in range(h):
+        for i in range(w):
+            cx, cy = (x + i) % len(L[0]), (y + j) % len(L)
+            old, new = (at(bg1, cx, cy), at(bg2, cx, cy)), (at(a1, cx, cy), at(a2, cx, cy))
+            px, py = cx + dx, cy + dy
+            if new[0] is None or not (0 <= px < W and 0 <= py < H):
+                why["off the PR map"] += 1
+                continue
+            back = writes.get((m, layer, cx, cy))
+            if old == new:
+                if back is None:
+                    why["unchanged"] += 1
+                else:
+                    why["put back"] += 1
+                    out.append((px, py, (px, py), cells[py][px][1] if back else None))
+                    passab |= bool(back)
+                continue
+            around = R._around(a1, cx, cy)
+            src, how = None, None
+            for rule in ("ctx", "pair"):
+                cand, pos = collections.Counter(), collections.defaultdict(list)
+                for sy in range(len(bg1)):
+                    for sx in range(len(bg1[0])):
+                        if (bg1[sy][sx], at(bg2, sx, sy)) != new or (rule == "ctx" and R._around(bg1, sx, sy) != around):
+                            continue
+                        if us is not None and us[0] is not None and (at(us[0], sx, sy), at(us[1], sx, sy)) != new:
+                            continue
+                        qx, qy = sx + dx, sy + dy
+                        if 0 <= qx < W and 0 <= qy < H and any(cells[qy][qx][0]):
+                            cand[cells[qy][qx][0]] += 1
+                            pos[cells[qy][qx][0]].append((qx, qy))
+                if cand:
+                    st = cand.most_common(1)[0][0]
+                    src, how = min(pos[st], key=lambda q: abs(q[0] - px) + abs(q[1] - py)), rule
+                    break
+            if src is None:
+                mdl = mdl or _tile_model(m, pr_map, bg1, bg2)
+                st, _ = mdl.stack(new[0], new[1], around, R._shape(a1, props, cx, cy))
+                st = tuple(st) if st else None
+                hits = [(qx, qy) for qy in range(H) for qx in range(W) if st and cells[qy][qx][0] == st]
+                if hits:
+                    src, how = min(hits, key=lambda q: abs(q[0] - px) + abs(q[1] - py)), "model"
+                elif st and _gids(pr_map, st):
+                    src, how = ("gids", _gids(pr_map, st)), "gids"
+            if src is not None and src[0] != "gids" and cells[src[1]][src[0]][0] == cells[py][px][0] and back is None:
+                why["PR already shows it"] += 1
+                continue
+            attr = None
+            if layer == 0 and props[old[0]] != props[new[0]]:
+                passab = True
+                mdl = mdl or _tile_model(m, pr_map, bg1, bg2)
+                attr = mdl.collision(new[0], new[1], props[new[0]])
+            why[how or "no source"] += 1
+            out.append((px, py, src, attr))
+    tag = "none" if not out else "passability" if passab else "cosmetic"
+    return {"tag": tag, "cells": out, "why": why}
+
+
+def tiles_syscall(cells):
+    """TedPlugin's TED:tiles string, one item per cell: "px,py=sx,sy" (copy every tile layer of PR cell
+    (sx, sy) as the map loaded), "px,py=#b/g/u/c" (these gids: Bottom, Ground, Upper, Ceil; 0 = none) or
+    "px,py=-" (no look), then ":attr" when the cell's collision changes."""
+    def look(src):
+        if src is None:
+            return "-"
+        if src[0] == "gids":
+            return "#" + "/".join(str(g) for g in src[1])
+        return "%d,%d" % src
+    return "TED:tiles " + " ".join("%d,%d=%s%s" % (px, py, look(src), "" if attr is None else ":%d" % attr)
+                                   for px, py, src, attr in cells)
+
+
+_tile_regions = {}
+
+
+def tile_regions(pr_map, rect):
+    """The entity ids of the PR room's TileAnimRegion objects (its pre-made tile changes, played by CueAnim)
+    that overlap rect (x, y, w, h in the room's tiles)."""
+    if pr_map not in _tile_regions:
+        import snes_maps
+        out = []
+        tm = snes_maps.pr_tilemaps().get(pr_map)
+        if tm:
+            room = os.path.dirname(tm)
+            pk = _json(os.path.join(os.path.dirname(room), "package.json"))
+            entry = next((m for m in pk["map"] if m["name"] == pr_map), {})
+            for nm in [x["name"] for x in entry.get("entity", [])] + ["entity_default"]:
+                f = os.path.join(room, nm + ".json")
+                if not os.path.exists(f):
+                    continue
+                for lay in _json(f).get("layers", []):
+                    for o in lay.get("objects") or []:
+                        if not str(o.get("name", "")).startswith("TileAnimRegion"):
+                            continue
+                        p = {q["name"]: q["value"] for q in o.get("properties", [])}
+                        x0, y0 = o["x"] / 16, o["y"] / 16 - (1 if "gid" in o else 0)
+                        out.append((x0, y0, o.get("width", 16) / 16, o.get("height", 16) / 16, p.get("entity_id")))
+        _tile_regions[pr_map] = out
+    x, y, w, h = rect
+    return sorted({e for x0, y0, w0, h0, e in _tile_regions[pr_map]
+                   if e and x0 < x + w and x < x0 + w0 and y0 < y + h and y < y0 + h0})
+
+
+def same_code(prog, t_addr, j_addr, limit=4000):
+    """Whether T-Edition's code at t_addr is the JP ROM's code at j_addr, relocated: the same instructions
+    with the same arguments, jumps and calls leading to code that matches in turn (any address); lines and
+    sounds may differ (T-Edition rewords). Follows both programs in step, up to `limit` instructions."""
+    global _jp_prog
+    if _jp_prog is None:
+        _jp_prog = E.Program(E.load("jp")).walk_all()
+    pairs, seen = [(t_addr, j_addr, "field")], {}
+    while pairs:
+        ta, ja, md = pairs.pop()
+        while True:
+            if (ta, md) in seen:
+                if seen[(ta, md)] != ja:
+                    return False
+                break
+            seen[(ta, md)] = ja
+            if len(seen) > limit:
+                return False
+            ti, ji = prog.code.get((ta, md)), _jp_prog.code.get((ja, md))
+            if ti is None or ji is None:
+                return ti is None and ji is None
+            # a reworded line, another song or jingle, another pose in an object's moves (the same moves otherwise)
+            soft = ti.cls == ji.cls and ti.cls in ("dialog", "sound") or                 ti.name == ji.name == "obj" and ti.args.get("obj") == ji.args.get("obj")
+            if (ti.name != ji.name and not soft) or ti.size != ji.size or len(ti.targets) != len(ji.targets):
+                return False
+            if not soft:
+                a1 = {k: v for k, v in ti.args.items() if k not in ("event", "events", "targets")}
+                a2 = {k: v for k, v in ji.args.items() if k not in ("event", "events", "targets")}
+                if a1 != a2:
+                    return False
+            for (k1, t1), (k2, t2) in zip(ti.targets, ji.targets):
+                if k1 != k2:
+                    return False
+                pairs.append((t1, t2, md))
+            if ti.flow in ("end", "choice"):
+                break
+            ta, ja, md = ta + ti.size, ja + ji.size, ti.next_mode
+    return True
+
+
+def vanilla_copy(off, vanilla, prog, mode="field"):
+    """The first address in T-Edition's scene from `off` (not `off` itself) where its code is a relocated copy of
+    the JP ROM's event at `vanilla` (same_code), or None: from there the PR's own script does it."""
+    import event_translate as T
+    for ins in T.scene(prog, off, mode):
+        if ins.off != off and ins.name == (_jp_prog or E.Program(E.load("jp")).walk_all()).code.get((vanilla, "field"), ins).name                 and same_code(prog, ins.off, vanilla):
+            return ins.off
+    return None
+
+
 def nop_stubs(sc):
     """The script with every `SysCall "SNES:..."` stub turned into a Nop that keeps the stub in its
     comment (what the game does with an unknown SysCall is unproven; the counts stay in the report)."""
@@ -902,6 +1302,10 @@ def nop_stubs(sc):
     return out
 
 
+BATTLE_KEY = 0xB00                       # flag allocator key of battle bit b: B00 + b (event bits are 000-6FF)
+# the battle bits vanilla's events use (38-3A, 40 lost battle, 41-4D): left to event_translate; T-Edition's own
+# (01-3E, 69-6F) are story flags its events set and test
+VANILLA_BATTLE_BITS = frozenset(range(0x38, 0x3B)) | frozenset(range(0x40, 0x50))
 NPC_BITS = 0x300                        # an NPC record's show bit n is event bit 300 + n
 NEW_ENTITY_IDS = range(5000, 5500)      # objects ted-events adds to vanilla PR entity files (lead: 5000+)
 NEW_ENTITY_RANGES = {"ted-events": NEW_ENTITY_IDS, "ted-ex": range(5500, 6000),   # ted-maps' own rooms: 3000+
@@ -1396,8 +1800,15 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
             # wired: the NPC's script in each entity layer it stands in becomes T-Edition's event with the
             # layer's own PR script grafted in for the vanilla talk the SNES event falls back to
             vanilla = _vanilla_npc_event(snes_map, ev["npc"])
-            xy = next((e[3]["x"], e[3]["y"]) for e in E.entry_points(rom)
-                      if e[2] == snes_map and e[1] == "npc" and e[3]["npc"] == ev["npc"])
+            xy = next(((e[3]["x"], e[3]["y"]) for e in E.entry_points(rom)
+                       if e[2] == snes_map and e[1] in ("npc", "npc_object") and e[3]["npc"] == ev["npc"]), None)
+            if xy is None and ev["npc"] in npc_records(snes_map):
+                rec_ = npc_records(snes_map)[ev["npc"]]
+                xy = (rec_["x"], rec_["y"])
+            if xy is None:
+                report.append({"event": E.fmt(off), "script": None, "pr_map": None, "translated": {}, "stubs": {},
+                               "wired": [], "skipped": "no NPC %d on SNES map %d" % (ev["npc"], snes_map)})
+                continue
             # every PR room of the event's world where the NPC stands (the PR often has a World of Balance
             # and a World of Ruin copy of one SNES map: Kohlingen, Tzen, South Figaro), the main one first
             rec_ = npc_records(snes_map).get(ev["npc"])
@@ -1441,6 +1852,8 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
                 if vanilla is not None and orig:     # no PR script (a walk-on): vanilla's SNES talk, translated
                     t.fallbacks[vanilla] = Sc.load(orig)
                     resume = vanilla_resume(off, prog) if vanilla == off else None
+                    if resume is None:                # vanilla's event copied elsewhere (the inns' CD/CFE0)
+                        resume = vanilla_copy(off, vanilla, prog)
                     if resume is not None:           # changed in place: only its first test differs
                         t.vanilla_at = {resume: Sc.load(orig)}
                 sc = t.translate(off)

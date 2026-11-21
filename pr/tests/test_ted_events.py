@@ -259,6 +259,46 @@ class WineOldMan(unittest.TestCase):
             alloc = json.load(f)
         self.assertTrue(all(v[0].startswith("ScenarioFlag") for v in alloc.values()))
 
+    def test_battle_bits_are_flags(self):
+        # the inn dreams' chapters (CD/CA60...) test T-Edition's own battle bits (B7 09, 3E, 2B): story flags ->
+        # a Branch on the bit's own PR flag; vanilla's battle bits (40: the lost battle) stay event_translate's
+        import event_translate as T
+        t = TE._translator_class()(prog().rom, "x", alloc=T.FlagAlloc(None), prog=prog())
+        ins = prog().code[(E.parse_addr("CD/CA68"), "field")]
+        ops, ok = t.instr(ins, False, None)
+        self.assertTrue(ok)
+        self.assertEqual(ops[0]["mnemonic"], "Branch")
+        self.assertEqual(ops[0]["operands"]["iValues"][1:3], [0, "@L_035AD0"])
+        self.assertEqual(ops[0]["operands"]["sValues"][0], t.flag(TE.BATTLE_KEY + 9)[0])
+        sets = [i for i in prog().code.values() if i.name == "battle_bit_set" and i.args["bit"] == 9]
+        ops, ok = t.instr(sets[0], False, None)
+        self.assertEqual((ops[0]["mnemonic"], ops[0]["operands"]["iValues"][0]), ("SetFlag", t.flag(TE.BATTLE_KEY + 9)[1]))
+        lost = next(i for i in prog().code.values() if i.name == "if_battle_bit_clear" and i.args["bit"] == 0x40)
+        ops, ok = t.instr(lost, False, None)
+        self.assertFalse(any("battle bit" in (o.get("comment") or "") for o in ops or []))
+
+    def test_tile_changes(self):
+        # CA/13F4 draws a 3x4 picture over walls on map 126 (Map_20451_2): a passability change, its cells with a
+        # look (a cell of the map to copy, or the converter's gids; its bottom row's tile 74 over BG2 128 no
+        # vanilla room has: "-", the collision alone) and every changed cell's collision
+        ins = prog().code[(E.parse_addr("CA/13F4"), "field")]
+        a = ins.args
+        p = TE.tile_plan(126, "Map_20451_2", a["x"], a["y"], a["w"], a["h"], bytes(ins.raw[5:]))
+        self.assertEqual(p["tag"], "passability")
+        self.assertEqual(len(p["cells"]), 12)
+        self.assertGreaterEqual(sum(src is not None for _, _, src, _ in p["cells"]), 9)
+        self.assertEqual(sum(attr is not None for _, _, _, attr in p["cells"]), 10)   # 2 stay walls: no attr
+        s = TE.tiles_syscall(p["cells"])
+        self.assertRegex(s, r"^TED:tiles( \d+,\d+=(\d+,\d+|#\d+/\d+/\d+/\d+|-)(:\d+)?)+$")
+        # a cell the PR map already shows the new way is left out; one another event changes is put back
+        x, y = a["x"], a["y"] & 0x3F
+        bg1 = TE.tile_layers(126)[0]
+        same = TE.tile_plan(126, "Map_20451_2", x, y, 1, 1, bytes([bg1[y][x]]))
+        self.assertEqual((same["tag"], same["cells"]), ("none", []))
+        back = TE.tile_plan(126, "Map_20451_2", x, y, 1, 1, bytes([bg1[y][x]]), {(126, 0, x, y): True})
+        dx, dy = TE.room_offset(126, "Map_20451_2")
+        self.assertEqual([c[:3] for c in back["cells"]], [(x + dx, y + dy, (x + dx, y + dy))])
+
 
 if __name__ == "__main__":
     unittest.main()

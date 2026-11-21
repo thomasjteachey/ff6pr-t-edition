@@ -121,6 +121,15 @@ def _translator(builder):
                 return super().npc_entity(n)
             return builder.npc_ids.get((self.snes_map, n, self.pr_map))
 
+        def _instr_bits(self, ins, sub, last):
+            # tile changes (73/74/75) on a new map: ted-events' tile_plan reads vanilla PR maps only, and a new
+            # room's look is snes_rooms' conversion: a stub (counted) until there's a plan for new rooms
+            if ins.name in ("tiles_set", "tiles_set_later", "tiles_refresh") and self.room() is not None:
+                if ins.name == "tiles_refresh":
+                    return [], True
+                return self.left(ins, "tile change on a new map")
+            return super()._instr_bits(ins, sub, last)
+
         def place(self, m, x, y):
             if m in builder.rooms:
                 hit = builder.place(m, x, y)

@@ -286,6 +286,7 @@ class Builder:
         # ids stay put from build to build (tests, the event translator and the merge hold them): a room
         # the last build made keeps its PR id, name and script id; a new one takes the next free ones
         self.prev, self.prev_points = {}, {}     # rooms' and arrival points' ids from the last build
+        self.reused = set()                      # prev keys taken by a room whose source changed
         if os.path.exists(MAPS_JSON):
             with open(MAPS_JSON, encoding="utf-8") as f:
                 for m, rec in json.load(f).get("maps", {}).items():
@@ -324,8 +325,20 @@ class Builder:
     # names and ids
     def room_ids(self, m, key, group, folder):
         """(PR map id, script id, name) for a room of map m: the last build's, else new ones."""
-        if (m, key) in self.prev:
+        if (m, key) in self.prev and (m, key) not in self.reused:
+            self.reused.add((m, key))
             return self.prev[(m, key)]
+        # a one-room map whose room changed source (a new snes_maps pair gave it a better PR room to copy):
+        # it keeps its PR id and script id, and its name when the folder is the same (QA's batches, the
+        # events and the merge hold the ids)
+        olds = [k for k in self.prev if k[0] == m]
+        if len(olds) == 1 and olds[0] not in self.reused:
+            self.reused.add(olds[0])
+            mid, name, sid = self.prev[olds[0]]
+            if name.rsplit("_", 1)[0] != folder:
+                name = self.new_name(group, folder)
+            self.notes["rooms that kept their ids under a new source"] += 1
+            return mid, name, sid
         mid, sid = self.take_ids()
         return mid, self.new_name(group, folder), sid
 
