@@ -486,18 +486,18 @@
   "script": "sc_ted_cb316c",
   "pr_map": "Map_30531_4",
   "translated": {
-   "flow": 7,
+   "flow": 8,
    "map": 14,
    "wait": 12,
    "screen": 6,
    "object": 13,
    "dialog": 1,
-   "battle": 1
+   "battle": 1,
+   "flag": 1
   },
   "stubs": {
-   "flow": 3,
-   "sound": 5,
-   "flag": 1
+   "flow": 1,
+   "sound": 5
   },
   "wired": [
    {
@@ -511,17 +511,16 @@
    }
   ],
   "wired_stubs": {
-   "sound": 1,
-   "bit_set": 1
+   "sound": 1
   },
   "detail": {
    "battle ok": 1,
    "dialog ok": 1,
-   "flag stub:bit_set": 1,
+   "flag ok": 1,
+   "flow facing test": 1,
    "flow game over check": 1,
    "flow ok": 6,
-   "flow stub:engine_bit": 2,
-   "flow stub:untied_bit": 1,
+   "flow stub:engine_bit": 1,
    "map tiles -> CueAnim": 12,
    "map tiles redraw": 2,
    "object ok": 13,
@@ -695,6 +694,112 @@
    "screen ok": 4,
    "sound ok": 4,
    "wait ok": 13
+  }
+ },
+ {
+  "event": "CA/91D0",
+  "script": "sc_ted_ca91d0",
+  "pr_map": "Map_20350",
+  "translated": {
+   "flow": 57,
+   "dialog": 7,
+   "flag": 3,
+   "object": 35,
+   "party": 17,
+   "wait": 8
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0659",
+    "entity": 1,
+    "was": "sc_e_0659",
+    "now": "sc_ted_ca91d0_l0659",
+    "script_id": 11055,
+    "object_type": 6
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog ok": 7,
+   "flag ok": 1,
+   "flag scratch": 2,
+   "flow case load": 1,
+   "flow facing -> case bits": 1,
+   "flow ok": 53,
+   "flow switch on facing": 1,
+   "flow switch on party": 1,
+   "object NPC show bit -> Hide": 1,
+   "object no-op": 10,
+   "object ok": 24,
+   "party no-op": 2,
+   "party ok": 15,
+   "wait ok": 8
+  }
+ },
+ {
+  "event": "CC/370F",
+  "script": "sc_ted_cc370f",
+  "pr_map": "Map_20040",
+  "translated": {
+   "flow": 68,
+   "dialog": 6,
+   "wait": 20,
+   "party": 16,
+   "object": 31,
+   "sound": 10,
+   "screen": 145,
+   "battle": 1,
+   "map": 2,
+   "flag": 1,
+   "item": 1
+  },
+  "stubs": {
+   "flow": 1,
+   "sound": 1
+  },
+  "wired": [
+   {
+    "layer": "ev_e_0780",
+    "entity": 1,
+    "was": "sc_e_0780",
+    "now": "sc_ted_cc370f_l0780",
+    "script_id": 11054,
+    "object_type": 2
+   }
+  ],
+  "wired_stubs": {
+   "case_test": 1,
+   "sound": 1
+  },
+  "detail": {
+   "battle ok": 1,
+   "battle vanilla twin": 1,
+   "dialog ok": 6,
+   "flag ok": 1,
+   "flow case load": 2,
+   "flow facing test": 1,
+   "flow game over check": 1,
+   "flow ok": 48,
+   "flow party check": 1,
+   "flow repeat": 7,
+   "flow repeat end": 7,
+   "flow stub:engine_bit": 1,
+   "flow switch on party": 1,
+   "item ok": 1,
+   "map tiles -> CueAnim": 2,
+   "object NPC show bit -> Hide": 1,
+   "object no-op": 7,
+   "object ok": 23,
+   "party no-op": 1,
+   "party ok": 15,
+   "screen approx": 140,
+   "screen ok": 5,
+   "sound jingle": 1,
+   "sound ok": 8,
+   "sound song wait": 1,
+   "sound stub:sound": 1,
+   "wait ok": 20
   }
  },
  {
@@ -3094,7 +3199,7 @@
   "script": "sc_ted_cdcef0",
   "pr_map": "Map_30410",
   "translated": {
-   "flow": 28,
+   "flow": 29,
    "dialog": 20,
    "object": 151,
    "flag": 9,
@@ -3107,7 +3212,6 @@
    "menu": 1
   },
   "stubs": {
-   "flow": 1,
    "party": 2,
    "map": 1,
    "object": 4,
@@ -3134,7 +3238,7 @@
    "flow ok": 23,
    "flow repeat": 2,
    "flow repeat end": 2,
-   "flow stub:switch": 1,
+   "flow switch on party": 1,
    "map learned arrival": 3,
    "map stub:tiles_set": 1,
    "map tiles -> CueAnim": 2,
@@ -3165,7 +3269,7 @@
   "script": "sc_ted_cdcf00",
   "pr_map": "Map_30410",
   "translated": {
-   "flow": 28,
+   "flow": 29,
    "dialog": 20,
    "object": 151,
    "flag": 9,
@@ -3178,7 +3282,6 @@
    "menu": 1
   },
   "stubs": {
-   "flow": 1,
    "party": 2,
    "map": 1,
    "object": 4,
@@ -3205,7 +3308,7 @@
    "flow ok": 23,
    "flow repeat": 2,
    "flow repeat end": 2,
-   "flow stub:switch": 1,
+   "flow switch on party": 1,
    "map learned arrival": 3,
    "map stub:tiles_set": 1,
    "map tiles -> CueAnim": 2,
@@ -3236,7 +3339,7 @@
   "script": "sc_ted_cdcf10",
   "pr_map": "Map_30410",
   "translated": {
-   "flow": 28,
+   "flow": 29,
    "dialog": 20,
    "object": 151,
    "flag": 9,
@@ -3249,7 +3352,6 @@
    "menu": 1
   },
   "stubs": {
-   "flow": 1,
    "party": 2,
    "map": 1,
    "object": 4,
@@ -3276,7 +3378,7 @@
    "flow ok": 23,
    "flow repeat": 2,
    "flow repeat end": 2,
-   "flow stub:switch": 1,
+   "flow switch on party": 1,
    "map learned arrival": 3,
    "map stub:tiles_set": 1,
    "map tiles -> CueAnim": 2,
@@ -3468,16 +3570,14 @@
   "script": "sc_ted_cbc21e",
   "pr_map": "Map_30491_1",
   "translated": {
-   "flow": 45,
+   "flow": 46,
    "party": 17,
    "object": 69,
    "wait": 15,
    "dialog": 4,
    "flag": 1
   },
-  "stubs": {
-   "flow": 1
-  },
+  "stubs": {},
   "wired": [
    {
     "layer": "ev_e_0242",
@@ -3496,7 +3596,7 @@
    "flow case load": 2,
    "flow ok": 42,
    "flow party check": 1,
-   "flow stub:switch": 1,
+   "flow switch on party": 1,
    "object NPC show bit -> Hide": 1,
    "object NPC show bit -> Show": 1,
    "object no-op": 16,
@@ -3511,7 +3611,7 @@
   "script": "sc_ted_cdd290",
   "pr_map": "Map_30681_1",
   "translated": {
-   "flow": 110,
+   "flow": 111,
    "flag": 11,
    "map": 3,
    "screen": 8,
@@ -3525,8 +3625,8 @@
   "stubs": {
    "sound": 1,
    "object": 3,
-   "flow": 8,
    "flag": 16,
+   "flow": 7,
    "party": 1
   },
   "wired": [
@@ -3554,8 +3654,8 @@
    "flow party check": 16,
    "flow repeat": 1,
    "flow repeat end": 1,
-   "flow stub:switch": 1,
    "flow stub:untied_bit": 7,
+   "flow switch on party": 1,
    "map nearest point": 3,
    "object NPC show bit -> Hide": 1,
    "object camera": 17,
@@ -3580,7 +3680,7 @@
   "script": "sc_ted_cc6d87",
   "pr_map": "Map_20381_5",
   "translated": {
-   "flow": 52,
+   "flow": 53,
    "wait": 25,
    "object": 65,
    "dialog": 8,
@@ -3592,7 +3692,7 @@
   },
   "stubs": {
    "screen": 1,
-   "flow": 2
+   "flow": 1
   },
   "wired": [
    {
@@ -3633,8 +3733,8 @@
    "flow case load": 4,
    "flow ok": 45,
    "flow party check": 3,
-   "flow stub:switch": 1,
    "flow stub:untied_bit": 1,
+   "flow switch on party": 1,
    "map nearest point": 3,
    "object no-op": 19,
    "object ok": 46,
@@ -3651,7 +3751,7 @@
   "script": "sc_ted_cbb7ee",
   "pr_map": "Map_30441_9",
   "translated": {
-   "flow": 40,
+   "flow": 42,
    "flag": 4,
    "object": 40,
    "dialog": 7,
@@ -3663,7 +3763,6 @@
    "map": 1
   },
   "stubs": {
-   "flow": 3,
    "sound": 1
   },
   "wired": [
@@ -3683,11 +3782,10 @@
    "dialog ok": 7,
    "flag ok": 4,
    "flow case load": 1,
+   "flow facing test": 1,
    "flow game over check": 1,
    "flow ok": 38,
-   "flow stub:engine_bit": 1,
-   "flow stub:switch": 1,
-   "flow stub:untied_bit": 1,
+   "flow switch on party": 1,
    "map tiles -> CueAnim": 1,
    "object no-op": 7,
    "object ok": 33,

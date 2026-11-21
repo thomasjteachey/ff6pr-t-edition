@@ -1,30 +1,42 @@
 {
  "stats": {
+  "stubs as nops": 523,
+  "scripts": 208,
   "npcs": 455,
-  "stubs as nops": 760,
-  "entrances": 80,
-  "scripts": 262,
-  "tiles": 162,
+  "entrances": 79,
+  "tiles": 108,
   "npcs shown always (untied vanilla bit)": 48,
   "special-graphics npcs (decorations)": 19,
-  "ted-ex tiles": 15,
-  "ted-ex entrances": 14,
-  "ted-ex npcs": 61,
+  "ted-ex tiles": 36,
+  "ted-ex entrances": 15,
+  "ted-ex npcs": 63,
   "scripts for vanilla maps (skipped)": 6
  },
  "events": [
+  {
+   "event": "CDFD10",
+   "kind": "npc",
+   "map": 415,
+   "pr_map": "Map_20471_2",
+   "script": "sc_tedm_03FD10",
+   "script_id": 10162,
+   "stubs": {},
+   "translated": {
+    "dialog": 50,
+    "flow": 115,
+    "flag": 35
+   }
+  },
   {
    "event": "EA1280",
    "kind": "entrance",
    "map": 417,
    "pr_map": "Map_20371_15",
-   "stubs": {
-    "flow": 15
-   },
+   "stubs": {},
    "translated": {
     "map": 19,
-    "screen": 40,
-    "flow": 49
+    "flow": 64,
+    "screen": 40
    }
   },
   {
@@ -32,13 +44,11 @@
    "kind": "entrance",
    "map": 418,
    "pr_map": "Map_20371_16",
-   "stubs": {
-    "flow": 6
-   },
+   "stubs": {},
    "translated": {
     "map": 8,
-    "screen": 40,
-    "flow": 24
+    "flow": 30,
+    "screen": 40
    }
   },
   {
@@ -46,13 +56,11 @@
    "kind": "entrance",
    "map": 419,
    "pr_map": "Map_20371_17",
-   "stubs": {
-    "flow": 10
-   },
+   "stubs": {},
    "translated": {
     "map": 12,
-    "screen": 40,
-    "flow": 37
+    "flow": 47,
+    "screen": 40
    }
   },
   {
@@ -60,13 +68,11 @@
    "kind": "entrance",
    "map": 420,
    "pr_map": "Map_20371_18",
-   "stubs": {
-    "flow": 3
-   },
+   "stubs": {},
    "translated": {
     "map": 5,
-    "screen": 40,
-    "flow": 19
+    "flow": 22,
+    "screen": 40
    }
   },
   {
@@ -95,12 +101,10 @@
    "kind": "entrance",
    "map": 421,
    "pr_map": "Map_30651_14",
-   "stubs": {
-    "flow": 3
-   },
+   "stubs": {},
    "translated": {
     "map": 5,
-    "flow": 6
+    "flow": 9
    }
   },
   {
@@ -108,12 +112,10 @@
    "kind": "entrance",
    "map": 422,
    "pr_map": "Map_30651_15",
-   "stubs": {
-    "flow": 1
-   },
+   "stubs": {},
    "translated": {
     "map": 3,
-    "flow": 2
+    "flow": 3
    }
   },
   {
@@ -122,12 +124,11 @@
    "map": 423,
    "pr_map": "Map_30651_16",
    "stubs": {
-    "map": 1,
-    "flow": 15
+    "map": 1
    },
    "translated": {
     "map": 17,
-    "flow": 30
+    "flow": 45
    }
   },
   {
@@ -135,12 +136,10 @@
    "kind": "entrance",
    "map": 424,
    "pr_map": "Map_30651_17",
-   "stubs": {
-    "flow": 1
-   },
+   "stubs": {},
    "translated": {
     "map": 3,
-    "flow": 2
+    "flow": 3
    }
   },
   {
@@ -187,13 +186,12 @@
    "map": 425,
    "pr_map": "Map_30651_18",
    "stubs": {
-    "flow": 3,
     "screen": 1
    },
    "translated": {
     "map": 9,
-    "object": 2,
-    "flow": 13
+    "flow": 16,
+    "object": 2
    }
   },
   {
@@ -201,12 +199,10 @@
    "kind": "entrance",
    "map": 426,
    "pr_map": "Map_30651_19",
-   "stubs": {
-    "flow": 1
-   },
+   "stubs": {},
    "translated": {
     "map": 4,
-    "flow": 2
+    "flow": 3
    }
   },
   {
@@ -308,11 +304,11 @@
    "script": "sc_tedm_0451E0",
    "script_id": 9608,
    "stubs": {
-    "flow": 2,
+    "flow": 1,
     "sound": 2
    },
    "translated": {
-    "flow": 53,
+    "flow": 54,
     "dialog": 63,
     "object": 4,
     "wait": 2,
@@ -329,22 +325,6 @@
    "translated": {
     "map": 4,
     "flow": 1
-   }
-  },
-  {
-   "event": "CD7000",
-   "kind": "tile",
-   "map": 429,
-   "pr_map": "Map_30040_1",
-   "script": "sc_tedm_037000",
-   "script_id": 9609,
-   "stubs": {},
-   "translated": {
-    "flow": 3,
-    "screen": 1,
-    "sound": 1,
-    "object": 3,
-    "wait": 2
    }
   },
   {
@@ -498,13 +478,13 @@
    "script": "sc_tedm_0312D0",
    "script_id": 9617,
    "stubs": {
-    "flow": 2,
+    "flow": 1,
     "sound": 1,
     "flag": 17,
     "map": 16
    },
    "translated": {
-    "flow": 344,
+    "flow": 345,
     "object": 82,
     "wait": 13,
     "dialog": 21,
@@ -524,13 +504,13 @@
    "script": "sc_tedm_0312F8",
    "script_id": 9618,
    "stubs": {
-    "flow": 2,
+    "flow": 1,
     "sound": 1,
     "flag": 17,
     "map": 16
    },
    "translated": {
-    "flow": 344,
+    "flow": 345,
     "object": 82,
     "wait": 13,
     "dialog": 21,
@@ -550,13 +530,13 @@
    "script": "sc_tedm_031320",
    "script_id": 9619,
    "stubs": {
-    "flow": 2,
+    "flow": 1,
     "sound": 1,
     "flag": 17,
     "map": 16
    },
    "translated": {
-    "flow": 344,
+    "flow": 345,
     "wait": 13,
     "dialog": 21,
     "flag": 40,
@@ -576,13 +556,13 @@
    "script": "sc_tedm_031340",
    "script_id": 9620,
    "stubs": {
-    "flow": 2,
+    "flow": 1,
     "sound": 1,
     "flag": 17,
     "map": 16
    },
    "translated": {
-    "flow": 344,
+    "flow": 345,
     "object": 82,
     "wait": 13,
     "dialog": 21,
@@ -613,11 +593,11 @@
    "script": "sc_tedm_030B48",
    "script_id": 9621,
    "stubs": {
-    "flow": 10,
+    "flow": 8,
     "flag": 21
    },
    "translated": {
-    "flow": 116,
+    "flow": 118,
     "camera": 2,
     "object": 23,
     "wait": 1,
@@ -800,12 +780,10 @@
    "script": "sc_tedm_034D10",
    "script_id": 9630,
    "stubs": {
-    "flag": 8,
-    "flow": 6,
     "item": 1
    },
    "translated": {
-    "flow": 55,
+    "flow": 52,
     "sound": 5,
     "wait": 7,
     "dialog": 6,
@@ -904,10 +882,10 @@
    "script": "sc_tedm_035CD0",
    "script_id": 9637,
    "stubs": {
-    "flow": 3
+    "flow": 1
    },
    "translated": {
-    "flow": 45,
+    "flow": 47,
     "party": 17,
     "object": 27,
     "wait": 3,
@@ -1751,10 +1729,10 @@
     "map": 2,
     "object": 34,
     "flag": 21,
-    "flow": 8
+    "flow": 7
    },
    "translated": {
-    "flow": 3530,
+    "flow": 3531,
     "dialog": 488,
     "object": 1193,
     "screen": 20,
@@ -1774,13 +1752,13 @@
    "script": "sc_tedm_036180",
    "script_id": 9677,
    "stubs": {
-    "flow": 3,
+    "flow": 1,
     "map": 2,
     "object": 11,
     "screen": 1
    },
    "translated": {
-    "flow": 1171,
+    "flow": 1173,
     "flag": 35,
     "dialog": 17,
     "object": 73,
@@ -1852,11 +1830,9 @@
    "pr_map": "Map_20051_26",
    "script": "sc_tedm_0376B0",
    "script_id": 9682,
-   "stubs": {
-    "flow": 3
-   },
+   "stubs": {},
    "translated": {
-    "flow": 54,
+    "flow": 57,
     "dialog": 6,
     "object": 41,
     "party": 18,
@@ -1871,11 +1847,9 @@
    "pr_map": "Map_20051_26",
    "script": "sc_tedm_0376A0",
    "script_id": 9683,
-   "stubs": {
-    "flow": 3
-   },
+   "stubs": {},
    "translated": {
-    "flow": 54,
+    "flow": 57,
     "dialog": 6,
     "object": 41,
     "party": 18,
@@ -1980,11 +1954,9 @@
    "pr_map": "Map_20051_15",
    "script": "sc_tedm_0376C0",
    "script_id": 9690,
-   "stubs": {
-    "flow": 1
-   },
+   "stubs": {},
    "translated": {
-    "flow": 44,
+    "flow": 45,
     "dialog": 3,
     "screen": 4,
     "map": 1,
@@ -2048,10 +2020,10 @@
    "script": "sc_tedm_1FFEE0",
    "script_id": 9694,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 860,
+    "flow": 861,
     "object": 399,
     "sound": 252,
     "dialog": 189,
@@ -2090,11 +2062,9 @@
    "pr_map": "Map_20221_6",
    "script": "sc_tedm_037440",
    "script_id": 9696,
-   "stubs": {
-    "flow": 3
-   },
+   "stubs": {},
    "translated": {
-    "flow": 54,
+    "flow": 57,
     "dialog": 12,
     "object": 47,
     "party": 18,
@@ -2267,32 +2237,6 @@
    }
   },
   {
-   "event": "CD80F0",
-   "kind": "npc",
-   "map": 467,
-   "pr_map": "Map_20011_15",
-   "script": "sc_tedm_0380F0",
-   "script_id": 10008,
-   "stubs": {},
-   "translated": {
-    "dialog": 1,
-    "flow": 1
-   }
-  },
-  {
-   "event": "CD80F4",
-   "kind": "npc",
-   "map": 467,
-   "pr_map": "Map_20011_15",
-   "script": "sc_tedm_0380F4",
-   "script_id": 10009,
-   "stubs": {},
-   "translated": {
-    "dialog": 1,
-    "flow": 1
-   }
-  },
-  {
    "event": "CD7770",
    "kind": "npc",
    "map": 468,
@@ -2338,12 +2282,9 @@
    "pr_map": "Map_20231_16",
    "script": "sc_tedm_037D60",
    "script_id": 10013,
-   "stubs": {
-    "flag": 8,
-    "flow": 6
-   },
+   "stubs": {},
    "translated": {
-    "flow": 55,
+    "flow": 52,
     "dialog": 2,
     "object": 29,
     "wait": 3,
@@ -2358,12 +2299,9 @@
    "pr_map": "Map_20231_16",
    "script": "sc_tedm_037DD0",
    "script_id": 10014,
-   "stubs": {
-    "flag": 8,
-    "flow": 6
-   },
+   "stubs": {},
    "translated": {
-    "flow": 55,
+    "flow": 52,
     "dialog": 2,
     "object": 29,
     "wait": 3,
@@ -2466,363 +2404,6 @@
    }
   },
   {
-   "event": "CDAF30",
-   "kind": "tile",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "script": "sc_tedm_03AF30",
-   "script_id": 10018,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 5,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CDAF50",
-   "kind": "tile",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "script": "sc_tedm_03AF50",
-   "script_id": 10019,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 5,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CDAF70",
-   "kind": "tile",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "script": "sc_tedm_03AF70",
-   "script_id": 10020,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 5,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CDAF90",
-   "kind": "tile",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "script": "sc_tedm_03AF90",
-   "script_id": 10021,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 5,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CDAFB0",
-   "kind": "tile",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "script": "sc_tedm_03AFB0",
-   "script_id": 10022,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 5,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CDAFD0",
-   "kind": "tile",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "script": "sc_tedm_03AFD0",
-   "script_id": 10023,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 5,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CDAFF0",
-   "kind": "tile",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "script": "sc_tedm_03AFF0",
-   "script_id": 10024,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 5,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CDB010",
-   "kind": "tile",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "script": "sc_tedm_03B010",
-   "script_id": 10025,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 5,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CD1F50",
-   "kind": "tile",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "script": "sc_tedm_031F50",
-   "script_id": 10026,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 5,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CD1F70",
-   "kind": "tile",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "script": "sc_tedm_031F70",
-   "script_id": 10027,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 5,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CD7C00",
-   "kind": "tile",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "script": "sc_tedm_037C00",
-   "script_id": 10028,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 5,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CD7C20",
-   "kind": "tile",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "script": "sc_tedm_037C20",
-   "script_id": 10029,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 5,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CD7C40",
-   "kind": "tile",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "script": "sc_tedm_037C40",
-   "script_id": 10030,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 5,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CD7C60",
-   "kind": "tile",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "script": "sc_tedm_037C60",
-   "script_id": 10031,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 5,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CD7C80",
-   "kind": "tile",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "script": "sc_tedm_037C80",
-   "script_id": 10032,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 5,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CD7CA0",
-   "kind": "tile",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "script": "sc_tedm_037CA0",
-   "script_id": 10033,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 5,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CD7CC0",
-   "kind": "tile",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "script": "sc_tedm_037CC0",
-   "script_id": 10034,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 5,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CD7CE0",
-   "kind": "tile",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "script": "sc_tedm_037CE0",
-   "script_id": 10035,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 5,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CD1F90",
-   "kind": "tile",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "script": "sc_tedm_031F90",
-   "script_id": 10036,
-   "stubs": {
-    "flow": 2,
-    "sound": 2,
-    "screen": 2
-   },
-   "translated": {
-    "flow": 5,
-    "dialog": 2,
-    "flag": 3,
-    "wait": 1
-   }
-  },
-  {
-   "event": "CD1FC0",
-   "kind": "tile",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "script": "sc_tedm_031FC0",
-   "script_id": 10037,
-   "stubs": {
-    "flow": 2,
-    "sound": 2,
-    "screen": 2
-   },
-   "translated": {
-    "flow": 5,
-    "dialog": 2,
-    "flag": 3,
-    "wait": 1
-   }
-  },
-  {
-   "event": "CD2310",
-   "kind": "tile",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "script": "sc_tedm_032310",
-   "script_id": 10038,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 4,
-    "dialog": 4
-   }
-  },
-  {
-   "event": "E9E700",
-   "kind": "entrance",
-   "map": 469,
-   "pr_map": "Map_20151_9",
-   "stubs": {
-    "screen": 5
-   },
-   "translated": {
-    "map": 2,
-    "flag": 1,
-    "flow": 26,
-    "object": 36,
-    "sound": 4
-   }
-  },
-  {
    "event": "CDC930",
    "kind": "npc",
    "map": 470,
@@ -2870,10 +2451,10 @@
    "script": "sc_tedm_03A100",
    "script_id": 10041,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 3,
+    "flow": 4,
     "flag": 1,
     "dialog": 1
    }
@@ -2886,10 +2467,10 @@
    "script": "sc_tedm_03A120",
    "script_id": 10042,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 3,
+    "flow": 4,
     "flag": 1,
     "dialog": 1
    }
@@ -2902,10 +2483,10 @@
    "script": "sc_tedm_03A140",
    "script_id": 10043,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 3,
+    "flow": 4,
     "flag": 1,
     "dialog": 1
    }
@@ -2918,10 +2499,10 @@
    "script": "sc_tedm_03A160",
    "script_id": 10044,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 3,
+    "flow": 4,
     "flag": 1,
     "dialog": 1
    }
@@ -2934,10 +2515,10 @@
    "script": "sc_tedm_03A180",
    "script_id": 10045,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 3,
+    "flow": 4,
     "flag": 1,
     "dialog": 1
    }
@@ -2950,10 +2531,10 @@
    "script": "sc_tedm_03A1A0",
    "script_id": 10046,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 3,
+    "flow": 4,
     "flag": 1,
     "dialog": 1
    }
@@ -2966,10 +2547,10 @@
    "script": "sc_tedm_03A1C0",
    "script_id": 10047,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 3,
+    "flow": 4,
     "flag": 1,
     "dialog": 1
    }
@@ -2982,10 +2563,10 @@
    "script": "sc_tedm_03A1E0",
    "script_id": 10048,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 3,
+    "flow": 4,
     "flag": 1,
     "dialog": 1
    }
@@ -2998,10 +2579,10 @@
    "script": "sc_tedm_03A200",
    "script_id": 10049,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 3,
+    "flow": 4,
     "flag": 1,
     "dialog": 1
    }
@@ -3014,10 +2595,10 @@
    "script": "sc_tedm_03A220",
    "script_id": 10050,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 3,
+    "flow": 4,
     "flag": 1,
     "dialog": 1
    }
@@ -3030,10 +2611,10 @@
    "script": "sc_tedm_03A240",
    "script_id": 10051,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 3,
+    "flow": 4,
     "flag": 1,
     "dialog": 1
    }
@@ -3046,10 +2627,10 @@
    "script": "sc_tedm_03A260",
    "script_id": 10052,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 3,
+    "flow": 4,
     "flag": 1,
     "dialog": 1
    }
@@ -3062,10 +2643,10 @@
    "script": "sc_tedm_03A280",
    "script_id": 10053,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 3,
+    "flow": 4,
     "flag": 1,
     "dialog": 1
    }
@@ -3078,10 +2659,10 @@
    "script": "sc_tedm_03A2A0",
    "script_id": 10054,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 3,
+    "flow": 4,
     "flag": 1,
     "dialog": 1
    }
@@ -3094,10 +2675,10 @@
    "script": "sc_tedm_03C260",
    "script_id": 10055,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 3,
+    "flow": 4,
     "dialog": 1
    }
   },
@@ -3113,149 +2694,6 @@
     "object": 224,
     "flow": 215,
     "sound": 1
-   }
-  },
-  {
-   "event": "CDA380",
-   "kind": "tile",
-   "map": 472,
-   "pr_map": "Map_20051_28",
-   "script": "sc_tedm_03A380",
-   "script_id": 10056,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 3,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CDA2E0",
-   "kind": "tile",
-   "map": 472,
-   "pr_map": "Map_20051_28",
-   "script": "sc_tedm_03A2E0",
-   "script_id": 10057,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 3,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CDA320",
-   "kind": "tile",
-   "map": 472,
-   "pr_map": "Map_20051_28",
-   "script": "sc_tedm_03A320",
-   "script_id": 10058,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 3,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CDA340",
-   "kind": "tile",
-   "map": 472,
-   "pr_map": "Map_20051_28",
-   "script": "sc_tedm_03A340",
-   "script_id": 10059,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 3,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CDA360",
-   "kind": "tile",
-   "map": 472,
-   "pr_map": "Map_20051_28",
-   "script": "sc_tedm_03A360",
-   "script_id": 10060,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 3,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CDA2C0",
-   "kind": "tile",
-   "map": 472,
-   "pr_map": "Map_20051_28",
-   "script": "sc_tedm_03A2C0",
-   "script_id": 10061,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 3,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CDA3A0",
-   "kind": "tile",
-   "map": 472,
-   "pr_map": "Map_20051_28",
-   "script": "sc_tedm_03A3A0",
-   "script_id": 10062,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 3,
-    "flag": 1,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CDC270",
-   "kind": "tile",
-   "map": 472,
-   "pr_map": "Map_20051_28",
-   "script": "sc_tedm_03C270",
-   "script_id": 10063,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 3,
-    "dialog": 1
-   }
-  },
-  {
-   "event": "CDA3C0",
-   "kind": "tile",
-   "map": 472,
-   "pr_map": "Map_20051_28",
-   "script": "sc_tedm_03A3C0",
-   "script_id": 10064,
-   "stubs": {
-    "flow": 2
-   },
-   "translated": {
-    "flow": 3,
-    "flag": 1,
-    "dialog": 1
    }
   },
   {
@@ -3351,11 +2789,11 @@
    "script": "sc_tedm_03D5B0",
    "script_id": 10068,
    "stubs": {
-    "flow": 3,
+    "flow": 2,
     "party": 3
    },
    "translated": {
-    "flow": 4,
+    "flow": 5,
     "wait": 6,
     "object": 3,
     "dialog": 2,
@@ -3370,11 +2808,11 @@
    "script": "sc_tedm_03D5F0",
    "script_id": 10069,
    "stubs": {
-    "flow": 3,
+    "flow": 2,
     "party": 3
    },
    "translated": {
-    "flow": 4,
+    "flow": 5,
     "wait": 4,
     "dialog": 2,
     "map": 1
@@ -3562,10 +3000,10 @@
    "script": "sc_tedm_03F490",
    "script_id": 10078,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 734,
+    "flow": 735,
     "dialog": 237,
     "flag": 246
    }
@@ -3628,10 +3066,10 @@
    "script": "sc_tedm_049400",
    "script_id": 10081,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -3644,10 +3082,10 @@
    "script": "sc_tedm_049420",
    "script_id": 10082,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -3660,10 +3098,10 @@
    "script": "sc_tedm_049440",
    "script_id": 10083,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -3676,10 +3114,10 @@
    "script": "sc_tedm_049460",
    "script_id": 10084,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -3692,10 +3130,10 @@
    "script": "sc_tedm_049480",
    "script_id": 10085,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -3708,10 +3146,10 @@
    "script": "sc_tedm_0494A0",
    "script_id": 10086,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -3724,10 +3162,10 @@
    "script": "sc_tedm_0494C0",
    "script_id": 10087,
    "stubs": {
-    "flow": 3
+    "flow": 2
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -3740,10 +3178,10 @@
    "script": "sc_tedm_0494E0",
    "script_id": 10088,
    "stubs": {
-    "flow": 3
+    "flow": 2
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -3756,10 +3194,10 @@
    "script": "sc_tedm_049500",
    "script_id": 10089,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -3772,10 +3210,10 @@
    "script": "sc_tedm_049520",
    "script_id": 10090,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -3788,10 +3226,10 @@
    "script": "sc_tedm_049540",
    "script_id": 10091,
    "stubs": {
-    "flow": 3
+    "flow": 2
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -3804,10 +3242,10 @@
    "script": "sc_tedm_049560",
    "script_id": 10092,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -3836,10 +3274,10 @@
    "script": "sc_tedm_049580",
    "script_id": 10093,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 6,
+    "flow": 7,
     "flag": 1,
     "dialog": 1
    }
@@ -3852,10 +3290,10 @@
    "script": "sc_tedm_0495A0",
    "script_id": 10094,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 6,
+    "flow": 7,
     "flag": 1,
     "dialog": 1
    }
@@ -3868,10 +3306,10 @@
    "script": "sc_tedm_0495C0",
    "script_id": 10095,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 6,
+    "flow": 7,
     "flag": 1,
     "dialog": 1
    }
@@ -3884,10 +3322,10 @@
    "script": "sc_tedm_0495E0",
    "script_id": 10096,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -3900,10 +3338,10 @@
    "script": "sc_tedm_049600",
    "script_id": 10097,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -3916,10 +3354,10 @@
    "script": "sc_tedm_049620",
    "script_id": 10098,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -3932,10 +3370,10 @@
    "script": "sc_tedm_049640",
    "script_id": 10099,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 6,
+    "flow": 7,
     "flag": 1,
     "dialog": 1
    }
@@ -3948,10 +3386,10 @@
    "script": "sc_tedm_049660",
    "script_id": 10100,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 6,
+    "flow": 7,
     "flag": 1,
     "dialog": 1
    }
@@ -3964,10 +3402,10 @@
    "script": "sc_tedm_049680",
    "script_id": 10101,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -3980,10 +3418,10 @@
    "script": "sc_tedm_0496A0",
    "script_id": 10102,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -3996,10 +3434,10 @@
    "script": "sc_tedm_0496C0",
    "script_id": 10103,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -4012,10 +3450,10 @@
    "script": "sc_tedm_0496E0",
    "script_id": 10104,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -4042,10 +3480,10 @@
    "script": "sc_tedm_0499E0",
    "script_id": 10105,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 7,
+    "flow": 8,
     "flag": 1,
     "dialog": 2
    }
@@ -4058,10 +3496,10 @@
    "script": "sc_tedm_049A00",
    "script_id": 10106,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 7,
+    "flow": 8,
     "flag": 1,
     "dialog": 2
    }
@@ -4074,10 +3512,10 @@
    "script": "sc_tedm_049A20",
    "script_id": 10107,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 7,
+    "flow": 8,
     "flag": 1,
     "dialog": 2
    }
@@ -4090,10 +3528,10 @@
    "script": "sc_tedm_049A40",
    "script_id": 10108,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 7,
+    "flow": 8,
     "flag": 1,
     "dialog": 2
    }
@@ -4106,10 +3544,10 @@
    "script": "sc_tedm_049A60",
    "script_id": 10109,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 7,
+    "flow": 8,
     "flag": 1,
     "dialog": 2
    }
@@ -4122,10 +3560,10 @@
    "script": "sc_tedm_049A80",
    "script_id": 10110,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 7,
+    "flow": 8,
     "flag": 1,
     "dialog": 2
    }
@@ -4138,10 +3576,10 @@
    "script": "sc_tedm_049AA0",
    "script_id": 10111,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 7,
+    "flow": 8,
     "flag": 1,
     "dialog": 2
    }
@@ -4154,10 +3592,10 @@
    "script": "sc_tedm_049AC0",
    "script_id": 10112,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 7,
+    "flow": 8,
     "flag": 1,
     "dialog": 2
    }
@@ -4170,10 +3608,10 @@
    "script": "sc_tedm_049AE0",
    "script_id": 10113,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 7,
+    "flow": 8,
     "flag": 1,
     "dialog": 2
    }
@@ -4186,10 +3624,10 @@
    "script": "sc_tedm_049B00",
    "script_id": 10114,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 7,
+    "flow": 8,
     "flag": 1,
     "dialog": 2
    }
@@ -4202,10 +3640,10 @@
    "script": "sc_tedm_049B20",
    "script_id": 10115,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 7,
+    "flow": 8,
     "flag": 1,
     "dialog": 2
    }
@@ -4218,10 +3656,10 @@
    "script": "sc_tedm_049B40",
    "script_id": 10116,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 7,
+    "flow": 8,
     "flag": 1,
     "dialog": 2
    }
@@ -4266,10 +3704,10 @@
    "script": "sc_tedm_04A140",
    "script_id": 10117,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "object": 1,
     "dialog": 1
@@ -4283,10 +3721,10 @@
    "script": "sc_tedm_04A160",
    "script_id": 10118,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -4299,10 +3737,10 @@
    "script": "sc_tedm_04A180",
    "script_id": 10119,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 6,
+    "flow": 7,
     "flag": 1,
     "dialog": 1
    }
@@ -4315,10 +3753,10 @@
    "script": "sc_tedm_04A1A0",
    "script_id": 10120,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -4331,10 +3769,10 @@
    "script": "sc_tedm_04A1C0",
    "script_id": 10121,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -4347,10 +3785,10 @@
    "script": "sc_tedm_04A1E0",
    "script_id": 10122,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "flag": 1,
     "dialog": 1
    }
@@ -4377,13 +3815,11 @@
    "script": "sc_tedm_03FA95",
    "script_id": 10123,
    "stubs": {
-    "flag": 8,
-    "flow": 5,
     "object": 15,
     "screen": 15
    },
    "translated": {
-    "flow": 82,
+    "flow": 78,
     "object": 49,
     "flag": 25,
     "wait": 184,
@@ -4400,10 +3836,10 @@
    "script": "sc_tedm_1FFE40",
    "script_id": 10124,
    "stubs": {
-    "flow": 2
+    "flow": 1
    },
    "translated": {
-    "flow": 21,
+    "flow": 22,
     "dialog": 10
    }
   },
@@ -4429,12 +3865,12 @@
    "script": "sc_tedm_200590",
    "script_id": 10125,
    "stubs": {
-    "flow": 2,
+    "flow": 1,
     "sound": 2,
     "object": 2
    },
    "translated": {
-    "flow": 8,
+    "flow": 9,
     "dialog": 4,
     "object": 4,
     "wait": 5,
@@ -4566,12 +4002,10 @@
    "kind": "entrance",
    "map": 497,
    "pr_map": "Map_20051_20",
-   "stubs": {
-    "flow": 21
-   },
+   "stubs": {},
    "translated": {
     "map": 23,
-    "flow": 42
+    "flow": 63
    }
   },
   {
@@ -4628,12 +4062,10 @@
    "kind": "entrance",
    "map": 499,
    "pr_map": "Map_20451_15",
-   "stubs": {
-    "flow": 3
-   },
+   "stubs": {},
    "translated": {
     "map": 5,
-    "flow": 6
+    "flow": 9
    }
   },
   {
@@ -4662,13 +4094,11 @@
    "kind": "entrance",
    "map": 500,
    "pr_map": "Map_20451_16",
-   "stubs": {
-    "flow": 3
-   },
+   "stubs": {},
    "translated": {
     "map": 5,
-    "object": 1,
-    "flow": 13
+    "flow": 16,
+    "object": 1
    }
   },
   {
@@ -4697,13 +4127,11 @@
    "kind": "entrance",
    "map": 501,
    "pr_map": "Map_20051_21",
-   "stubs": {
-    "flow": 3
-   },
+   "stubs": {},
    "translated": {
     "map": 5,
-    "object": 1,
-    "flow": 13
+    "flow": 16,
+    "object": 1
    }
   },
   {
@@ -4766,13 +4194,11 @@
    "kind": "entrance",
    "map": 503,
    "pr_map": "Map_20051_23",
-   "stubs": {
-    "flow": 3
-   },
+   "stubs": {},
    "translated": {
     "map": 5,
-    "object": 1,
-    "flow": 13
+    "flow": 16,
+    "object": 1
    }
   },
   {
@@ -4851,9 +4277,7 @@
    "script_id": 10138,
    "stubs": {
     "sound": 3,
-    "screen": 3,
-    "flow": 1,
-    "flag": 1
+    "screen": 3
    },
    "translated": {
     "wait": 10,
@@ -4861,7 +4285,7 @@
     "screen": 10,
     "flow": 147,
     "map": 104,
-    "flag": 8,
+    "flag": 9,
     "object": 8,
     "dialog": 1
    }
@@ -4893,392 +4317,6 @@
     "screen": 42,
     "wait": 2,
     "flag": 1
-   }
-  },
-  {
-   "event": "CAD521",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_00D521",
-   "script_id": 10140,
-   "stubs": {
-    "sound": 1
-   },
-   "translated": {
-    "flow": 5,
-    "flag": 1,
-    "map": 2
-   }
-  },
-  {
-   "event": "CAD530",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_00D530",
-   "script_id": 10141,
-   "stubs": {
-    "sound": 2
-   },
-   "translated": {
-    "flow": 7,
-    "flag": 1,
-    "map": 4,
-    "wait": 1
-   }
-  },
-  {
-   "event": "CAD546",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_00D546",
-   "script_id": 10142,
-   "stubs": {
-    "sound": 2
-   },
-   "translated": {
-    "flow": 7,
-    "flag": 1,
-    "map": 4,
-    "wait": 1
-   }
-  },
-  {
-   "event": "CAD625",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_00D625",
-   "script_id": 10143,
-   "stubs": {
-    "sound": 2
-   },
-   "translated": {
-    "flow": 7,
-    "flag": 1,
-    "map": 4,
-    "wait": 1
-   }
-  },
-  {
-   "event": "CAD63B",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_00D63B",
-   "script_id": 10144,
-   "stubs": {
-    "sound": 2
-   },
-   "translated": {
-    "flow": 9,
-    "flag": 1,
-    "map": 7,
-    "wait": 2
-   }
-  },
-  {
-   "event": "CAD656",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_00D656",
-   "script_id": 10145,
-   "stubs": {
-    "sound": 1
-   },
-   "translated": {
-    "map": 6,
-    "wait": 3,
-    "flow": 13,
-    "object": 8
-   }
-  },
-  {
-   "event": "CAD68D",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_00D68D",
-   "script_id": 10146,
-   "stubs": {
-    "sound": 1
-   },
-   "translated": {
-    "map": 6,
-    "wait": 3,
-    "flow": 13,
-    "object": 8
-   }
-  },
-  {
-   "event": "CAD71E",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_00D71E",
-   "script_id": 10147,
-   "stubs": {
-    "sound": 1
-   },
-   "translated": {
-    "map": 6,
-    "wait": 3,
-    "flow": 13,
-    "object": 8
-   }
-  },
-  {
-   "event": "CAD748",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_00D748",
-   "script_id": 10148,
-   "stubs": {
-    "sound": 1
-   },
-   "translated": {
-    "map": 6,
-    "wait": 3,
-    "flow": 13,
-    "object": 8
-   }
-  },
-  {
-   "event": "EC2BF0",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_222BF0",
-   "script_id": 10149,
-   "stubs": {
-    "sound": 1
-   },
-   "translated": {
-    "map": 6,
-    "wait": 3,
-    "flow": 13,
-    "object": 8
-   }
-  },
-  {
-   "event": "EC2BB0",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_222BB0",
-   "script_id": 10150,
-   "stubs": {
-    "sound": 1
-   },
-   "translated": {
-    "map": 6,
-    "wait": 3,
-    "flow": 13,
-    "object": 8
-   }
-  },
-  {
-   "event": "CAD87E",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_00D87E",
-   "script_id": 10151,
-   "stubs": {
-    "sound": 2
-   },
-   "translated": {
-    "flow": 9,
-    "camera": 2,
-    "sound": 1,
-    "map": 6,
-    "object": 2,
-    "flag": 1,
-    "wait": 1
-   }
-  },
-  {
-   "event": "CAD8A5",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_00D8A5",
-   "script_id": 10152,
-   "stubs": {
-    "sound": 1
-   },
-   "translated": {
-    "flow": 7,
-    "camera": 2,
-    "sound": 1,
-    "map": 4,
-    "object": 2,
-    "flag": 1
-   }
-  },
-  {
-   "event": "CAD8C7",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_00D8C7",
-   "script_id": 10153,
-   "stubs": {
-    "sound": 2
-   },
-   "translated": {
-    "flow": 13,
-    "camera": 2,
-    "sound": 1,
-    "map": 9,
-    "object": 2,
-    "flag": 1,
-    "wait": 3
-   }
-  },
-  {
-   "event": "CAD8FD",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_00D8FD",
-   "script_id": 10154,
-   "stubs": {
-    "sound": 1
-   },
-   "translated": {
-    "flow": 5,
-    "flag": 1,
-    "map": 2
-   }
-  },
-  {
-   "event": "EB2470",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_212470",
-   "script_id": 10155,
-   "stubs": {
-    "sound": 1
-   },
-   "translated": {
-    "map": 6,
-    "wait": 3,
-    "object": 8,
-    "flow": 5
-   }
-  },
-  {
-   "event": "EB2AA0",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_212AA0",
-   "script_id": 10156,
-   "stubs": {
-    "sound": 1
-   },
-   "translated": {
-    "map": 6,
-    "wait": 3,
-    "object": 8,
-    "flow": 5
-   }
-  },
-  {
-   "event": "EB2740",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_212740",
-   "script_id": 10157,
-   "stubs": {
-    "sound": 1
-   },
-   "translated": {
-    "flow": 19,
-    "flag": 5,
-    "map": 19,
-    "object": 1
-   }
-  },
-  {
-   "event": "EB25F0",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_2125F0",
-   "script_id": 10158,
-   "stubs": {
-    "sound": 2,
-    "screen": 1
-   },
-   "translated": {
-    "map": 6,
-    "wait": 2,
-    "object": 5,
-    "flow": 15,
-    "sound": 1,
-    "screen": 46
-   }
-  },
-  {
-   "event": "EB24F0",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_2124F0",
-   "script_id": 10159,
-   "stubs": {
-    "sound": 1
-   },
-   "translated": {
-    "map": 6,
-    "wait": 3,
-    "object": 8,
-    "flow": 5
-   }
-  },
-  {
-   "event": "EB2570",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_212570",
-   "script_id": 10160,
-   "stubs": {
-    "sound": 2
-   },
-   "translated": {
-    "flow": 7,
-    "camera": 2,
-    "sound": 1,
-    "map": 9,
-    "object": 2,
-    "flag": 1,
-    "wait": 3
-   }
-  },
-  {
-   "event": "EB2680",
-   "kind": "tile",
-   "map": 509,
-   "pr_map": "Map_30600_1",
-   "script": "sc_tedm_212680",
-   "script_id": 10161,
-   "stubs": {
-    "sound": 1
-   },
-   "translated": {
-    "map": 6,
-    "wait": 3,
-    "object": 8,
-    "flow": 5
    }
   },
   {

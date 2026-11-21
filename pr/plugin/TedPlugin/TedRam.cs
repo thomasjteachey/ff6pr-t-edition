@@ -22,6 +22,37 @@ namespace TEdition.PR
         static Dictionary<int, int[]> tables = new Dictionary<int, int[]>();
         internal static string Last = "";
 
+        // the song playing as T-Edition numbers it: the pack's slot (its own songs) or the game's own track's SNES song
+        // (music/ted_music.json "pr_songs"); 0 = none known
+        static Dictionary<int, int> prSongs;
+
+        public static void LoadSongs(string musicJson)
+        {
+            prSongs = new Dictionary<int, int>();
+            if (!File.Exists(musicJson)) return;
+            try
+            {
+                using var doc = JsonDocument.Parse(File.ReadAllText(musicJson));
+                if (doc.RootElement.TryGetProperty("pr_songs", out var ps))
+                    foreach (var p in ps.EnumerateObject())
+                        if (int.TryParse(p.Name, out int pr)) prSongs[pr] = p.Value.GetInt32();
+            }
+            catch (Exception e) { Plugin.L.LogWarning($"[ted] {musicJson}: {e.Message}"); }
+        }
+
+        public static int SongPlaying()
+        {
+            int slot = PrKit.Snes.SnesBgm.Player?.CurrentSlot ?? -1;
+            if (slot >= 0) return slot & 0xFF;
+            try
+            {
+                int pr = global::Last.Management.AudioManager.Instance?.GetPlayingBgmId(0) ?? 0;
+                if (pr >= 1000) return (pr - 1000) & 0xFF;   // one of T-Edition's own (1000 + slot) not playing from the pack
+                return prSongs != null && prSongs.TryGetValue(pr, out int song) ? song : 0;
+            }
+            catch (Exception) { return 0; }
+        }
+
         public static void LoadTables(string path)
         {
             if (!File.Exists(path)) return;
@@ -55,11 +86,7 @@ namespace TEdition.PR
         public static int Read(int area, int word)
         {
             if (area == 0x1E70) return TedCounters.Get(word);
-            if (area == 0x1300 && word == 0)
-            {
-                int slot = PrKit.Snes.SnesBgm.Player?.CurrentSlot ?? -1;
-                return slot < 0 ? 0 : (slot & 0xFF) << 8;
-            }
+            if (area == 0x1300 && word == 0) return SongPlaying() << 8;
             if (area == 0x1800 || area == 0x1D00 || area == 0x1D01)
             {
                 var bytes = area == 0x1800 ? Ram1800() : Ram1D00();
@@ -154,10 +181,19 @@ namespace TEdition.PR
         static int Num(string s) => s.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ? Convert.ToInt32(s.Substring(2), 16) : int.Parse(s);
 
         // SysCall parts after "cmp" / "set"
+        // ted-events names 69's and 6E's areas by their helpers' ROM tables: 58E4CC reads $1800 + 2n, 58E52A $1D00 + 2n
+        static int Area(string s)
+        {
+            int a = Hex(s);
+            return a == 0x58E4CC ? 0x1800 : a == 0x58E52A ? 0x1D00 : a;
+        }
+
+        // TED:cmp <area> <word> <value> [mask]: with a mask, (word & mask) against (value & mask)
         public static void Cmp(string[] a)
         {
-            int area = Hex(a[0]), word = Num(a[1]), value = Num(a[2]);
+            int area = Area(a[0]), word = Num(a[1]), value = Num(a[2]);
             int now = Read(area, word);
+            if (a.Length > 3) { int mask = Num(a[3].StartsWith("0x", StringComparison.OrdinalIgnoreCase) ? a[3] : "0x" + a[3]); now &= mask; value &= mask; }
             var ds = DataStorage.Instance;
             ds?.Set(DataStorage.Category.kMapLocalVariable, 5, now == value ? 1 : 0);
             ds?.Set(DataStorage.Category.kMapLocalVariable, 6, now > value ? 1 : 0);
@@ -167,7 +203,7 @@ namespace TEdition.PR
 
         public static void Set(string[] a)
         {
-            Write(Hex(a[0]), Num(a[1]), Num(a[2]));
+            Write(Area(a[0]), Num(a[1]), Num(a[2]));
             Last = $"set {a[0]}[{a[1]}] = {a[2]}";
         }
     }

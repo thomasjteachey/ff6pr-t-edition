@@ -488,6 +488,13 @@ def build(out=OUT, every=False, log=print):
                      "PR bgm id 1000 + slot. Made from T-Edition's ROM on the developer's PC; ships in the zip."}
     SS.write_pack(out, songs, samples, meta)
     SS.add_resident(out, SS.read_resident(rom))   # FF6's 8 resident waveforms (T-Edition's copies are vanilla's)
+    # the game's own tracks as their SNES song numbers (TedPlugin's TED:cmp 1300: T-Edition's events compare the song
+    # playing, vanilla's too): PR bgm id -> song (the first song of a shared track)
+    pr_songs = {}
+    for song, pr in sorted(SS.FF6_SONG_PR_BGM.items()):
+        if pr:
+            pr_songs.setdefault(str(pr), song)
+    rules["pr_songs"] = pr_songs
     rules["about"] = ("What plays where (PrKit/Snes BgmRules): a new song's PR bgm id 1000 + its pack slot (map.csv bgm_id, "
                       "PlayBGM, battle_bgm_asset_id name it); vanilla's songs stay the game's own tracks.")
     with open(os.path.join(out, "ted_music.json"), "w", encoding="utf-8") as f:

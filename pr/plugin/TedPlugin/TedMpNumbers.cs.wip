@@ -1,0 +1,64 @@
+using System;
+using System.Collections.Generic;
+using HarmonyLib;
+using Last.Battle;
+using PrKit;
+
+namespace TEdition.PR
+{
+    // Audit G12: MP damage in pink, MP healing in blue (T-Edition's colour-coded MP digits). The PR shows MP like HP
+    // (BattleBasicFunction.CreateDamageView: hit type 5 MPHit as damage, 6 MPRecovery as healing, then BattleUtility.
+    // CreateDamageView(unit, value, isRecovery, isMiss)): the hit type is caught there and the popup the game then makes
+    // is tinted for its first seconds (its digits are made over its first frames). BcPlugin's BcMagicNumbers does the
+    // same for Beyond Chaos's code (violet / light blue): a kit module candidate.
+    static class TedMpNumbers
+    {
+        static readonly UnityEngine.Color MpDamage = new UnityEngine.Color(1f, 0.55f, 0.8f), MpHeal = new UnityEngine.Color(0.45f, 0.7f, 1f);
+        const float Seconds = 2.5f;
+        static int hitType = -1;
+        internal static int Tinted;
+        static readonly List<(ViewDamageEntity View, UnityEngine.Color Color, float Until)> views = new List<(ViewDamageEntity, UnityEngine.Color, float)>();
+
+        public static void Patch(Harmony h)
+        {
+            Hooks.Patch(h, typeof(Last.Battle.Function.BattleBasicFunction), "CreateDamageView", typeof(TedMpNumbers),
+                prefix: nameof(Basic_Prefix), postfix: nameof(Basic_Postfix));
+            var m = AccessTools.Method(typeof(BattleUtility), "CreateDamageView", new[] { typeof(BattleUnitData), typeof(int), typeof(bool), typeof(bool) });
+            if (m != null) h.Patch(m, postfix: new HarmonyMethod(typeof(TedMpNumbers), nameof(View_Postfix)));
+        }
+
+        public static void Basic_Prefix(Last.Systems.HitType hitType) => TedMpNumbers.hitType = (int)hitType;
+        public static void Basic_Postfix() => hitType = -1;
+
+        public static void View_Postfix(ViewDamageEntity __result)
+        {
+            try
+            {
+                if (__result == null || (hitType != 5 && hitType != 6) || !Plugin.TedMode) return;
+                views.Add((__result, hitType == 5 ? MpDamage : MpHeal, UnityEngine.Time.realtimeSinceStartup + Seconds));
+                Tinted++;
+                TedLog.Rule(0, "mp-numbers", () => "MP damage pink, MP healing blue (audit G12)");
+            }
+            catch (Exception e) { Hooks.WarnOnce("ted-mp-numbers", e); }
+        }
+
+        public static void Update()
+        {
+            if (views.Count == 0) return;
+            float now = UnityEngine.Time.realtimeSinceStartup;
+            for (int i = views.Count - 1; i >= 0; i--)
+            {
+                var (v, col, until) = views[i];
+                try
+                {
+                    if (v == null || v.WasCollected || now > until) { views.RemoveAt(i); continue; }
+                    foreach (var g in v.GetComponentsInChildren<UnityEngine.UI.Graphic>(true))
+                        if (g != null) g.color = new UnityEngine.Color(col.r, col.g, col.b, g.color.a);
+                    foreach (var r in v.GetComponentsInChildren<UnityEngine.SpriteRenderer>(true))
+                        if (r != null) r.color = new UnityEngine.Color(col.r, col.g, col.b, r.color.a);
+                }
+                catch (Exception e) { views.RemoveAt(i); Hooks.WarnOnce("ted-mp-numbers-tint", e); }
+            }
+        }
+    }
+}

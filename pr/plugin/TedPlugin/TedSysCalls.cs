@@ -92,7 +92,7 @@ namespace TEdition.PR
                 }
                 else if (parts.Length == 2 && parts[0] == "bump" && int.TryParse(parts[1], out int bump) && bump >= 0 && bump < TedCounters.Count)
                     TedCounters.Bump(bump);
-                else if (parts.Length == 4 && parts[0] == "cmp") TedRam.Cmp(parts[1..]);   // T-Edition's word compares (TedRam.cs)
+                else if ((parts.Length == 4 || parts.Length == 5) && parts[0] == "cmp") TedRam.Cmp(parts[1..]);   // T-Edition's word compares (TedRam.cs)
                 else if (parts.Length == 4 && parts[0] == "set") TedRam.Set(parts[1..]);
                 else if (parts.Length >= 1 && parts[0] == "ngplus")
                 {
@@ -116,8 +116,8 @@ namespace TEdition.PR
                     // 0 when the game plays one of its own tracks) into map-local variable <var> (default 0), for the
                     // Developer's Room patrons who comment on the song
                     int var = parts.Length > 1 && int.TryParse(parts[1], out int sv) ? sv : 0;
-                    int slot = PrKit.Snes.SnesBgm.Player?.CurrentSlot ?? -1;
-                    DataStorage.Instance?.Set(DataStorage.Category.kMapLocalVariable, var, Math.Max(0, slot));
+                    int slot = TedRam.SongPlaying();
+                    DataStorage.Instance?.Set(DataStorage.Category.kMapLocalVariable, var, slot);
                     Hooks.NoteOnce("ted-song", () => $"[ted] {name}: song {slot} -> map-local {var}");
                 }
                 else if (parts.Length >= 2 && parts[0] == "tiles")

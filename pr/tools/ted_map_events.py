@@ -213,7 +213,7 @@ class Events:
                     addr = n["event"] - 0xCA0000
                     sid = 0
                     q = next((x for x in qs.get(m, {}).get("npcs", []) if x["index"] == n["index"]), None)
-                    if (addr, "npc", m) in mine:
+                    if (addr, "npc", m) in mine and q is None:    # ted-ex's file wins for an NPC it lists
                         name = "sc_tedm_%06X" % addr
                         sid = self.translate(Tr, m, n["_room"].name, name, addr, "npc")
                     r, eid, (px, py) = n["_room"], n["_eid"], n["_at"]
@@ -263,7 +263,7 @@ class Events:
                     self.stats["ted-ex tiles"] += 1
                 for k, e in enumerate(d["events"]):
                     addr = e["event"] - 0xCA0000
-                    if (addr, "tile", m) not in mine:
+                    if (addr, "tile", m) not in mine or qs.get(m, {}).get("tiles"):   # ted-ex's tiles there: theirs
                         continue
                     hit = b.place(m, e["x"], e["y"])
                     if not hit:
@@ -281,7 +281,7 @@ class Events:
                 # NPC visibility prologue
                 import ted_maps as TM
                 entrance = TM.entrance_event(b.data, m)
-                own = (entrance, "entrance", m) in mine
+                own = (entrance, "entrance", m) in mine and not qs.get(m, {}).get("entrance")   # ted-ex's wins
                 for r in b.rooms[m]:
                     t = Tr(self.rom, f"sc_map_{r.name[4:].lower()}", snes_map=m, alloc=self.alloc, prog=self.prog,
                            pr_map=r.name)

@@ -872,6 +872,9 @@ def new_map_events(out=OUT, write=True, log=print, prog=None, ids_q=None, ids_e=
                     p["tiles"].append({"x": where[1], "y": where[2], "script": sn, "script_id": sid})
                 else:
                     p["entrance"] = {"script": sn, "script_id": sid}
+                    # ted-maps grafts it into the room's map script; listed too, so the shipped file is one the
+                    # room knows (magicite_check: an unlisted script is an error)
+                    to_list.setdefault(where[0], []).append(sn)
                 log(f"{addr} {kind} map {m} -> {where[0]} {sn} ({sid}): translated {sum(t.done.values())}, "
                     f"stubs {sum(t.stubs.values())}")
         texts = (dict(s.texts.mes), dict(s.texts.cha))

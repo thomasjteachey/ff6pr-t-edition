@@ -3,36 +3,21 @@
  "counts": {
   "voted": 56,
   "look-alike": 13,
-  "none": 18,
+  "ted art": 34,
   "same sheet": 6,
-  "ted art": 19
+  "none": 3
  },
  "placements": {
   "voted": 270,
   "look-alike": 27,
-  "none": 59,
+  "ted art": 116,
   "same sheet": 9,
-  "ted art": 90
+  "none": 33
  },
  "none": [
-  73,
   166,
   167,
-  168,
-  172,
-  190,
-  191,
-  192,
-  198,
-  199,
-  200,
-  201,
-  202,
-  209,
-  213,
-  214,
-  237,
-  249
+  168
  ],
  "looks": {
   "0": {
@@ -252,7 +237,12 @@
    "placements": 1,
    "nearest": 83,
    "likeness": 0.521,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    3014
+   ],
+   "group": "mo_ted_s073",
+   "new_group": true
   },
   "74": {
    "placements": 3,
@@ -430,7 +420,12 @@
    "placements": 1,
    "nearest": 21,
    "likeness": 0.9,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    3015
+   ],
+   "group": "mo_ted_s172",
+   "new_group": true
   },
   "173": {
    "placements": 2,
@@ -564,19 +559,34 @@
    "placements": 2,
    "nearest": 87,
    "likeness": 0.399,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    3003
+   ],
+   "group": "mo_ted_s190",
+   "new_group": true
   },
   "191": {
    "placements": 2,
    "nearest": 87,
    "likeness": 0.412,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    3004
+   ],
+   "group": "mo_ted_s191",
+   "new_group": true
   },
   "192": {
    "placements": 2,
    "nearest": 27,
    "likeness": 0.864,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    3005
+   ],
+   "group": "mo_ted_s192",
+   "new_group": true
   },
   "195": {
    "placements": 3,
@@ -602,31 +612,56 @@
    "placements": 2,
    "nearest": 87,
    "likeness": 0.402,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    3006
+   ],
+   "group": "mo_ted_s198",
+   "new_group": true
   },
   "199": {
    "placements": 2,
    "nearest": 87,
    "likeness": 0.38,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    3007
+   ],
+   "group": "mo_ted_s199",
+   "new_group": true
   },
   "200": {
    "placements": 2,
    "nearest": 87,
    "likeness": 0.403,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    3008
+   ],
+   "group": "mo_ted_s200",
+   "new_group": true
   },
   "201": {
    "placements": 2,
    "nearest": 83,
    "likeness": 0.477,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    3009
+   ],
+   "group": "mo_ted_s201",
+   "new_group": true
   },
   "202": {
    "placements": 2,
    "nearest": 25,
    "likeness": 0.27,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    3010
+   ],
+   "group": "mo_ted_s202",
+   "new_group": true
   },
   "203": {
    "placements": 6,
@@ -677,7 +712,12 @@
    "placements": 2,
    "nearest": 83,
    "likeness": 0.437,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    3011
+   ],
+   "group": "mo_ted_s209",
+   "new_group": true
   },
   "210": {
    "placements": 15,
@@ -702,13 +742,23 @@
    "placements": 2,
    "nearest": 87,
    "likeness": 0.394,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    3012
+   ],
+   "group": "mo_ted_s213",
+   "new_group": true
   },
   "214": {
    "placements": 2,
    "nearest": 87,
    "likeness": 0.255,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    3013
+   ],
+   "group": "mo_ted_s214",
+   "new_group": true
   },
   "216": {
    "placements": 3,
@@ -857,7 +907,12 @@
    "placements": 1,
    "nearest": 10,
    "likeness": 0.877,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    3016
+   ],
+   "group": "mo_ted_s237",
+   "new_group": true
   },
   "238": {
    "placements": 4,
@@ -890,7 +945,12 @@
    "placements": 1,
    "nearest": 42,
    "likeness": 0.688,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    3017
+   ],
+   "group": "mo_ted_s249",
+   "new_group": true
   },
   "250": {
    "placements": 3,

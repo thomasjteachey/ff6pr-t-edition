@@ -226,6 +226,21 @@ class Build(unittest.TestCase):
         self.assertEqual(set(L.pixels(tile)), {1})
         self.assertEqual(L.iou([1, 1, 0, 0], [1, 0, 0, 0]), 0.5)
 
+    def test_vanilla_chests(self):
+        """Chests T-Edition added on vanilla maps (audit I19): each in its vanilla PR room's entity file, its own
+        treasure flag in VANILLA_CHEST_FLAGS, none twice."""
+        vc = self.doc.get("vanilla_chests", [])
+        if not vc:
+            self.skipTest("a build before the vanilla-map chests")
+        flags = [c["flag_id"] for c in vc]
+        lo, hi = T.VANILLA_CHEST_FLAGS
+        self.assertEqual(len(flags), len(set(flags)))
+        self.assertTrue(all(lo <= f <= hi for f in flags))
+        added = self.doc["additions"]
+        for c in vc:
+            self.assertTrue(any(o["name"] == "TEditionChest" and o["properties"]["flag_id"] == c["flag_id"]
+                                for o in added.get(c["pr_map"], [])), c)
+
     def test_chest_flags(self):
         flags = [c["flag_id"] for r in self.doc["maps"].values() for c in r["chests"] if c["placed"]]
         self.assertEqual(len(flags), len(set(flags)))

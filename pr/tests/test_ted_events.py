@@ -325,6 +325,31 @@ class WineOldMan(unittest.TestCase):
         ops, _ = t.instr(prog().code[(E.parse_addr("CD/C113"), "field")], False, None)
         self.assertEqual(ops[0]["operands"]["sValues"][0], "TED:veldt_open 1 2 3 4 5 6 7 8")
 
+    def test_facing(self):
+        # the engine's facing bits 1B0-1B3 (up/right/down/left) -> BranchByPlayerDirection [up, right, down, left];
+        # vanilla's facing routine (CA/CA5A: 1B0-1B3 -> case bits 1A0-1A3) is nothing in the PR, its case tests and
+        # BE switch read the facing too
+        import event_translate as T
+        t = TE._translator_class()(prog().rom, "x", alloc=T.FlagAlloc(None), prog=prog())
+        ins = E.Instr.__new__(E.Instr)
+        ins.op, ins.off, ins.args = 0xC0, 0x20, {"bits": [(0x1B1, True)], "event": 0x10}       # if facing right
+        ops = t.cond(ins)
+        self.assertEqual((ops[0]["mnemonic"], ops[0]["operands"]["iValues"][:4]),
+                         ("BranchByPlayerDirection", ["@skip_000020", "@dirok_000020", "@skip_000020", "@skip_000020"]))
+        call = next(i for i in prog().code.values() if i.name == "call" and i.args.get("event") == E.parse_addr("CA/CA5A"))
+        self.assertEqual(t.instr(call, False, None), ([], True))
+        ins.op, ins.args = 0xC8, {"bits": [(0x1A2, True)], "event": 0x10}                      # case bit 2: down
+        self.assertEqual(t.cond(ins)[0]["operands"]["iValues"][:4], ["@dir_000020", "@dir_000020", "@L_000010", "@dir_000020"])
+
+    def test_chest_bits(self):
+        # 5B b = "chest 128 + b not opened" -> a Branch on ted-maps' PR treasure flag for that chest (EA/230B: bit 138 ->
+        # chest 266 -> flag 300 = TreasureFlag2 44)
+        import event_translate as T
+        t = TE._translator_class()(prog().rom, "x", alloc=T.FlagAlloc(None), prog=prog())
+        ops, _ = t.instr(prog().code[(E.parse_addr("EA/230B"), "field")], False, None)
+        self.assertEqual((ops[0]["mnemonic"], ops[0]["operands"]["iValues"][:2], ops[0]["operands"]["sValues"][0]),
+                         ("Branch", [TE.chest_flag(266)[1], 0], TE.chest_flag(266)[0]))
+
     def test_script_edits(self):
         # Cid (CA/5366): the PR's sc_e_0616 with T-Edition's doubled health per fish (Calc ScenarioVariable 2: 32 -> 64,
         # 12 -> 24), and sc_e_0625 with T-Edition's three tests (CD/4130: bits 0C1 0C9 0CD) just before "I'm all better

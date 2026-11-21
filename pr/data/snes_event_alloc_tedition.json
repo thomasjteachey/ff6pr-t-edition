@@ -75,6 +75,10 @@
 "ScenarioFlag3",
 208
 ],
+"087": [
+"TreasureFlag3",
+28
+],
 "088": [
 "ScenarioFlag3",
 140
@@ -114,6 +118,10 @@
 "0BB": [
 "ScenarioFlag3",
 202
+],
+"0BC": [
+"TreasureFlag3",
+27
 ],
 "0C0": [
 "ScenarioFlag4",
@@ -423,6 +431,14 @@
 "ScenarioFlag3",
 144
 ],
+"174": [
+"TreasureFlag3",
+24
+],
+"188": [
+"TreasureFlag3",
+25
+],
 "18F": [
 "ScenarioFlag4",
 95
@@ -543,6 +559,10 @@
 "ScenarioFlag3",
 183
 ],
+"238": [
+"TreasureFlag3",
+26
+],
 "241": [
 "ScenarioFlag4",
 70
@@ -554,6 +574,10 @@
 "248": [
 "ScenarioFlag4",
 73
+],
+"24E": [
+"TreasureFlag3",
+29
 ],
 "260": [
 "ScenarioFlag3",

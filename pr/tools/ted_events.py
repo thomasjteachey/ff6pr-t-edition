@@ -176,6 +176,10 @@ EVENTS = [
     # here and bit 061 set, her new line and bit 1C3 (Sabin's costume unlock: ENGINE_STORY_BITS, a PR flag listed
     # in ted_flags.json for TedPlugin's dressing room); then vanilla's talk from CA/6C81 (the PR's own sc_e_0028)
     dict(event=0x06C7B, map=57, npc=1),
+    # audit E4: Sabin's new lines at Gerad (map 169 NPC 10; its facing switch through vanilla's facing routine)
+    dict(event=0x091D0, map=169, npc=10),
+    # audit E5: Valigarmanda in the WoR needs Terra (map 35, tile 9,14; also the Test of Strength's last step)
+    dict(event=0x2370F, map=35, tile=(9, 14)),
 ]
 SCRIPTS = os.path.join(E.P.ROOT, "data", "snes_event_scripts_tedition.json")
 # bits T-Edition (and EX) use for their own meaning, whatever vanilla used them for: they always get a
@@ -187,7 +191,10 @@ EX_BOSS_BITS = (0x267, 0x268, 0x269, 0x26A, 0x26C, 0x26D, 0x275, 0x2A1, 0x2C1, 0
 # Omega Weapon's win: a 13th fight ted-ex added (no SNES bit of its own): a pseudo-bit past the SNES's
 # 0-6FF, so it has a key in the allocation file (ScenarioFlag4 17)
 EX_OMEGA_BIT = 0x7F0
-OWN_BITS = frozenset(EX_BOSS_BITS + (EX_OMEGA_BIT,))
+# vanilla story bits with no PR tie that only T-Edition's own event code (CD/0000 on) sets: it reuses them, so they get
+# T-Edition's own flags (11-21 count: their setters are all in T-Edition's code, none in vanilla's CA-CC)
+TED_REUSED_BITS = (0x087, 0x0BC, 0x174, 0x188, 0x238, 0x24E, 0x2A0, 0x2B0)
+OWN_BITS = frozenset(EX_BOSS_BITS + (EX_OMEGA_BIT,) + TED_REUSED_BITS)
 # script.csv rows by who makes the scripts (the events are split three ways, data/snes_event_ted_catalog.json
 # "owner"): this session's events on vanilla maps, ted-maps' on T-Edition's new maps, ted-ex's pub quests
 # (EX's own scenes: 9700-9715); 9801+: the porter's boxes, 9901+: merchants. Each owner keeps its own ids file.
@@ -301,6 +308,40 @@ def _translator_class():
         CASE_SCOPE = {"case_party": 0, "case_created": 1, "case_recruited": 1, "case_available": 1, "case_parties": 1}
 
         def _instr_bits(self, ins, sub, last):
+            if ins.name == "call" and ins.args.get("event") in facing_routines():
+                # vanilla's "copy the facing into the case bits" (1B0-1B3 -> 1A0-1A3, FACING_PATTERN): nothing to run in
+                # the PR; the case tests / switch that follow read the party's facing (cond, below)
+                self.case_kind = "facing"
+                self.done["flow"] += 1
+                self.report[("flow", "facing -> case bits")] += 1
+                return [], True
+            if ins.name == "if_bit1E50_clear" and chest_flag(0x80 + ins.args["bit"]) is not None:
+                # 5B b: "chest 128 + b not opened" (7E/1E40+ are the chest bits) -> a Branch on that chest's PR treasure
+                # flag (ted-maps' new chests: data/ted_maps.json chest "bit" -> "flag_id")
+                import event_translate as T
+                cat, idx = chest_flag(0x80 + ins.args["bit"])
+                tgt = next(x for k, x in ins.targets if k == "cond")
+                self.done["flow"] += 1
+                self.report[("flow", "chest bit -> treasure flag")] += 1
+                return [T.op("Branch", i=[idx, 0, "@L_%06X" % tgt], s=[cat, T.EQ, "imm"],
+                             comment="SNES 5B: chest bit %d" % (0x80 + ins.args["bit"]))], True
+            if ins.name == "switch" and (self.case_kind == "facing" or self.case_kind in self.CASE_SCOPE):
+                # BE: the first case whose case bit is set -> the facing (up/right/down/left: BranchByPlayerDirection's
+                # four targets) or the character (BranchByCharacter per case, in order)
+                import event_translate as T
+                self.done["flow"] += 1
+                self.report[("flow", "switch on " + ("facing" if self.case_kind == "facing" else "party"))] += 1
+                cont = "sw_%06X" % ins.off
+                if self.case_kind == "facing":
+                    first = {}
+                    for k, tgt in ins.args["cases"]:
+                        if k < 4:
+                            first.setdefault(k, tgt)
+                    return [T.op("BranchByPlayerDirection", i=["@L_%06X" % first[d] if d in first else "@" + cont
+                                                               for d in range(4)]), T.lab(cont)], True
+                scope = self.CASE_SCOPE[self.case_kind]
+                return [T.op("BranchByCharacter", i=[k + 1, 0, scope, "@L_%06X" % tgt], comment="SNES BE case %d" % k)
+                        for k, tgt in ins.args["cases"] if k < 14], True
             if ins.name in ("tiles_set", "tiles_set_later", "tiles_refresh") and self.pr_map:
                 # the PR changes map tiles only through regions its maps carry (TileAnimRegion objects, played
                 # by CueAnim: the Big Bridge's staircase): a change over such a region cues it; 75 (redraw) needs
@@ -502,6 +543,41 @@ def _translator_class():
                                 T.lab(ok_)]
                     else:
                         out.append(T.op("BranchByLeader", i=[b - 0x1A0 + 1, "@" + skip]))
+                if rest:
+                    ins2 = copy.copy(ins)
+                    ins2.args = dict(ins.args, bits=rest)
+                    out += self.cond(ins2)
+                else:
+                    out.append(T.op("Jump", i=[target]))
+                return out + [T.lab(skip)]
+            def facing_of(b):
+                if 0x1B0 <= b <= 0x1B3:                 # the engine's "party faces up / right / down / left" (C0/BA80)
+                    return b - 0x1B0
+                if self.case_kind == "facing" and 0x1A0 <= b <= 0x1A3:     # copied to the case bits (facing routine)
+                    return b - 0x1A0
+                return None
+            facing = [(facing_of(b), w) for b, w in ins.args["bits"] if facing_of(b) is not None]
+            if facing:
+                # the facing terms decide per direction -> BranchByPlayerDirection [up, right, down, left]; other bits
+                # are tested after it as usual
+                rest = [(b, w) for b, w in ins.args["bits"] if facing_of(b) is None]
+                target = "@L_%06X" % ins.args["event"]
+                self.done["flow"] += 1
+                self.report[("flow", "facing test")] += 1
+                if ins.op >= 0xC8:                      # any
+                    dirs = {d for d in range(4) if any((d == k) == w for k, w in facing)}
+                    cont = "dir_%06X" % ins.off
+                    out = [T.op("BranchByPlayerDirection", i=[target if d in dirs else "@" + cont for d in range(4)]),
+                           T.lab(cont)]
+                    if rest:
+                        ins2 = copy.copy(ins)
+                        ins2.args = dict(ins.args, bits=rest)
+                        out += self.cond(ins2)
+                    return out
+                dirs = {d for d in range(4) if all((d == k) == w for k, w in facing)}
+                ok_, skip = "dirok_%06X" % ins.off, "skip_%06X" % ins.off
+                out = [T.op("BranchByPlayerDirection", i=["@" + (ok_ if d in dirs else skip) for d in range(4)]),
+                       T.lab(ok_)]
                 if rest:
                     ins2 = copy.copy(ins)
                     ins2.args = dict(ins.args, bits=rest)
@@ -1340,6 +1416,39 @@ def script_edit(spec, rom, prog, alloc, Tr, texts):
         t.blocks.append((seg, [T.lab(seg)] + t.body(tgt, "field", sub=False) + [T.op("Exit")]))
     block[at:at] = tests
     return t.assemble(spec["script"], [T.lab("Main"), T.op("Jump", i=["@" + label])], t.blocks), t
+
+
+_chest_flags = None
+
+
+def chest_flag(bit):
+    """SNES chest bit (7E/1E40 + bit/8) -> the PR treasure flag (category, index) of that chest: ted-maps' chests
+    (data/ted_maps.json: "bit" -> "flag_id", T-Edition's new maps' chests 300-369 and the 13 it added on vanilla maps,
+    "vanilla_chests", 370-382); None for others."""
+    global _chest_flags
+    if _chest_flags is None:
+        import ted_maps as TM
+        doc = TM.table()
+        chests = [c for rec in doc["maps"].values() for c in rec.get("chests") or []] + list(doc.get("vanilla_chests") or [])
+        _chest_flags = {c["bit"]: c["flag_id"] for c in chests if isinstance(c, dict) and c.get("flag_id") is not None}
+    f = _chest_flags.get(bit)
+    return None if f is None else ("TreasureFlag%d" % (1 + f // 256), f % 256)
+
+
+# vanilla's routine copying the party's facing (engine bits 1B0-1B3: up/right/down/left, set from the leader's facing
+# when an event starts, C0/BA80) into the case bits 1A0-1A3: T-Edition CA/CA5A, US CA/CA64
+FACING_PATTERN = bytes.fromhex("D3A0D3A1D3A2D3A3C0B001")
+_facing = None
+
+
+def facing_routines():
+    """Event offsets of T-Edition's copies of the facing routine (FACING_PATTERN)."""
+    global _facing
+    if _facing is None:
+        import re
+        d = load("ted").data
+        _facing = {m.start() - 0x0A0000 for m in re.finditer(re.escape(FACING_PATTERN), d) if m.start() >= 0x0A0000}
+    return _facing
 
 
 def build_lock(log=print):

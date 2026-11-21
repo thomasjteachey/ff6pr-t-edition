@@ -152,6 +152,8 @@ def build(log=print):
         rec = out.get(str(a["sprite"]))
         if rec is not None and rec["how"] == "none":
             rec.update(how="ted art", assets=[a["mapobject"]], group=a["group"])
+            if a.get("new_group"):
+                rec["new_group"] = True
             none.remove(a["sprite"])
     counts = collections.Counter(r["how"] for r in out.values())
     placed = collections.Counter()

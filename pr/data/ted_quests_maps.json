@@ -4,11 +4,20 @@
   "Map_20451_10": [
    "sc_tedq_cd2b50_npc0_b1"
   ],
+  "Map_30650_1": [
+   "sc_tedq_ce0580_entrance"
+  ],
   "Map_30641_8": [
    "sc_tedq_cd55b0_npc0_b1"
   ],
   "Map_30031_6": [
    "sc_tedq_cd5760_npc0_b1"
+  ],
+  "Map_20071_28": [
+   "sc_tedq_ce0ee0_entrance"
+  ],
+  "Map_20051_25": [
+   "sc_tedq_ce0de0_entrance"
   ],
   "Map_30421_5": [
    "sc_tedq_cd58b0_npc0_b1",
@@ -30,15 +39,32 @@
    "sc_tedq_cd58b0_npc0_30421_11_b1",
    "sc_tedq_cd58e0_npc1_30421_11_b1"
   ],
+  "Map_20391_4": [
+   "sc_tedq_cd5250_entrance"
+  ],
+  "Map_20451_9": [
+   "sc_tedq_cd5250_entrance_20451_9"
+  ],
   "Map_20010_1": [
    "sc_tedq_cd6c60_npc0_m1",
    "sc_tedq_cd6c60_npc0_m2",
+   "sc_tedq_cda690_entrance",
    "sc_tedq_cda6e0_npc10_b1",
    "sc_tedq_cda700_npc11_b1",
    "sc_tedq_cda720_npc12_b1",
    "sc_tedq_cda740_npc13_b1",
    "sc_tedq_cda760_npc14_b1",
    "sc_tedq_cda780_npc15_b1"
+  ],
+  "Map_20121_6": [
+   "sc_tedq_cd6e40_entrance",
+   "sc_tedq_cdab60_npc7_b1_m1"
+  ],
+  "Map_20151_9": [
+   "sc_tedq_e9e700_entrance"
+  ],
+  "Map_20020_1": [
+   "sc_tedq_cda9a0_entrance"
   ],
   "Map_30021_9": [
    "sc_tedq_cdaa20_npc0_b1",
@@ -51,7 +77,8 @@
   ],
   "Map_30021_6": [
    "sc_tedq_cdaa70_npc5_b1",
-   "sc_tedq_cdaa80_npc6_b1"
+   "sc_tedq_cdaa80_npc6_b1",
+   "sc_tedq_cdaad0_entrance"
   ],
   "Map_30021_8": [
    "sc_tedq_cdaa90_npc7_b1"
@@ -69,10 +96,8 @@
    "sc_tedq_cdab30_npc4_b1",
    "sc_tedq_cdab40_npc5_b1",
    "sc_tedq_cdab50_npc6_b1",
-   "sc_tedq_cdab60_npc7_b1"
-  ],
-  "Map_20121_6": [
-   "sc_tedq_cdab60_npc7_b1_m1"
+   "sc_tedq_cdab60_npc7_b1",
+   "sc_tedq_cdac60_entrance"
   ],
   "Map_20111_8": [
    "sc_tedq_cdfcd0_npc0_m1",

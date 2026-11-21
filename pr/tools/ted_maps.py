@@ -106,7 +106,8 @@ VANILLA_MAPS = 416
 ENTRANCE = 0x11FA00          # D1/FA00: entrance event addresses, 3 bytes per map
 FIRST_MAP_ID, FIRST_SCRIPT_ID = 644, 629
 FIRST_CHEST_FLAG = 300       # treasure flags 300-369 for the new maps' chests (vanilla chests use 0-272; the PR
-CHEST_FLAGS = (300, 369)     # has 1024: UserDataManager kTreasureFlags); the lead keeps other allocators off them
+CHEST_FLAGS = (300, 369)
+VANILLA_CHEST_FLAGS = (370, 389)   # chests T-Edition added on vanilla maps (new SNES treasure bits): the lead, 11-21     # has 1024: UserDataManager kTreasureFlags); the lead keeps other allocators off them
 ITEMS_JSON = os.path.join(P.ROOT, "mods", "TEditionPort", "ted_items.json")   # the porter's item slots -> PR content
 GOTO_GID, POINT_GID, CHEST_GID = 996, 997, 1023   # the PR's GotoMap / PointIn / chest objects
 VANILLA_OBJECT_IDS = 3000    # first Tiled object id for objects added to vanilla entity files
@@ -624,7 +625,7 @@ class Builder:
         self.warps = sorted(warps)
         self.arrivals = {m: sorted(set(v)) for m, v in arr.items()}
 
-    def chest_object(self, c, px, py, items):
+    def chest_object(self, c, px, py, items, flag=None):
         """A PR chest object for a T-Edition chest (None for a monster-in-a-box: its battle is the
         event translator's)."""
         import port_chests as C
@@ -648,10 +649,11 @@ class Builder:
             cid, num, msg = 1, c["contents"] * 100, C.MSG_GIL
         else:
             cid, num, msg = 1, 0, C.MSG_EMPTY
-        flag = self.next_flag
-        self.next_flag += 1
-        if flag > CHEST_FLAGS[1]:
-            raise SystemExit(f"more chests than treasure flags {CHEST_FLAGS}: ask the lead for a wider range")
+        if flag is None:
+            flag = self.next_flag
+            self.next_flag += 1
+            if flag > CHEST_FLAGS[1]:
+                raise SystemExit(f"more chests than treasure flags {CHEST_FLAGS}: ask the lead for a wider range")
         obj = {"name": "TEditionChest", "x": px, "y": py, "gid": CHEST_GID, "properties": {
             "accept_action_direction": 15, "action_id": 6, "asset_id": 0, "collision": True,
             "content_id": cid or 0, "content_num": num, "direction": 15, "entity_id": 0, "flag_id": flag,
@@ -659,6 +661,38 @@ class Builder:
             "message_key": msg, "object_id": 0, "object_type": 7, "pick_up": False, "script_id": 0, "se_id": 909,
             "talk_target_transportation_ids": ""}}
         return obj, flag
+
+    def vanilla_chests(self):
+        """Chests T-Edition added on vanilla maps (SNES treasure bits vanilla's chests don't use: the porter has no PR
+        chest to change for them, audit I19) -> chest objects added to the vanilla PR room at their spot
+        (`additions`), treasure flags VANILLA_CHEST_FLAGS in (map, bit) order. A monster-in-a-box stays the event
+        translator's. Listed in ted_maps.json "vanilla_chests"."""
+        import ff6snes as S
+        us = S.rom_bytes(P.VANILLA_ROM)
+        bits = {c["bit"] for m in range(VANILLA_MAPS) for c in SM.chests(us, m)}
+        items = self.item_slots()
+        flag = VANILLA_CHEST_FLAGS[0]
+        self.vanilla_chest_list = []
+        for m in range(VANILLA_MAPS - 1):
+            for c in sorted(SM.chests(self.data, m, TED), key=lambda c: c["bit"]):
+                if c["bit"] in bits or c["type"] == "monster":
+                    continue
+                at = SM.to_pr(m, c["x"], c["y"])
+                if not at:
+                    self.notes["vanilla-map chests with no PR room"] += 1
+                    continue
+                if flag > VANILLA_CHEST_FLAGS[1]:
+                    raise SystemExit(f"more new vanilla-map chests than treasure flags {VANILLA_CHEST_FLAGS}")
+                obj, _ = self.chest_object(c, at[1], at[2], items, flag=flag)
+                if obj is None:
+                    continue
+                self.additions[at[0]].append(obj)
+                self.vanilla_chest_list.append({"snes_map": m, "x": c["x"], "y": c["y"], "bit": c["bit"], "type": c["type"],
+                                                "contents": c["contents"], "pr_map": at[0], "pr_x": at[1], "pr_y": at[2],
+                                                "flag_id": flag, "content_id": obj["properties"]["content_id"],
+                                                "content_num": obj["properties"]["content_num"]})
+                flag += 1
+        self.notes["chests added to vanilla maps"] += len(self.vanilla_chest_list)
 
     def item_slots(self):
         """T-Edition's items by slot: the porter's mods/TEditionPort/ted_items.json ({slot: {table, id,
@@ -771,6 +805,7 @@ class Builder:
             import ted_map_events
             self.events = ted_map_events.Events(self, self.log)
             self.events.prepare()
+        self.vanilla_chests()
         # other workstreams' doors and arrival points (ids they chose, 90+, clear of the build's 1..n)
         for m, rec in sorted(self.extra.items()):
             if m not in self.rooms:
@@ -917,6 +952,7 @@ class Builder:
                "maps": out_maps, "into": into,
                "warps": [list(w) for w in self.warps],
                "additions": {pr: objs for pr, objs in sorted(self.additions.items())},
+               "vanilla_chests": getattr(self, "vanilla_chest_list", []),
                "unresolved": self.unresolved, "guessed_parents": self.guessed_parents}
         with open(MAPS_JSON, "w", encoding="utf-8") as f:
             json.dump(doc, f, indent=1, ensure_ascii=False)

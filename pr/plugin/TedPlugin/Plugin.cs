@@ -70,12 +70,19 @@ namespace TEdition.PR
             if (TedMode) TedSysCalls.Apply(H);
             if (TedMode) TedMagicite.Apply(H);   // rule 35
             if (TedMode) TedStatusPage.Patch(H);   // audit U4: elements and immunities on the status screen
+            // audit G12: MP damage pink, MP healing blue (the kit's SnesMpNumbers)
+            if (TedMode) PrKit.Ff6.SnesMpNumbers.Apply(H, new PrKit.Ff6.SnesMpNumbersMod
+            {
+                Name = "T-Edition", MpDamage = new UnityEngine.Color(1f, 0.55f, 0.8f), MpHeal = new UnityEngine.Color(0.45f, 0.7f, 1f),
+                Enabled = () => TedMode,
+            });
+            if (TedMode) TedRageOrder.Patch(H);   // audit U10: Rages alphabetical
             if (TedMode) TedRelics.Patch(H);   // audit I5: relic effects on T-Edition's other items
             if (TedMode) TedDesperation.Patch(H);
             if (TedMode) TedUmaro.Patch(H);   // audit C28: Umaro takes commands; his Fight by T-Edition's table   // rule 39: desperation attacks
             if (TedMode) TedEncounters.Patch(H);   // rule 24: openings (pre-emptive relic x4, no enemy first strike)
             if (TedMode) TedFlags.Load(Path.Combine(DataDir, "ted_flags.json"));   // ted-events' named PR flags
-            if (TedMode) TedRam.LoadTables(Path.Combine(DataDir, "ted_tables.json"));   // TED:cmp's ROM tables
+            if (TedMode) TedRam.LoadSongs(Path.Combine(DataDir, "music", "ted_music.json"));   // TED:cmp 1300 / TED:song: vanilla tracks as SNES songs
             if (TedMode) TedShop.Apply(H);   // audit I18: WoR prices x2 until Humbaba
             if (TedMode)
             {
@@ -237,6 +244,7 @@ namespace TEdition.PR
                 TedCostumes.Update();
                 TedSosReflect.Update();
                 TedMagitek.Update();
+                PrKit.Ff6.SnesMpNumbers.Update();
                 TedHarness.Update();
             }
             catch (Exception e) { Hooks.WarnOnce("ted-update", e); }
