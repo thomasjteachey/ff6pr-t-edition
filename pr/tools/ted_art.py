@@ -275,6 +275,7 @@ COSTUME_OUT = os.path.join(ROOT, "..", "build", "t-edition", "art", "costumes")
 CAST = ["Terra", "Locke", "Cyan", "Shadow", "Edgar", "Sabin", "Celes", "Strago", "Relm", "Setzer", "Mog", "Gau",
         "Gogo", "Umaro"]
 CHAMELEON = ["Leo", "Banon", "Trance Terra", "Merchant", "Ghost", "Kefka", "Gestahl", "Cid", "Daryl", "Rachel"]   # slots 16-25
+ACCESSORY_LOOKS = [("kappa", 73), ("pig", 74)]   # Kappa's Favor 0x115, Piggy's Badge 0x116: battle sheets 39/3F80, 3E/C600
 COSTUME_RANGES = [(1, range(26, 40)), (2, range(40, 54)), (3, range(54, 68)), (4, list(range(68, 73)) + list(range(76, 85)))]
 
 
@@ -363,6 +364,11 @@ def costumes(out=COSTUME_OUT, walk=False, sheet=None, log=print):
             review.append((name, lk, C.group_frames(L["battle"], L["battle_pal"], names),
                            C.group_frames(L["field"], C.palette(L["field_pal"]), names),
                            C.portrait(L["portrait"], L["portrait_pal"])))
+    # the Imp status look (T-Edition redrew it as a toad: slot 15, the PR's Imp group) goes into default/
+    imp = slots["15"]
+    L = look(rom, 15, imp["palette"])
+    _write_look(pr_art.ArtWriter(default), C, imp, C.frame_names(imp["battle"]), L, {"costume": 0, "slot": 15,
+                                                                                    "pal": imp["palette"]}, "Imp")
     # Gogo's Chameleon Robe: each battle one of 10 battle-only looks, the battle sheets of slots 16-25 (ROM read:
     # 42/6000 + its colors at 42/5E00) drawn on Gogo's battle group (no field atlas, no portrait)
     gogo = slots["12"]
@@ -378,7 +384,23 @@ def costumes(out=COSTUME_OUT, walk=False, sheet=None, log=print):
         w.art["ted"] = [{"character": "Gogo", "chameleon": form, "slot": s}]
         w.save()
         review.append((f"Gogo/{form}", {"costume": k % 5, "slot": s}, frames, {}, b"\0" * 6400))
-    log(f"T-Edition looks: {len(review)} looks ({len(CAST)} characters x 5 + {len(CHAMELEON)} Chameleon Robe forms) "
+    # the cosmetic relics: Kappa's Favor (item 0x115) and Piggy's Badge (0x116) draw the wearer in battle as a kappa
+    # (battle slot 73) or a pig (74), statuses unchanged; one battle-only folder per character
+    for acc, s in ACCESSORY_LOOKS:
+        L = look(rom, s, 0)
+        for c, name in enumerate(CAST):
+            g = slots[str(c)]
+            folder = os.path.join(out, f"{name}_{acc}")
+            if os.path.isdir(folder):
+                shutil.rmtree(folder)
+            w = pr_art.ArtWriter(folder)
+            frames = C.group_frames(L["battle"], L["battle_pal"], C.frame_names(g["battle"]))
+            w.character(g["battle"], frames)
+            w.art["ted"] = [{"character": name, "accessory": acc, "slot": s}]
+            w.save()
+        review.append((acc, {"costume": acc, "slot": s}, frames, {}, b"\0" * 6400))
+    log(f"T-Edition looks: {len(review)} looks ({len(CAST)} characters x 5 + {len(CHAMELEON)} Chameleon Robe forms "
+        f"+ {len(ACCESSORY_LOOKS)} relic looks x {len(CAST)}) "
         f"+ default in {out}")
     if sheet:
         costume_sheet(review, sheet)
@@ -402,13 +424,13 @@ def costume_sheet(review, path, scale=2):
     from PIL import Image, ImageDraw
     show = ["Default_00", "WalkL_00", "Idle_00", "Win_00", "Down_00"]
     cw = (len(show) * 2 * 32 + 40 + 16) * scale
-    rows = len(CAST)
+    rows = (len(review) + 4) // 5
     im = Image.new("RGBA", (5 * cw, rows * 44 * scale + 10), (52, 52, 60, 255))
     dr = ImageDraw.Draw(im)
     for n, (name, lk, battle, field, face) in enumerate(review):
-        r, k = n // 5, lk["costume"]
+        r, k = n // 5, n % 5
         x, y = k * cw, r * 44 * scale + 10
-        dr.text((x + 2, y - 10), f"{name} {k} (slot {lk['slot']})", fill=(255, 255, 0, 255))
+        dr.text((x + 2, y - 10), f"{name} {lk['costume']} (slot {lk['slot']})", fill=(255, 255, 0, 255))
         im.alpha_composite(Image.frombytes("RGBA", (40, 40), face).resize((40 * scale, 40 * scale), Image.NEAREST), (x, y))
         for j, nm in enumerate(show):
             for h, src in enumerate((field, battle)):

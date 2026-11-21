@@ -14,7 +14,10 @@ active or shelved), then installs the test build:
   BepInEx/TEdition/                          the files the plugin reads: build/t-edition/plugin/*.json
                                              (tools/ted_plugin_data.py: ted_data.json), the top-level *.json
                                              of mods/TEdition (ted_ai.json, ted_items.json: the porter's), EX's
-                                             build/t-edition/ex/ted_ex_ai.json when made
+                                             build/t-edition/ex/ted_ex_ai.json when made, data/ted_monster_images.json
+                                             (bc-sprites' monster image recipe); music/: the song pack
+                                             (build/t-edition/music, tools/ted_music.py) when made; costumes/:
+                                             ff6-mod/build/t-edition/art/costumes (tools/ted_art.py) when made
   <Magicite>/TEdition                        the group folders of mods/TEdition (tools/ted_build.py: the port
                                              merged with ted-maps' and ted-events' folders); its top-level files stay out
 It never writes BepInEx/TEdition/build.json: that file marks a player install (T-Edition's real installer
@@ -45,15 +48,18 @@ HELD = "ted-test-held"
 CONFIG = "ff6mod.tedition.cfg"
 DLL = os.path.join(PR, "plugin", "TedPlugin", "bin", "Release", "net6.0", "TEdition.PR.dll")
 MAGICITE = os.path.join(PR, "mods", MOD)     # tools/ted_build.py's merged folder
+MUSIC = os.path.join(PR, "build", "t-edition", "music")   # tools/ted_music.py's song pack (songs.json, songs.bin, ted_music.json)
+COSTUMES = os.path.join(os.path.dirname(PR), "build", "t-edition", "art", "costumes")   # tools/ted_art.py costumes (ArtSwap folders)
 
 
 def data_files():
     """The files the plugin reads, from the builds that make them (never build.json)."""
     out = sorted(glob.glob(os.path.join(PR, "build", "t-edition", "plugin", "*.json")))
     out += sorted(f for f in glob.glob(os.path.join(MAGICITE, "*.json")))
-    ex = os.path.join(PR, "build", "t-edition", "ex", "ted_ex_ai.json")
-    if os.path.exists(ex):
-        out.append(ex)
+    for extra in (os.path.join(PR, "build", "t-edition", "ex", "ted_ex_ai.json"),
+                  os.path.join(PR, "data", "ted_monster_images.json")):      # bc-sprites' recipe (TedArt.cs)
+        if os.path.exists(extra):
+            out.append(extra)
     return [f for f in out if os.path.basename(f).lower() != "build.json"]
 
 
@@ -123,11 +129,16 @@ def install():
     files = data_files()
     for f in files:
         shutil.copy2(f, data)
+    if os.path.exists(os.path.join(MUSIC, "songs.json")):
+        shutil.copytree(MUSIC, os.path.join(data, "music"))
+    if os.path.isdir(COSTUMES):
+        shutil.copytree(COSTUMES, os.path.join(data, "costumes"))
     os.makedirs(magicite)
     groups = [d for d in sorted(os.listdir(MAGICITE)) if os.path.isdir(os.path.join(MAGICITE, d))]
     for d in groups:
         shutil.copytree(os.path.join(MAGICITE, d), os.path.join(magicite, d))
-    print(f"installed {MOD} for a test: {len(groups)} Magicite groups, data {', '.join(os.path.basename(f) for f in files)}; "
+    print(f"installed {MOD} for a test: {len(groups)} Magicite groups, data {', '.join(os.path.basename(f) for f in files)}"
+          f"{', music pack' if os.path.isdir(os.path.join(data, 'music')) else ''}; "
           f"{len(state['held'])} folders held in {held}")
 
 

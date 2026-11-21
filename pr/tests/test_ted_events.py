@@ -54,11 +54,19 @@ class Decoding(unittest.TestCase):
                            (0xED, 4), (0xE5, 2), (0x66, 3), (0x76, 3), (0x9E, 2), (0x9F, 3), (0xEE, 3), (0xCC, 2)):
             self.assertEqual(ops[code].size, size, hex(code))
         # the ROM's handlers for them are T-Edition's own (the JP ROM's table at the same place)
-        d = TE.load("ted").data
+        d = prog().rom.data
         jp = E.load("jp").data
         tbl = lambda x, op: x[0x97F9 + 2 * (op - 0x35)] | x[0x97F9 + 2 * (op - 0x35) + 1] << 8
         for code in (0x5B, 0x67, 0xEE, 0xFC, 0xCB, 0xCC):
             self.assertNotEqual(tbl(d, code), tbl(jp, code), hex(code))
+
+    def test_choices_in_any_layout(self):
+        # a choice line may start with a space, and a line may hold two (dialogue 362: Left / Right)
+        t = TE.Texts(prog().rom)
+        keys, choices = t.keys(362)
+        self.assertEqual([t.mes[k] for k in choices], ["(Straight)", "(Left)", "(Right)"])
+        keys, choices = t.keys(10)
+        self.assertEqual([t.mes[k] for k in choices], ["Yes", "No"])
 
     def test_dialogue(self):
         import ted_dialog as D
@@ -71,13 +79,38 @@ class Decoding(unittest.TestCase):
         self.assertTrue(D.text(d, D.file_of(d, D.PTRS2, 0)).startswith("Owzer: Hrm? That claw..."))
 
 
+@unittest.skipUnless(HAVE_TED, "needs the JP ROM and Mato's T-Edition build")
+class Songs(unittest.TestCase):
+    def test_song_tables(self):
+        # two drivers: C5 (map songs, F0/EF/F1) and bank 43 (76/9E/9F); vanilla's songs by their bytes
+        import ted_songs as TS
+        o = TS.build(write=False)
+        self.assertEqual(o["songs"]["23"], 3)            # 17: Narshe, the PR's track 3
+        self.assertEqual(o["songs"]["43"], 47)           # 2B: a few notes fixed, still vanilla's
+        for slot in (0x25, 0x2F, 0x38, 0x3F, 0x49, 0x51, 0x55, 0xFE):   # T-Edition's music in C5
+            self.assertIn(slot, o["new"], hex(slot))
+            self.assertNotIn(str(slot), o["songs"])
+        self.assertEqual(o["second"]["47"], 7)           # 2F: the victory fanfare, on the second driver
+        self.assertEqual(o["second"]["56"], 74)          # 38: Good Night
+        self.assertEqual(o["second_new"][:2], [0x25, 0x55])
+        self.assertEqual(o["no_track"]["0"], "silence")
+        # an event's songs: vanilla's keep their PR tracks; T-Edition's own get the music pack's ids
+        # (ted/MEDIA_PLAN.md): 1000 + n on the main driver, 1256 + n on the second (9E & 7F)
+        t = TE._translator_class()(prog().rom, "x", prog=prog())
+        self.assertEqual(t.song_bgm(0x25, "ted_song"), 1256 + 0x25)
+        self.assertEqual(t.song_bgm(0x2F | 0x80, "ted_song"), 7)
+        self.assertEqual(t.song_bgm(0x17, "song"), 3)
+        self.assertEqual(t.song_bgm(0x3F, "song"), 1000 + 0x3F)
+        self.assertIsNone(t.song_bgm(0, "song"))                 # silence
+
+
 @unittest.skipUnless(HAVE_TED and HAVE_DIALOG, "needs Mato's T-Edition build and build/dialog/dialog_map.json")
 class WineOldMan(unittest.TestCase):
     def test_the_event(self):
         import event_translate as T
         from prkit import data as PD, magicite as MG
         out = os.path.join(tempfile.mkdtemp(), "TEditionEvents")
-        report, mod = TE.build(out=out, write=False)
+        report, mod = TE.build(out=out, write=False, prog=prog())
         mod.write()
         rep = report[0]
         self.assertEqual(rep["stubs"], {})
@@ -108,13 +141,65 @@ class WineOldMan(unittest.TestCase):
                if q["name"] == "script_id" and q["value"] >= 9500]
         self.assertEqual(ids, [wired["ev_e_0038"]["script_id"]])
 
+    def test_rubys_shine(self):
+        # README "Ruby's Shine" / "Test of Strength" / "Stolen Magicite": Narshe's two walk-on townsfolk
+        # (no PR script: they get ours), and Tzen's merchant on the one PR room for the SNES's World of
+        # Balance (306) and World of Ruin (305) Tzen: one script that picks the scene by the PR's flag
+        import event_translate as T
+        out = os.path.join(tempfile.mkdtemp(), "TEditionEvents")
+        ev = [e for e in TE.EVENTS if e["map"] in (20, 305, 306)]
+        report, mod = TE.build(out=out, events=ev, write=False, prog=prog())
+        mod.write()
+        by = {r["event"]: r for r in report}
+        for e in ("CD/49D0", "CD/4A10", "CC/9CE0", "CC/5DD3"):
+            self.assertEqual(by[e]["stubs"], {}, e)
+        self.assertEqual([(w["layer"], w["entity"], w["was"]) for w in by["CD/49D0"]["wired"]],
+                         [("ev_e_0018", 88, None)])
+        narshe = os.path.join(out, "map_20010", "Assets", "GameAssets", "Serial", "Res", "Map", "Map_20010", "Map_20010")
+        walkon = [{q["name"]: q["value"] for q in o["properties"]} for lay in TE._json(os.path.join(narshe, "ev_e_0018.json"))["layers"]
+                  for o in lay.get("objects") or [] if any(q["name"] == "entity_id" and q["value"] == 88 for q in o.get("properties", []))]
+        self.assertEqual((walkon[0]["script_id"], walkon[0]["action_id"]), (by["CD/49D0"]["wired"][0]["script_id"], 2))
+        self.assertEqual(TE.snes_world(305), 1)
+        self.assertEqual(TE.snes_world(306), 0)
+        # Tzen: the PR keeps a World of Balance room (Map_20190) and a World of Ruin one (Map_20330);
+        # each SNES map's event goes to its own world's room. The WoB bandit stands 2 tiles off in the
+        # PR (ev_e_0427), found by his look
+        self.assertEqual((TE.pr_world("Map_20190"), TE.pr_world("Map_20330")), (0, 1))
+        self.assertEqual([(by["CC/9CE0"]["pr_map"], w["entity"]) for w in by["CC/9CE0"]["wired"]], [("Map_20330", 1)])
+        self.assertEqual([(by["CC/5DD3"]["pr_map"], w["layer"], w["entity"]) for w in by["CC/5DD3"]["wired"]],
+                         [("Map_20190", "ev_e_0427", 58)])
+        room = os.path.join(out, "map_20330", "Assets", "GameAssets", "Serial", "Res", "Map", "Map_20330", "Map_20330")
+        sc = TE._json(os.path.join(room, by["CC/9CE0"]["wired"][0]["now"] + ".json"))
+        self.assertEqual(T.check(sc), [])
+        self.assertFalse([m for m in sc["Mnemonics"] if m["mnemonic"] == "SysCall"
+                          and m["operands"]["sValues"][0].startswith("SNES:")])   # stubs are Nops
+        fights = [m["operands"]["iValues"][0] for m in sc["Mnemonics"] if m["mnemonic"] == "Encount"]
+        self.assertTrue({30723, 30724, 30725} <= set(fights), fights)    # the porter's new formations
+
+    def test_new_npc(self):
+        # Gilgamesh in the Colosseum (map 413 NPC 6): no PR entity and no PR sprite -> a new NPC object
+        # (entity 5000+) on the guard's look in the room's entity_default, running the event; listed as a
+        # stand-in for bc-sprites
+        out = os.path.join(tempfile.mkdtemp(), "TEditionEvents")
+        report, mod = TE.build(out=out, events=[dict(event=0x34E20, map=413, npc=6)], write=False, prog=prog())
+        mod.write()
+        w = report[0]["wired"][0]
+        self.assertTrue(w["new"] and w["entity"] in TE.NEW_ENTITY_IDS)
+        self.assertEqual(report[0]["build"]["standins"][0]["sprite"], 221)
+        room = os.path.join(out, "map_20421", "Assets", "GameAssets", "Serial", "Res", "Map", "Map_20421", "Map_20421_2")
+        objs = [{q["name"]: q["value"] for q in o["properties"]} for lay in TE._json(os.path.join(room, "entity_default.json"))["layers"]
+                for o in lay.get("objects") or []]
+        new = [o for o in objs if o.get("entity_id") == w["entity"]]
+        self.assertEqual([(o["script_id"], o["action_id"], o["object_type"], o["asset_id"]) for o in new],
+                         [(w["script_id"], 2, 6, TE.STANDIN_LOOK)])
+
     def test_ex_boss_bits_have_fixed_flags(self):
         # EX's boss fights (ted-ex) and the Collection Room (here) read the same flags: reserved in the
         # shared file, and T-Edition's own meaning of these bits wins over any tie learned from vanilla
         import event_translate as T
         alloc = T.FlagAlloc(TE.ALLOC)
         self.assertEqual([alloc.table[b] for b in TE.EX_BOSS_BITS], [("ScenarioFlag4", 5 + k) for k in range(12)])
-        t = TE._translator_class()(TE.load("ted"), "x", alloc=alloc, prog=prog())
+        t = TE._translator_class()(prog().rom, "x", alloc=alloc, prog=prog())
         T.maps()["flags"][0x000] = ("ScenarioFlag1", 1)           # as if vanilla had taught a tie for it
         try:
             self.assertEqual(t.flag(0x000), ("ScenarioFlag4", 15))

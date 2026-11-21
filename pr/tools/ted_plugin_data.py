@@ -44,6 +44,170 @@ NAMED_SLOTS = {"orichalcum": 0x66, "elven_darts": 0x6C, "valiant_knife": 0x08, "
                "dancing_dagger": 0x06, "dice": 0x50, "fixed_dice": 0x52}
 
 
+# --- rule 49: percent damage (pr/ted/BATTLE_SPEC.md) -------------------------------------------------------------
+# T-Edition's percent spells (spell byte 4 bit 7, "damage = HP x power / 16": vanilla's Demi 8, Quarter 12, Tornado
+# 15) take current HP only for the ten its code lists (40/7680, from C2/0D7F); every other one takes max HP. The PR's
+# fraction damage is function type 33 of function_group.csv (BaseValueFixedHPFunction.Calc): value1 2, value2 the
+# mode (2 current HP x value3 / 100, 3 current HP / value3, 4 max HP x value3 / 100, 5 max HP / value3).
+KEEP_CURRENT_HP = (0x1E, 0x34, 0x6E, 0x72, 0x9D, 0xAE, 0xB2, 0xBD, 0xCD, 0xDD)   # Gravity .. Missile (T-Edition's ids)
+PERCENT_FLAG = 0x80        # Spell.flags3 (byte 4) bit 7
+FRACTION = 33              # the PR's fraction-damage function
+REVIVE = 34                # the PR's revive with HP, the same value layout (vanilla Raise 34,2,5,8 = power 2)
+DAMAGE = (2, 3)            # the PR's Physical / Magic damage functions (port_spells)
+
+
+def _fraction(power, current):
+    """power/16 of HP as the PR's (mode, value3): an exact 1/n as mode 3/5, else a rounded percentage (mode 2/4)."""
+    if 16 % power == 0:
+        return (3 if current else 5), 16 // power
+    return (2 if current else 4), int(power * 100 / 16 + 0.5)
+
+
+def _share(mode, v3):
+    return v3 / 100 if mode in (2, 4) else 1 / v3 if v3 else 0
+
+
+def percent_damage(folder, log=print):
+    """Rule 49 on a staged port folder (its partial function_group / ability / item CSVs over the game's;
+    tools/ted_build.data_rules calls it; idempotent). For every ability row holding one of T-Edition's spells:
+      * a percent spell: its group's fraction function at T-Edition's power, current HP for the ten listed
+        spells and max HP for the rest; a group with no fraction function gets one in place of its damage
+        function (Diabolos and Wave Cannon: the porter's templates are plain damage spells);
+      * a spell that is no percent spell in T-Edition but sits on a fraction group (the porter's template was
+        vanilla's percent spell of that name: Snowball, Mustard Bomb, ...): Magic or Physical damage instead;
+    rows that hold none of T-Edition's spells (the PR's own monster-skill copies: 282 (unnamed), 1240 and 1503 Missile, 1443 Sonic
+    Boom, 1537 Cave-In) and items stay as the PR has them. A group used by rows that now want
+    different functions is cloned (new ids after the table's highest) and those rows repointed. Revives (type 34,
+    the same layout) get T-Edition's power of max HP (Raise 4 = 1/4, Phoenix 10); the fraction modes of other
+    formulas (value1 1: Revenge, Self-Destruct) are left as they are."""
+    import profile_tedition as T
+    import ted_build as B
+    T.build()
+    rom = S.Rom(T.MATO)
+    spells, names = S.spells(rom), S.spell_names(rom)
+    ab, fg, it = B.MasterRows(folder, "ability"), B.MasterRows(folder, "function_group"), B.MasterRows(folder, "item")
+    spell_of = {}
+    for i in range(255):
+        k = M.spell(i)
+        if k is not None:
+            spell_of.setdefault(k, i)
+
+    def current(table, rid):
+        return table.rows.get(rid) or table.van.rows.get(rid)
+
+    def funcs(gid):
+        r = current(fg, gid)
+        if r is None:
+            return None
+        return tuple(tuple(int(r[f"function{k}_{c}"] or 0) for c in ("id", "value1", "value2", "value3")) for k in (1, 2, 3))
+
+    notes, kinds = [], {}
+
+    def want(kind, rid, col, gid):
+        """The functions this row's group should have (None: the group as it is)."""
+        f = funcs(gid)
+        if f is None:
+            return None
+        out = [list(x) for x in f]
+        fr = [i for i, x in enumerate(out) if x[0] == FRACTION and x[1] == 2 and x[2] in (2, 3, 4, 5)]
+        sid = spell_of.get(rid) if kind == "ability" else None
+        s = spells[sid] if sid is not None else None
+        tag = f"{sid:02X} {names[sid] or '?'} (ability {rid})" if s is not None else f"{kind} {rid}"
+        if s is not None and col == "battle_function_group_id" and s.flags3 & PERCENT_FLAG and s.power:
+            keep = sid in KEEP_CURRENT_HP
+            mode, v3 = _fraction(s.power, keep)
+            rv = [i for i, x in enumerate(out) if x[0] == REVIVE and x[1] == 2 and x[2] in (2, 3, 4, 5)]
+            if rv:                                                  # a revive: power/16 of max HP (Raise, Phoenix)
+                mode, v3 = _fraction(s.power, False)
+                x = out[rv[0]]
+                if x[2] in (4, 5) and abs(_share(x[2], x[3]) - _share(mode, v3)) < 0.006:
+                    return None
+                out[rv[0]] = [REVIVE, 2, mode, v3]
+                kinds.setdefault("revive", []).append(tag)
+            elif s.power >= 16 and not fr and not any(x[0] in DAMAGE for x in out):
+                return None                                         # whole HP: vanilla's Arise (no type 34)
+            elif fr:
+                x = out[fr[0]]
+                if (x[2] in (2, 3)) == keep and abs(_share(x[2], x[3]) - _share(mode, v3)) < 0.006:
+                    return None                                     # already T-Edition's share (50% = 1/2)
+                out[fr[0]] = [FRACTION, 2, mode, v3]
+                kinds.setdefault("percent", []).append(tag)
+            else:
+                dmg = [i for i, x in enumerate(out) if x[0] in DAMAGE]
+                if not dmg:
+                    notes.append(f"{tag}: power {s.power} percent spell, group {gid} {[x for x in f if x[0]]} has no damage "
+                                 f"function to replace (left as the porter made it)")
+                    return None
+                out[dmg[0]] = [FRACTION, 2, mode, v3]
+                kinds.setdefault("made percent", []).append(tag)
+        elif s is not None and fr and not s.flags3 & PERCENT_FLAG:
+            out[fr[0]] = ([2, 0, 0, 0] if s.flags1 & 0x01 else [3, 1, 0, 0]) if s.power else [0, 0, 0, 0]
+            out = [x for x in out if x[0]] + [x for x in out if not x[0]]
+            kinds.setdefault("not percent", []).append(tag)
+        else:
+            return None
+        return tuple(tuple(x) for x in out)
+
+    # every row that names a function group, and what it should name
+    users = {}
+    for kind, table in (("ability", ab), ("item", it)):
+        for rid in sorted(table.ids()):
+            r = current(table, rid)
+            for col in ("battle_function_group_id", "menu_function_group_id"):
+                gid = int(r.get(col) or 0)
+                if gid:
+                    users.setdefault(gid, []).append((kind, table, rid, col, want(kind, rid, col, gid)))
+    next_id = max(fg.ids()) + 1
+    made, edited, moved, changed_tables = {}, 0, 0, set()
+
+    def write(gid, fs):
+        row = fg.row(gid) if gid in fg.ids() else None
+        if row is None:
+            row = {c: "0" for c in fg.header}
+            row["id"] = str(gid)
+            fg.add(row)
+            row = fg.rows[gid]
+        for k, x in enumerate(fs, 1):
+            for c, v in zip(("id", "value1", "value2", "value3"), x):
+                row[f"function{k}_{c}"] = str(v)
+
+    for gid, us in sorted(users.items()):
+        wanted = [u[4] for u in us]
+        if all(w is None for w in wanted):
+            continue
+        variants = {}
+        for u in us:
+            variants.setdefault(u[4], []).append(u)
+        # the group itself keeps the rows that leave it as it is; else it takes its most common new functions
+        stay = None if None in variants else max(variants, key=lambda v: len(variants[v]))
+        if stay is not None:
+            write(gid, stay)
+            edited += 1
+        for fs, rows in variants.items():
+            if fs is None or fs == stay:
+                continue
+            if fs not in made:
+                made[fs] = next_id
+                next_id += 1
+                write(made[fs], fs)
+            for kind, table, rid, col, _ in rows:
+                table.row(rid)[col] = str(made[fs])
+                changed_tables.add(kind)
+                moved += 1
+    if edited or made:
+        fg.save()
+        for kind, table in (("ability", ab), ("item", it)):
+            if kind in changed_tables:
+                table.save()
+    for k, tags in kinds.items():
+        log(f"T-Edition rule 49 ({k}): {len(tags)}: {', '.join(tags[:12])}{' ...' if len(tags) > 12 else ''}")
+    for n in notes:
+        log(f"T-Edition rule 49: {n}")
+    log(f"T-Edition rule 49 (percent damage): {edited} function groups changed in place, {len(made)} cloned "
+        f"({moved} rows repointed)")
+    return {"kinds": kinds, "notes": notes, "edited": edited, "cloned": len(made), "moved": moved}
+
+
 def mod_csv(name):
     path = os.path.join(MOD, MASTER, name + ".csv")
     if not os.path.exists(path):

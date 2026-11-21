@@ -1,0 +1,903 @@
+{
+ "_": "T-Edition NPC sprite number -> PR look (asset ids, most often first); tools/ted_npc_looks.py",
+ "counts": {
+  "voted": 51,
+  "look-alike": 15,
+  "none": 40,
+  "same sheet": 6
+ },
+ "placements": {
+  "voted": 220,
+  "look-alike": 65,
+  "none": 152,
+  "same sheet": 18
+ },
+ "none": [
+  35,
+  73,
+  92,
+  166,
+  167,
+  168,
+  172,
+  183,
+  185,
+  186,
+  187,
+  188,
+  189,
+  190,
+  191,
+  192,
+  195,
+  198,
+  199,
+  200,
+  201,
+  202,
+  203,
+  204,
+  205,
+  207,
+  209,
+  210,
+  213,
+  214,
+  219,
+  220,
+  234,
+  237,
+  249,
+  250,
+  252,
+  253,
+  254,
+  255
+ ],
+ "looks": {
+  "0": {
+   "placements": 85,
+   "how": "voted",
+   "assets": [
+    120,
+    19
+   ]
+  },
+  "1": {
+   "placements": 1,
+   "how": "voted",
+   "assets": [
+    121,
+    122,
+    124,
+    125
+   ]
+  },
+  "2": {
+   "placements": 1,
+   "how": "voted",
+   "assets": [
+    125,
+    122
+   ]
+  },
+  "3": {
+   "placements": 1,
+   "how": "voted",
+   "assets": [
+    123
+   ]
+  },
+  "4": {
+   "placements": 1,
+   "how": "voted",
+   "assets": [
+    124
+   ]
+  },
+  "5": {
+   "placements": 1,
+   "how": "voted",
+   "assets": [
+    125,
+    124
+   ]
+  },
+  "6": {
+   "placements": 1,
+   "how": "voted",
+   "assets": [
+    126,
+    125
+   ]
+  },
+  "7": {
+   "placements": 2,
+   "how": "voted",
+   "assets": [
+    127,
+    203
+   ]
+  },
+  "8": {
+   "placements": 2,
+   "how": "voted",
+   "assets": [
+    128
+   ]
+  },
+  "9": {
+   "placements": 1,
+   "nearest": 9,
+   "likeness": 0.948,
+   "how": "look-alike",
+   "vanilla": 9,
+   "assets": [
+    129
+   ]
+  },
+  "10": {
+   "placements": 1,
+   "how": "voted",
+   "assets": [
+    130
+   ]
+  },
+  "11": {
+   "placements": 1,
+   "how": "voted",
+   "assets": [
+    131
+   ]
+  },
+  "12": {
+   "placements": 1,
+   "nearest": 12,
+   "likeness": 0.954,
+   "how": "look-alike",
+   "vanilla": 12,
+   "assets": [
+    132
+   ]
+  },
+  "13": {
+   "placements": 1,
+   "nearest": 13,
+   "likeness": 0.997,
+   "how": "look-alike",
+   "vanilla": 13,
+   "assets": [
+    133
+   ]
+  },
+  "14": {
+   "placements": 5,
+   "how": "voted",
+   "assets": [
+    141
+   ]
+  },
+  "15": {
+   "placements": 2,
+   "nearest": 15,
+   "likeness": 0.943,
+   "how": "look-alike",
+   "vanilla": 15,
+   "assets": [
+    27
+   ]
+  },
+  "16": {
+   "placements": 2,
+   "how": "voted",
+   "assets": [
+    140,
+    141
+   ]
+  },
+  "17": {
+   "placements": 4,
+   "how": "voted",
+   "assets": [
+    136,
+    51,
+    43,
+    214
+   ]
+  },
+  "18": {
+   "placements": 1,
+   "nearest": 18,
+   "likeness": 0.998,
+   "how": "look-alike",
+   "vanilla": 18,
+   "assets": [
+    76,
+    12,
+    134
+   ]
+  },
+  "19": {
+   "placements": 8,
+   "how": "voted",
+   "assets": [
+    211,
+    223,
+    10
+   ]
+  },
+  "20": {
+   "placements": 3,
+   "how": "voted",
+   "assets": [
+    139
+   ]
+  },
+  "21": {
+   "placements": 3,
+   "how": "voted",
+   "assets": [
+    138
+   ]
+  },
+  "22": {
+   "placements": 1,
+   "how": "voted",
+   "assets": [
+    32
+   ]
+  },
+  "23": {
+   "placements": 2,
+   "how": "voted",
+   "assets": [
+    10
+   ]
+  },
+  "24": {
+   "placements": 2,
+   "how": "voted",
+   "assets": [
+    2
+   ]
+  },
+  "35": {
+   "placements": 1,
+   "nearest": 53,
+   "likeness": 0.889,
+   "how": "none"
+  },
+  "73": {
+   "placements": 1,
+   "nearest": 18,
+   "likeness": 0.43,
+   "how": "none"
+  },
+  "74": {
+   "placements": 3,
+   "how": "voted",
+   "assets": [
+    96
+   ]
+  },
+  "87": {
+   "placements": 1,
+   "how": "voted",
+   "assets": [
+    103,
+    261
+   ]
+  },
+  "88": {
+   "placements": 2,
+   "how": "voted",
+   "assets": [
+    155
+   ]
+  },
+  "89": {
+   "placements": 1,
+   "how": "voted",
+   "assets": [
+    94
+   ]
+  },
+  "90": {
+   "placements": 1,
+   "how": "same sheet",
+   "vanilla": 90,
+   "assets": [
+    2
+   ]
+  },
+  "91": {
+   "placements": 1,
+   "how": "voted",
+   "assets": [
+    96,
+    149,
+    76
+   ]
+  },
+  "92": {
+   "placements": 4,
+   "nearest": 91,
+   "likeness": 0.67,
+   "how": "none"
+  },
+  "93": {
+   "placements": 1,
+   "how": "voted",
+   "assets": [
+    9
+   ]
+  },
+  "97": {
+   "placements": 1,
+   "how": "voted",
+   "assets": [
+    157
+   ]
+  },
+  "101": {
+   "placements": 33,
+   "nearest": 101,
+   "likeness": 1.0,
+   "how": "look-alike",
+   "vanilla": 101,
+   "assets": [
+    62,
+    1,
+    56,
+    155,
+    47,
+    103
+   ]
+  },
+  "105": {
+   "placements": 3,
+   "nearest": 105,
+   "likeness": 1.0,
+   "how": "look-alike",
+   "vanilla": 105,
+   "assets": [
+    96
+   ]
+  },
+  "106": {
+   "placements": 5,
+   "nearest": 106,
+   "likeness": 1.0,
+   "how": "look-alike",
+   "vanilla": 106,
+   "assets": [
+    257,
+    258
+   ]
+  },
+  "111": {
+   "placements": 10,
+   "how": "voted",
+   "assets": [
+    256
+   ]
+  },
+  "112": {
+   "placements": 4,
+   "how": "voted",
+   "assets": [
+    24,
+    23,
+    268
+   ]
+  },
+  "119": {
+   "placements": 11,
+   "how": "voted",
+   "assets": [
+    164
+   ]
+  },
+  "128": {
+   "placements": 3,
+   "how": "voted",
+   "assets": [
+    164,
+    110
+   ]
+  },
+  "132": {
+   "placements": 3,
+   "how": "voted",
+   "assets": [
+    164,
+    110
+   ]
+  },
+  "166": {
+   "placements": 19,
+   "note": "no sheet in T-Edition's table",
+   "how": "none"
+  },
+  "167": {
+   "placements": 10,
+   "note": "no sheet in T-Edition's table",
+   "how": "none"
+  },
+  "168": {
+   "placements": 4,
+   "note": "no sheet in T-Edition's table",
+   "how": "none"
+  },
+  "169": {
+   "placements": 1,
+   "how": "same sheet",
+   "vanilla": 26,
+   "assets": [
+    47
+   ]
+  },
+  "170": {
+   "placements": 6,
+   "how": "voted",
+   "assets": [
+    56
+   ]
+  },
+  "171": {
+   "placements": 2,
+   "how": "voted",
+   "assets": [
+    43
+   ]
+  },
+  "172": {
+   "placements": 1,
+   "nearest": 21,
+   "likeness": 0.9,
+   "how": "none"
+  },
+  "173": {
+   "placements": 2,
+   "how": "voted",
+   "assets": [
+    36
+   ]
+  },
+  "174": {
+   "placements": 1,
+   "how": "same sheet",
+   "vanilla": 31,
+   "assets": [
+    27,
+    32,
+    103,
+    49
+   ]
+  },
+  "175": {
+   "placements": 2,
+   "how": "voted",
+   "assets": [
+    27
+   ]
+  },
+  "178": {
+   "placements": 2,
+   "how": "voted",
+   "assets": [
+    12,
+    29
+   ]
+  },
+  "179": {
+   "placements": 3,
+   "how": "voted",
+   "assets": [
+    4,
+    2,
+    7,
+    155,
+    6
+   ]
+  },
+  "180": {
+   "placements": 1,
+   "how": "voted",
+   "assets": [
+    16,
+    19
+   ]
+  },
+  "181": {
+   "placements": 2,
+   "how": "voted",
+   "assets": [
+    19,
+    120,
+    38
+   ]
+  },
+  "182": {
+   "placements": 2,
+   "nearest": 57,
+   "likeness": 1.0,
+   "how": "look-alike",
+   "vanilla": 57,
+   "assets": [
+    64,
+    63,
+    68
+   ]
+  },
+  "183": {
+   "placements": 4,
+   "nearest": 101,
+   "likeness": 0.221,
+   "how": "none"
+  },
+  "185": {
+   "placements": 2,
+   "nearest": 87,
+   "likeness": 0.48,
+   "how": "none"
+  },
+  "186": {
+   "placements": 6,
+   "nearest": 101,
+   "likeness": 0.301,
+   "how": "none"
+  },
+  "187": {
+   "placements": 6,
+   "nearest": 87,
+   "likeness": 0.16,
+   "how": "none"
+  },
+  "188": {
+   "placements": 6,
+   "nearest": 101,
+   "likeness": 0.235,
+   "how": "none"
+  },
+  "189": {
+   "placements": 6,
+   "nearest": 87,
+   "likeness": 0.268,
+   "how": "none"
+  },
+  "190": {
+   "placements": 2,
+   "nearest": 87,
+   "likeness": 0.399,
+   "how": "none"
+  },
+  "191": {
+   "placements": 2,
+   "nearest": 87,
+   "likeness": 0.412,
+   "how": "none"
+  },
+  "192": {
+   "placements": 2,
+   "nearest": 27,
+   "likeness": 0.864,
+   "how": "none"
+  },
+  "195": {
+   "placements": 3,
+   "nearest": 87,
+   "likeness": 0.418,
+   "how": "none"
+  },
+  "197": {
+   "placements": 5,
+   "nearest": 111,
+   "likeness": 0.959,
+   "how": "look-alike",
+   "vanilla": 111,
+   "assets": [
+    256
+   ]
+  },
+  "198": {
+   "placements": 2,
+   "nearest": 87,
+   "likeness": 0.402,
+   "how": "none"
+  },
+  "199": {
+   "placements": 2,
+   "nearest": 87,
+   "likeness": 0.38,
+   "how": "none"
+  },
+  "200": {
+   "placements": 2,
+   "nearest": 87,
+   "likeness": 0.403,
+   "how": "none"
+  },
+  "201": {
+   "placements": 2,
+   "nearest": 0,
+   "likeness": 0.441,
+   "how": "none"
+  },
+  "202": {
+   "placements": 2,
+   "nearest": 25,
+   "likeness": 0.27,
+   "how": "none"
+  },
+  "203": {
+   "placements": 6,
+   "nearest": 101,
+   "likeness": 0.318,
+   "how": "none"
+  },
+  "204": {
+   "placements": 4,
+   "nearest": 90,
+   "likeness": 0.437,
+   "how": "none"
+  },
+  "205": {
+   "placements": 4,
+   "nearest": 90,
+   "likeness": 0.428,
+   "how": "none"
+  },
+  "207": {
+   "placements": 1,
+   "nearest": 51,
+   "likeness": 0.894,
+   "how": "none"
+  },
+  "208": {
+   "placements": 2,
+   "how": "voted",
+   "assets": [
+    9
+   ]
+  },
+  "209": {
+   "placements": 2,
+   "nearest": 87,
+   "likeness": 0.417,
+   "how": "none"
+  },
+  "210": {
+   "placements": 15,
+   "nearest": 15,
+   "likeness": 0.679,
+   "how": "none"
+  },
+  "211": {
+   "placements": 5,
+   "how": "voted",
+   "assets": [
+    51,
+    214,
+    2
+   ]
+  },
+  "213": {
+   "placements": 2,
+   "nearest": 87,
+   "likeness": 0.394,
+   "how": "none"
+  },
+  "214": {
+   "placements": 2,
+   "nearest": 87,
+   "likeness": 0.255,
+   "how": "none"
+  },
+  "216": {
+   "placements": 3,
+   "nearest": 41,
+   "likeness": 0.993,
+   "how": "look-alike",
+   "vanilla": 41,
+   "assets": [
+    54
+   ]
+  },
+  "217": {
+   "placements": 1,
+   "how": "voted",
+   "assets": [
+    38,
+    2,
+    19
+   ]
+  },
+  "218": {
+   "placements": 1,
+   "how": "voted",
+   "assets": [
+    45
+   ]
+  },
+  "219": {
+   "placements": 1,
+   "nearest": 13,
+   "likeness": 0.896,
+   "how": "none"
+  },
+  "220": {
+   "placements": 5,
+   "nearest": 41,
+   "likeness": 0.738,
+   "how": "none"
+  },
+  "222": {
+   "placements": 2,
+   "nearest": 53,
+   "likeness": 0.901,
+   "how": "look-alike",
+   "vanilla": 53,
+   "assets": [
+    201
+   ]
+  },
+  "223": {
+   "placements": 2,
+   "nearest": 48,
+   "likeness": 0.981,
+   "how": "look-alike",
+   "vanilla": 48,
+   "assets": [
+    58
+   ]
+  },
+  "224": {
+   "placements": 1,
+   "how": "voted",
+   "assets": [
+    23,
+    24
+   ]
+  },
+  "226": {
+   "placements": 3,
+   "how": "voted",
+   "assets": [
+    41
+   ]
+  },
+  "227": {
+   "placements": 9,
+   "how": "voted",
+   "assets": [
+    57
+   ]
+  },
+  "230": {
+   "placements": 3,
+   "how": "voted",
+   "assets": [
+    29
+   ]
+  },
+  "231": {
+   "placements": 10,
+   "how": "same sheet",
+   "vanilla": 55,
+   "assets": [
+    60
+   ]
+  },
+  "232": {
+   "placements": 2,
+   "how": "voted",
+   "assets": [
+    62
+   ]
+  },
+  "233": {
+   "placements": 2,
+   "how": "same sheet",
+   "vanilla": 57,
+   "assets": [
+    64,
+    63,
+    68
+   ]
+  },
+  "234": {
+   "placements": 4,
+   "nearest": 40,
+   "likeness": 0.373,
+   "how": "none"
+  },
+  "235": {
+   "placements": 1,
+   "how": "voted",
+   "assets": [
+    1,
+    141
+   ]
+  },
+  "236": {
+   "placements": 3,
+   "nearest": 60,
+   "likeness": 0.973,
+   "how": "look-alike",
+   "vanilla": 60,
+   "assets": [
+    44
+   ]
+  },
+  "237": {
+   "placements": 1,
+   "nearest": 10,
+   "likeness": 0.877,
+   "how": "none"
+  },
+  "238": {
+   "placements": 4,
+   "how": "voted",
+   "assets": [
+    34,
+    203,
+    127
+   ]
+  },
+  "239": {
+   "placements": 1,
+   "nearest": 63,
+   "likeness": 1.0,
+   "how": "look-alike",
+   "vanilla": 63,
+   "assets": [
+    96
+   ]
+  },
+  "244": {
+   "placements": 3,
+   "how": "same sheet",
+   "vanilla": 15,
+   "assets": [
+    27
+   ]
+  },
+  "249": {
+   "placements": 1,
+   "nearest": 42,
+   "likeness": 0.688,
+   "how": "none"
+  },
+  "250": {
+   "placements": 3,
+   "nearest": 87,
+   "likeness": 0.326,
+   "how": "none"
+  },
+  "252": {
+   "placements": 3,
+   "nearest": 101,
+   "likeness": 0.387,
+   "how": "none"
+  },
+  "253": {
+   "placements": 3,
+   "nearest": 101,
+   "likeness": 0.387,
+   "how": "none"
+  },
+  "254": {
+   "placements": 3,
+   "nearest": 90,
+   "likeness": 0.422,
+   "how": "none"
+  },
+  "255": {
+   "placements": 3,
+   "nearest": 101,
+   "likeness": 0.275,
+   "how": "none"
+  }
+ }
+}

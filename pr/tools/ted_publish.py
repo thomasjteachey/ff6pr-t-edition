@@ -23,9 +23,10 @@ DEFAULT_OUT = os.path.join(os.path.dirname(R.PROJECT), "ff6pr-t-edition")
 TOOLS = ["profile_tedition.py", "ted_rooms.py", "ted_publish.py", "kitpath.py",
          "ted_events.py", "ted_dialog.py", "ted_battle.py", "ted_build.py", "ted_ex.py", "ted_testinstall.py", "ted_plugin_data.py", "ted_maps.py",
          "ted_ex_ai.py", "ted_ex_build.py", "ted_ex_events.py", "ted_songs.py",      # 2026-11-20: ted-events' first milestone, reviewed
-         "ted_art.py"]
-# data held back from the public repository: T-Edition's own art (Tsushiy's pixels; the user, 2026-11-20: it ships
-# once Tsushiy agrees) with the recolors' PR colour values (no PR colours in public repos)
+         "ted_art.py", "ted_music.py", "ted_music_list.py", "ted_costumes.py", "ted_map_events.py", "ted_npc_looks.py",
+         "ted_quests.py"]
+# data held back from the public repository: the recolors' PR colour values (no PR colours in public repos; T-Edition's
+# own art may ship: the user has every mod owner's permission, 2026-11-20)
 HELD_BACK = {"ted_monster_images.json"}
 
 

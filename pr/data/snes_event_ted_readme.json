@@ -1,0 +1,2725 @@
+[
+ {
+  "readme": "Ruby's Shine",
+  "events": [
+   {
+    "event": "CD/49D0",
+    "kind": "npc",
+    "map": 20,
+    "on_new_map": false,
+    "instructions": 79,
+    "stubs": {
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 4,
+     "misc": 2,
+     "sound": 3
+    },
+    "needs_formations": [
+     724
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CD/1540",
+    "kind": "npc",
+    "map": 30,
+    "on_new_map": false,
+    "instructions": 83,
+    "stubs": {
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 4,
+     "misc": 2,
+     "sound": 3
+    },
+    "needs_formations": [
+     724
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CC/9CE0",
+    "kind": "npc",
+    "map": 305,
+    "on_new_map": false,
+    "instructions": 143,
+    "stubs": {
+     "flow": 6,
+     "battle": 4,
+     "map": 1,
+     "object": 4,
+     "misc": 2,
+     "sound": 13
+    },
+    "needs_formations": [
+     723,
+     724,
+     725
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CC/5DD3",
+    "kind": "npc",
+    "map": 306,
+    "on_new_map": false,
+    "instructions": 140,
+    "stubs": {
+     "flow": 6,
+     "battle": 4,
+     "map": 1,
+     "object": 4,
+     "misc": 2,
+     "sound": 13
+    },
+    "needs_formations": [
+     723,
+     724,
+     725
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CD/7774",
+    "kind": "npc",
+    "map": 468,
+    "on_new_map": true,
+    "instructions": 2,
+    "stubs": {},
+    "needs_formations": [],
+    "new_maps": []
+   }
+  ]
+ },
+ {
+  "readme": "Test of Strength",
+  "events": [
+   {
+    "event": "CD/15E0",
+    "kind": "npc",
+    "map": 12,
+    "on_new_map": false,
+    "instructions": 288,
+    "stubs": {
+     "flow": 35,
+     "party": 16,
+     "menu": 1,
+     "sound": 6,
+     "battle": 1,
+     "map": 1,
+     "object": 4,
+     "misc": 2
+    },
+    "needs_formations": [
+     726
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CD/49D0",
+    "kind": "npc",
+    "map": 20,
+    "on_new_map": false,
+    "instructions": 79,
+    "stubs": {
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 4,
+     "misc": 2,
+     "sound": 3
+    },
+    "needs_formations": [
+     724
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CD/4A10",
+    "kind": "npc",
+    "map": 20,
+    "on_new_map": false,
+    "instructions": 79,
+    "stubs": {
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 4,
+     "misc": 2,
+     "sound": 3
+    },
+    "needs_formations": [
+     725
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CD/1580",
+    "kind": "npc",
+    "map": 30,
+    "on_new_map": false,
+    "instructions": 83,
+    "stubs": {
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 4,
+     "misc": 2,
+     "sound": 3
+    },
+    "needs_formations": [
+     725
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CD/1540",
+    "kind": "npc",
+    "map": 30,
+    "on_new_map": false,
+    "instructions": 83,
+    "stubs": {
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 4,
+     "misc": 2,
+     "sound": 3
+    },
+    "needs_formations": [
+     724
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CC/370F",
+    "kind": "tile",
+    "map": 35,
+    "on_new_map": false,
+    "instructions": 213,
+    "stubs": {
+     "flow": 9,
+     "party": 15,
+     "battle": 1,
+     "map": 3,
+     "object": 4,
+     "misc": 2,
+     "sound": 5
+    },
+    "needs_formations": [
+     585
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CD/32B0",
+    "kind": "npc",
+    "map": 36,
+    "on_new_map": false,
+    "instructions": 75,
+    "stubs": {
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 5,
+     "misc": 2,
+     "sound": 4
+    },
+    "needs_formations": [
+     697
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CD/FAE0",
+    "kind": "npc",
+    "map": 226,
+    "on_new_map": false,
+    "instructions": 176,
+    "stubs": {
+     "flow": 11,
+     "sound": 9,
+     "party": 60,
+     "flag": 6
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/9CE0",
+    "kind": "npc",
+    "map": 305,
+    "on_new_map": false,
+    "instructions": 143,
+    "stubs": {
+     "flow": 6,
+     "battle": 4,
+     "map": 1,
+     "object": 4,
+     "misc": 2,
+     "sound": 13
+    },
+    "needs_formations": [
+     723,
+     724,
+     725
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CC/5DD3",
+    "kind": "npc",
+    "map": 306,
+    "on_new_map": false,
+    "instructions": 140,
+    "stubs": {
+     "flow": 6,
+     "battle": 4,
+     "map": 1,
+     "object": 4,
+     "misc": 2,
+     "sound": 13
+    },
+    "needs_formations": [
+     723,
+     724,
+     725
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CC/0997",
+    "kind": "npc",
+    "map": 348,
+    "on_new_map": false,
+    "instructions": 88,
+    "stubs": {
+     "sound": 6,
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 4,
+     "misc": 2
+    },
+    "needs_formations": [
+     719
+    ],
+    "new_maps": []
+   }
+  ]
+ },
+ {
+  "readme": "Stolen Magicite",
+  "events": [
+   {
+    "event": "CB/4E3D",
+    "kind": "npc",
+    "map": 200,
+    "on_new_map": false,
+    "instructions": 1350,
+    "stubs": {
+     "flow": 54,
+     "sound": 178,
+     "map": 3,
+     "object": 24
+    },
+    "needs_formations": [],
+    "new_maps": []
+   }
+  ]
+ },
+ {
+  "readme": "Deep Earth Dweller",
+  "events": []
+ },
+ {
+  "readme": "Encounter / Reunion / Big Bridge (Gilgamesh)",
+  "events": [
+   {
+    "event": "CB/B7EE",
+    "kind": "tile",
+    "map": 153,
+    "on_new_map": false,
+    "instructions": 175,
+    "stubs": {
+     "flow": 7,
+     "object": 6,
+     "party": 15,
+     "sound": 2,
+     "battle": 1,
+     "map": 2,
+     "misc": 2
+    },
+    "needs_formations": [
+     607
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CD/33C0",
+    "kind": "tile",
+    "map": 221,
+    "on_new_map": false,
+    "instructions": 80,
+    "stubs": {
+     "object": 10,
+     "flow": 7,
+     "battle": 2,
+     "map": 1,
+     "misc": 2,
+     "sound": 1
+    },
+    "needs_formations": [
+     608
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CB/316C",
+    "kind": "tile",
+    "map": 384,
+    "on_new_map": false,
+    "instructions": 113,
+    "stubs": {
+     "flow": 7,
+     "map": 13,
+     "sound": 6,
+     "object": 10,
+     "battle": 1,
+     "misc": 2
+    },
+    "needs_formations": [
+     609
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CD/4E20",
+    "kind": "npc",
+    "map": 413,
+    "on_new_map": false,
+    "instructions": 79,
+    "stubs": {
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 4,
+     "misc": 2,
+     "sound": 3
+    },
+    "needs_formations": [
+     675
+    ],
+    "new_maps": []
+   }
+  ]
+ },
+ {
+  "readme": "Titan",
+  "events": [
+   {
+    "event": "CD/32B0",
+    "kind": "npc",
+    "map": 36,
+    "on_new_map": false,
+    "instructions": 75,
+    "stubs": {
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 5,
+     "misc": 2,
+     "sound": 4
+    },
+    "needs_formations": [
+     697
+    ],
+    "new_maps": []
+   }
+  ]
+ },
+ {
+  "readme": "Descendants of the Summoners",
+  "events": [
+   {
+    "event": "CD/1650",
+    "kind": "npc",
+    "map": 30,
+    "on_new_map": false,
+    "instructions": 74,
+    "stubs": {
+     "sound": 2
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CA/788A",
+    "kind": "npc",
+    "map": 76,
+    "on_new_map": false,
+    "instructions": 2170,
+    "stubs": {
+     "flow": 535,
+     "map": 4,
+     "party": 18,
+     "flag": 167,
+     "object": 509,
+     "sound": 69,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CA/F644",
+    "kind": "npc",
+    "map": 111,
+    "on_new_map": false,
+    "instructions": 2163,
+    "stubs": {
+     "flow": 536,
+     "party": 18,
+     "flag": 167,
+     "map": 3,
+     "object": 512,
+     "sound": 69,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CB/0B74",
+    "kind": "npc",
+    "map": 115,
+    "on_new_map": false,
+    "instructions": 1888,
+    "stubs": {
+     "flow": 534,
+     "menu": 2,
+     "object": 504,
+     "flag": 165,
+     "sound": 55
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/6649",
+    "kind": "npc",
+    "map": 160,
+    "on_new_map": false,
+    "instructions": 2171,
+    "stubs": {
+     "flow": 535,
+     "party": 18,
+     "flag": 167,
+     "map": 3,
+     "object": 512,
+     "sound": 69,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CA/8EDB",
+    "kind": "npc",
+    "map": 171,
+    "on_new_map": false,
+    "instructions": 2167,
+    "stubs": {
+     "flow": 535,
+     "map": 4,
+     "party": 18,
+     "flag": 167,
+     "object": 512,
+     "sound": 69,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/69C0",
+    "kind": "npc",
+    "map": 191,
+    "on_new_map": false,
+    "instructions": 2164,
+    "stubs": {
+     "flow": 535,
+     "party": 18,
+     "flag": 167,
+     "map": 3,
+     "object": 509,
+     "sound": 69,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CB/4486",
+    "kind": "npc",
+    "map": 206,
+    "on_new_map": false,
+    "instructions": 2166,
+    "stubs": {
+     "flow": 535,
+     "map": 4,
+     "party": 18,
+     "flag": 167,
+     "object": 509,
+     "sound": 69,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/657D",
+    "kind": "npc",
+    "map": 288,
+    "on_new_map": false,
+    "instructions": 2168,
+    "stubs": {
+     "flow": 535,
+     "map": 4,
+     "party": 18,
+     "flag": 167,
+     "object": 512,
+     "sound": 69,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/5C83",
+    "kind": "npc",
+    "map": 308,
+    "on_new_map": false,
+    "instructions": 2189,
+    "stubs": {
+     "party": 22,
+     "flow": 535,
+     "map": 4,
+     "flag": 167,
+     "object": 512,
+     "sound": 69,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/6140",
+    "kind": "npc",
+    "map": 325,
+    "on_new_map": false,
+    "instructions": 2213,
+    "stubs": {
+     "flow": 537,
+     "map": 8,
+     "party": 19,
+     "flag": 168,
+     "sound": 70,
+     "object": 512,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CB/D735",
+    "kind": "npc",
+    "map": 346,
+    "on_new_map": false,
+    "instructions": 2283,
+    "stubs": {
+     "flow": 636,
+     "party": 20,
+     "flag": 170,
+     "map": 3,
+     "object": 747,
+     "sound": 86,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/0997",
+    "kind": "npc",
+    "map": 348,
+    "on_new_map": false,
+    "instructions": 88,
+    "stubs": {
+     "sound": 6,
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 4,
+     "misc": 2
+    },
+    "needs_formations": [
+     719
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CD/ACB0",
+    "kind": "npc",
+    "map": 459,
+    "on_new_map": true,
+    "instructions": 2533,
+    "stubs": {
+     "flow": 781,
+     "map": 4,
+     "object": 1192,
+     "flag": 255,
+     "sound": 55,
+     "party": 5
+    },
+    "needs_formations": [],
+    "new_maps": [
+     459
+    ]
+   },
+   {
+    "event": "CD/7774",
+    "kind": "npc",
+    "map": 468,
+    "on_new_map": true,
+    "instructions": 2,
+    "stubs": {},
+    "needs_formations": [],
+    "new_maps": []
+   }
+  ]
+ },
+ {
+  "readme": "Odin",
+  "events": [
+   {
+    "event": "CD/1650",
+    "kind": "npc",
+    "map": 30,
+    "on_new_map": false,
+    "instructions": 74,
+    "stubs": {
+     "sound": 2
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/1750",
+    "kind": "npc",
+    "map": 44,
+    "on_new_map": false,
+    "instructions": 59,
+    "stubs": {
+     "sound": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/1E9B",
+    "kind": "npc",
+    "map": 406,
+    "on_new_map": false,
+    "instructions": 110,
+    "stubs": {
+     "sound": 6,
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 7,
+     "misc": 2
+    },
+    "needs_formations": [
+     720
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CC/1A4A",
+    "kind": "tile",
+    "map": 407,
+    "on_new_map": false,
+    "instructions": 447,
+    "stubs": {
+     "flow": 1,
+     "party": 14,
+     "object": 30,
+     "map": 1,
+     "sound": 27,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/1A56",
+    "kind": "tile",
+    "map": 407,
+    "on_new_map": false,
+    "instructions": 445,
+    "stubs": {
+     "flow": 1,
+     "party": 14,
+     "object": 30,
+     "map": 1,
+     "sound": 27,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/1A37",
+    "kind": "tile",
+    "map": 407,
+    "on_new_map": false,
+    "instructions": 449,
+    "stubs": {
+     "flow": 1,
+     "party": 14,
+     "object": 30,
+     "map": 1,
+     "sound": 27,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/18B0",
+    "kind": "npc",
+    "map": 505,
+    "on_new_map": true,
+    "instructions": 138,
+    "stubs": {
+     "sound": 11,
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 6,
+     "misc": 2
+    },
+    "needs_formations": [
+     718
+    ],
+    "new_maps": []
+   }
+  ]
+ },
+ {
+  "readme": "Lord of the Seas",
+  "events": [
+   {
+    "event": "CD/1650",
+    "kind": "npc",
+    "map": 30,
+    "on_new_map": false,
+    "instructions": 74,
+    "stubs": {
+     "sound": 2
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/1750",
+    "kind": "npc",
+    "map": 44,
+    "on_new_map": false,
+    "instructions": 59,
+    "stubs": {
+     "sound": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/64A4",
+    "kind": "npc",
+    "map": 284,
+    "on_new_map": false,
+    "instructions": 86,
+    "stubs": {
+     "sound": 6,
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 4,
+     "misc": 2
+    },
+    "needs_formations": [
+     722
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CA/55DF",
+    "kind": "npc",
+    "map": 398,
+    "on_new_map": false,
+    "instructions": 81,
+    "stubs": {
+     "sound": 5,
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 5,
+     "misc": 2
+    },
+    "needs_formations": [
+     721
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CE/9AC0",
+    "kind": "tile",
+    "map": 489,
+    "on_new_map": true,
+    "instructions": 10,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   }
+  ]
+ },
+ {
+  "readme": "Love Eternal",
+  "events": [
+   {
+    "event": "CC/64A4",
+    "kind": "npc",
+    "map": 284,
+    "on_new_map": false,
+    "instructions": 86,
+    "stubs": {
+     "sound": 6,
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 4,
+     "misc": 2
+    },
+    "needs_formations": [
+     722
+    ],
+    "new_maps": []
+   }
+  ]
+ },
+ {
+  "readme": "The Eight Dragons",
+  "events": [
+   {
+    "event": "CD/15E0",
+    "kind": "npc",
+    "map": 12,
+    "on_new_map": false,
+    "instructions": 288,
+    "stubs": {
+     "flow": 35,
+     "party": 16,
+     "menu": 1,
+     "sound": 6,
+     "battle": 1,
+     "map": 1,
+     "object": 4,
+     "misc": 2
+    },
+    "needs_formations": [
+     726
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CD/1E40",
+    "kind": "npc",
+    "map": 24,
+    "on_new_map": false,
+    "instructions": 59,
+    "stubs": {
+     "sound": 6,
+     "item": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/1650",
+    "kind": "npc",
+    "map": 30,
+    "on_new_map": false,
+    "instructions": 74,
+    "stubs": {
+     "sound": 2
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/36D5",
+    "kind": "npc",
+    "map": 34,
+    "on_new_map": false,
+    "instructions": 134,
+    "stubs": {
+     "flow": 14,
+     "map": 1,
+     "object": 5,
+     "misc": 2,
+     "sound": 1,
+     "flag": 16
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/1750",
+    "kind": "npc",
+    "map": 44,
+    "on_new_map": false,
+    "instructions": 59,
+    "stubs": {
+     "sound": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CA/788A",
+    "kind": "npc",
+    "map": 76,
+    "on_new_map": false,
+    "instructions": 2170,
+    "stubs": {
+     "flow": 535,
+     "map": 4,
+     "party": 18,
+     "flag": 167,
+     "object": 509,
+     "sound": 69,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CA/F644",
+    "kind": "npc",
+    "map": 111,
+    "on_new_map": false,
+    "instructions": 2163,
+    "stubs": {
+     "flow": 536,
+     "party": 18,
+     "flag": 167,
+     "map": 3,
+     "object": 512,
+     "sound": 69,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CB/0B74",
+    "kind": "npc",
+    "map": 115,
+    "on_new_map": false,
+    "instructions": 1888,
+    "stubs": {
+     "flow": 534,
+     "menu": 2,
+     "object": 504,
+     "flag": 165,
+     "sound": 55
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/6649",
+    "kind": "npc",
+    "map": 160,
+    "on_new_map": false,
+    "instructions": 2171,
+    "stubs": {
+     "flow": 535,
+     "party": 18,
+     "flag": 167,
+     "map": 3,
+     "object": 512,
+     "sound": 69,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CA/8EDB",
+    "kind": "npc",
+    "map": 171,
+    "on_new_map": false,
+    "instructions": 2167,
+    "stubs": {
+     "flow": 535,
+     "map": 4,
+     "party": 18,
+     "flag": 167,
+     "object": 512,
+     "sound": 69,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/43C3",
+    "kind": "npc",
+    "map": 179,
+    "on_new_map": false,
+    "instructions": 135,
+    "stubs": {
+     "flow": 14,
+     "map": 1,
+     "object": 4,
+     "misc": 2,
+     "sound": 1,
+     "flag": 16
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/69C0",
+    "kind": "npc",
+    "map": 191,
+    "on_new_map": false,
+    "instructions": 2164,
+    "stubs": {
+     "flow": 535,
+     "party": 18,
+     "flag": 167,
+     "map": 3,
+     "object": 509,
+     "sound": 69,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CB/4486",
+    "kind": "npc",
+    "map": 206,
+    "on_new_map": false,
+    "instructions": 2166,
+    "stubs": {
+     "flow": 535,
+     "map": 4,
+     "party": 18,
+     "flag": 167,
+     "object": 509,
+     "sound": 69,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CA/B48D",
+    "kind": "tile",
+    "map": 232,
+    "on_new_map": false,
+    "instructions": 185,
+    "stubs": {
+     "flow": 16,
+     "map": 7,
+     "sound": 3,
+     "object": 4,
+     "misc": 2,
+     "flag": 16
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/64A4",
+    "kind": "npc",
+    "map": 284,
+    "on_new_map": false,
+    "instructions": 86,
+    "stubs": {
+     "sound": 6,
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 4,
+     "misc": 2
+    },
+    "needs_formations": [
+     722
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CC/657D",
+    "kind": "npc",
+    "map": 288,
+    "on_new_map": false,
+    "instructions": 2168,
+    "stubs": {
+     "flow": 535,
+     "map": 4,
+     "party": 18,
+     "flag": 167,
+     "object": 512,
+     "sound": 69,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/5C83",
+    "kind": "npc",
+    "map": 308,
+    "on_new_map": false,
+    "instructions": 2189,
+    "stubs": {
+     "party": 22,
+     "flow": 535,
+     "map": 4,
+     "flag": 167,
+     "object": 512,
+     "sound": 69,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/203E",
+    "kind": "npc",
+    "map": 315,
+    "on_new_map": false,
+    "instructions": 134,
+    "stubs": {
+     "flow": 14,
+     "map": 1,
+     "object": 4,
+     "misc": 2,
+     "sound": 1,
+     "flag": 16
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/16C8",
+    "kind": "npc",
+    "map": 324,
+    "on_new_map": false,
+    "instructions": 14,
+    "stubs": {},
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/6140",
+    "kind": "npc",
+    "map": 325,
+    "on_new_map": false,
+    "instructions": 2213,
+    "stubs": {
+     "flow": 537,
+     "map": 8,
+     "party": 19,
+     "flag": 168,
+     "sound": 70,
+     "object": 512,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CB/D735",
+    "kind": "npc",
+    "map": 346,
+    "on_new_map": false,
+    "instructions": 2283,
+    "stubs": {
+     "flow": 636,
+     "party": 20,
+     "flag": 170,
+     "map": 3,
+     "object": 747,
+     "sound": 86,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/0997",
+    "kind": "npc",
+    "map": 348,
+    "on_new_map": false,
+    "instructions": 88,
+    "stubs": {
+     "sound": 6,
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 4,
+     "misc": 2
+    },
+    "needs_formations": [
+     719
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CC/1EA0",
+    "kind": "npc",
+    "map": 353,
+    "on_new_map": false,
+    "instructions": 135,
+    "stubs": {
+     "flow": 14,
+     "map": 1,
+     "object": 6,
+     "misc": 2,
+     "sound": 1,
+     "flag": 16
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/45E0",
+    "kind": "npc",
+    "map": 362,
+    "on_new_map": false,
+    "instructions": 8,
+    "stubs": {},
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/4600",
+    "kind": "npc",
+    "map": 362,
+    "on_new_map": false,
+    "instructions": 24,
+    "stubs": {
+     "menu": 1,
+     "flow": 2,
+     "item": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/45C0",
+    "kind": "npc",
+    "map": 362,
+    "on_new_map": false,
+    "instructions": 9,
+    "stubs": {},
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/46B0",
+    "kind": "npc",
+    "map": 364,
+    "on_new_map": false,
+    "instructions": 92,
+    "stubs": {
+     "sound": 6,
+     "battle": 1,
+     "flow": 6,
+     "map": 1,
+     "object": 4,
+     "misc": 2
+    },
+    "needs_formations": [
+     687
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CC/5581",
+    "kind": "npc",
+    "map": 368,
+    "on_new_map": false,
+    "instructions": 134,
+    "stubs": {
+     "battle": 1,
+     "flow": 14,
+     "map": 1,
+     "object": 4,
+     "misc": 2,
+     "sound": 1,
+     "flag": 16
+    },
+    "needs_formations": [
+     525
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CC/1EB5",
+    "kind": "npc",
+    "map": 404,
+    "on_new_map": false,
+    "instructions": 135,
+    "stubs": {
+     "flow": 14,
+     "map": 1,
+     "object": 6,
+     "misc": 2,
+     "sound": 1,
+     "flag": 16
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/2051",
+    "kind": "npc",
+    "map": 408,
+    "on_new_map": false,
+    "instructions": 134,
+    "stubs": {
+     "flow": 14,
+     "map": 1,
+     "object": 5,
+     "misc": 2,
+     "sound": 1,
+     "flag": 16
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/26A0",
+    "kind": "npc",
+    "map": 408,
+    "on_new_map": false,
+    "instructions": 84,
+    "stubs": {
+     "flag": 10,
+     "flow": 6,
+     "map": 6,
+     "sound": 5,
+     "object": 2,
+     "item": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/ACB0",
+    "kind": "npc",
+    "map": 459,
+    "on_new_map": true,
+    "instructions": 2533,
+    "stubs": {
+     "flow": 781,
+     "map": 4,
+     "object": 1192,
+     "flag": 255,
+     "sound": 55,
+     "party": 5
+    },
+    "needs_formations": [],
+    "new_maps": [
+     459
+    ]
+   },
+   {
+    "event": "CD/6C50",
+    "kind": "npc",
+    "map": 461,
+    "on_new_map": true,
+    "instructions": 158,
+    "stubs": {
+     "flow": 4,
+     "party": 16,
+     "sound": 2,
+     "map": 2
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/FAA0",
+    "kind": "npc",
+    "map": 485,
+    "on_new_map": true,
+    "instructions": 42,
+    "stubs": {
+     "flag": 6,
+     "flow": 6
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CE/9660",
+    "kind": "tile",
+    "map": 488,
+    "on_new_map": true,
+    "instructions": 8,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CE/9AC0",
+    "kind": "tile",
+    "map": 489,
+    "on_new_map": true,
+    "instructions": 10,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/18B0",
+    "kind": "npc",
+    "map": 505,
+    "on_new_map": true,
+    "instructions": 138,
+    "stubs": {
+     "sound": 11,
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 6,
+     "misc": 2
+    },
+    "needs_formations": [
+     718
+    ],
+    "new_maps": []
+   }
+  ]
+ },
+ {
+  "readme": "Diabolos",
+  "events": [
+   {
+    "event": "CD/3860",
+    "kind": "npc",
+    "map": 123,
+    "on_new_map": false,
+    "instructions": 81,
+    "stubs": {
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 8,
+     "misc": 2,
+     "sound": 4
+    },
+    "needs_formations": [
+     693
+    ],
+    "new_maps": []
+   }
+  ]
+ },
+ {
+  "readme": "Sealed Legends",
+  "events": [
+   {
+    "event": "CD/2CE0",
+    "kind": "npc",
+    "map": 12,
+    "on_new_map": false,
+    "instructions": 193,
+    "stubs": {
+     "flow": 30,
+     "party": 16,
+     "menu": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/15E0",
+    "kind": "npc",
+    "map": 12,
+    "on_new_map": false,
+    "instructions": 288,
+    "stubs": {
+     "flow": 35,
+     "party": 16,
+     "menu": 1,
+     "sound": 6,
+     "battle": 1,
+     "map": 1,
+     "object": 4,
+     "misc": 2
+    },
+    "needs_formations": [
+     726
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CD/1E20",
+    "kind": "npc",
+    "map": 27,
+    "on_new_map": false,
+    "instructions": 2,
+    "stubs": {},
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/19F0",
+    "kind": "npc",
+    "map": 30,
+    "on_new_map": false,
+    "instructions": 58,
+    "stubs": {
+     "sound": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CA/6C3C",
+    "kind": "npc",
+    "map": 60,
+    "on_new_map": false,
+    "instructions": 28,
+    "stubs": {},
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/2930",
+    "kind": "npc",
+    "map": 175,
+    "on_new_map": false,
+    "instructions": 93,
+    "stubs": {
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 4,
+     "misc": 2,
+     "sound": 5,
+     "flag": 1,
+     "party": 4
+    },
+    "needs_formations": [
+     710
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CC/7A56",
+    "kind": "tile",
+    "map": 274,
+    "on_new_map": false,
+    "instructions": 444,
+    "stubs": {
+     "flow": 4,
+     "sound": 13,
+     "object": 54,
+     "map": 3,
+     "party": 21,
+     "screen": 1,
+     "flag": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/2B50",
+    "kind": "npc",
+    "map": 300,
+    "on_new_map": false,
+    "instructions": 92,
+    "stubs": {
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 4,
+     "misc": 2,
+     "sound": 5,
+     "flag": 1,
+     "party": 4
+    },
+    "needs_formations": [
+     707
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CD/2400",
+    "kind": "npc",
+    "map": 408,
+    "on_new_map": false,
+    "instructions": 85,
+    "stubs": {
+     "flag": 10,
+     "flow": 6,
+     "map": 6,
+     "sound": 5,
+     "object": 2
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/2470",
+    "kind": "npc",
+    "map": 408,
+    "on_new_map": false,
+    "instructions": 84,
+    "stubs": {
+     "flag": 10,
+     "flow": 6,
+     "map": 6,
+     "sound": 5,
+     "object": 2
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/24E0",
+    "kind": "npc",
+    "map": 408,
+    "on_new_map": false,
+    "instructions": 84,
+    "stubs": {
+     "flag": 10,
+     "flow": 6,
+     "map": 6,
+     "sound": 5,
+     "object": 2,
+     "item": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/2550",
+    "kind": "npc",
+    "map": 408,
+    "on_new_map": false,
+    "instructions": 84,
+    "stubs": {
+     "flag": 10,
+     "flow": 6,
+     "map": 6,
+     "sound": 5,
+     "object": 2,
+     "item": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/25C0",
+    "kind": "npc",
+    "map": 408,
+    "on_new_map": false,
+    "instructions": 84,
+    "stubs": {
+     "flag": 10,
+     "flow": 6,
+     "map": 6,
+     "sound": 5,
+     "object": 2,
+     "item": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/2630",
+    "kind": "npc",
+    "map": 408,
+    "on_new_map": false,
+    "instructions": 84,
+    "stubs": {
+     "flag": 10,
+     "flow": 6,
+     "map": 6,
+     "sound": 5,
+     "object": 2
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/26A0",
+    "kind": "npc",
+    "map": 408,
+    "on_new_map": false,
+    "instructions": 84,
+    "stubs": {
+     "flag": 10,
+     "flow": 6,
+     "map": 6,
+     "sound": 5,
+     "object": 2,
+     "item": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/2710",
+    "kind": "npc",
+    "map": 408,
+    "on_new_map": false,
+    "instructions": 84,
+    "stubs": {
+     "flag": 10,
+     "flow": 6,
+     "map": 6,
+     "sound": 5,
+     "object": 2,
+     "item": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/2780",
+    "kind": "npc",
+    "map": 408,
+    "on_new_map": false,
+    "instructions": 84,
+    "stubs": {
+     "flag": 10,
+     "flow": 6,
+     "map": 6,
+     "sound": 5,
+     "object": 2,
+     "item": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/27F0",
+    "kind": "npc",
+    "map": 408,
+    "on_new_map": false,
+    "instructions": 84,
+    "stubs": {
+     "flag": 10,
+     "flow": 6,
+     "map": 6,
+     "sound": 5,
+     "object": 2,
+     "item": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/2860",
+    "kind": "npc",
+    "map": 408,
+    "on_new_map": false,
+    "instructions": 84,
+    "stubs": {
+     "flag": 10,
+     "flow": 6,
+     "map": 6,
+     "sound": 5,
+     "object": 2,
+     "item": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/2F50",
+    "kind": "npc",
+    "map": 408,
+    "on_new_map": false,
+    "instructions": 84,
+    "stubs": {
+     "flag": 10,
+     "flow": 6,
+     "map": 6,
+     "sound": 5,
+     "object": 2,
+     "item": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/59D0",
+    "kind": "npc",
+    "map": 458,
+    "on_new_map": true,
+    "instructions": 21,
+    "stubs": {},
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/AF50",
+    "kind": "tile",
+    "map": 469,
+    "on_new_map": true,
+    "instructions": 7,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/AFB0",
+    "kind": "tile",
+    "map": 469,
+    "on_new_map": true,
+    "instructions": 7,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/AFD0",
+    "kind": "tile",
+    "map": 469,
+    "on_new_map": true,
+    "instructions": 7,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/AFF0",
+    "kind": "tile",
+    "map": 469,
+    "on_new_map": true,
+    "instructions": 7,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/7CA0",
+    "kind": "tile",
+    "map": 469,
+    "on_new_map": true,
+    "instructions": 7,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/2AC0",
+    "kind": "npc",
+    "map": 478,
+    "on_new_map": true,
+    "instructions": 93,
+    "stubs": {
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 4,
+     "misc": 2,
+     "sound": 5,
+     "flag": 1,
+     "party": 4
+    },
+    "needs_formations": [
+     708
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CD/2990",
+    "kind": "npc",
+    "map": 480,
+    "on_new_map": true,
+    "instructions": 93,
+    "stubs": {
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 4,
+     "misc": 2,
+     "sound": 5,
+     "flag": 1,
+     "party": 4
+    },
+    "needs_formations": [
+     709
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CD/F490",
+    "kind": "tile",
+    "map": 485,
+    "on_new_map": true,
+    "instructions": 971,
+    "stubs": {
+     "flow": 248,
+     "flag": 246
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CE/9540",
+    "kind": "tile",
+    "map": 487,
+    "on_new_map": true,
+    "instructions": 7,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CE/9620",
+    "kind": "tile",
+    "map": 488,
+    "on_new_map": true,
+    "instructions": 7,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CE/96A0",
+    "kind": "tile",
+    "map": 488,
+    "on_new_map": true,
+    "instructions": 7,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CE/99E0",
+    "kind": "tile",
+    "map": 489,
+    "on_new_map": true,
+    "instructions": 10,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CE/9A00",
+    "kind": "tile",
+    "map": 489,
+    "on_new_map": true,
+    "instructions": 10,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CE/9A20",
+    "kind": "tile",
+    "map": 489,
+    "on_new_map": true,
+    "instructions": 10,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CE/9A40",
+    "kind": "tile",
+    "map": 489,
+    "on_new_map": true,
+    "instructions": 10,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CE/9A60",
+    "kind": "tile",
+    "map": 489,
+    "on_new_map": true,
+    "instructions": 10,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CE/9A80",
+    "kind": "tile",
+    "map": 489,
+    "on_new_map": true,
+    "instructions": 10,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CE/9AA0",
+    "kind": "tile",
+    "map": 489,
+    "on_new_map": true,
+    "instructions": 10,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CE/9AC0",
+    "kind": "tile",
+    "map": 489,
+    "on_new_map": true,
+    "instructions": 10,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CE/9AE0",
+    "kind": "tile",
+    "map": 489,
+    "on_new_map": true,
+    "instructions": 10,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CE/9B00",
+    "kind": "tile",
+    "map": 489,
+    "on_new_map": true,
+    "instructions": 10,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CE/9B20",
+    "kind": "tile",
+    "map": 489,
+    "on_new_map": true,
+    "instructions": 10,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CE/9B40",
+    "kind": "tile",
+    "map": 489,
+    "on_new_map": true,
+    "instructions": 10,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/FA95",
+    "kind": "npc",
+    "map": 491,
+    "on_new_map": true,
+    "instructions": 274,
+    "stubs": {
+     "flag": 8,
+     "flow": 6,
+     "object": 15,
+     "screen": 15
+    },
+    "needs_formations": [],
+    "new_maps": []
+   }
+  ]
+ },
+ {
+  "readme": "Father and Daughter / A Mother's Love",
+  "events": [
+   {
+    "event": "CB/D735",
+    "kind": "npc",
+    "map": 346,
+    "on_new_map": false,
+    "instructions": 2283,
+    "stubs": {
+     "flow": 636,
+     "party": 20,
+     "flag": 170,
+     "map": 3,
+     "object": 747,
+     "sound": 86,
+     "screen": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/2DE0",
+    "kind": "tile",
+    "map": 349,
+    "on_new_map": false,
+    "instructions": 196,
+    "stubs": {
+     "flow": 3,
+     "party": 15,
+     "object": 4,
+     "map": 1,
+     "sound": 2
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CB/D978",
+    "kind": "npc",
+    "map": 349,
+    "on_new_map": false,
+    "instructions": 344,
+    "stubs": {
+     "flag": 12,
+     "flow": 6,
+     "party": 17,
+     "object": 11,
+     "sound": 3,
+     "map": 4
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CB/E75D",
+    "kind": "tile",
+    "map": 351,
+    "on_new_map": false,
+    "instructions": 463,
+    "stubs": {
+     "flow": 7,
+     "party": 34,
+     "battle": 1,
+     "map": 1,
+     "object": 8,
+     "misc": 2,
+     "sound": 19,
+     "screen": 1
+    },
+    "needs_formations": [
+     555
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CB/F2AB",
+    "kind": "tile",
+    "map": 375,
+    "on_new_map": false,
+    "instructions": 905,
+    "stubs": {
+     "flow": 1,
+     "party": 22,
+     "object": 40,
+     "sound": 56,
+     "map": 2
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "E9/FEE0",
+    "kind": "tile",
+    "map": 464,
+    "on_new_map": true,
+    "instructions": 291,
+    "stubs": {
+     "flow": 317,
+     "sound": 252
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/FCD0",
+    "kind": "npc",
+    "map": 507,
+    "on_new_map": true,
+    "instructions": 207,
+    "stubs": {
+     "flow": 2,
+     "sound": 4,
+     "screen": 3,
+     "object": 18,
+     "map": 5
+    },
+    "needs_formations": [],
+    "new_maps": [
+     507
+    ]
+   }
+  ]
+ },
+ {
+  "readme": "Successorship",
+  "events": [
+   {
+    "event": "CA/7D43",
+    "kind": "npc",
+    "map": 78,
+    "on_new_map": false,
+    "instructions": 11,
+    "stubs": {},
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/0BCE",
+    "kind": "tile",
+    "map": 127,
+    "on_new_map": false,
+    "instructions": 446,
+    "stubs": {
+     "flow": 15,
+     "map": 2,
+     "party": 17,
+     "sound": 9,
+     "object": 7,
+     "battle": 1,
+     "misc": 2
+    },
+    "needs_formations": [
+     695
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CD/37A1",
+    "kind": "npc",
+    "map": 128,
+    "on_new_map": false,
+    "instructions": 2,
+    "stubs": {},
+    "needs_formations": [],
+    "new_maps": []
+   }
+  ]
+ },
+ {
+  "readme": "Monsters Love It",
+  "events": [
+   {
+    "event": "CD/4B76",
+    "kind": "npc",
+    "map": 107,
+    "on_new_map": false,
+    "instructions": 5,
+    "stubs": {},
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CB/681E",
+    "kind": "npc",
+    "map": 116,
+    "on_new_map": false,
+    "instructions": 843,
+    "stubs": {
+     "flow": 103,
+     "party": 120,
+     "flag": 45,
+     "object": 119,
+     "sound": 18,
+     "map": 2
+    },
+    "needs_formations": [],
+    "new_maps": []
+   }
+  ]
+ },
+ {
+  "readme": "Owzer's Collection",
+  "events": [
+   {
+    "event": "CB/4CF0",
+    "kind": "npc",
+    "map": 208,
+    "on_new_map": false,
+    "instructions": 263,
+    "stubs": {
+     "flow": 22,
+     "map": 1,
+     "object": 4,
+     "misc": 2,
+     "sound": 2,
+     "party": 17,
+     "flag": 8
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CB/4889",
+    "kind": "tile",
+    "map": 209,
+    "on_new_map": false,
+    "instructions": 103,
+    "stubs": {
+     "flow": 8,
+     "sound": 2,
+     "battle": 1,
+     "map": 1,
+     "object": 4,
+     "misc": 2
+    },
+    "needs_formations": [
+     706
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CD/4420",
+    "kind": "npc",
+    "map": 262,
+    "on_new_map": false,
+    "instructions": 14,
+    "stubs": {},
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/F480",
+    "kind": "npc",
+    "map": 485,
+    "on_new_map": true,
+    "instructions": 270,
+    "stubs": {
+     "flag": 72,
+     "flow": 72
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CE/9500",
+    "kind": "tile",
+    "map": 487,
+    "on_new_map": true,
+    "instructions": 7,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   }
+  ]
+ },
+ {
+  "readme": "Molulu's Present",
+  "events": [
+   {
+    "event": "CD/1A80",
+    "kind": "npc",
+    "map": 44,
+    "on_new_map": false,
+    "instructions": 12,
+    "stubs": {
+     "flow": 2
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CC/1935",
+    "kind": "tile",
+    "map": 411,
+    "on_new_map": false,
+    "instructions": 619,
+    "stubs": {
+     "flow": 25,
+     "sound": 17,
+     "camera": 3,
+     "map": 1,
+     "party": 28,
+     "screen": 2,
+     "cutscene": 2,
+     "object": 2,
+     "flag": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "E9/FEE0",
+    "kind": "tile",
+    "map": 464,
+    "on_new_map": true,
+    "instructions": 291,
+    "stubs": {
+     "flow": 317,
+     "sound": 252
+    },
+    "needs_formations": [],
+    "new_maps": []
+   }
+  ]
+ },
+ {
+  "readme": "Showdown at the Coliseum",
+  "events": [
+   {
+    "event": "CD/2420",
+    "kind": "npc",
+    "map": 262,
+    "on_new_map": false,
+    "instructions": 72,
+    "stubs": {
+     "flag": 9,
+     "flow": 5,
+     "map": 6,
+     "sound": 5,
+     "object": 2
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/2400",
+    "kind": "npc",
+    "map": 408,
+    "on_new_map": false,
+    "instructions": 85,
+    "stubs": {
+     "flag": 10,
+     "flow": 6,
+     "map": 6,
+     "sound": 5,
+     "object": 2
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/4E20",
+    "kind": "npc",
+    "map": 413,
+    "on_new_map": false,
+    "instructions": 79,
+    "stubs": {
+     "battle": 1,
+     "flow": 5,
+     "map": 1,
+     "object": 4,
+     "misc": 2,
+     "sound": 3
+    },
+    "needs_formations": [
+     675
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CE/9580",
+    "kind": "tile",
+    "map": 488,
+    "on_new_map": true,
+    "instructions": 8,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CE/99E0",
+    "kind": "tile",
+    "map": 489,
+    "on_new_map": true,
+    "instructions": 10,
+    "stubs": {
+     "flow": 3
+    },
+    "needs_formations": [],
+    "new_maps": []
+   }
+  ]
+ },
+ {
+  "readme": "Long Live Ultros",
+  "events": [
+   {
+    "event": "CA/B71A",
+    "kind": "npc",
+    "map": 231,
+    "on_new_map": false,
+    "instructions": 266,
+    "stubs": {
+     "object": 17,
+     "sound": 6,
+     "map": 2,
+     "party": 1,
+     "flow": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CA/BF41",
+    "kind": "npc",
+    "map": 235,
+    "on_new_map": false,
+    "instructions": 701,
+    "stubs": {
+     "flow": 21,
+     "sound": 47,
+     "map": 10,
+     "object": 35,
+     "party": 18,
+     "battle": 1,
+     "flag": 4,
+     "misc": 2,
+     "vehicle": 1
+    },
+    "needs_formations": [
+     579
+    ],
+    "new_maps": []
+   },
+   {
+    "event": "CA/AE0B",
+    "kind": "npc",
+    "map": 237,
+    "on_new_map": false,
+    "instructions": 564,
+    "stubs": {
+     "party": 28,
+     "flow": 6,
+     "object": 23,
+     "map": 8,
+     "flag": 2,
+     "sound": 2
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CB/0A20",
+    "kind": "npc",
+    "map": 261,
+    "on_new_map": false,
+    "instructions": 26,
+    "stubs": {
+     "party": 2,
+     "flag": 1,
+     "vehicle": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/4770",
+    "kind": "npc",
+    "map": 413,
+    "on_new_map": false,
+    "instructions": 11,
+    "stubs": {
+     "flag": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/80D0",
+    "kind": "npc",
+    "map": 466,
+    "on_new_map": true,
+    "instructions": 8,
+    "stubs": {
+     "flow": 1
+    },
+    "needs_formations": [],
+    "new_maps": []
+   },
+   {
+    "event": "CD/FA88",
+    "kind": "npc",
+    "map": 485,
+    "on_new_map": true,
+    "instructions": 2,
+    "stubs": {},
+    "needs_formations": [],
+    "new_maps": []
+   }
+  ]
+ }
+]

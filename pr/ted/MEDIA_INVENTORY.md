@@ -151,8 +151,8 @@ The boss room has 12 fights plus Omega Weapon as a 13th (`NOTES/ted-ex.md` lines
 
 | Table | Old file offset | T-Edition file offset | Count / size |
 |---|---|---|---|
-| Field character graphic offset (2 bytes per slot; consecutive sheets 0x16A0 apart) | 0xD024 | 0x380400 (F8/0400) | 256 slots; 250 distinct (offset, bank) pairs; the first sheets run from file 0x150000 in steps of 0x16A0 (ROM read) |
-| Field character graphic bank | 0xD16E | 0x380600 (F8/0600) | read as 2 bytes per slot (the bank, then a constant 0x20); the second byte's meaning is unverified |
+| Field character graphic offset (2 bytes per slot; consecutive sheets 0x16A0 apart) | C0/D0F2 (165 slots; the address-changes file's 0xD024 is wrong, ted-maps 2026-11-20) | 0x380400 (F8/0400) | 256 slots; 250 distinct (offset, bank) pairs; the first sheets run from file 0x150000 in steps of 0x16A0 (ROM read) |
+| Field character graphic bank | C0/D23C (165 slots; not 0xD16E) | 0x380600 (F8/0600) | read as 2 bytes per slot (the bank, then a constant 0x20); the second byte's meaning is unverified |
 | Battle character graphic offset | 0x2CDE5 | 0x426000 (42/6000) | not decoded (count unknown) |
 | Battle character palettes | 0x2D6300 | 0x3EF000 (FE/F000) | not decoded; `PRODUCERS/FF6-T Edition character palettes.pal` and `original ff6 character palettes.pal` are 384 bytes each |
 | Portrait data (0x320 bytes = 40x40, 4bpp, each) | 0x2D1D00 | 0x490000 (49/0000) | 75 distinct images (offsets 0, 0x320, ... to index 74) in 85 slots (ROM read; vanilla 18, the rest 56 costumes plus extras) |

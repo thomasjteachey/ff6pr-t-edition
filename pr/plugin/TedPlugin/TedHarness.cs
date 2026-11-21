@@ -27,6 +27,12 @@ namespace TEdition.PR
             Harness.Register("tedcheck", _ => Check(), "tedcheck: the port's rows as the game has them (new weapons, item names, drops)");
             Harness.Register("tedgive", Give, "tedgive ID|sSLOT [n]: a content id (or T-Edition's item slot) into the inventory");
             Harness.Register("tedrules", _ => TedLog.Summary(), "tedrules: the T-Edition rules that have fired");
+            Harness.Register("tedcoliseum", _ => TedColiseum.Summary(), "tedcoliseum: T-Edition's Coliseum wagers and boss rewards loaded, the last match's choice");
+            Harness.Register("tedcostume", a =>
+            {
+                if (a.Length == 2 && int.TryParse(a[0], out int c) && int.TryParse(a[1], out int k)) TedCostumes.Wear(c, k);
+                return $"{TedCostumes.Summary()}; magicite (rule 35): {TedMagicite.State}; art: {TedArt.ArtLine}; monster images: {TedArt.MonsterLine}";
+            }, "tedcostume [CHAR 0-13 K 0-4]: put a costume on (as the dressing room's SysCall does), then the costumes, art and rule 35 state");
             Harness.Register("tedsteal", TedSelfTest.Steal, "tedsteal [n]: in a battle, n Steals by the first party member through the game's functions (nothing applied): rate vs T-Edition's chance");
             Harness.Register("tedgil", TedSelfTest.GilToss, "tedgil: in a battle, the game's Gil Toss value and gil cost (information for rule 29; test runs never save)");
             Harness.Register("tedcast", TedSelfTest.Cast, "tedcast SLOT ABILITY p0..p3|e0..e5|allies|foes [COMMAND]: a party member's act, queued as the game queues the player's (log shows its damage)");

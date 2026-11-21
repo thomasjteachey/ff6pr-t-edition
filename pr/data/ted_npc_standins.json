@@ -1,0 +1,14 @@
+{
+ "about": "NPCs ted-events gave a stand-in look (the PR has no sprite for their SNES sprite): bc-sprites converts T-Edition's sprites later",
+ "npcs": [
+  {
+   "sprite": 221,
+   "snes_map": 413,
+   "npc": 6,
+   "pr_map": "Map_20421_2",
+   "look": 51,
+   "entity": 5000,
+   "event": "CD/4E20"
+  }
+ ]
+}

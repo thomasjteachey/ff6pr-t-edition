@@ -2,6 +2,7 @@
   <PropertyGroup>
     <PrGame>ff6</PrGame>
     <AssemblyName>TEdition.PR</AssemblyName>
+    <PrKitSnes>true</PrKitSnes>     <!-- the kit's SNES music player (PrKit/Snes): T-Edition's own songs (TedMusic.cs) -->
   </PropertyGroup>
   <!-- the modding kit (plugin/PrKit) and the game's BepInEx + interop references; GameDir comes from
        plugin/PrKit/Games.props. PrKit beside this plugin (the project), else the kit/ submodule (its repo). -->

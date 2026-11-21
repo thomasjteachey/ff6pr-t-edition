@@ -50,6 +50,9 @@ namespace TEdition.PR
             H = new Harmony(Guid);
             // T-Edition's own saves, apart from vanilla's and the other mods' (PrKit/ModSaves.cs), synced by Steam Cloud
             if (TedMode) ModSaves.Apply(H, ModFolder);
+            if (TedMode) TedArt.MonsterImagesAtLoad(DataDir);   // before Magicite's first Update scans its folder
+            if (TedMode) TedArt.BaseLooks(H, DataDir);
+            if (TedMode) TedCostumes.Init(DataDir);
             Features = new FeatureHost(Config, H);
             Features.Add(new SingleGamepad());   // one controller, one input on the Steam Deck
             Features.Add(new TedDamage());
@@ -60,6 +63,19 @@ namespace TEdition.PR
             Features.Add(new TedVictory());
             Features.ApplyAll();                 // also starts a test run (harness) when one is requested
             TedHarness.Register();
+            if (TedMode) TedSysCalls.Apply(H);
+            if (TedMode) TedMagicite.Apply(H);   // rule 35
+            if (TedMode) TedColiseum.Apply(H, Path.Combine(DataDir, "ted_rewards.json"));
+            if (TedMode)
+            {
+                // T-Edition's own songs on the kit's SNES music player (TedMusic; the pack from tools/ted_music.py)
+                try
+                {
+                    TedMusic.Patch(H);
+                    TedMusic.Load(Path.Combine(DataDir, "music"));
+                }
+                catch (Exception e) { L.LogError($"[ted music] {e.GetType().Name}: {e.Message}"); }
+            }   // SysCall "TED:shop <group>" / "BNW:shop <group>" (the mod's merchants)
             if (TedMode) KitRules();
             if (TedMode) TedEnemyAi.Apply(H, Path.Combine(DataDir, "ted_ai.json"), Path.Combine(DataDir, "ted_ex_ai.json"),
                 Config.Bind("Battle", "ScriptStatusEffects", false,
@@ -117,6 +133,21 @@ namespace TEdition.PR
                 TedLog.Rule(4, "", () => $"espers give no level-up bonus ({none.Count} espers answer none)");
             }
             catch (Exception e) { L.LogError($"[ted] kit esper bonuses: {e.Message}"); }
+            RelicPenalties();
+        }
+
+        // rule 14: the Offering halves every physical hit by a character (the SNES's, unchanged in T-Edition); the
+        // Genji Glove's vanilla -25% (a wearer NOT dual wielding) only on a plain Fight (C2/2C06 -> C2/65E0)
+        static void RelicPenalties()
+        {
+            try
+            {
+                PrKit.Ff6.SnesRelicPenalties.Apply(H, new PrKit.Ff6.SnesRelicPenaltiesMod
+                {
+                    Name = "T-Edition", Offering = true, Genji = PrKit.Ff6.GenjiRule.SnesBugPlainFight, Enabled = () => TedMode,
+                });
+            }
+            catch (Exception e) { L.LogError($"[ted] kit relic penalties: {e.Message}"); }
         }
 
         // first frames: the game's static lists exist (their static constructors have run)
@@ -185,6 +216,8 @@ namespace TEdition.PR
                 Plugin.Features?.Update();
                 if (Plugin.TedMode) PrKit.Ff6.SnesStatusTicks.Track();
                 TedEnemyAi.Update();
+                TedMusic.Update();
+                TedCostumes.Update();
                 TedHarness.Update();
             }
             catch (Exception e) { Hooks.WarnOnce("ted-update", e); }

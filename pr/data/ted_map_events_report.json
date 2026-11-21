@@ -1,0 +1,5251 @@
+{
+ "stats": {
+  "npcs": 455,
+  "npcs shown always (untied vanilla bit)": 402,
+  "stubs as nops": 5524,
+  "entrances": 73,
+  "scripts": 262,
+  "tiles": 162,
+  "scripts for vanilla maps (skipped)": 5
+ },
+ "events": [
+  {
+   "event": "EA1280",
+   "kind": "entrance",
+   "map": 417,
+   "pr_map": "Map_20371_15",
+   "stubs": {
+    "map": 19,
+    "flow": 15
+   },
+   "translated": {
+    "screen": 40,
+    "flow": 49
+   }
+  },
+  {
+   "event": "EA2380",
+   "kind": "entrance",
+   "map": 418,
+   "pr_map": "Map_20371_16",
+   "stubs": {
+    "map": 8,
+    "flow": 6
+   },
+   "translated": {
+    "screen": 40,
+    "flow": 24
+   }
+  },
+  {
+   "event": "EA3390",
+   "kind": "entrance",
+   "map": 419,
+   "pr_map": "Map_20371_17",
+   "stubs": {
+    "map": 12,
+    "flow": 10
+   },
+   "translated": {
+    "screen": 40,
+    "flow": 37
+   }
+  },
+  {
+   "event": "EA3F00",
+   "kind": "entrance",
+   "map": 420,
+   "pr_map": "Map_20371_18",
+   "stubs": {
+    "map": 5,
+    "flow": 3
+   },
+   "translated": {
+    "screen": 40,
+    "flow": 19
+   }
+  },
+  {
+   "event": "CDFC30",
+   "kind": "tile",
+   "map": 421,
+   "pr_map": "Map_30651_14",
+   "script": "sc_tedm_03FC30",
+   "script_id": 9600,
+   "stubs": {
+    "sound": 1,
+    "screen": 1
+   },
+   "translated": {
+    "object": 1,
+    "wait": 2,
+    "screen": 4,
+    "map": 1,
+    "party": 1,
+    "camera": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "EA50D0",
+   "kind": "entrance",
+   "map": 421,
+   "pr_map": "Map_30651_14",
+   "stubs": {
+    "map": 5,
+    "flow": 3
+   },
+   "translated": {
+    "flow": 6
+   }
+  },
+  {
+   "event": "EA5D50",
+   "kind": "entrance",
+   "map": 422,
+   "pr_map": "Map_30651_15",
+   "stubs": {
+    "map": 3,
+    "flow": 1
+   },
+   "translated": {
+    "flow": 2
+   }
+  },
+  {
+   "event": "EA7430",
+   "kind": "entrance",
+   "map": 423,
+   "pr_map": "Map_30651_16",
+   "stubs": {
+    "map": 18,
+    "flow": 15
+   },
+   "translated": {
+    "flow": 30
+   }
+  },
+  {
+   "event": "EA8300",
+   "kind": "entrance",
+   "map": 424,
+   "pr_map": "Map_30651_17",
+   "stubs": {
+    "map": 3,
+    "flow": 1
+   },
+   "translated": {
+    "flow": 2
+   }
+  },
+  {
+   "event": "CDFC50",
+   "kind": "npc",
+   "map": 425,
+   "pr_map": "Map_30651_18",
+   "script": "sc_tedm_03FC50",
+   "script_id": 9601,
+   "stubs": {},
+   "translated": {
+    "object": 3,
+    "dialog": 1,
+    "battle": 1,
+    "flow": 4,
+    "screen": 3,
+    "wait": 2,
+    "sound": 1,
+    "flag": 1
+   }
+  },
+  {
+   "event": "CDFC55",
+   "kind": "npc",
+   "map": 425,
+   "pr_map": "Map_30651_18",
+   "script": "sc_tedm_03FC55",
+   "script_id": 9602,
+   "stubs": {},
+   "translated": {
+    "object": 3,
+    "dialog": 1,
+    "battle": 1,
+    "flow": 4,
+    "screen": 3,
+    "wait": 2,
+    "sound": 1,
+    "flag": 1
+   }
+  },
+  {
+   "event": "EA9130",
+   "kind": "entrance",
+   "map": 425,
+   "pr_map": "Map_30651_18",
+   "stubs": {
+    "map": 9,
+    "flow": 3,
+    "screen": 1
+   },
+   "translated": {
+    "object": 2,
+    "flow": 13
+   }
+  },
+  {
+   "event": "EA9A80",
+   "kind": "entrance",
+   "map": 426,
+   "pr_map": "Map_30651_19",
+   "stubs": {
+    "map": 4,
+    "flow": 1
+   },
+   "translated": {
+    "flow": 2
+   }
+  },
+  {
+   "event": "CDFC5A",
+   "kind": "npc",
+   "map": 427,
+   "pr_map": "Map_30651_20",
+   "script": "sc_tedm_03FC5A",
+   "script_id": 9603,
+   "stubs": {},
+   "translated": {
+    "object": 3,
+    "dialog": 1,
+    "battle": 1,
+    "flow": 4,
+    "screen": 3,
+    "wait": 2,
+    "sound": 1,
+    "flag": 1
+   }
+  },
+  {
+   "event": "CDFC5F",
+   "kind": "npc",
+   "map": 427,
+   "pr_map": "Map_30651_20",
+   "script": "sc_tedm_03FC5F",
+   "script_id": 9604,
+   "stubs": {},
+   "translated": {
+    "object": 3,
+    "dialog": 1,
+    "battle": 1,
+    "flow": 4,
+    "screen": 3,
+    "wait": 2,
+    "sound": 1,
+    "flag": 1
+   }
+  },
+  {
+   "event": "EAA9F0",
+   "kind": "entrance",
+   "map": 427,
+   "pr_map": "Map_30651_20",
+   "stubs": {
+    "map": 5
+   },
+   "translated": {
+    "object": 2,
+    "flow": 3
+   }
+  },
+  {
+   "event": "CDFC64",
+   "kind": "npc",
+   "map": 428,
+   "pr_map": "Map_30651_21",
+   "script": "sc_tedm_03FC64",
+   "script_id": 9605,
+   "stubs": {
+    "menu": 1
+   },
+   "translated": {
+    "flow": 1
+   }
+  },
+  {
+   "event": "CDFC6A",
+   "kind": "npc",
+   "map": 428,
+   "pr_map": "Map_30651_21",
+   "script": "sc_tedm_03FC6A",
+   "script_id": 9606,
+   "stubs": {
+    "menu": 1
+   },
+   "translated": {
+    "flow": 1
+   }
+  },
+  {
+   "event": "CDFC67",
+   "kind": "npc",
+   "map": 428,
+   "pr_map": "Map_30651_21",
+   "script": "sc_tedm_03FC67",
+   "script_id": 9607,
+   "stubs": {
+    "menu": 1
+   },
+   "translated": {
+    "flow": 1
+   }
+  },
+  {
+   "event": "CE51E0",
+   "kind": "tile",
+   "map": 428,
+   "pr_map": "Map_30651_21",
+   "script": "sc_tedm_0451E0",
+   "script_id": 9608,
+   "stubs": {
+    "flow": 2,
+    "sound": 2
+   },
+   "translated": {
+    "flow": 53,
+    "dialog": 63,
+    "object": 4,
+    "wait": 2,
+    "sound": 3,
+    "flag": 1
+   }
+  },
+  {
+   "event": "EAB300",
+   "kind": "entrance",
+   "map": 428,
+   "pr_map": "Map_30651_21",
+   "stubs": {
+    "map": 4
+   },
+   "translated": {
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7000",
+   "kind": "tile",
+   "map": 429,
+   "pr_map": "Map_30040_1",
+   "script": "sc_tedm_037000",
+   "script_id": 9609,
+   "stubs": {},
+   "translated": {
+    "flow": 3,
+    "screen": 1,
+    "sound": 1,
+    "object": 3,
+    "wait": 2
+   }
+  },
+  {
+   "event": "CD06A8",
+   "kind": "entrance",
+   "map": 429,
+   "pr_map": "Map_30040_1",
+   "stubs": {
+    "screen": 1,
+    "map": 1,
+    "flow": 1
+   },
+   "translated": {
+    "flow": 3,
+    "object": 1
+   }
+  },
+  {
+   "event": "CD06D0",
+   "kind": "tile",
+   "map": 430,
+   "pr_map": "Map_20390_1",
+   "script": "sc_tedm_0306D0",
+   "script_id": 9610,
+   "stubs": {
+    "party": 1,
+    "sound": 1,
+    "flag": 2
+   },
+   "translated": {
+    "object": 6,
+    "dialog": 1,
+    "party": 2,
+    "flow": 5,
+    "map": 1,
+    "camera": 2,
+    "screen": 2,
+    "sound": 1,
+    "flag": 24
+   }
+  },
+  {
+   "event": "CD08A0",
+   "kind": "npc",
+   "map": 431,
+   "pr_map": "Map_30761_6",
+   "script": "sc_tedm_0308A0",
+   "script_id": 9611,
+   "stubs": {
+    "flow": 30,
+    "party": 20,
+    "menu": 1
+   },
+   "translated": {
+    "flow": 35,
+    "dialog": 2,
+    "object": 58,
+    "party": 21,
+    "camera": 2,
+    "screen": 1
+   }
+  },
+  {
+   "event": "CC9AE1",
+   "kind": "tile",
+   "map": 431,
+   "pr_map": "Map_30761_6",
+   "script": "sc_tedm_029AE1",
+   "script_id": 9612,
+   "stubs": {
+    "flow": 1,
+    "flag": 4
+   },
+   "translated": {
+    "flow": 5,
+    "sound": 2,
+    "screen": 2,
+    "object": 2,
+    "wait": 1,
+    "flag": 1,
+    "dialog": 3
+   }
+  },
+  {
+   "event": "CD0890",
+   "kind": "tile",
+   "map": 431,
+   "pr_map": "Map_30761_6",
+   "script": "sc_tedm_030890",
+   "script_id": 9613,
+   "stubs": {},
+   "translated": {
+    "flow": 3,
+    "dialog": 1,
+    "flag": 1
+   }
+  },
+  {
+   "event": "CD0980",
+   "kind": "npc",
+   "map": 432,
+   "pr_map": "Map_30651_22",
+   "script": "sc_tedm_030980",
+   "script_id": 9614,
+   "stubs": {
+    "flow": 30,
+    "party": 20,
+    "menu": 1
+   },
+   "translated": {
+    "flow": 35,
+    "dialog": 2,
+    "object": 58,
+    "party": 21,
+    "camera": 2,
+    "screen": 1
+   }
+  },
+  {
+   "event": "CD0970",
+   "kind": "tile",
+   "map": 432,
+   "pr_map": "Map_30651_22",
+   "script": "sc_tedm_030970",
+   "script_id": 9615,
+   "stubs": {},
+   "translated": {
+    "flow": 3,
+    "dialog": 1,
+    "flag": 1
+   }
+  },
+  {
+   "event": "CD7820",
+   "kind": "npc",
+   "map": 433,
+   "pr_map": "Map_20040_1",
+   "script": "sc_tedm_037820",
+   "script_id": 9616,
+   "stubs": {
+    "flow": 30,
+    "party": 15,
+    "menu": 1
+   },
+   "translated": {
+    "dialog": 2,
+    "flow": 35,
+    "object": 48,
+    "party": 15,
+    "map": 1
+   }
+  },
+  {
+   "event": "CD12D0",
+   "kind": "tile",
+   "map": 433,
+   "pr_map": "Map_20040_1",
+   "script": "sc_tedm_0312D0",
+   "script_id": 9617,
+   "stubs": {
+    "flow": 2,
+    "sound": 1,
+    "flag": 34,
+    "map": 16
+   },
+   "translated": {
+    "flow": 344,
+    "object": 82,
+    "wait": 13,
+    "dialog": 21,
+    "flag": 23,
+    "sound": 38,
+    "item": 2,
+    "screen": 17,
+    "battle": 247,
+    "map": 16
+   }
+  },
+  {
+   "event": "CD12F8",
+   "kind": "tile",
+   "map": 433,
+   "pr_map": "Map_20040_1",
+   "script": "sc_tedm_0312F8",
+   "script_id": 9618,
+   "stubs": {
+    "flow": 2,
+    "sound": 1,
+    "flag": 34,
+    "map": 16
+   },
+   "translated": {
+    "flow": 344,
+    "object": 82,
+    "wait": 13,
+    "dialog": 21,
+    "flag": 23,
+    "sound": 38,
+    "item": 2,
+    "screen": 17,
+    "battle": 247,
+    "map": 16
+   }
+  },
+  {
+   "event": "CD1320",
+   "kind": "tile",
+   "map": 433,
+   "pr_map": "Map_20040_1",
+   "script": "sc_tedm_031320",
+   "script_id": 9619,
+   "stubs": {
+    "flow": 2,
+    "sound": 1,
+    "flag": 34,
+    "map": 16
+   },
+   "translated": {
+    "flow": 344,
+    "wait": 13,
+    "dialog": 21,
+    "flag": 23,
+    "sound": 38,
+    "item": 2,
+    "object": 81,
+    "screen": 17,
+    "battle": 247,
+    "map": 16
+   }
+  },
+  {
+   "event": "CD1340",
+   "kind": "tile",
+   "map": 433,
+   "pr_map": "Map_20040_1",
+   "script": "sc_tedm_031340",
+   "script_id": 9620,
+   "stubs": {
+    "flow": 2,
+    "sound": 1,
+    "flag": 34,
+    "map": 16
+   },
+   "translated": {
+    "flow": 344,
+    "object": 82,
+    "wait": 13,
+    "dialog": 21,
+    "flag": 23,
+    "sound": 38,
+    "item": 2,
+    "screen": 17,
+    "battle": 247,
+    "map": 16
+   }
+  },
+  {
+   "event": "CD0BC8",
+   "kind": "entrance",
+   "map": 433,
+   "pr_map": "Map_20040_1",
+   "stubs": {},
+   "translated": {
+    "flag": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD0B48",
+   "kind": "tile",
+   "map": 434,
+   "pr_map": "Map_30040_2",
+   "script": "sc_tedm_030B48",
+   "script_id": 9621,
+   "stubs": {
+    "flow": 40,
+    "party": 5,
+    "flag": 22
+   },
+   "translated": {
+    "flow": 86,
+    "camera": 2,
+    "object": 23,
+    "wait": 1,
+    "screen": 4,
+    "party": 38,
+    "map": 1
+   }
+  },
+  {
+   "event": "CD0BD0",
+   "kind": "entrance",
+   "map": 434,
+   "pr_map": "Map_30040_2",
+   "stubs": {
+    "screen": 1,
+    "flow": 1
+   },
+   "translated": {
+    "flag": 16,
+    "flow": 3,
+    "object": 1
+   }
+  },
+  {
+   "event": "CB39B4",
+   "kind": "entrance",
+   "map": 435,
+   "pr_map": "Map_30871_33",
+   "stubs": {
+    "screen": 2
+   },
+   "translated": {
+    "object": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD4CD0",
+   "kind": "entrance",
+   "map": 436,
+   "pr_map": "Map_20231_7",
+   "stubs": {
+    "screen": 1
+   },
+   "translated": {
+    "screen": 5,
+    "flow": 3,
+    "sound": 1,
+    "object": 1
+   }
+  },
+  {
+   "event": "CD4CF0",
+   "kind": "npc",
+   "map": 437,
+   "pr_map": "Map_20140_1",
+   "script": "sc_tedm_034CF0",
+   "script_id": 9622,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD4CF4",
+   "kind": "npc",
+   "map": 437,
+   "pr_map": "Map_20140_1",
+   "script": "sc_tedm_034CF4",
+   "script_id": 9623,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD4CF8",
+   "kind": "npc",
+   "map": 437,
+   "pr_map": "Map_20140_1",
+   "script": "sc_tedm_034CF8",
+   "script_id": 9624,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD4CFC",
+   "kind": "npc",
+   "map": 437,
+   "pr_map": "Map_20140_1",
+   "script": "sc_tedm_034CFC",
+   "script_id": 9625,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD4D00",
+   "kind": "npc",
+   "map": 437,
+   "pr_map": "Map_20140_1",
+   "script": "sc_tedm_034D00",
+   "script_id": 9626,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD4D04",
+   "kind": "npc",
+   "map": 437,
+   "pr_map": "Map_20140_1",
+   "script": "sc_tedm_034D04",
+   "script_id": 9627,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD4D08",
+   "kind": "npc",
+   "map": 437,
+   "pr_map": "Map_20140_1",
+   "script": "sc_tedm_034D08",
+   "script_id": 9628,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CDFC70",
+   "kind": "npc",
+   "map": 437,
+   "pr_map": "Map_20140_1",
+   "script": "sc_tedm_03FC70",
+   "script_id": 9629,
+   "stubs": {
+    "sound": 2,
+    "screen": 1
+   },
+   "translated": {
+    "dialog": 3,
+    "wait": 3,
+    "screen": 4,
+    "map": 1,
+    "party": 1,
+    "camera": 1,
+    "flow": 2
+   }
+  },
+  {
+   "event": "CD4CE2",
+   "kind": "entrance",
+   "map": 437,
+   "pr_map": "Map_20140_1",
+   "stubs": {},
+   "translated": {
+    "screen": 3,
+    "flow": 3
+   }
+  },
+  {
+   "event": "CD4D10",
+   "kind": "npc",
+   "map": 438,
+   "pr_map": "Map_20231_8",
+   "script": "sc_tedm_034D10",
+   "script_id": 9630,
+   "stubs": {
+    "flow": 7,
+    "flag": 8,
+    "party": 15,
+    "item": 1
+   },
+   "translated": {
+    "flow": 54,
+    "sound": 5,
+    "wait": 7,
+    "dialog": 6,
+    "flag": 3,
+    "object": 21,
+    "party": 1,
+    "camera": 2
+   }
+  },
+  {
+   "event": "CD4D0C",
+   "kind": "npc",
+   "map": 438,
+   "pr_map": "Map_20231_8",
+   "script": "sc_tedm_034D0C",
+   "script_id": 9631,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD4D84",
+   "kind": "npc",
+   "map": 438,
+   "pr_map": "Map_20231_8",
+   "script": "sc_tedm_034D84",
+   "script_id": 9632,
+   "stubs": {
+    "menu": 1
+   },
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD4DB0",
+   "kind": "npc",
+   "map": 438,
+   "pr_map": "Map_20231_8",
+   "script": "sc_tedm_034DB0",
+   "script_id": 9633,
+   "stubs": {
+    "menu": 1
+   },
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD4DB6",
+   "kind": "npc",
+   "map": 438,
+   "pr_map": "Map_20231_8",
+   "script": "sc_tedm_034DB6",
+   "script_id": 9634,
+   "stubs": {
+    "menu": 1
+   },
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD4DBC",
+   "kind": "npc",
+   "map": 438,
+   "pr_map": "Map_20231_8",
+   "script": "sc_tedm_034DBC",
+   "script_id": 9635,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD4D8A",
+   "kind": "npc",
+   "map": 438,
+   "pr_map": "Map_20231_8",
+   "script": "sc_tedm_034D8A",
+   "script_id": 9636,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD5CD0",
+   "kind": "tile",
+   "map": 438,
+   "pr_map": "Map_20231_9",
+   "script": "sc_tedm_035CD0",
+   "script_id": 9637,
+   "stubs": {
+    "flow": 4,
+    "party": 15
+   },
+   "translated": {
+    "flow": 44,
+    "party": 2,
+    "object": 27,
+    "wait": 3,
+    "dialog": 2,
+    "sound": 1,
+    "flag": 1
+   }
+  },
+  {
+   "event": "CD4D8E",
+   "kind": "entrance",
+   "map": 438,
+   "pr_map": "Map_20231_8",
+   "stubs": {
+    "map": 3,
+    "object": 2
+   },
+   "translated": {
+    "flow": 3
+   }
+  },
+  {
+   "event": "CD4D8E",
+   "kind": "entrance",
+   "map": 438,
+   "pr_map": "Map_20231_9",
+   "stubs": {
+    "map": 3
+   },
+   "translated": {
+    "flow": 3,
+    "object": 2
+   }
+  },
+  {
+   "event": "CD55E0",
+   "kind": "npc",
+   "map": 440,
+   "pr_map": "Map_30641_8",
+   "script": "sc_tedm_0355E0",
+   "script_id": 9638,
+   "stubs": {},
+   "translated": {
+    "battle": 1,
+    "flow": 2,
+    "object": 1,
+    "screen": 1
+   }
+  },
+  {
+   "event": "CD55EB",
+   "kind": "npc",
+   "map": 440,
+   "pr_map": "Map_30641_8",
+   "script": "sc_tedm_0355EB",
+   "script_id": 9639,
+   "stubs": {},
+   "translated": {
+    "battle": 1,
+    "flow": 2,
+    "object": 1,
+    "screen": 1
+   }
+  },
+  {
+   "event": "CD55F6",
+   "kind": "npc",
+   "map": 440,
+   "pr_map": "Map_30641_8",
+   "script": "sc_tedm_0355F6",
+   "script_id": 9640,
+   "stubs": {},
+   "translated": {
+    "battle": 1,
+    "flow": 2,
+    "object": 1,
+    "screen": 1
+   }
+  },
+  {
+   "event": "CD5601",
+   "kind": "npc",
+   "map": 440,
+   "pr_map": "Map_30641_8",
+   "script": "sc_tedm_035601",
+   "script_id": 9641,
+   "stubs": {},
+   "translated": {
+    "battle": 1,
+    "flow": 2,
+    "object": 1,
+    "screen": 1
+   }
+  },
+  {
+   "event": "CD560C",
+   "kind": "npc",
+   "map": 440,
+   "pr_map": "Map_30641_8",
+   "script": "sc_tedm_03560C",
+   "script_id": 9642,
+   "stubs": {},
+   "translated": {
+    "battle": 1,
+    "flow": 2,
+    "object": 1,
+    "screen": 1
+   }
+  },
+  {
+   "event": "CD5617",
+   "kind": "npc",
+   "map": 440,
+   "pr_map": "Map_30641_8",
+   "script": "sc_tedm_035617",
+   "script_id": 9643,
+   "stubs": {},
+   "translated": {
+    "battle": 1,
+    "flow": 2,
+    "object": 1,
+    "screen": 1
+   }
+  },
+  {
+   "event": "CD5622",
+   "kind": "npc",
+   "map": 440,
+   "pr_map": "Map_30641_8",
+   "script": "sc_tedm_035622",
+   "script_id": 9644,
+   "stubs": {},
+   "translated": {
+    "battle": 1,
+    "flow": 2,
+    "object": 1,
+    "screen": 1
+   }
+  },
+  {
+   "event": "CD562D",
+   "kind": "npc",
+   "map": 440,
+   "pr_map": "Map_30641_8",
+   "script": "sc_tedm_03562D",
+   "script_id": 9645,
+   "stubs": {},
+   "translated": {
+    "battle": 1,
+    "flow": 2,
+    "object": 1,
+    "screen": 1
+   }
+  },
+  {
+   "event": "CE06A0",
+   "kind": "tile",
+   "map": 440,
+   "pr_map": "Map_30641_8",
+   "script": "sc_tedm_0406A0",
+   "script_id": 9646,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "object": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CE06C0",
+   "kind": "entrance",
+   "map": 440,
+   "pr_map": "Map_30641_8",
+   "stubs": {},
+   "translated": {
+    "object": 9,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD5640",
+   "kind": "npc",
+   "map": 441,
+   "pr_map": "Map_30041_8",
+   "script": "sc_tedm_035640",
+   "script_id": 9647,
+   "stubs": {
+    "sound": 1
+   },
+   "translated": {
+    "object": 3,
+    "wait": 2,
+    "screen": 3,
+    "dialog": 1,
+    "map": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD5662",
+   "kind": "npc",
+   "map": 441,
+   "pr_map": "Map_30041_9",
+   "script": "sc_tedm_035662",
+   "script_id": 9648,
+   "stubs": {
+    "sound": 1
+   },
+   "translated": {
+    "object": 3,
+    "wait": 2,
+    "screen": 3,
+    "dialog": 1,
+    "map": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD5684",
+   "kind": "npc",
+   "map": 441,
+   "pr_map": "Map_30041_8",
+   "script": "sc_tedm_035684",
+   "script_id": 9649,
+   "stubs": {
+    "sound": 1
+   },
+   "translated": {
+    "object": 3,
+    "wait": 2,
+    "screen": 3,
+    "dialog": 1,
+    "map": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD56A6",
+   "kind": "npc",
+   "map": 441,
+   "pr_map": "Map_30041_8",
+   "script": "sc_tedm_0356A6",
+   "script_id": 9650,
+   "stubs": {
+    "sound": 1
+   },
+   "translated": {
+    "object": 3,
+    "wait": 2,
+    "screen": 3,
+    "dialog": 1,
+    "map": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD56C8",
+   "kind": "npc",
+   "map": 441,
+   "pr_map": "Map_30041_10",
+   "script": "sc_tedm_0356C8",
+   "script_id": 9651,
+   "stubs": {
+    "sound": 1
+   },
+   "translated": {
+    "object": 3,
+    "wait": 2,
+    "screen": 3,
+    "dialog": 1,
+    "map": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD56EA",
+   "kind": "npc",
+   "map": 441,
+   "pr_map": "Map_30041_8",
+   "script": "sc_tedm_0356EA",
+   "script_id": 9652,
+   "stubs": {
+    "sound": 1
+   },
+   "translated": {
+    "object": 3,
+    "wait": 2,
+    "screen": 3,
+    "dialog": 1,
+    "map": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD570C",
+   "kind": "npc",
+   "map": 441,
+   "pr_map": "Map_30041_10",
+   "script": "sc_tedm_03570C",
+   "script_id": 9653,
+   "stubs": {
+    "sound": 1
+   },
+   "translated": {
+    "object": 3,
+    "wait": 2,
+    "screen": 3,
+    "dialog": 1,
+    "map": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CE07C0",
+   "kind": "entrance",
+   "map": 441,
+   "pr_map": "Map_30041_8",
+   "stubs": {
+    "flow": 1
+   },
+   "translated": {
+    "flow": 3,
+    "screen": 1,
+    "object": 23
+   }
+  },
+  {
+   "event": "CE07C0",
+   "kind": "entrance",
+   "map": 441,
+   "pr_map": "Map_30041_9",
+   "stubs": {
+    "flow": 1
+   },
+   "translated": {
+    "flow": 3,
+    "screen": 1,
+    "object": 23
+   }
+  },
+  {
+   "event": "CE07C0",
+   "kind": "entrance",
+   "map": 441,
+   "pr_map": "Map_30041_10",
+   "stubs": {
+    "flow": 1
+   },
+   "translated": {
+    "flow": 3,
+    "screen": 1,
+    "object": 23
+   }
+  },
+  {
+   "event": "CD57A0",
+   "kind": "npc",
+   "map": 442,
+   "pr_map": "Map_30641_9",
+   "script": "sc_tedm_0357A0",
+   "script_id": 9654,
+   "stubs": {},
+   "translated": {
+    "battle": 1,
+    "flow": 2,
+    "object": 1,
+    "screen": 1
+   }
+  },
+  {
+   "event": "CD57AB",
+   "kind": "npc",
+   "map": 442,
+   "pr_map": "Map_30641_9",
+   "script": "sc_tedm_0357AB",
+   "script_id": 9655,
+   "stubs": {},
+   "translated": {
+    "battle": 1,
+    "flow": 2,
+    "object": 1,
+    "screen": 1
+   }
+  },
+  {
+   "event": "CD57B6",
+   "kind": "npc",
+   "map": 442,
+   "pr_map": "Map_30641_9",
+   "script": "sc_tedm_0357B6",
+   "script_id": 9656,
+   "stubs": {},
+   "translated": {
+    "battle": 1,
+    "flow": 2,
+    "object": 1,
+    "screen": 1
+   }
+  },
+  {
+   "event": "CD57C1",
+   "kind": "npc",
+   "map": 442,
+   "pr_map": "Map_30641_9",
+   "script": "sc_tedm_0357C1",
+   "script_id": 9657,
+   "stubs": {},
+   "translated": {
+    "battle": 1,
+    "flow": 2,
+    "object": 1,
+    "screen": 1
+   }
+  },
+  {
+   "event": "CD57CC",
+   "kind": "npc",
+   "map": 442,
+   "pr_map": "Map_30641_9",
+   "script": "sc_tedm_0357CC",
+   "script_id": 9658,
+   "stubs": {},
+   "translated": {
+    "battle": 1,
+    "flow": 2,
+    "object": 1,
+    "screen": 1
+   }
+  },
+  {
+   "event": "CD57D7",
+   "kind": "npc",
+   "map": 442,
+   "pr_map": "Map_30641_9",
+   "script": "sc_tedm_0357D7",
+   "script_id": 9659,
+   "stubs": {},
+   "translated": {
+    "battle": 1,
+    "flow": 2,
+    "object": 1,
+    "screen": 1
+   }
+  },
+  {
+   "event": "CD57E2",
+   "kind": "npc",
+   "map": 442,
+   "pr_map": "Map_30641_9",
+   "script": "sc_tedm_0357E2",
+   "script_id": 9660,
+   "stubs": {},
+   "translated": {
+    "battle": 1,
+    "flow": 2,
+    "object": 1,
+    "screen": 1
+   }
+  },
+  {
+   "event": "CD57ED",
+   "kind": "npc",
+   "map": 442,
+   "pr_map": "Map_30641_9",
+   "script": "sc_tedm_0357ED",
+   "script_id": 9661,
+   "stubs": {},
+   "translated": {
+    "battle": 1,
+    "flow": 2,
+    "object": 1,
+    "screen": 1
+   }
+  },
+  {
+   "event": "CD57F8",
+   "kind": "npc",
+   "map": 442,
+   "pr_map": "Map_30641_9",
+   "script": "sc_tedm_0357F8",
+   "script_id": 9662,
+   "stubs": {},
+   "translated": {
+    "battle": 1,
+    "flow": 2,
+    "object": 1,
+    "screen": 1
+   }
+  },
+  {
+   "event": "CE0D30",
+   "kind": "entrance",
+   "map": 442,
+   "pr_map": "Map_30641_9",
+   "stubs": {
+    "screen": 1
+   },
+   "translated": {
+    "object": 10,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CE3710",
+   "kind": "entrance",
+   "map": 447,
+   "pr_map": "Map_30421_5",
+   "stubs": {
+    "map": 2
+   },
+   "translated": {
+    "screen": 3,
+    "flow": 3
+   }
+  },
+  {
+   "event": "CE3720",
+   "kind": "entrance",
+   "map": 448,
+   "pr_map": "Map_30421_6",
+   "stubs": {},
+   "translated": {
+    "screen": 3,
+    "flow": 3
+   }
+  },
+  {
+   "event": "CE3720",
+   "kind": "entrance",
+   "map": 448,
+   "pr_map": "Map_30421_7",
+   "stubs": {},
+   "translated": {
+    "screen": 3,
+    "flow": 3
+   }
+  },
+  {
+   "event": "CE3726",
+   "kind": "entrance",
+   "map": 449,
+   "pr_map": "Map_30421_8",
+   "stubs": {
+    "map": 3
+   },
+   "translated": {
+    "screen": 3,
+    "flow": 3
+   }
+  },
+  {
+   "event": "CE3743",
+   "kind": "entrance",
+   "map": 452,
+   "pr_map": "Map_30030_1",
+   "stubs": {},
+   "translated": {
+    "screen": 8,
+    "flow": 5
+   }
+  },
+  {
+   "event": "CD5920",
+   "kind": "npc",
+   "map": 455,
+   "pr_map": "Map_30011_8",
+   "script": "sc_tedm_035920",
+   "script_id": 9663,
+   "stubs": {
+    "object": 2
+   },
+   "translated": {
+    "flow": 8,
+    "dialog": 4,
+    "battle": 1,
+    "screen": 1,
+    "object": 6,
+    "flag": 1
+   }
+  },
+  {
+   "event": "CD5930",
+   "kind": "npc",
+   "map": 455,
+   "pr_map": "Map_30011_8",
+   "script": "sc_tedm_035930",
+   "script_id": 9664,
+   "stubs": {
+    "sound": 2
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1,
+    "object": 3,
+    "wait": 2,
+    "map": 1
+   }
+  },
+  {
+   "event": "CD593A",
+   "kind": "npc",
+   "map": 455,
+   "pr_map": "Map_30011_8",
+   "script": "sc_tedm_03593A",
+   "script_id": 9665,
+   "stubs": {
+    "sound": 2
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1,
+    "object": 3,
+    "wait": 2,
+    "map": 1
+   }
+  },
+  {
+   "event": "CD5965",
+   "kind": "npc",
+   "map": 455,
+   "pr_map": "Map_30011_7",
+   "script": "sc_tedm_035965",
+   "script_id": 9666,
+   "stubs": {},
+   "translated": {
+    "dialog": 3,
+    "battle": 1,
+    "flow": 4,
+    "screen": 1,
+    "object": 8,
+    "flag": 1
+   }
+  },
+  {
+   "event": "CE3750",
+   "kind": "tile",
+   "map": 455,
+   "pr_map": "Map_30011_7",
+   "script": "sc_tedm_043750",
+   "script_id": 9667,
+   "stubs": {
+    "sound": 1
+   },
+   "translated": {
+    "wait": 1,
+    "map": 1
+   }
+  },
+  {
+   "event": "CE375A",
+   "kind": "tile",
+   "map": 455,
+   "pr_map": "Map_30011_7",
+   "script": "sc_tedm_04375A",
+   "script_id": 9668,
+   "stubs": {
+    "sound": 1
+   },
+   "translated": {
+    "wait": 1,
+    "map": 1
+   }
+  },
+  {
+   "event": "CE3764",
+   "kind": "tile",
+   "map": 455,
+   "pr_map": "Map_30011_7",
+   "script": "sc_tedm_043764",
+   "script_id": 9669,
+   "stubs": {
+    "sound": 1
+   },
+   "translated": {
+    "wait": 1,
+    "map": 1
+   }
+  },
+  {
+   "event": "CE376E",
+   "kind": "tile",
+   "map": 455,
+   "pr_map": "Map_30011_7",
+   "script": "sc_tedm_04376E",
+   "script_id": 9670,
+   "stubs": {
+    "sound": 1
+   },
+   "translated": {
+    "wait": 1,
+    "map": 1
+   }
+  },
+  {
+   "event": "CE3778",
+   "kind": "tile",
+   "map": 455,
+   "pr_map": "Map_30011_7",
+   "script": "sc_tedm_043778",
+   "script_id": 9671,
+   "stubs": {
+    "sound": 1
+   },
+   "translated": {
+    "wait": 1,
+    "map": 1
+   }
+  },
+  {
+   "event": "CE3782",
+   "kind": "tile",
+   "map": 455,
+   "pr_map": "Map_30011_7",
+   "script": "sc_tedm_043782",
+   "script_id": 9672,
+   "stubs": {
+    "sound": 1
+   },
+   "translated": {
+    "wait": 1,
+    "map": 1
+   }
+  },
+  {
+   "event": "CD5AA0",
+   "kind": "entrance",
+   "map": 455,
+   "pr_map": "Map_30011_7",
+   "stubs": {
+    "flow": 1,
+    "object": 2
+   },
+   "translated": {
+    "flow": 6,
+    "object": 4
+   }
+  },
+  {
+   "event": "CD5AA0",
+   "kind": "entrance",
+   "map": 455,
+   "pr_map": "Map_30011_8",
+   "stubs": {
+    "flow": 1
+   },
+   "translated": {
+    "flow": 6,
+    "object": 6
+   }
+  },
+  {
+   "event": "CD59D0",
+   "kind": "npc",
+   "map": 458,
+   "pr_map": "Map_20231_10",
+   "script": "sc_tedm_0359D0",
+   "script_id": 9673,
+   "stubs": {},
+   "translated": {
+    "flow": 3,
+    "screen": 4,
+    "object": 4,
+    "wait": 2,
+    "dialog": 5,
+    "sound": 1,
+    "flag": 2
+   }
+  },
+  {
+   "event": "CD5A0D",
+   "kind": "npc",
+   "map": 458,
+   "pr_map": "Map_20231_10",
+   "script": "sc_tedm_035A0D",
+   "script_id": 9674,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD59B0",
+   "kind": "entrance",
+   "map": 458,
+   "pr_map": "Map_20231_10",
+   "stubs": {
+    "map": 3
+   },
+   "translated": {
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD6EB0",
+   "kind": "npc",
+   "map": 459,
+   "pr_map": "Map_20391_4",
+   "script": "sc_tedm_036EB0",
+   "script_id": 9675,
+   "stubs": {
+    "menu": 2
+   },
+   "translated": {
+    "flow": 3
+   }
+  },
+  {
+   "event": "CDACB0",
+   "kind": "npc",
+   "map": 459,
+   "pr_map": "Map_20391_4",
+   "script": "sc_tedm_03ACB0",
+   "script_id": 9676,
+   "stubs": {
+    "flow": 788,
+    "map": 2,
+    "object": 1184,
+    "flag": 268,
+    "party": 5
+   },
+   "translated": {
+    "flow": 2939,
+    "dialog": 488,
+    "object": 43,
+    "screen": 20,
+    "wait": 18,
+    "map": 3,
+    "flag": 190,
+    "party": 413,
+    "sound": 70,
+    "camera": 1
+   }
+  },
+  {
+   "event": "CD6180",
+   "kind": "tile",
+   "map": 460,
+   "pr_map": "Map_20451_9",
+   "script": "sc_tedm_036180",
+   "script_id": 9677,
+   "stubs": {
+    "flow": 352,
+    "party": 18,
+    "flag": 2,
+    "map": 3,
+    "object": 11,
+    "sound": 10,
+    "screen": 1
+   },
+   "translated": {
+    "flow": 855,
+    "flag": 5,
+    "dialog": 17,
+    "object": 73,
+    "sound": 78,
+    "party": 10,
+    "camera": 2,
+    "wait": 53,
+    "screen": 229,
+    "map": 2
+   }
+  },
+  {
+   "event": "CD6C44",
+   "kind": "npc",
+   "map": 461,
+   "pr_map": "Map_20121_6",
+   "script": "sc_tedm_036C44",
+   "script_id": 9678,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD6C40",
+   "kind": "npc",
+   "map": 461,
+   "pr_map": "Map_20121_6",
+   "script": "sc_tedm_036C40",
+   "script_id": 9679,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7200",
+   "kind": "npc",
+   "map": 463,
+   "pr_map": "Map_20371_20",
+   "script": "sc_tedm_037200",
+   "script_id": 9680,
+   "stubs": {
+    "menu": 1
+   },
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7210",
+   "kind": "npc",
+   "map": 463,
+   "pr_map": "Map_20371_20",
+   "script": "sc_tedm_037210",
+   "script_id": 9681,
+   "stubs": {
+    "flow": 1
+   },
+   "translated": {
+    "flow": 4,
+    "dialog": 2
+   }
+  },
+  {
+   "event": "CD76B0",
+   "kind": "npc",
+   "map": 463,
+   "pr_map": "Map_20371_20",
+   "script": "sc_tedm_0376B0",
+   "script_id": 9682,
+   "stubs": {
+    "flow": 4,
+    "party": 16
+   },
+   "translated": {
+    "flow": 53,
+    "dialog": 6,
+    "object": 41,
+    "party": 2,
+    "wait": 6,
+    "flag": 2
+   }
+  },
+  {
+   "event": "CD76A0",
+   "kind": "npc",
+   "map": 463,
+   "pr_map": "Map_20371_20",
+   "script": "sc_tedm_0376A0",
+   "script_id": 9683,
+   "stubs": {
+    "flow": 4,
+    "party": 16
+   },
+   "translated": {
+    "flow": 53,
+    "dialog": 6,
+    "object": 41,
+    "party": 2,
+    "wait": 6,
+    "flag": 2
+   }
+  },
+  {
+   "event": "CD75EC",
+   "kind": "npc",
+   "map": 463,
+   "pr_map": "Map_20371_20",
+   "script": "sc_tedm_0375EC",
+   "script_id": 9684,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD75E0",
+   "kind": "npc",
+   "map": 463,
+   "pr_map": "Map_20371_20",
+   "script": "sc_tedm_0375E0",
+   "script_id": 9685,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7350",
+   "kind": "npc",
+   "map": 463,
+   "pr_map": "Map_20371_20",
+   "script": "sc_tedm_037350",
+   "script_id": 9686,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD75E8",
+   "kind": "npc",
+   "map": 463,
+   "pr_map": "Map_20371_20",
+   "script": "sc_tedm_0375E8",
+   "script_id": 9687,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD75E4",
+   "kind": "npc",
+   "map": 463,
+   "pr_map": "Map_20371_20",
+   "script": "sc_tedm_0375E4",
+   "script_id": 9688,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7337",
+   "kind": "npc",
+   "map": 463,
+   "pr_map": "Map_20371_20",
+   "script": "sc_tedm_037337",
+   "script_id": 9689,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CE5600",
+   "kind": "entrance",
+   "map": 463,
+   "pr_map": "Map_20371_20",
+   "stubs": {
+    "map": 2,
+    "flow": 1
+   },
+   "translated": {
+    "flow": 3,
+    "object": 1
+   }
+  },
+  {
+   "event": "CD76C0",
+   "kind": "npc",
+   "map": 464,
+   "pr_map": "Map_20051_15",
+   "script": "sc_tedm_0376C0",
+   "script_id": 9690,
+   "stubs": {
+    "flow": 2,
+    "party": 15
+   },
+   "translated": {
+    "flow": 43,
+    "dialog": 3,
+    "screen": 4,
+    "map": 1,
+    "object": 28,
+    "party": 2,
+    "wait": 3,
+    "flag": 1
+   }
+  },
+  {
+   "event": "CD7670",
+   "kind": "npc",
+   "map": 464,
+   "pr_map": "Map_20051_15",
+   "script": "sc_tedm_037670",
+   "script_id": 9691,
+   "stubs": {
+    "flow": 1
+   },
+   "translated": {
+    "flow": 6,
+    "dialog": 3,
+    "flag": 1
+   }
+  },
+  {
+   "event": "CD7630",
+   "kind": "npc",
+   "map": 464,
+   "pr_map": "Map_20051_15",
+   "script": "sc_tedm_037630",
+   "script_id": 9692,
+   "stubs": {
+    "flow": 30,
+    "party": 15,
+    "menu": 1
+   },
+   "translated": {
+    "dialog": 2,
+    "flow": 35,
+    "object": 48,
+    "party": 15,
+    "map": 1
+   }
+  },
+  {
+   "event": "CD7370",
+   "kind": "npc",
+   "map": 464,
+   "pr_map": "Map_20051_15",
+   "script": "sc_tedm_037370",
+   "script_id": 9693,
+   "stubs": {},
+   "translated": {
+    "dialog": 14,
+    "flow": 15,
+    "menu": 14,
+    "screen": 14
+   }
+  },
+  {
+   "event": "E9FEE0",
+   "kind": "tile",
+   "map": 464,
+   "pr_map": "Map_20051_15",
+   "script": "sc_tedm_1FFEE0",
+   "script_id": 9694,
+   "stubs": {
+    "flow": 317
+   },
+   "translated": {
+    "flow": 545,
+    "object": 399,
+    "sound": 252,
+    "dialog": 189,
+    "wait": 318,
+    "flag": 105
+   }
+  },
+  {
+   "event": "CE5E50",
+   "kind": "entrance",
+   "map": 464,
+   "pr_map": "Map_20051_15",
+   "stubs": {
+    "map": 2
+   },
+   "translated": {
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7430",
+   "kind": "npc",
+   "map": 465,
+   "pr_map": "Map_20221_6",
+   "script": "sc_tedm_037430",
+   "script_id": 9695,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7440",
+   "kind": "npc",
+   "map": 465,
+   "pr_map": "Map_20221_6",
+   "script": "sc_tedm_037440",
+   "script_id": 9696,
+   "stubs": {
+    "flow": 4,
+    "party": 16
+   },
+   "translated": {
+    "flow": 53,
+    "dialog": 12,
+    "object": 47,
+    "party": 2,
+    "wait": 16,
+    "sound": 4,
+    "flag": 2
+   }
+  },
+  {
+   "event": "CD7520",
+   "kind": "npc",
+   "map": 465,
+   "pr_map": "Map_20221_6",
+   "script": "sc_tedm_037520",
+   "script_id": 9697,
+   "stubs": {
+    "flow": 1
+   },
+   "translated": {
+    "flow": 6,
+    "dialog": 5,
+    "object": 4,
+    "wait": 3,
+    "flag": 1
+   }
+  },
+  {
+   "event": "CD7574",
+   "kind": "npc",
+   "map": 465,
+   "pr_map": "Map_20221_6",
+   "script": "sc_tedm_037574",
+   "script_id": 9698,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7580",
+   "kind": "npc",
+   "map": 465,
+   "pr_map": "Map_20221_6",
+   "script": "sc_tedm_037580",
+   "script_id": 9699,
+   "stubs": {
+    "sound": 3
+   },
+   "translated": {
+    "sound": 2,
+    "wait": 5,
+    "dialog": 3,
+    "object": 41,
+    "flow": 5
+   }
+  },
+  {
+   "event": "CD7600",
+   "kind": "npc",
+   "map": 465,
+   "pr_map": "Map_20221_6",
+   "script": "sc_tedm_037600",
+   "script_id": 10000,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7610",
+   "kind": "entrance",
+   "map": 465,
+   "pr_map": "Map_20221_6",
+   "stubs": {
+    "map": 1
+   },
+   "translated": {
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7854",
+   "kind": "npc",
+   "map": 466,
+   "pr_map": "Map_20140_2",
+   "script": "sc_tedm_037854",
+   "script_id": 10001,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7D00",
+   "kind": "npc",
+   "map": 466,
+   "pr_map": "Map_20140_2",
+   "script": "sc_tedm_037D00",
+   "script_id": 10002,
+   "stubs": {
+    "flow": 1
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 2,
+    "flag": 1
+   }
+  },
+  {
+   "event": "CD7E60",
+   "kind": "npc",
+   "map": 466,
+   "pr_map": "Map_20140_2",
+   "script": "sc_tedm_037E60",
+   "script_id": 10003,
+   "stubs": {
+    "flow": 1
+   },
+   "translated": {
+    "dialog": 2,
+    "flow": 4
+   }
+  },
+  {
+   "event": "CD80C0",
+   "kind": "npc",
+   "map": 466,
+   "pr_map": "Map_20140_2",
+   "script": "sc_tedm_0380C0",
+   "script_id": 10004,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD80D0",
+   "kind": "npc",
+   "map": 466,
+   "pr_map": "Map_20140_2",
+   "script": "sc_tedm_0380D0",
+   "script_id": 10005,
+   "stubs": {
+    "flow": 1
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 2,
+    "flag": 1
+   }
+  },
+  {
+   "event": "CD80C4",
+   "kind": "npc",
+   "map": 466,
+   "pr_map": "Map_20140_2",
+   "script": "sc_tedm_0380C4",
+   "script_id": 10006,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7354",
+   "kind": "npc",
+   "map": 466,
+   "pr_map": "Map_20140_2",
+   "script": "sc_tedm_037354",
+   "script_id": 10007,
+   "stubs": {
+    "flow": 1
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 2,
+    "flag": 1
+   }
+  },
+  {
+   "event": "CD80F0",
+   "kind": "npc",
+   "map": 467,
+   "pr_map": "Map_20011_15",
+   "script": "sc_tedm_0380F0",
+   "script_id": 10008,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD80F4",
+   "kind": "npc",
+   "map": 467,
+   "pr_map": "Map_20011_15",
+   "script": "sc_tedm_0380F4",
+   "script_id": 10009,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7770",
+   "kind": "npc",
+   "map": 468,
+   "pr_map": "Map_20231_12",
+   "script": "sc_tedm_037770",
+   "script_id": 10010,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7774",
+   "kind": "npc",
+   "map": 468,
+   "pr_map": "Map_20231_11",
+   "script": "sc_tedm_037774",
+   "script_id": 10011,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7850",
+   "kind": "npc",
+   "map": 468,
+   "pr_map": "Map_20231_11",
+   "script": "sc_tedm_037850",
+   "script_id": 10012,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7D60",
+   "kind": "npc",
+   "map": 468,
+   "pr_map": "Map_20231_11",
+   "script": "sc_tedm_037D60",
+   "script_id": 10013,
+   "stubs": {
+    "flow": 7,
+    "flag": 8,
+    "party": 15
+   },
+   "translated": {
+    "flow": 54,
+    "dialog": 2,
+    "object": 29,
+    "wait": 3,
+    "party": 2,
+    "flag": 1
+   }
+  },
+  {
+   "event": "CD7DD0",
+   "kind": "npc",
+   "map": 468,
+   "pr_map": "Map_20231_11",
+   "script": "sc_tedm_037DD0",
+   "script_id": 10014,
+   "stubs": {
+    "flow": 7,
+    "flag": 8,
+    "party": 15
+   },
+   "translated": {
+    "flow": 54,
+    "dialog": 2,
+    "object": 29,
+    "wait": 3,
+    "party": 2,
+    "flag": 1
+   }
+  },
+  {
+   "event": "CD7D58",
+   "kind": "npc",
+   "map": 468,
+   "pr_map": "Map_20231_11",
+   "script": "sc_tedm_037D58",
+   "script_id": 10015,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7D54",
+   "kind": "npc",
+   "map": 468,
+   "pr_map": "Map_20231_11",
+   "script": "sc_tedm_037D54",
+   "script_id": 10016,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7D50",
+   "kind": "npc",
+   "map": 468,
+   "pr_map": "Map_20231_11",
+   "script": "sc_tedm_037D50",
+   "script_id": 10017,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7D30",
+   "kind": "entrance",
+   "map": 468,
+   "pr_map": "Map_20231_11",
+   "stubs": {
+    "map": 4
+   },
+   "translated": {
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7D30",
+   "kind": "entrance",
+   "map": 468,
+   "pr_map": "Map_20231_12",
+   "stubs": {
+    "map": 4
+   },
+   "translated": {
+    "flow": 1
+   }
+  },
+  {
+   "event": "CDAF30",
+   "kind": "tile",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "script": "sc_tedm_03AF30",
+   "script_id": 10018,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDAF50",
+   "kind": "tile",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "script": "sc_tedm_03AF50",
+   "script_id": 10019,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDAF70",
+   "kind": "tile",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "script": "sc_tedm_03AF70",
+   "script_id": 10020,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDAF90",
+   "kind": "tile",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "script": "sc_tedm_03AF90",
+   "script_id": 10021,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDAFB0",
+   "kind": "tile",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "script": "sc_tedm_03AFB0",
+   "script_id": 10022,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDAFD0",
+   "kind": "tile",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "script": "sc_tedm_03AFD0",
+   "script_id": 10023,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDAFF0",
+   "kind": "tile",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "script": "sc_tedm_03AFF0",
+   "script_id": 10024,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDB010",
+   "kind": "tile",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "script": "sc_tedm_03B010",
+   "script_id": 10025,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CD1F50",
+   "kind": "tile",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "script": "sc_tedm_031F50",
+   "script_id": 10026,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CD1F70",
+   "kind": "tile",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "script": "sc_tedm_031F70",
+   "script_id": 10027,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CD7C00",
+   "kind": "tile",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "script": "sc_tedm_037C00",
+   "script_id": 10028,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CD7C20",
+   "kind": "tile",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "script": "sc_tedm_037C20",
+   "script_id": 10029,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CD7C40",
+   "kind": "tile",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "script": "sc_tedm_037C40",
+   "script_id": 10030,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CD7C60",
+   "kind": "tile",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "script": "sc_tedm_037C60",
+   "script_id": 10031,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CD7C80",
+   "kind": "tile",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "script": "sc_tedm_037C80",
+   "script_id": 10032,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CD7CA0",
+   "kind": "tile",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "script": "sc_tedm_037CA0",
+   "script_id": 10033,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CD7CC0",
+   "kind": "tile",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "script": "sc_tedm_037CC0",
+   "script_id": 10034,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CD7CE0",
+   "kind": "tile",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "script": "sc_tedm_037CE0",
+   "script_id": 10035,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CD1F90",
+   "kind": "tile",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "script": "sc_tedm_031F90",
+   "script_id": 10036,
+   "stubs": {
+    "flow": 2,
+    "sound": 2,
+    "screen": 2
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 2,
+    "flag": 3,
+    "wait": 1
+   }
+  },
+  {
+   "event": "CD1FC0",
+   "kind": "tile",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "script": "sc_tedm_031FC0",
+   "script_id": 10037,
+   "stubs": {
+    "flow": 2,
+    "sound": 2,
+    "screen": 2
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 2,
+    "flag": 3,
+    "wait": 1
+   }
+  },
+  {
+   "event": "CD2310",
+   "kind": "tile",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "script": "sc_tedm_032310",
+   "script_id": 10038,
+   "stubs": {
+    "flow": 2
+   },
+   "translated": {
+    "flow": 4,
+    "dialog": 4
+   }
+  },
+  {
+   "event": "E9E700",
+   "kind": "entrance",
+   "map": 469,
+   "pr_map": "Map_20431_8",
+   "stubs": {
+    "map": 2,
+    "screen": 5,
+    "flow": 3
+   },
+   "translated": {
+    "flow": 26,
+    "object": 36,
+    "sound": 4
+   }
+  },
+  {
+   "event": "CDC930",
+   "kind": "npc",
+   "map": 470,
+   "pr_map": "Map_20431_9",
+   "script": "sc_tedm_03C930",
+   "script_id": 10039,
+   "stubs": {
+    "sound": 1
+   },
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7858",
+   "kind": "npc",
+   "map": 470,
+   "pr_map": "Map_20431_9",
+   "script": "sc_tedm_037858",
+   "script_id": 10040,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7A00",
+   "kind": "entrance",
+   "map": 470,
+   "pr_map": "Map_20431_9",
+   "stubs": {
+    "map": 20
+   },
+   "translated": {
+    "flow": 12,
+    "object": 20
+   }
+  },
+  {
+   "event": "CDA100",
+   "kind": "tile",
+   "map": 471,
+   "pr_map": "Map_20371_21",
+   "script": "sc_tedm_03A100",
+   "script_id": 10041,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDA120",
+   "kind": "tile",
+   "map": 471,
+   "pr_map": "Map_20371_21",
+   "script": "sc_tedm_03A120",
+   "script_id": 10042,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDA140",
+   "kind": "tile",
+   "map": 471,
+   "pr_map": "Map_20371_21",
+   "script": "sc_tedm_03A140",
+   "script_id": 10043,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDA160",
+   "kind": "tile",
+   "map": 471,
+   "pr_map": "Map_20371_21",
+   "script": "sc_tedm_03A160",
+   "script_id": 10044,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDA180",
+   "kind": "tile",
+   "map": 471,
+   "pr_map": "Map_20371_21",
+   "script": "sc_tedm_03A180",
+   "script_id": 10045,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDA1A0",
+   "kind": "tile",
+   "map": 471,
+   "pr_map": "Map_20371_21",
+   "script": "sc_tedm_03A1A0",
+   "script_id": 10046,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDA1C0",
+   "kind": "tile",
+   "map": 471,
+   "pr_map": "Map_20371_21",
+   "script": "sc_tedm_03A1C0",
+   "script_id": 10047,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDA1E0",
+   "kind": "tile",
+   "map": 471,
+   "pr_map": "Map_20371_21",
+   "script": "sc_tedm_03A1E0",
+   "script_id": 10048,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDA200",
+   "kind": "tile",
+   "map": 471,
+   "pr_map": "Map_20371_21",
+   "script": "sc_tedm_03A200",
+   "script_id": 10049,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDA220",
+   "kind": "tile",
+   "map": 471,
+   "pr_map": "Map_20371_21",
+   "script": "sc_tedm_03A220",
+   "script_id": 10050,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDA240",
+   "kind": "tile",
+   "map": 471,
+   "pr_map": "Map_20371_21",
+   "script": "sc_tedm_03A240",
+   "script_id": 10051,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDA260",
+   "kind": "tile",
+   "map": 471,
+   "pr_map": "Map_20371_21",
+   "script": "sc_tedm_03A260",
+   "script_id": 10052,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDA280",
+   "kind": "tile",
+   "map": 471,
+   "pr_map": "Map_20371_21",
+   "script": "sc_tedm_03A280",
+   "script_id": 10053,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDA2A0",
+   "kind": "tile",
+   "map": 471,
+   "pr_map": "Map_20371_21",
+   "script": "sc_tedm_03A2A0",
+   "script_id": 10054,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDC260",
+   "kind": "tile",
+   "map": 471,
+   "pr_map": "Map_20371_21",
+   "script": "sc_tedm_03C260",
+   "script_id": 10055,
+   "stubs": {
+    "flow": 2
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CD8200",
+   "kind": "entrance",
+   "map": 471,
+   "pr_map": "Map_20371_21",
+   "stubs": {
+    "map": 17,
+    "flow": 128
+   },
+   "translated": {
+    "object": 224,
+    "flow": 215,
+    "sound": 1
+   }
+  },
+  {
+   "event": "CDA380",
+   "kind": "tile",
+   "map": 472,
+   "pr_map": "Map_20371_22",
+   "script": "sc_tedm_03A380",
+   "script_id": 10056,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDA2E0",
+   "kind": "tile",
+   "map": 472,
+   "pr_map": "Map_20371_22",
+   "script": "sc_tedm_03A2E0",
+   "script_id": 10057,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDA320",
+   "kind": "tile",
+   "map": 472,
+   "pr_map": "Map_20371_22",
+   "script": "sc_tedm_03A320",
+   "script_id": 10058,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDA340",
+   "kind": "tile",
+   "map": 472,
+   "pr_map": "Map_20371_22",
+   "script": "sc_tedm_03A340",
+   "script_id": 10059,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDA360",
+   "kind": "tile",
+   "map": 472,
+   "pr_map": "Map_20371_22",
+   "script": "sc_tedm_03A360",
+   "script_id": 10060,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDA2C0",
+   "kind": "tile",
+   "map": 472,
+   "pr_map": "Map_20371_22",
+   "script": "sc_tedm_03A2C0",
+   "script_id": 10061,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDA3A0",
+   "kind": "tile",
+   "map": 472,
+   "pr_map": "Map_20371_22",
+   "script": "sc_tedm_03A3A0",
+   "script_id": 10062,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDC270",
+   "kind": "tile",
+   "map": 472,
+   "pr_map": "Map_20371_22",
+   "script": "sc_tedm_03C270",
+   "script_id": 10063,
+   "stubs": {
+    "flow": 2
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CDA3C0",
+   "kind": "tile",
+   "map": 472,
+   "pr_map": "Map_20371_22",
+   "script": "sc_tedm_03A3C0",
+   "script_id": 10064,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 3,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CD8550",
+   "kind": "entrance",
+   "map": 472,
+   "pr_map": "Map_20371_22",
+   "stubs": {
+    "map": 17,
+    "flow": 68,
+    "screen": 10
+   },
+   "translated": {
+    "object": 99,
+    "flow": 95,
+    "sound": 1
+   }
+  },
+  {
+   "event": "EB1500",
+   "kind": "entrance",
+   "map": 477,
+   "pr_map": "Map_20451_10",
+   "stubs": {
+    "map": 2
+   },
+   "translated": {
+    "object": 1,
+    "flow": 3
+   }
+  },
+  {
+   "event": "CD2AC0",
+   "kind": "npc",
+   "map": 478,
+   "pr_map": "Map_20451_11",
+   "script": "sc_tedm_032AC0",
+   "script_id": 10065,
+   "stubs": {
+    "flag": 1,
+    "party": 4
+   },
+   "translated": {
+    "flow": 6,
+    "sound": 6,
+    "wait": 6,
+    "screen": 3,
+    "dialog": 3,
+    "battle": 1,
+    "flag": 2,
+    "party": 8
+   }
+  },
+  {
+   "event": "CD2990",
+   "kind": "npc",
+   "map": 480,
+   "pr_map": "Map_20451_13",
+   "script": "sc_tedm_032990",
+   "script_id": 10066,
+   "stubs": {
+    "flag": 1,
+    "party": 4
+   },
+   "translated": {
+    "flow": 6,
+    "sound": 6,
+    "wait": 6,
+    "screen": 3,
+    "dialog": 3,
+    "battle": 1,
+    "flag": 2,
+    "party": 8
+   }
+  },
+  {
+   "event": "CDD770",
+   "kind": "tile",
+   "map": 480,
+   "pr_map": "Map_20451_13",
+   "script": "sc_tedm_03D770",
+   "script_id": 10067,
+   "stubs": {
+    "sound": 1
+   },
+   "translated": {
+    "map": 1,
+    "object": 3,
+    "camera": 2,
+    "sound": 1,
+    "screen": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CDD5B0",
+   "kind": "tile",
+   "map": 481,
+   "pr_map": "Map_30501_6",
+   "script": "sc_tedm_03D5B0",
+   "script_id": 10068,
+   "stubs": {
+    "flow": 3,
+    "party": 3
+   },
+   "translated": {
+    "flow": 4,
+    "wait": 6,
+    "object": 3,
+    "dialog": 2,
+    "map": 1
+   }
+  },
+  {
+   "event": "CDD5F0",
+   "kind": "tile",
+   "map": 481,
+   "pr_map": "Map_30501_8",
+   "script": "sc_tedm_03D5F0",
+   "script_id": 10069,
+   "stubs": {
+    "flow": 3,
+    "party": 3
+   },
+   "translated": {
+    "flow": 4,
+    "wait": 4,
+    "dialog": 2,
+    "map": 1
+   }
+  },
+  {
+   "event": "CDD630",
+   "kind": "entrance",
+   "map": 481,
+   "pr_map": "Map_30501_6",
+   "stubs": {},
+   "translated": {
+    "screen": 7,
+    "flow": 3
+   }
+  },
+  {
+   "event": "CDD630",
+   "kind": "entrance",
+   "map": 481,
+   "pr_map": "Map_30501_7",
+   "stubs": {},
+   "translated": {
+    "screen": 7,
+    "flow": 3
+   }
+  },
+  {
+   "event": "CDD630",
+   "kind": "entrance",
+   "map": 481,
+   "pr_map": "Map_30501_8",
+   "stubs": {},
+   "translated": {
+    "screen": 7,
+    "flow": 3
+   }
+  },
+  {
+   "event": "CDD680",
+   "kind": "npc",
+   "map": 482,
+   "pr_map": "Map_30660_1",
+   "script": "sc_tedm_03D680",
+   "script_id": 10070,
+   "stubs": {
+    "sound": 1
+   },
+   "translated": {
+    "dialog": 2,
+    "wait": 1,
+    "map": 1,
+    "object": 3,
+    "camera": 2,
+    "sound": 1,
+    "screen": 1,
+    "flow": 2
+   }
+  },
+  {
+   "event": "CDD6A0",
+   "kind": "entrance",
+   "map": 482,
+   "pr_map": "Map_30660_1",
+   "stubs": {
+    "map": 1
+   },
+   "translated": {
+    "screen": 40,
+    "flow": 11
+   }
+  },
+  {
+   "event": "CDDC00",
+   "kind": "entrance",
+   "map": 484,
+   "pr_map": "Map_30811_8",
+   "stubs": {
+    "map": 7
+   },
+   "translated": {
+    "flow": 234,
+    "object": 78
+   }
+  },
+  {
+   "event": "CDF480",
+   "kind": "npc",
+   "map": 485,
+   "pr_map": "Map_20361_29",
+   "script": "sc_tedm_03F480",
+   "script_id": 10071,
+   "stubs": {
+    "flag": 72,
+    "flow": 72
+   },
+   "translated": {
+    "flow": 136,
+    "dialog": 62
+   }
+  },
+  {
+   "event": "CDFAA0",
+   "kind": "npc",
+   "map": 485,
+   "pr_map": "Map_20361_29",
+   "script": "sc_tedm_03FAA0",
+   "script_id": 10072,
+   "stubs": {
+    "flag": 6,
+    "flow": 6
+   },
+   "translated": {
+    "flow": 17,
+    "dialog": 19
+   }
+  },
+  {
+   "event": "CDFAA5",
+   "kind": "npc",
+   "map": 485,
+   "pr_map": "Map_20361_29",
+   "script": "sc_tedm_03FAA5",
+   "script_id": 10073,
+   "stubs": {},
+   "translated": {
+    "dialog": 16,
+    "flow": 35,
+    "flag": 32,
+    "sound": 32
+   }
+  },
+  {
+   "event": "CDFA80",
+   "kind": "npc",
+   "map": 485,
+   "pr_map": "Map_20361_29",
+   "script": "sc_tedm_03FA80",
+   "script_id": 10074,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CDFA84",
+   "kind": "npc",
+   "map": 485,
+   "pr_map": "Map_20361_29",
+   "script": "sc_tedm_03FA84",
+   "script_id": 10075,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CDFA88",
+   "kind": "npc",
+   "map": 485,
+   "pr_map": "Map_20361_29",
+   "script": "sc_tedm_03FA88",
+   "script_id": 10076,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CDFA90",
+   "kind": "npc",
+   "map": 485,
+   "pr_map": "Map_20361_29",
+   "script": "sc_tedm_03FA90",
+   "script_id": 10077,
+   "stubs": {
+    "flag": 9,
+    "flow": 9
+   },
+   "translated": {
+    "flow": 23,
+    "dialog": 28
+   }
+  },
+  {
+   "event": "CDF490",
+   "kind": "tile",
+   "map": 485,
+   "pr_map": "Map_20361_29",
+   "script": "sc_tedm_03F490",
+   "script_id": 10078,
+   "stubs": {
+    "flow": 248,
+    "flag": 246
+   },
+   "translated": {
+    "flow": 488,
+    "dialog": 237
+   }
+  },
+  {
+   "event": "CE6100",
+   "kind": "entrance",
+   "map": 485,
+   "pr_map": "Map_20361_29",
+   "stubs": {
+    "map": 2,
+    "flow": 1
+   },
+   "translated": {
+    "flow": 3,
+    "object": 1
+   }
+  },
+  {
+   "event": "CDDA60",
+   "kind": "npc",
+   "map": 486,
+   "pr_map": "Map_20051_16",
+   "script": "sc_tedm_03DA60",
+   "script_id": 10079,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CDDA70",
+   "kind": "npc",
+   "map": 486,
+   "pr_map": "Map_20051_16",
+   "script": "sc_tedm_03DA70",
+   "script_id": 10080,
+   "stubs": {},
+   "translated": {
+    "dialog": 3,
+    "flow": 2
+   }
+  },
+  {
+   "event": "CE76E0",
+   "kind": "entrance",
+   "map": 486,
+   "pr_map": "Map_20051_16",
+   "stubs": {
+    "map": 2,
+    "flow": 1
+   },
+   "translated": {
+    "flow": 5,
+    "sound": 2
+   }
+  },
+  {
+   "event": "CE9400",
+   "kind": "tile",
+   "map": 487,
+   "pr_map": "Map_20051_17",
+   "script": "sc_tedm_049400",
+   "script_id": 10081,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE9420",
+   "kind": "tile",
+   "map": 487,
+   "pr_map": "Map_20051_17",
+   "script": "sc_tedm_049420",
+   "script_id": 10082,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE9440",
+   "kind": "tile",
+   "map": 487,
+   "pr_map": "Map_20051_17",
+   "script": "sc_tedm_049440",
+   "script_id": 10083,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE9460",
+   "kind": "tile",
+   "map": 487,
+   "pr_map": "Map_20051_17",
+   "script": "sc_tedm_049460",
+   "script_id": 10084,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE9480",
+   "kind": "tile",
+   "map": 487,
+   "pr_map": "Map_20051_17",
+   "script": "sc_tedm_049480",
+   "script_id": 10085,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE94A0",
+   "kind": "tile",
+   "map": 487,
+   "pr_map": "Map_20051_17",
+   "script": "sc_tedm_0494A0",
+   "script_id": 10086,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE94C0",
+   "kind": "tile",
+   "map": 487,
+   "pr_map": "Map_20051_17",
+   "script": "sc_tedm_0494C0",
+   "script_id": 10087,
+   "stubs": {
+    "flow": 4
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE94E0",
+   "kind": "tile",
+   "map": 487,
+   "pr_map": "Map_20051_17",
+   "script": "sc_tedm_0494E0",
+   "script_id": 10088,
+   "stubs": {
+    "flow": 4
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE9500",
+   "kind": "tile",
+   "map": 487,
+   "pr_map": "Map_20051_17",
+   "script": "sc_tedm_049500",
+   "script_id": 10089,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE9520",
+   "kind": "tile",
+   "map": 487,
+   "pr_map": "Map_20051_17",
+   "script": "sc_tedm_049520",
+   "script_id": 10090,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE9540",
+   "kind": "tile",
+   "map": 487,
+   "pr_map": "Map_20051_17",
+   "script": "sc_tedm_049540",
+   "script_id": 10091,
+   "stubs": {
+    "flow": 4
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE9560",
+   "kind": "tile",
+   "map": 487,
+   "pr_map": "Map_20051_17",
+   "script": "sc_tedm_049560",
+   "script_id": 10092,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE7E60",
+   "kind": "entrance",
+   "map": 487,
+   "pr_map": "Map_20051_17",
+   "stubs": {
+    "map": 2,
+    "flow": 7
+   },
+   "translated": {
+    "flow": 32,
+    "object": 26,
+    "sound": 4
+   }
+  },
+  {
+   "event": "CE9580",
+   "kind": "tile",
+   "map": 488,
+   "pr_map": "Map_20051_18",
+   "script": "sc_tedm_049580",
+   "script_id": 10093,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 6,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE95A0",
+   "kind": "tile",
+   "map": 488,
+   "pr_map": "Map_20051_18",
+   "script": "sc_tedm_0495A0",
+   "script_id": 10094,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 6,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE95C0",
+   "kind": "tile",
+   "map": 488,
+   "pr_map": "Map_20051_18",
+   "script": "sc_tedm_0495C0",
+   "script_id": 10095,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 6,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE95E0",
+   "kind": "tile",
+   "map": 488,
+   "pr_map": "Map_20051_18",
+   "script": "sc_tedm_0495E0",
+   "script_id": 10096,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE9600",
+   "kind": "tile",
+   "map": 488,
+   "pr_map": "Map_20051_18",
+   "script": "sc_tedm_049600",
+   "script_id": 10097,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE9620",
+   "kind": "tile",
+   "map": 488,
+   "pr_map": "Map_20051_18",
+   "script": "sc_tedm_049620",
+   "script_id": 10098,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE9640",
+   "kind": "tile",
+   "map": 488,
+   "pr_map": "Map_20051_18",
+   "script": "sc_tedm_049640",
+   "script_id": 10099,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 6,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE9660",
+   "kind": "tile",
+   "map": 488,
+   "pr_map": "Map_20051_18",
+   "script": "sc_tedm_049660",
+   "script_id": 10100,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 6,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE9680",
+   "kind": "tile",
+   "map": 488,
+   "pr_map": "Map_20051_18",
+   "script": "sc_tedm_049680",
+   "script_id": 10101,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE96A0",
+   "kind": "tile",
+   "map": 488,
+   "pr_map": "Map_20051_18",
+   "script": "sc_tedm_0496A0",
+   "script_id": 10102,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE96C0",
+   "kind": "tile",
+   "map": 488,
+   "pr_map": "Map_20051_18",
+   "script": "sc_tedm_0496C0",
+   "script_id": 10103,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE96E0",
+   "kind": "tile",
+   "map": 488,
+   "pr_map": "Map_20051_18",
+   "script": "sc_tedm_0496E0",
+   "script_id": 10104,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE8580",
+   "kind": "entrance",
+   "map": 488,
+   "pr_map": "Map_20051_18",
+   "stubs": {
+    "map": 2,
+    "flow": 3
+   },
+   "translated": {
+    "flow": 44,
+    "object": 36,
+    "sound": 4
+   }
+  },
+  {
+   "event": "CE99E0",
+   "kind": "tile",
+   "map": 489,
+   "pr_map": "Map_30811_9",
+   "script": "sc_tedm_0499E0",
+   "script_id": 10105,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 7,
+    "dialog": 2
+   }
+  },
+  {
+   "event": "CE9A00",
+   "kind": "tile",
+   "map": 489,
+   "pr_map": "Map_30811_9",
+   "script": "sc_tedm_049A00",
+   "script_id": 10106,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 7,
+    "dialog": 2
+   }
+  },
+  {
+   "event": "CE9A20",
+   "kind": "tile",
+   "map": 489,
+   "pr_map": "Map_30811_9",
+   "script": "sc_tedm_049A20",
+   "script_id": 10107,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 7,
+    "dialog": 2
+   }
+  },
+  {
+   "event": "CE9A40",
+   "kind": "tile",
+   "map": 489,
+   "pr_map": "Map_30811_9",
+   "script": "sc_tedm_049A40",
+   "script_id": 10108,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 7,
+    "dialog": 2
+   }
+  },
+  {
+   "event": "CE9A60",
+   "kind": "tile",
+   "map": 489,
+   "pr_map": "Map_30811_9",
+   "script": "sc_tedm_049A60",
+   "script_id": 10109,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 7,
+    "dialog": 2
+   }
+  },
+  {
+   "event": "CE9A80",
+   "kind": "tile",
+   "map": 489,
+   "pr_map": "Map_30811_9",
+   "script": "sc_tedm_049A80",
+   "script_id": 10110,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 7,
+    "dialog": 2
+   }
+  },
+  {
+   "event": "CE9AA0",
+   "kind": "tile",
+   "map": 489,
+   "pr_map": "Map_30811_9",
+   "script": "sc_tedm_049AA0",
+   "script_id": 10111,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 7,
+    "dialog": 2
+   }
+  },
+  {
+   "event": "CE9AC0",
+   "kind": "tile",
+   "map": 489,
+   "pr_map": "Map_30811_9",
+   "script": "sc_tedm_049AC0",
+   "script_id": 10112,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 7,
+    "dialog": 2
+   }
+  },
+  {
+   "event": "CE9AE0",
+   "kind": "tile",
+   "map": 489,
+   "pr_map": "Map_30811_9",
+   "script": "sc_tedm_049AE0",
+   "script_id": 10113,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 7,
+    "dialog": 2
+   }
+  },
+  {
+   "event": "CE9B00",
+   "kind": "tile",
+   "map": 489,
+   "pr_map": "Map_30811_9",
+   "script": "sc_tedm_049B00",
+   "script_id": 10114,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 7,
+    "dialog": 2
+   }
+  },
+  {
+   "event": "CE9B20",
+   "kind": "tile",
+   "map": 489,
+   "pr_map": "Map_30811_9",
+   "script": "sc_tedm_049B20",
+   "script_id": 10115,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 7,
+    "dialog": 2
+   }
+  },
+  {
+   "event": "CE9B40",
+   "kind": "tile",
+   "map": 489,
+   "pr_map": "Map_30811_9",
+   "script": "sc_tedm_049B40",
+   "script_id": 10116,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 7,
+    "dialog": 2
+   }
+  },
+  {
+   "event": "CE8CA0",
+   "kind": "entrance",
+   "map": 489,
+   "pr_map": "Map_30811_9",
+   "stubs": {
+    "map": 2,
+    "flow": 3
+   },
+   "translated": {
+    "flow": 27,
+    "object": 48,
+    "sound": 4
+   }
+  },
+  {
+   "event": "CEA140",
+   "kind": "tile",
+   "map": 490,
+   "pr_map": "Map_20051_19",
+   "script": "sc_tedm_04A140",
+   "script_id": 10117,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "object": 1,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CEA160",
+   "kind": "tile",
+   "map": 490,
+   "pr_map": "Map_20051_19",
+   "script": "sc_tedm_04A160",
+   "script_id": 10118,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CEA180",
+   "kind": "tile",
+   "map": 490,
+   "pr_map": "Map_20051_19",
+   "script": "sc_tedm_04A180",
+   "script_id": 10119,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 6,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CEA1A0",
+   "kind": "tile",
+   "map": 490,
+   "pr_map": "Map_20051_19",
+   "script": "sc_tedm_04A1A0",
+   "script_id": 10120,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CEA1C0",
+   "kind": "tile",
+   "map": 490,
+   "pr_map": "Map_20051_19",
+   "script": "sc_tedm_04A1C0",
+   "script_id": 10121,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CEA1E0",
+   "kind": "tile",
+   "map": 490,
+   "pr_map": "Map_20051_19",
+   "script": "sc_tedm_04A1E0",
+   "script_id": 10122,
+   "stubs": {
+    "flow": 3
+   },
+   "translated": {
+    "flow": 5,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "CE9B70",
+   "kind": "entrance",
+   "map": 490,
+   "pr_map": "Map_20051_19",
+   "stubs": {
+    "map": 2,
+    "flow": 3
+   },
+   "translated": {
+    "flow": 22,
+    "object": 22,
+    "sound": 4
+   }
+  },
+  {
+   "event": "CDFA95",
+   "kind": "npc",
+   "map": 491,
+   "pr_map": "Map_20431_10",
+   "script": "sc_tedm_03FA95",
+   "script_id": 10123,
+   "stubs": {
+    "flag": 8,
+    "flow": 6,
+    "object": 15,
+    "screen": 15
+   },
+   "translated": {
+    "flow": 82,
+    "object": 49,
+    "wait": 184,
+    "dialog": 34,
+    "screen": 195,
+    "sound": 15,
+    "flag": 24
+   }
+  },
+  {
+   "event": "E9FE40",
+   "kind": "tile",
+   "map": 491,
+   "pr_map": "Map_20431_10",
+   "script": "sc_tedm_1FFE40",
+   "script_id": 10124,
+   "stubs": {
+    "flow": 2
+   },
+   "translated": {
+    "flow": 21,
+    "dialog": 10
+   }
+  },
+  {
+   "event": "E9F7D0",
+   "kind": "entrance",
+   "map": 491,
+   "pr_map": "Map_20431_10",
+   "stubs": {
+    "map": 2,
+    "screen": 11,
+    "object": 9
+   },
+   "translated": {
+    "flow": 12
+   }
+  },
+  {
+   "event": "EA0590",
+   "kind": "tile",
+   "map": 492,
+   "pr_map": "Map_30661_2",
+   "script": "sc_tedm_200590",
+   "script_id": 10125,
+   "stubs": {
+    "flow": 2,
+    "sound": 2,
+    "map": 1,
+    "object": 2
+   },
+   "translated": {
+    "flow": 8,
+    "dialog": 4,
+    "object": 4,
+    "wait": 5,
+    "screen": 3,
+    "battle": 1,
+    "sound": 1,
+    "flag": 2
+   }
+  },
+  {
+   "event": "EA0550",
+   "kind": "entrance",
+   "map": 492,
+   "pr_map": "Map_30661_2",
+   "stubs": {
+    "map": 3
+   },
+   "translated": {
+    "flow": 4
+   }
+  },
+  {
+   "event": "CDDB10",
+   "kind": "npc",
+   "map": 493,
+   "pr_map": "Map_30811_10",
+   "script": "sc_tedm_03DB10",
+   "script_id": 10126,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "EA06D0",
+   "kind": "entrance",
+   "map": 493,
+   "pr_map": "Map_30811_10",
+   "stubs": {
+    "map": 2
+   },
+   "translated": {
+    "flow": 1
+   }
+  },
+  {
+   "event": "CDFAB0",
+   "kind": "npc",
+   "map": 494,
+   "pr_map": "Map_20011_16",
+   "script": "sc_tedm_03FAB0",
+   "script_id": 10127,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CDFAB4",
+   "kind": "npc",
+   "map": 494,
+   "pr_map": "Map_20011_16",
+   "script": "sc_tedm_03FAB4",
+   "script_id": 10128,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CDFAB8",
+   "kind": "npc",
+   "map": 494,
+   "pr_map": "Map_20011_16",
+   "script": "sc_tedm_03FAB8",
+   "script_id": 10129,
+   "stubs": {},
+   "translated": {
+    "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "EA0BD0",
+   "kind": "entrance",
+   "map": 494,
+   "pr_map": "Map_20011_16",
+   "stubs": {
+    "map": 2,
+    "flow": 1
+   },
+   "translated": {
+    "flow": 6,
+    "object": 2,
+    "sound": 2
+   }
+  },
+  {
+   "event": "CEA6D0",
+   "kind": "entrance",
+   "map": 495,
+   "pr_map": "Map_20011_17",
+   "stubs": {},
+   "translated": {
+    "flow": 3,
+    "sound": 1
+   }
+  },
+  {
+   "event": "CDFBF0",
+   "kind": "tile",
+   "map": 497,
+   "pr_map": "Map_20051_20",
+   "script": "sc_tedm_03FBF0",
+   "script_id": 10130,
+   "stubs": {
+    "flow": 1,
+    "sound": 1,
+    "flag": 1
+   },
+   "translated": {
+    "flow": 7,
+    "object": 2,
+    "party": 36
+   }
+  },
+  {
+   "event": "EAB650",
+   "kind": "entrance",
+   "map": 497,
+   "pr_map": "Map_20051_20",
+   "stubs": {
+    "map": 23,
+    "flow": 21
+   },
+   "translated": {
+    "flow": 42
+   }
+  },
+  {
+   "event": "CDFBB0",
+   "kind": "npc",
+   "map": 498,
+   "pr_map": "Map_20451_14",
+   "script": "sc_tedm_03FBB0",
+   "script_id": 10131,
+   "stubs": {
+    "flow": 30,
+    "party": 15,
+    "menu": 1
+   },
+   "translated": {
+    "dialog": 2,
+    "flow": 35,
+    "object": 48,
+    "party": 15,
+    "map": 1
+   }
+  },
+  {
+   "event": "CDFBD0",
+   "kind": "tile",
+   "map": 498,
+   "pr_map": "Map_20451_14",
+   "script": "sc_tedm_03FBD0",
+   "script_id": 10132,
+   "stubs": {
+    "sound": 1,
+    "screen": 1
+   },
+   "translated": {
+    "object": 1,
+    "wait": 2,
+    "screen": 4,
+    "map": 1,
+    "party": 1,
+    "camera": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "EAC4E0",
+   "kind": "entrance",
+   "map": 498,
+   "pr_map": "Map_20451_14",
+   "stubs": {
+    "map": 2
+   },
+   "translated": {
+    "flow": 1
+   }
+  },
+  {
+   "event": "EAC690",
+   "kind": "entrance",
+   "map": 499,
+   "pr_map": "Map_20451_15",
+   "stubs": {
+    "map": 5,
+    "flow": 3
+   },
+   "translated": {
+    "flow": 6
+   }
+  },
+  {
+   "event": "CCF680",
+   "kind": "npc",
+   "map": 500,
+   "pr_map": "Map_20451_16",
+   "script": "sc_tedm_02F680",
+   "script_id": 10133,
+   "stubs": {
+    "sound": 2
+   },
+   "translated": {
+    "dialog": 2,
+    "battle": 1,
+    "flow": 4,
+    "screen": 2,
+    "wait": 3,
+    "flag": 1,
+    "sound": 1,
+    "object": 1
+   }
+  },
+  {
+   "event": "EAD3A0",
+   "kind": "entrance",
+   "map": 500,
+   "pr_map": "Map_20451_16",
+   "stubs": {
+    "map": 5,
+    "flow": 3
+   },
+   "translated": {
+    "object": 1,
+    "flow": 13
+   }
+  },
+  {
+   "event": "CCF9E0",
+   "kind": "npc",
+   "map": 501,
+   "pr_map": "Map_20051_21",
+   "script": "sc_tedm_02F9E0",
+   "script_id": 10134,
+   "stubs": {
+    "sound": 2
+   },
+   "translated": {
+    "dialog": 2,
+    "battle": 1,
+    "flow": 4,
+    "screen": 2,
+    "wait": 3,
+    "flag": 1,
+    "sound": 1,
+    "object": 1
+   }
+  },
+  {
+   "event": "EADF10",
+   "kind": "entrance",
+   "map": 501,
+   "pr_map": "Map_20051_21",
+   "stubs": {
+    "map": 5,
+    "flow": 3
+   },
+   "translated": {
+    "object": 1,
+    "flow": 13
+   }
+  },
+  {
+   "event": "CD0180",
+   "kind": "npc",
+   "map": 502,
+   "pr_map": "Map_20051_22",
+   "script": "sc_tedm_030180",
+   "script_id": 10135,
+   "stubs": {
+    "sound": 2
+   },
+   "translated": {
+    "dialog": 2,
+    "battle": 1,
+    "flow": 4,
+    "screen": 2,
+    "wait": 3,
+    "flag": 1,
+    "sound": 1,
+    "object": 1
+   }
+  },
+  {
+   "event": "EAEFF0",
+   "kind": "entrance",
+   "map": 502,
+   "pr_map": "Map_20051_22",
+   "stubs": {
+    "map": 2
+   },
+   "translated": {
+    "object": 1,
+    "flow": 3
+   }
+  },
+  {
+   "event": "CD0200",
+   "kind": "npc",
+   "map": 503,
+   "pr_map": "Map_20051_23",
+   "script": "sc_tedm_030200",
+   "script_id": 10136,
+   "stubs": {
+    "party": 4,
+    "sound": 3
+   },
+   "translated": {
+    "dialog": 3,
+    "party": 8,
+    "flow": 6,
+    "sound": 2,
+    "screen": 3,
+    "wait": 4,
+    "battle": 1,
+    "flag": 1,
+    "object": 1
+   }
+  },
+  {
+   "event": "EAF9F0",
+   "kind": "entrance",
+   "map": 503,
+   "pr_map": "Map_20051_23",
+   "stubs": {
+    "map": 5,
+    "flow": 3
+   },
+   "translated": {
+    "object": 1,
+    "flow": 13
+   }
+  },
+  {
+   "event": "EB03E0",
+   "kind": "entrance",
+   "map": 504,
+   "pr_map": "Map_20051_24",
+   "stubs": {
+    "map": 2
+   },
+   "translated": {
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD18B0",
+   "kind": "npc",
+   "map": 505,
+   "pr_map": "Map_20451_17",
+   "script": "sc_tedm_0318B0",
+   "script_id": 10137,
+   "stubs": {
+    "sound": 5
+   },
+   "translated": {
+    "flow": 6,
+    "sound": 12,
+    "screen": 23,
+    "dialog": 5,
+    "wait": 27,
+    "object": 11,
+    "battle": 1,
+    "item": 1,
+    "flag": 3
+   }
+  },
+  {
+   "event": "EB0AA0",
+   "kind": "entrance",
+   "map": 505,
+   "pr_map": "Map_20451_17",
+   "stubs": {
+    "map": 2
+   },
+   "translated": {
+    "object": 1,
+    "flow": 3
+   }
+  },
+  {
+   "event": "EB0E70",
+   "kind": "entrance",
+   "map": 506,
+   "pr_map": "Map_30531_8",
+   "stubs": {},
+   "translated": {
+    "screen": 67,
+    "flow": 13
+   }
+  },
+  {
+   "event": "EB0E70",
+   "kind": "entrance",
+   "map": 506,
+   "pr_map": "Map_30531_9",
+   "stubs": {},
+   "translated": {
+    "screen": 67,
+    "flow": 13
+   }
+  },
+  {
+   "event": "EB22A0",
+   "kind": "tile",
+   "map": 508,
+   "pr_map": "Map_30700_1",
+   "script": "sc_tedm_2122A0",
+   "script_id": 10138,
+   "stubs": {
+    "sound": 4,
+    "screen": 3,
+    "flow": 3,
+    "map": 60,
+    "flag": 1
+   },
+   "translated": {
+    "wait": 10,
+    "sound": 4,
+    "screen": 10,
+    "flow": 147,
+    "map": 44,
+    "flag": 8,
+    "object": 8,
+    "dialog": 1
+   }
+  },
+  {
+   "event": "EB1F40",
+   "kind": "entrance",
+   "map": 508,
+   "pr_map": "Map_30700_1",
+   "stubs": {
+    "map": 2
+   },
+   "translated": {
+    "screen": 40,
+    "flow": 11
+   }
+  },
+  {
+   "event": "CC18AA",
+   "kind": "npc",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_0218AA",
+   "script_id": 10139,
+   "stubs": {
+    "flag": 2
+   },
+   "translated": {
+    "battle": 1,
+    "flow": 8,
+    "object": 7,
+    "screen": 42,
+    "wait": 2
+   }
+  },
+  {
+   "event": "CAD521",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_00D521",
+   "script_id": 10140,
+   "stubs": {
+    "sound": 1,
+    "map": 1
+   },
+   "translated": {
+    "flow": 5,
+    "flag": 1,
+    "map": 1
+   }
+  },
+  {
+   "event": "CAD530",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_00D530",
+   "script_id": 10141,
+   "stubs": {
+    "sound": 2,
+    "map": 2
+   },
+   "translated": {
+    "flow": 7,
+    "flag": 1,
+    "map": 2,
+    "wait": 1
+   }
+  },
+  {
+   "event": "CAD546",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_00D546",
+   "script_id": 10142,
+   "stubs": {
+    "sound": 2,
+    "map": 2
+   },
+   "translated": {
+    "flow": 7,
+    "flag": 1,
+    "map": 2,
+    "wait": 1
+   }
+  },
+  {
+   "event": "CAD625",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_00D625",
+   "script_id": 10143,
+   "stubs": {
+    "sound": 2,
+    "map": 2
+   },
+   "translated": {
+    "flow": 7,
+    "flag": 1,
+    "map": 2,
+    "wait": 1
+   }
+  },
+  {
+   "event": "CAD63B",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_00D63B",
+   "script_id": 10144,
+   "stubs": {
+    "sound": 2,
+    "map": 4
+   },
+   "translated": {
+    "flow": 9,
+    "flag": 1,
+    "map": 3,
+    "wait": 2
+   }
+  },
+  {
+   "event": "CAD656",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_00D656",
+   "script_id": 10145,
+   "stubs": {
+    "map": 6,
+    "sound": 1
+   },
+   "translated": {
+    "wait": 3,
+    "flow": 13,
+    "object": 8
+   }
+  },
+  {
+   "event": "CAD68D",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_00D68D",
+   "script_id": 10146,
+   "stubs": {
+    "map": 6,
+    "sound": 1
+   },
+   "translated": {
+    "wait": 3,
+    "flow": 13,
+    "object": 8
+   }
+  },
+  {
+   "event": "CAD71E",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_00D71E",
+   "script_id": 10147,
+   "stubs": {
+    "map": 6,
+    "sound": 1
+   },
+   "translated": {
+    "wait": 3,
+    "flow": 13,
+    "object": 8
+   }
+  },
+  {
+   "event": "CAD748",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_00D748",
+   "script_id": 10148,
+   "stubs": {
+    "map": 6,
+    "sound": 1
+   },
+   "translated": {
+    "wait": 3,
+    "flow": 13,
+    "object": 8
+   }
+  },
+  {
+   "event": "EC2BF0",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_222BF0",
+   "script_id": 10149,
+   "stubs": {
+    "map": 6,
+    "sound": 1
+   },
+   "translated": {
+    "wait": 3,
+    "flow": 13,
+    "object": 8
+   }
+  },
+  {
+   "event": "EC2BB0",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_222BB0",
+   "script_id": 10150,
+   "stubs": {
+    "map": 6,
+    "sound": 1
+   },
+   "translated": {
+    "wait": 3,
+    "flow": 13,
+    "object": 8
+   }
+  },
+  {
+   "event": "CAD87E",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_00D87E",
+   "script_id": 10151,
+   "stubs": {
+    "map": 3,
+    "sound": 2
+   },
+   "translated": {
+    "flow": 9,
+    "camera": 2,
+    "sound": 1,
+    "map": 3,
+    "object": 2,
+    "flag": 1,
+    "wait": 1
+   }
+  },
+  {
+   "event": "CAD8A5",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_00D8A5",
+   "script_id": 10152,
+   "stubs": {
+    "map": 2,
+    "sound": 1
+   },
+   "translated": {
+    "flow": 7,
+    "camera": 2,
+    "sound": 1,
+    "map": 2,
+    "object": 2,
+    "flag": 1
+   }
+  },
+  {
+   "event": "CAD8C7",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_00D8C7",
+   "script_id": 10153,
+   "stubs": {
+    "map": 5,
+    "sound": 2
+   },
+   "translated": {
+    "flow": 13,
+    "camera": 2,
+    "sound": 1,
+    "object": 2,
+    "flag": 1,
+    "map": 4,
+    "wait": 3
+   }
+  },
+  {
+   "event": "CAD8FD",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_00D8FD",
+   "script_id": 10154,
+   "stubs": {
+    "sound": 1,
+    "map": 1
+   },
+   "translated": {
+    "flow": 5,
+    "flag": 1,
+    "map": 1
+   }
+  },
+  {
+   "event": "EB2470",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_212470",
+   "script_id": 10155,
+   "stubs": {
+    "map": 6,
+    "sound": 1
+   },
+   "translated": {
+    "wait": 3,
+    "object": 8,
+    "flow": 5
+   }
+  },
+  {
+   "event": "EB2AA0",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_212AA0",
+   "script_id": 10156,
+   "stubs": {
+    "map": 6,
+    "sound": 1
+   },
+   "translated": {
+    "wait": 3,
+    "object": 8,
+    "flow": 5
+   }
+  },
+  {
+   "event": "EB2740",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_212740",
+   "script_id": 10157,
+   "stubs": {
+    "sound": 1,
+    "map": 10
+   },
+   "translated": {
+    "flow": 19,
+    "flag": 5,
+    "map": 9,
+    "object": 1
+   }
+  },
+  {
+   "event": "EB25F0",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_2125F0",
+   "script_id": 10158,
+   "stubs": {
+    "map": 5,
+    "sound": 3,
+    "screen": 1
+   },
+   "translated": {
+    "wait": 2,
+    "object": 5,
+    "flow": 15,
+    "screen": 46,
+    "map": 1
+   }
+  },
+  {
+   "event": "EB24F0",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_2124F0",
+   "script_id": 10159,
+   "stubs": {
+    "map": 6,
+    "sound": 1
+   },
+   "translated": {
+    "wait": 3,
+    "object": 8,
+    "flow": 5
+   }
+  },
+  {
+   "event": "EB2570",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_212570",
+   "script_id": 10160,
+   "stubs": {
+    "map": 5,
+    "sound": 2
+   },
+   "translated": {
+    "flow": 7,
+    "camera": 2,
+    "sound": 1,
+    "object": 2,
+    "flag": 1,
+    "map": 4,
+    "wait": 3
+   }
+  },
+  {
+   "event": "EB2680",
+   "kind": "tile",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "script": "sc_tedm_212680",
+   "script_id": 10161,
+   "stubs": {
+    "map": 6,
+    "sound": 1
+   },
+   "translated": {
+    "wait": 3,
+    "object": 8,
+    "flow": 5
+   }
+  },
+  {
+   "event": "EB2300",
+   "kind": "entrance",
+   "map": 509,
+   "pr_map": "Map_30600_1",
+   "stubs": {
+    "map": 30,
+    "screen": 1,
+    "flow": 1
+   },
+   "translated": {
+    "flow": 70,
+    "map": 21,
+    "flag": 4,
+    "object": 1
+   }
+  },
+  {
+   "event": "EB2790",
+   "kind": "entrance",
+   "map": 510,
+   "pr_map": "Map_20140_3",
+   "stubs": {},
+   "translated": {
+    "screen": 8,
+    "flow": 3
+   }
+  }
+ ]
+}

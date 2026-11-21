@@ -2,9 +2,8 @@
 
 From `MEDIA_INVENTORY.md` (what T-Edition has and where) and the kit's tools (`pr/MODDING.md`: "SNES music
 player", "SNES sprites → PR art", "Monster images"). Every piece is built from the developer's T-Edition ROM
-by a tool; whether the zip carries the results (T-Edition's songs and art are Tsushiy's, many from other
-Square games) is the user's decision. Players need no ROM, so without that the mod plays the PR's music
-and look-alike art.
+by a tool, and the zip carries the results (T-Edition's songs and art are Tsushiy's, many from other
+Square games; the user has his permission): see the end of this file.
 
 ## Music (owner: the TedPlugin session; `tools/ted_music.py`, `TedPlugin/TedMusic.cs`)
 
@@ -32,11 +31,12 @@ and look-alike art.
 
 | Piece | Owner | Tools | Count |
 |---|---|---|---|
-| Monsters: new, recolors, EX | ted-monsters, after its data items and the second item bank | `port_sprites.py` / `pr_art.py` `ArtWriter.monster` → `MonsterImages` (static, keyed by PR id 1000 + e) | 98 new + 18 recolors + 26 EX |
-| Monsters redrawn in the vanilla range (0-383) | ted-monsters, after the above | the same | 76 |
+| Monsters: new, recolors, EX | bc-sprites (lent by BC, 19:40): first a decoder for T-Edition's relocated tables (a new kit module during the WC freeze) | `port_sprites.py` / `pr_art.py` `ArtWriter.monster` → `MonsterImages` (static, keyed by PR id 1000 + e) | 98 new + 18 recolors + 26 EX |
+| Monsters redrawn in the vanilla range (0-383) | bc-sprites, after the above | the same | 76 |
 | NPC sprites on the new maps | ted-maps | a PR look per SNES sprite number (look-alikes first) | 112 numbers |
-| Costumes (56 + Gogo's 10 forms), portraits (75), the dressing room | a costumes session when the RAM budget allows (until then, after the monsters in ted-monsters) | `snes_charsprites.py group_frames`, `ArtSwap.Load` (swappable frame sets), TedPlugin's dressing-room menu | 56 + 10 + 75 |
+| Costumes (56 + Gogo's 10 forms), portraits (75), the dressing room | bc-sprites, after the monsters; the dressing room's SysCalls and the saved choice in TedPlugin | `snes_charsprites.py group_frames`, ArtSwap's named layers (`SetLayer("costume:<char>", dir)`, after the freeze); Gogo's Chameleon Robe a random battle-only layer | 56 + 10 + 75 |
 | Tilesets 82-85 and edited ones, new battle backgrounds, the Collection Room paintings | later, only where a look-alike looks wrong in a QA run | `snes_rooms` look matching | — |
 
-The inventory's open questions go to whoever owns the piece. Questions for the user (asked by the lead):
-whether the songs and art ship in the zip, and whether to ask Tsushiy and Mato before a release.
+The inventory's open questions go to whoever owns the piece. **Decided** (the user, 2026-11-20: permission from
+every mod's owner to bundle art, assets and music): the songs and art ship in the zip as the mod's data.
+Build them as shippable data (BepInEx/TEdition), not on the player's machine.

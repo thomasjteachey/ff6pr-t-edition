@@ -1,0 +1,366 @@
+[
+ {
+  "event": "CD/5850",
+  "script": "sc_ted_cd5850",
+  "pr_map": "Map_20071_23",
+  "translated": {
+   "flow": 15,
+   "dialog": 11,
+   "flag": 4,
+   "screen": 4,
+   "object": 5,
+   "wait": 3,
+   "sound": 1,
+   "item": 1,
+   "map": 1
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0038",
+    "entity": 14,
+    "was": "sc_npc_20071_23_1",
+    "now": "sc_ted_cd5850_l0038",
+    "script_id": 9500
+   },
+   {
+    "layer": "ev_e_0063",
+    "entity": 0,
+    "was": "sc_npc_20071_23_2",
+    "now": "sc_ted_cd5850_l0063",
+    "script_id": 9501
+   },
+   {
+    "layer": "ev_e_0075",
+    "entity": 1,
+    "was": "sc_e_0075",
+    "now": "sc_ted_cd5850_l0075",
+    "script_id": 9502
+   }
+  ],
+  "detail": {
+   "dialog ok": 11,
+   "flag ok": 4,
+   "flow ok": 15,
+   "item ok": 1,
+   "map ok": 1,
+   "object ok": 5,
+   "screen ok": 4,
+   "sound ok": 1,
+   "wait ok": 3
+  },
+  "build": {
+   "added_npcs": 1,
+   "hidden_by_map_script": 0,
+   "standins": [
+    {
+     "sprite": 221,
+     "snes_map": 413,
+     "npc": 6,
+     "pr_map": "Map_20421_2",
+     "look": 51,
+     "entity": 5000,
+     "event": "CD/4E20"
+    }
+   ]
+  }
+ },
+ {
+  "event": "CD/49D0",
+  "script": "sc_ted_cd49d0",
+  "pr_map": "Map_20010",
+  "translated": {
+   "flow": 4,
+   "dialog": 4,
+   "wait": 6,
+   "sound": 5,
+   "screen": 3,
+   "battle": 1,
+   "item": 1,
+   "flag": 1,
+   "object": 1
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0018",
+    "entity": 88,
+    "was": null,
+    "now": "sc_ted_cd49d0_l0018",
+    "script_id": 9503
+   }
+  ],
+  "detail": {
+   "battle ok": 1,
+   "dialog ok": 4,
+   "flag ok": 1,
+   "flow game over check": 1,
+   "flow ok": 3,
+   "item ok": 1,
+   "object no-op": 1,
+   "screen ok": 3,
+   "sound jingle": 1,
+   "sound ok": 3,
+   "sound song wait": 1,
+   "wait ok": 6
+  }
+ },
+ {
+  "event": "CD/4A10",
+  "script": "sc_ted_cd4a10",
+  "pr_map": "Map_20010",
+  "translated": {
+   "flow": 4,
+   "dialog": 4,
+   "wait": 6,
+   "sound": 5,
+   "screen": 3,
+   "battle": 1,
+   "item": 1,
+   "flag": 1,
+   "object": 1
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0018",
+    "entity": 86,
+    "was": null,
+    "now": "sc_ted_cd4a10_l0018",
+    "script_id": 9504
+   }
+  ],
+  "detail": {
+   "battle ok": 1,
+   "dialog ok": 4,
+   "flag ok": 1,
+   "flow game over check": 1,
+   "flow ok": 3,
+   "item ok": 1,
+   "object no-op": 1,
+   "screen ok": 3,
+   "sound jingle": 1,
+   "sound ok": 3,
+   "sound song wait": 1,
+   "wait ok": 6
+  }
+ },
+ {
+  "event": "CD/1580",
+  "script": "sc_ted_cd1580",
+  "pr_map": "Map_20011_11",
+  "translated": {
+   "flow": 5,
+   "dialog": 7,
+   "wait": 6,
+   "sound": 5,
+   "screen": 3,
+   "battle": 1,
+   "item": 1,
+   "flag": 1,
+   "object": 1
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0249",
+    "entity": 15,
+    "was": null,
+    "now": "sc_ted_cd1580_l0249",
+    "script_id": 9509
+   },
+   {
+    "layer": "ev_e_0259",
+    "entity": 8,
+    "was": "sc_npc_20011_11_1",
+    "now": "sc_ted_cd1580_l0259",
+    "script_id": 9505
+   },
+   {
+    "layer": "ev_e_0430_1",
+    "entity": 23,
+    "was": "sc_npc_20011_11_1",
+    "now": "sc_ted_cd1580_l0430_1",
+    "script_id": 9506
+   }
+  ],
+  "detail": {
+   "battle ok": 1,
+   "dialog choice": 1,
+   "dialog ok": 6,
+   "flag ok": 1,
+   "flow game over check": 1,
+   "flow ok": 4,
+   "item ok": 1,
+   "object no-op": 1,
+   "screen ok": 3,
+   "sound jingle": 1,
+   "sound ok": 3,
+   "sound song wait": 1,
+   "wait ok": 6
+  }
+ },
+ {
+  "event": "CD/1540",
+  "script": "sc_ted_cd1540",
+  "pr_map": "Map_20011_11",
+  "translated": {
+   "flow": 5,
+   "dialog": 7,
+   "wait": 6,
+   "sound": 5,
+   "screen": 3,
+   "battle": 1,
+   "item": 1,
+   "flag": 1,
+   "object": 1
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0430_1",
+    "entity": 6,
+    "was": null,
+    "now": "sc_ted_cd1540_l0430_1",
+    "script_id": 9507
+   }
+  ],
+  "detail": {
+   "battle ok": 1,
+   "dialog choice": 1,
+   "dialog ok": 6,
+   "flag ok": 1,
+   "flow game over check": 1,
+   "flow ok": 4,
+   "item ok": 1,
+   "object no-op": 1,
+   "screen ok": 3,
+   "sound jingle": 1,
+   "sound ok": 3,
+   "sound song wait": 1,
+   "wait ok": 6
+  }
+ },
+ {
+  "event": "CC/9CE0",
+  "script": "sc_ted_cc9ce0",
+  "pr_map": "Map_20330",
+  "translated": {
+   "flow": 21,
+   "dialog": 19,
+   "wait": 20,
+   "sound": 22,
+   "screen": 12,
+   "item": 5,
+   "battle": 4,
+   "flag": 4,
+   "object": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 1,
+    "was": "sc_e_0640",
+    "now": "sc_ted_cc9ce0_entity_default",
+    "script_id": 9508
+   }
+  ],
+  "detail": {
+   "battle ok": 4,
+   "dialog choice": 4,
+   "dialog ok": 15,
+   "flag ok": 4,
+   "flow game over check": 4,
+   "flow ok": 17,
+   "item ok": 5,
+   "object no-op": 4,
+   "screen ok": 12,
+   "sound jingle": 4,
+   "sound ok": 14,
+   "sound song wait": 4,
+   "wait ok": 20
+  }
+ },
+ {
+  "event": "CC/5DD3",
+  "script": "sc_ted_cc5dd3",
+  "pr_map": "Map_20190",
+  "translated": {
+   "flow": 19,
+   "dialog": 18,
+   "wait": 20,
+   "sound": 22,
+   "screen": 12,
+   "item": 5,
+   "battle": 4,
+   "flag": 4,
+   "object": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0427",
+    "entity": 58,
+    "was": "sc_e_0427",
+    "now": "sc_ted_cc5dd3_l0427",
+    "script_id": 9510
+   }
+  ],
+  "detail": {
+   "battle ok": 4,
+   "dialog choice": 4,
+   "dialog ok": 14,
+   "flag ok": 4,
+   "flow game over check": 4,
+   "flow ok": 15,
+   "item ok": 5,
+   "object no-op": 4,
+   "screen ok": 12,
+   "sound jingle": 4,
+   "sound ok": 14,
+   "sound song wait": 4,
+   "wait ok": 20
+  }
+ },
+ {
+  "event": "CD/4E20",
+  "script": "sc_ted_cd4e20",
+  "pr_map": "Map_20421_2",
+  "translated": {
+   "flow": 7,
+   "dialog": 7,
+   "wait": 4,
+   "battle": 1,
+   "screen": 1,
+   "sound": 4,
+   "item": 1,
+   "flag": 1
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 5000,
+    "was": null,
+    "now": "sc_ted_cd4e20_new",
+    "script_id": 9511,
+    "new": true
+   }
+  ],
+  "detail": {
+   "battle ok": 1,
+   "dialog choice": 1,
+   "dialog ok": 6,
+   "flag ok": 1,
+   "flow game over check": 1,
+   "flow ok": 6,
+   "item ok": 1,
+   "screen ok": 1,
+   "sound jingle": 1,
+   "sound ok": 2,
+   "sound song wait": 1,
+   "wait ok": 4
+  }
+ }
+]

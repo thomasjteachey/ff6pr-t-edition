@@ -405,6 +405,90 @@ class MonsterSprites:
         return self.past.sprite(e) if self.past is not None else None   # EX's (512+) are in EX's ROM
 
 
+FORMATION_REWARDS = 0x4B4A00   # 4B/4A00: one byte per formation, FF none, else second-bank item 256 + n (C2/FC40 -> 4E/0D30)
+COLISEUM = 0x10F140, 4, 280   # D0/F140: per wagered item (id + 256 x bank flag): opponent, ?, reward, hidden (C3/BB99)
+
+
+def rewards_data():
+    """T-Edition's item rewards the PR has no data column for, for TedPlugin (ted-monsters; pr notes ted-items2):
+    - "boss_rewards" {PR party: content id}: a boss formation's extra item, added at victory (21 formations; the
+      phase formations a fight changes into (no pack names them: 677, 688, 698, 699) also on the parties of the formations
+      whose monsters' scripts change into them, since the PR fight keeps its party);
+    - "coliseum" [[wager content, 0, 0, party, reward content, hidden, PR monster]] for every wager (WcColiseum's rows:
+      a match's opponent party as seed_info.coliseum picks it; records 256-278 give their wager back, 279 can't be wagered).
+    Second-bank items (256-279) have content ids once item identity sees them (the held kit patches): till then their
+    entries are left out. Medium confidence on the banking of both (ted-items2/FINDINGS.md): confirm in the PR runs."""
+    import csv
+    import collections
+    import port_encounters as E
+    import port_monster_ext as X
+    import snes_ai as A
+    mod, data = _Image.mod, _Image.data
+    rom = S.Rom(MATO)
+    tables = X._STATE.get("tables") or {}
+    mp = tables.get("monster_party") or P.Table("monster_party")
+
+    def content(i):
+        try:
+            return M.item_content(i) if i != 0xFF else 0
+        except Exception:  # noqa: BLE001 - an item with no PR row (yet)
+            return 0
+
+    def parties(f):
+        out = list(E.party_ids(f, mp.rows))
+        if f < 576 and M.party(f) in mp.rows:
+            out.append(M.party(f))
+        return out
+    changes = collections.defaultdict(set)   # a formation -> the formations whose monsters' scripts change into it
+    for g in range(X.formation_count(rom)):
+        for e in X.members(rom, g):
+            if e >= 512:
+                continue
+            main, counter = A.script(rom, e)
+            for op, args in main + counter:
+                if op == "formation":
+                    changes[(args[1] | args[2] << 8) & 0x3FF].add(g)
+    rewards, phases = {}, {}
+    for f in range(768):
+        b = mod[FORMATION_REWARDS + f]
+        if b == 0xFF:
+            continue
+        cid = content(256 + b)
+        ps = parties(f)
+        if changes.get(f):   # also on the fights that change into it (the PR fight keeps its party to the end)
+            ps += [p for g in sorted(changes[f]) for p in parties(g)]
+            phases[f] = sorted(changes[f])
+        for p in ps:
+            if cid:
+                rewards.setdefault(str(p), cid)
+    # the Coliseum: an opponent's party as WcColiseum expects (seed_info.coliseum's pick: its Coliseum copy, else a
+    # battle with it alone)
+    master = os.path.join(P.VANILLA, "master", "Assets", "GameAssets", "Serial", "Data", "Master")
+    key = {int(r["id"]): r["mes_id_name"] for r in csv.DictReader(open(os.path.join(master, "monster.csv"), encoding="utf-8"))}
+    party_of_key, alone = {}, {}
+    for r in P.Table("monster_party"):
+        ms = [int(r[f"monster{k}"]) for k in range(1, 10) if r[f"monster{k}"] not in ("0", "")]
+        if len(ms) == 1:
+            if int(r["id"]) >= 1000 and key.get(ms[0]):
+                party_of_key.setdefault(key[ms[0]], int(r["id"]))
+            elif int(r["id"]) < 1000:
+                alone.setdefault(ms[0], int(r["id"]))
+    at, size, count = COLISEUM
+    coliseum = []
+    for wager in range(count):
+        if wager in (0xFF, 279):
+            continue
+        rec = mod[at + size * wager:at + size * (wager + 1)]
+        wc = content(wager)
+        reward = content(rec[2] + (256 if wager >= 256 else 0)) if rec[2] != 0xFF else 0
+        if wc <= 0:
+            continue
+        opp = M.monster(rec[0])
+        coliseum.append([wc, 0, 0, party_of_key.get(key.get(opp)) or alone.get(opp, 0), reward, int(rec[3] != 0), opp])
+    return {"boss_rewards": rewards, "phase_formations": {str(f): g for f, g in phases.items()},
+            "coliseum": coliseum}
+
+
 class Names:
     def __init__(self, items, item_icons, spells, spell_icons, monsters, characters):
         self.items, self.item_icons, self.spells, self.spell_icons = items, item_icons, spells, spell_icons
@@ -519,12 +603,15 @@ class TEdition(Profile):
         ted_items.json: each item slot's PR table, row and content id as the item identity step chose them
         (rows it made exist only after the port), so ted_maps fills new maps' chests from it."""
         items = {}
-        for s in range(255):
+        names = _Image.names.items if _Image.names else []
+        for s in [i for i in range(280) if i != 255]:   # 256-279: the second bank (rows once item identity sees them)
             m = M.item(s)
             if m:
                 items[str(s)] = {"table": m[0], "id": m[1], "content": M.item_content(s),
-                                 "name": _Image.names.items[s] if _Image.names else ""}
+                                 "name": names[s] if s < len(names) else ""}
         out = {"ted_items.json": {"items": items}}
+        # ted_rewards.json: T-Edition's boss rewards and Coliseum for TedPlugin (ted-monsters; rewards_data)
+        out["ted_rewards.json"] = rewards_data()
         # ted_ai.json: the monsters' SNES scripts for the plugin's SnesAiHost (TedEnemyAi reads it from BepInEx/TEdition)
         import port_ai
         sa = getattr(port_ai.port, "snes_ai", None)

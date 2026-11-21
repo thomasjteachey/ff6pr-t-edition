@@ -82,6 +82,8 @@ def data_rules(folder, log=print):
     log(f"T-Edition data rules: weapon critical rate {rate} on {n} rows")
     for rule in (growth_rule, relm_magic_rule, command_rule, dancing_dagger_rule):
         rule(folder, log)
+    import ted_plugin_data   # the spec's rule 49: percent damage of current vs max HP (the TedPlugin session)
+    ted_plugin_data.percent_damage(folder, log)
 
 
 class MasterRows:
@@ -312,6 +314,8 @@ def build(run_port=True, log=print):
     data_rules(STAGE, log)
     import ted_art   # T-Edition's monster art (bc-sprites): monster_asset rows + the monsters pointed at them
     ted_art.apply(STAGE, log=log)
+    import ted_music   # the song pack + bgm rules for BepInEx/TEdition/music (the TedPlugin session; not Magicite)
+    ted_music.build(log=log)
     if os.path.isdir(OUT):
         shutil.rmtree(OUT)
     shutil.copytree(STAGE, OUT)

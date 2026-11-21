@@ -51,6 +51,10 @@ namespace TEdition.PR
             // the Dance status taken off when the act ends). Step odds and no stumble: data.
             Hooks.Patch(h, typeof(Serial.FF6.Calc.FunctionProvider), "CreateActFunction", typeof(TedCommands), prefix: nameof(Act_Prefix));
             Hooks.Patch(h, typeof(BattleProgressATB), "ActExectionEndDelegate", typeof(TedCommands), postfix: nameof(ActEnd_Postfix));
+            // 43: Runic's absorbs ($1E74, 47/152F) and successful sketches ($1E76, 47/151A): the PR's Runic condition
+            // takes the absorbed spell's MP as its recovery value, a successful Sketch sets the monster it drew
+            Hooks.Patch(h, typeof(MagicSealSwordConditionFunction), "SetRecoveryValue", typeof(TedCommands), postfix: nameof(Runic_Postfix));
+            Hooks.Patch(h, typeof(SketchConditionFunction), "SetMonsterId", typeof(TedCommands), postfix: nameof(Sketch_Postfix));
         }
 
         public override string Check()
@@ -110,13 +114,29 @@ namespace TEdition.PR
 
         // --- 33: one dance per command ----------------------------------------------------------------------
 
-        const int DanceCommand = 22, DanceStatus = 51;   // condition 51 (type 619), added by every dance (function 9)
+        const int DanceCommand = 22, DanceStatus = 51;
+        const int SlotCommand = 20, SnowstormCommand = 19, MimicCommand = 25;   // PR command ids (tools/port.py SNES_CMD)   // condition 51 (type 619), added by every dance (function 9)
         static readonly Dictionary<IntPtr, int> lastCommand = new Dictionary<IntPtr, int>();
 
         public static void Act_Prefix(BattleActData battleActData)
         {
             if (!On || battleActData?.AttackUnitData == null) return;
-            try { lock (lastCommand) lastCommand[battleActData.AttackUnitData.Pointer] = battleActData.Command?.Id ?? 0; }
+            try
+            {
+                int cmd = battleActData.Command?.Id ?? 0;
+                lock (lastCommand) lastCommand[battleActData.AttackUnitData.Pointer] = cmd;
+                // 43: the use counters T-Edition keeps for its achievements (Slot $1E7A, Snowstorm $1E7C, Mimic $1E7E:
+                // counted per use, as 40/0A00, C2/FB64, 40/0A20), a character's acts only, never in a test
+                if (!Testing && battleActData.AttackUnitData.TryCast<BattlePlayerData>() != null)
+                {
+                    int counter = cmd == SlotCommand ? TedCounters.Slot : cmd == SnowstormCommand ? TedCounters.Snowstorm : cmd == MimicCommand ? TedCounters.Mimic : -1;
+                    if (counter >= 0)
+                    {
+                        TedCounters.Bump(counter);
+                        TedLog.Rule(43, "use-" + counter, () => $"command {cmd} counted for T-Edition's achievements ({TedCounters.Summary()})");
+                    }
+                }
+            }
             catch (Exception e) { Hooks.WarnOnce("TedCommands.Act", e); }
         }
 
@@ -133,6 +153,28 @@ namespace TEdition.PR
                 TedLog.Rule(33, "", () => "Dance: one dance per command, the dancer stays under control (Dance status removed)");
             }
             catch (Exception e) { Hooks.WarnOnce("TedCommands.Dance", e); }
+        }
+
+        public static void Runic_Postfix(int recoveryValue)
+        {
+            if (!On || Testing || recoveryValue <= 0) return;
+            try
+            {
+                TedCounters.Bump(TedCounters.Runic);
+                TedLog.Rule(43, "runic", () => $"Runic absorbed a spell: counted ({TedCounters.Summary()})");
+            }
+            catch (Exception e) { Hooks.WarnOnce("TedCommands.Runic", e); }
+        }
+
+        public static void Sketch_Postfix(int id)
+        {
+            if (!On || Testing || id <= 0) return;
+            try
+            {
+                TedCounters.Bump(TedCounters.Sketch);
+                TedLog.Rule(43, "sketch", () => $"a sketch drew monster {id}: counted ({TedCounters.Summary()})");
+            }
+            catch (Exception e) { Hooks.WarnOnce("TedCommands.Sketch", e); }
         }
 
         // --- 28: Orichalcum ---------------------------------------------------------------------------

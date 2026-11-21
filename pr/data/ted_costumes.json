@@ -1,0 +1,593 @@
+{
+ "about": "T-Edition's dressing-room costumes (dressroom.html, 3.0.7 / EX 2.0.6) by tools/ted_costumes.py: graphics only; unlocks from events/achievements; falcon_song_no = the music player number when the guide's song title matches its display name.",
+ "characters": [
+  {
+   "name": "Terra",
+   "jp": "ティナ",
+   "costumes": [
+    {
+     "name": "Silk Dress: Hybrid",
+     "jp": "シルクのドレス : ハーフ",
+     "unlock": "This costume is obtained in a treasure box in Maduin's House in the Eidolon World during the World of Ruin. It's a dress her mother, Madeline, made.",
+     "achievement": null,
+     "model": "",
+     "falcon_song": "Romancing Saga 3: Catalina's Theme",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Bodhum Military Uniform: l'Cie",
+     "jp": "ボーダム治安連隊軍服：ルシ",
+     "unlock": "To obtain this costume you must have completed her personal achievement \"The Feeling of Love\".",
+     "achievement": "The Feeling of Love",
+     "model": "The appearance used here is Lightning's model from Final Fantasy XIII.",
+     "falcon_song": "Final Fantasy XIII: March of the Dreadnoughts",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Flower Seller's Dress: Cetra",
+     "jp": "花売りのワンピース：古代種",
+     "unlock": "This costume is obtained once you've cleared the achievement \"Character Master\".",
+     "achievement": "Character Master",
+     "model": "The costume is designed after Aerith's dress from Final Fantasy VII.",
+     "falcon_song": "Final Fantasy VII: Aerith's Theme",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Feymarch Bustier: Summoner",
+     "jp": "幻界のビスチェ：魔界幻士",
+     "unlock": "To obtain this costume you must have unlocked the first 3 costumes for Terra and cleared the \"Quest Achiever\" achievement.",
+     "achievement": null,
+     "model": "This costume is designed from Rydia's dress in Final Fantasy IV.",
+     "falcon_song": "Final Fantasy IV: Rydia",
+     "falcon_song_no": null
+    }
+   ]
+  },
+  {
+   "name": "Locke",
+   "jp": "ロック",
+   "costumes": [
+    {
+     "name": "Ancient Armor: Knight",
+     "jp": "古代の鎧：ナイト",
+     "unlock": "Upon rejoining the party in the World of Ruin Locke has this costume available.",
+     "achievement": null,
+     "model": "The costume is modeled after Draco's sprite in Final Fantasy VI.",
+     "falcon_song": "Romancing Saga 3: Julian's Theme",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Wild Rose Bandana: Rebel",
+     "jp": "野ばらのバンダナ：反乱軍",
+     "unlock": "This costume is unlocked after clearing Locke's personal achievement \"Great Bandit\".",
+     "achievement": "Great Bandit",
+     "model": "The model used here is Firion from Final Fantasy II.",
+     "falcon_song": "Final Fantasy II: Town",
+     "falcon_song_no": null
+    },
+    {
+     "name": "SeeD Jacket: SeeD",
+     "jp": "シードのジャケット：シード",
+     "unlock": "To obtain this costume you must clear the achievement \"Character Master\".",
+     "achievement": "Character Master",
+     "model": "This costume is modeled after Squall from Final Fantasy VIII.",
+     "falcon_song": "Final Fantasy VIII: Fragments of Memories",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Sky Pirate's Clothing: Sky Pirate",
+     "jp": "空賊の服：空賊",
+     "unlock": "To obtain this costume you must have completed the achievement \"Quest Achiever\".",
+     "achievement": "Quest Achiever",
+     "model": "This costume is modeled after Vaan from Final Fantasy XII.",
+     "falcon_song": "Final Fantasy XII: Clan Headquarters",
+     "falcon_song_no": null
+    }
+   ]
+  },
+  {
+   "name": "Cyan",
+   "jp": "カイエン",
+   "costumes": [
+    {
+     "name": "Exotic Foreign Armor: Swordsman",
+     "jp": "異国具足：剣士",
+     "unlock": "To obtain this costume clear Cyan's Dream.",
+     "achievement": null,
+     "model": "This appearance is based off a foreign suit of armor. In this case the armor Seigfried uses.",
+     "falcon_song": "Final Fantasy IX: Unforgettable Sorrow",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Spira Monk Clothes: Guard",
+     "jp": "スピラの作務衣：ガード",
+     "unlock": "To obtain this costume clear Cyan's personal achievement \"Doma-style Mastery\".",
+     "achievement": "Doma-style Mastery",
+     "model": "This costume is modeled after Auron from Final Fantasy X.",
+     "falcon_song": "Final Fantasy X: To Zanarkand",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Gold-Trim Armor: Samurai",
+     "jp": "薄金鎧兜：武士",
+     "unlock": "To obtain this costume you must finish the achievement \"Character Master\".",
+     "achievement": "Character Master",
+     "model": "This costume is modeled after Tenzen from Final Fantasy XI.",
+     "falcon_song": "Final Fantasy XI: A New Horizon - Tavnazian Archipelago",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Judge's Mail: Judge",
+     "jp": "ジャッジメイル：ジャッジ",
+     "unlock": "To obtain this costume you must get the above 3 unlocked then finish the achievement \"Quest Achiever\".",
+     "achievement": "Quest Achiever",
+     "model": "This costume is modeled after Gabranth from Final Fantasy XII.",
+     "falcon_song": "Final Fantasy XII: Destiny",
+     "falcon_song_no": null
+    }
+   ]
+  },
+  {
+   "name": "Shadow",
+   "jp": "シャドウ",
+   "costumes": [
+    {
+     "name": "Wanderer's Mantle: Thief",
+     "jp": "さすらいのマント：シーフ",
+     "unlock": "To obtain this costume complete the new quest event \"Father and Daughter\".",
+     "achievement": null,
+     "model": "This costume is based off of Shadow's original design prior to becoming a Ninja.",
+     "falcon_song": "Final Fantasy V: Dear Friends",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Lunar Mail: Magus",
+     "jp": "ルナメイル：魔人",
+     "unlock": "To obtain this costume finish Shadow's personal achievement \"Nice Combination\".",
+     "achievement": "Nice Combination",
+     "model": "This costume is based off of Golbez from Final Fantasy IV.",
+     "falcon_song": "Final Fantasy IV: Lunar Whale",
+     "falcon_song_no": null
+    },
+    {
+     "name": "SOLDIER Uniform: SOLDIER",
+     "jp": "ソルジャー制服：ソルジャー",
+     "unlock": "In order to obtain this costume you must complete the achievement \"Character Master\".",
+     "achievement": "Character Master",
+     "model": "This costume is based off of Cloud's model in Final Fantasy VII.",
+     "falcon_song": "Final Fantasy VII: Interrupted By Fireworks",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Shinobi Clothing: Ninja",
+     "jp": "忍びの衣：ニンジャ",
+     "unlock": "In order to obtain this costume you must complete the achievement \"Quest Achiever\".",
+     "achievement": "Quest Achiever",
+     "model": "This costume is modeled after Edge from Final Fantasy IV.",
+     "falcon_song": "Final Fantasy IV: Mt. Ordeals",
+     "falcon_song_no": null
+    }
+   ]
+  },
+  {
+   "name": "Edgar",
+   "jp": "エドガー",
+   "costumes": [
+    {
+     "name": "Disguise Set: Chief",
+     "jp": "変装セット：お頭",
+     "unlock": "To obtain this costume just get Edgar back in the World of Ruin and then complete \"A Dancer's Depression\" quest to unlock the Dressing Room. This outfit is used by Edgar to enter Figaro Castle with the bandits.",
+     "achievement": null,
+     "model": "",
+     "falcon_song": "Romancing Saga: Grey's Theme",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Dragon Mail: Dragon Knight",
+     "jp": "ドラゴンメイル：竜騎士",
+     "unlock": "To obtain this costume complete Edgar's personal achievement \"King's Responsibility\".",
+     "achievement": "King's Responsibility",
+     "model": "This costume is modeled after Kain from Final Fantasy IV: The After Years.",
+     "falcon_song": "Final Fantasy IV: Red Wings",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Cross-Sword Coat: Witch's Knight",
+     "jp": "クロスソードコート：魔女の騎士",
+     "unlock": "To obtain this costume complete the achievement \"Quest Achiever\".",
+     "achievement": "Quest Achiever",
+     "model": "This costume is modeled after Seifer from Final Fantasy VIII.",
+     "falcon_song": "Final Fantasy VIII: Fisherman's Horizon",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Pilot's Suit: Pilot",
+     "jp": "パイロットスーツ：パイロット",
+     "unlock": "To obtain this costume you must have unlocked the 3 prior outfits and also completed the achievement \"Character Master\".",
+     "achievement": "Character Master",
+     "model": "This costume is modeled after Cid from Final Fantasy VII.",
+     "falcon_song": "Final Fantasy VII: Cid's Theme",
+     "falcon_song_no": null
+    }
+   ]
+  },
+  {
+   "name": "Sabin",
+   "jp": "マッシュ",
+   "costumes": [
+    {
+     "name": "Royal Coat: Royal Aide",
+     "jp": "ロイヤルコート：国王補佐",
+     "unlock": "To obtain this costume complete the quest \"A Priestess's Concern\".",
+     "achievement": null,
+     "model": "This costume is modeled after Edgar's original outfit.",
+     "falcon_song": "Final Fantasy VI: Coin Song",
+     "falcon_song_no": 30
+    },
+    {
+     "name": "Fabul Martial Wear: Monk",
+     "jp": "ファブール道着：モンク僧",
+     "unlock": "To obtain this costume clear Sabin's personal quest achievement \"Duncan-style Martial Arts Master\". (As of 2.5.0 and above this seems to be glitched. You will need to go to the Achievement Room where Sabin's statue is. Just being in the room \"unlocks\" it after completing this quest, making it available. Possibly checking the statue also may be needed -Kain.)",
+     "achievement": "Duncan-style Martial Arts Master",
+     "model": "This costume is modeled after Yang from Final Fantasy IV.",
+     "falcon_song": "Final Fantasy IV: Fabul",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Nora's Coat: Defender",
+     "jp": "ノラのコート：ディフェンダー",
+     "unlock": "To obtain this costume you must complete the achievement \"Character Master\".",
+     "achievement": "Character Master",
+     "model": "This costume is modeled after Snow from Final Fantasy XIII.",
+     "falcon_song": "Final Fantasy XIII: The Sunleth Waterscape",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Auroch Bandana: Captain",
+     "jp": "オーラカバンダナ：キャプテン",
+     "unlock": "To obtain this outfit unlock the previous 3 costumes and complete the achievement \"Quest Achiever\".",
+     "achievement": "Quest Achiever",
+     "model": "This costume is based on Wakka from Final Fantasy X.",
+     "falcon_song": "Final Fantasy X: Men Staked on Blitz",
+     "falcon_song_no": null
+    }
+   ]
+  },
+  {
+   "name": "Celes",
+   "jp": "セリス",
+   "costumes": [
+    {
+     "name": "Opera Dress: Prima Donna",
+     "jp": "オペラドレス：プリマドンナ",
+     "unlock": "There is no specific way to unlock this costume. It's available as soon as you complete \"A Dancer's Depression\".",
+     "achievement": null,
+     "model": "This costume is based off Maria's dress from the Opera.",
+     "falcon_song": "Final Fantasy IV: Theme of Love",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Alexandrian General Armor: Imperial Guard",
+     "jp": "アレクサンドリア将鎧：近衛兵",
+     "unlock": "To obtain this costume complete Celes's personal achievement \"Rune Master\".",
+     "achievement": "Rune Master",
+     "model": "This costume is modeled after Beatrix from Final Fantasy IX.",
+     "falcon_song": "Final Fantasy IX: Rose of May",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Summoner's Kimono: Summoner",
+     "jp": "召喚士の着物：召喚士",
+     "unlock": "To obtain this costume you must complete the achievement \"Character Master\".",
+     "achievement": "Character Master",
+     "model": "This costume is modeled after Yuna from Final Fantasy X.",
+     "falcon_song": "Final Fantasy X: Yuna's Theme",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Witch's Robe: Black Mage",
+     "jp": "魔術師のローブ：黒魔術師",
+     "unlock": "To obtain this costume unlock the previous 3 outfits and finish the achievement \"Quest Achiever\".",
+     "achievement": "Quest Achiever",
+     "model": "This costume is modeled after Lulu from Final Fantasy X.",
+     "falcon_song": "Final Fantasy X: Yuna's Decision",
+     "falcon_song_no": null
+    }
+   ]
+  },
+  {
+   "name": "Strago",
+   "jp": "ストラゴス",
+   "costumes": [
+    {
+     "name": "Black Robe: Black Mage",
+     "jp": "黒のローブ：黒魔道士",
+     "unlock": "To obtain this costume defeat Hidon.",
+     "achievement": null,
+     "model": "This costume is modeled after the classic Black Mage in Final Fantasy.",
+     "falcon_song": "Final Fantasy III: Let Me Know the Truth",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Guru's Glasses: Sage",
+     "jp": "導師の眼鏡：賢者",
+     "unlock": "To obtain this costume complete Strago's personal achievement \"Old Dog's New Tricks\".",
+     "achievement": "Old Dog's New Tricks",
+     "model": "This costume is modeled after Tellah from Final Fantasy IV.",
+     "falcon_song": "Final Fantasy IV: Mystic Mysidia",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Lunar Cloak: Lunarian",
+     "jp": "月のクローク：月の民",
+     "unlock": "To obtain this costume you must finish the achievement \"Character Master\".",
+     "achievement": "Character Master",
+     "model": "This costume is modeled after Fusoya from Final Fantasy IV.",
+     "falcon_song": "Final Fantasy IV: The Lunarians",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Engineer's Goggles: Engineer",
+     "jp": "技師のゴーグル：技師",
+     "unlock": "To obtain this costume unlock the previous 3 outfits and then finish the achievement \"Quest Achiever\".",
+     "achievement": "Quest Achiever",
+     "model": "This costume is modeled after Cid from Final Fantasy IV.",
+     "falcon_song": "Final Fantasy IV: Hey Cid!",
+     "falcon_song_no": null
+    }
+   ]
+  },
+  {
+   "name": "Relm",
+   "jp": "リルム",
+   "costumes": [
+    {
+     "name": "White Robe: White Mage",
+     "jp": "白のローブ：白魔導士",
+     "unlock": "To obtain this costume defeat Hidon.",
+     "achievement": null,
+     "model": "This costume is modeled after the classic White Mage of Final Fantasy.",
+     "falcon_song": "Final Fantasy III: Elia the Maiden of Water",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Bal Kingdom Princess Clothing: Princess",
+     "jp": "バル国王女の服：王女",
+     "unlock": "To obtain this costume finish Relm's personal achievement \"I'll Draw a Portrait!\" (Must view her statue in the Achievement Room once you've done 500 Sketches before the costume appears -Kain.)",
+     "achievement": "I'll Draw a Portrait!",
+     "model": "The model used for this costume is Krile from Final Fantasy V.",
+     "falcon_song": "Final Fantasy V: Spreading Grand Wings",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Wizard's Attire: Scholar",
+     "jp": "ウィザードアタイア：学者",
+     "unlock": "To obtain this costume complete the achievement \"Character Master\".",
+     "achievement": "Character Master",
+     "model": "This costume is modeled after Shantotto from Final Fantasy XI.",
+     "falcon_song": "Final Fantasy XI: Windurst",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Sky-Blue Dirndl: Blacksmith Apprentice",
+     "jp": "空色のディアンドル：鍛冶屋見習い",
+     "unlock": "To obtain this costume unlock the previous 3 outfits then complete the achievement \"Quest Achiever\".",
+     "achievement": "Quest Achiever",
+     "model": "This costume is modeled after Refia from the Final Fantasy III remake.",
+     "falcon_song": "Final Fantasy III: Cute Little Tozas",
+     "falcon_song_no": null
+    }
+   ]
+  },
+  {
+   "name": "Setzer",
+   "jp": "セッツァー",
+   "costumes": [
+    {
+     "name": "Engineer's Clothing: Air Brigade",
+     "jp": "技師の服：飛空艇技師",
+     "unlock": "To obtain this costume complete the quest \"A Restful Sleep\".",
+     "achievement": null,
+     "model": "This look is based off of Setzer's outfit before he became an airship pilot. The look is modeled after a Returner's outfit. (I'm pretty sure this is made up by the author. Setzer never had a design like this -Kain.)",
+     "falcon_song": "Final Fantasy VI: Blackjack",
+     "falcon_song_no": 48
+    },
+    {
+     "name": "Jet-Black Coat: JENOVA Hybrid",
+     "jp": "漆黒のコート：ジェノバハーフ",
+     "unlock": "To obtain this costume complete Setzer's personal achievement \"Winning Streak\".",
+     "achievement": "Winning Streak",
+     "model": "This costume is modeled after Sephiroth from Final Fantasy VII.",
+     "falcon_song": "Final Fantasy VII: Holding My Thoughts in My Heart",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Knight's Armor: Paladin",
+     "jp": "ナイトの鎧：パラディン",
+     "unlock": "To obtain this costume complete the achievment \"Character Master\".",
+     "achievement": null,
+     "model": "This costume is modeled after Cecil from Final Fantasy IV: The After Years.",
+     "falcon_song": "Final Fantasy IV: Kingdom Baron",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Emperor's Redingote: Consul",
+     "jp": "皇帝のルダンゴト：執政官",
+     "unlock": "To obtain this costume unlock the previous 3 outfits then complete the achievement \"Quest Achiever\".",
+     "achievement": "Quest Achiever",
+     "model": "This costume is modeled after Vayne from Final Fantasy XII.",
+     "falcon_song": "Final Fantasy XII: Time For a Rest",
+     "falcon_song_no": null
+    }
+   ]
+  },
+  {
+   "name": "Mog",
+   "jp": "モグ",
+   "costumes": [
+    {
+     "name": "Geomancer's Hat: Geomancer",
+     "jp": "風水士の帽子：風水士",
+     "unlock": "To obtain this outfit complete the quest \"Molulu's Gift\".",
+     "achievement": null,
+     "model": "This costume is based off of the Geomancer look from Final Fantasy.",
+     "falcon_song": "Romancing Saga 3: Snowman's Town",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Mog Bag: Nomad Moogle",
+     "jp": "モグバッグ：ノマドモーグリ",
+     "unlock": "To obtain this costume complete Mog's personal achievement \"Fluffy Dancer\".",
+     "achievement": "Fluffy Dancer",
+     "model": "This costume is modeled after Stiltzkin from Final Fantasy IX.",
+     "falcon_song": "Final Fantasy IX: South Gate",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Shiny-Gold Crown: Puppet Master",
+     "jp": "きんぴかクラウン：絡繰士",
+     "unlock": "To obtain this costume complete the achievement \"Character Master\".",
+     "achievement": "Character Master",
+     "model": "This costume is modeled after Cait Sith from Final Fantasy VII.",
+     "falcon_song": "Final Fantasy VII: Gold Saucer",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Tonberry Coat: Tonberry",
+     "jp": "トンベリコート：トンベリ",
+     "unlock": "To obtain this costume unlock the previous 3 outfits and then finish the achievement \"Quest Achiever\".",
+     "achievement": "Quest Achiever",
+     "model": "This costume is based off the Tonberry model from the Final Fantasy series.",
+     "falcon_song": "Final Fantasy XI: Currents of Time",
+     "falcon_song_no": null
+    }
+   ]
+  },
+  {
+   "name": "Gau",
+   "jp": "ガウ",
+   "costumes": [
+    {
+     "name": "Tuxedo: Youth",
+     "jp": "タキシード：少年",
+     "unlock": "To obtain this costume clear the original quest of having Gau meet his father.",
+     "achievement": null,
+     "model": "This costume is based on the tuxedo all the party members agreed on during the cutscene for dressing Gau up.",
+     "falcon_song": "Romancing Saga 3: Tomas's Theme",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Honorable Thief's Vest: Phantom Thief",
+     "jp": "義賊のベスト：義賊",
+     "unlock": "To obtain this outfit complete Gau's personal achievement \"Everyone's Friend!\"",
+     "achievement": "Everyone's Friend!",
+     "model": "This costume is modeled after Zidane from Final Fantasy IX.",
+     "falcon_song": "Final Fantasy IX: A Place to Call Home",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Traveler's Clothes: Traveler",
+     "jp": "旅人の服：旅人",
+     "unlock": "To obtain this costume complete the achievement \"Character Master\".",
+     "achievement": "Character Master",
+     "model": "This costume is modeled after Bartz from Final Fantasy V.",
+     "falcon_song": "Final Fantasy V: My Home Sweet Home",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Ace Uniform: Blitzball Ace",
+     "jp": "エースユニフォーム：エース",
+     "unlock": "To obtain this costume unlock the 3 previous outfits and complete the achievement \"Quest Achiever\".",
+     "achievement": "Quest Achiever",
+     "model": "This costume is modeled after Tidus from Final Fantasy X.",
+     "falcon_song": "Final Fantasy X-2: Eternity -Band ver-",
+     "falcon_song_no": null
+    }
+   ]
+  },
+  {
+   "name": "Gogo",
+   "jp": "ゴゴ",
+   "costumes": [
+    {
+     "name": "Chameleon Robe: Mimic",
+     "jp": "カメレオンローブ：ミミック",
+     "unlock": "To obtain this costume complete the quest \"Imitation's Secret\".",
+     "achievement": null,
+     "model": "This costume's name is based off the armor in Final Fantasy Tactics. During each battle Gogo wears this his sprite will change to one of the following: Leo, Banon, Trance Terra, Merchant, Ghost, Kefka, Gestahl, Cid, Daryl, or Rachel.",
+     "falcon_song": "Final Fantasy IV: Hello! Big Chocobo!",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Mysidian Priest's Robe: Cleric",
+     "jp": "ミシディアの法衣：導師",
+     "unlock": "To obtain this costume complete Gogo's personal achievement \"Mimic\".",
+     "achievement": "Mimic",
+     "model": "This costume is modeled after Minwu from Final Fantasy II.",
+     "falcon_song": "Final Fantasy II: Rebel Army Theme",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Great Tree's Heavy Armor: Dark Mage",
+     "jp": "大樹の重鎧：暗黒魔道",
+     "unlock": "To obtain this costume complete the achievement \"Character Master\".",
+     "achievement": "Character Master",
+     "model": "This costume is modeled after Exdeath from Final Fantasy V.",
+     "falcon_song": "Final Fantasy V: The Dawn Warriors",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Aegishjalmr: Hero",
+     "jp": "エーギスヒャールム：勇者",
+     "unlock": "To obtain this costume complete the achievement \"Quest Achiever\".",
+     "achievement": "Quest Achiever",
+     "model": "This costume is modeled after Seigfried from Final Fantasy VI.",
+     "falcon_song": "Final Fantasy VI: Town2/Unreleased",
+     "falcon_song_no": null
+    }
+   ]
+  },
+  {
+   "name": "Umaro",
+   "jp": "ウーマロ",
+   "costumes": [
+    {
+     "name": "Oracle's Bolero: Oracle",
+     "jp": "神官のボレロ：神官",
+     "unlock": "To obtain this costume complete the quest \"Molulu's Gift\".",
+     "achievement": null,
+     "model": "This costume is modeled after Banon's outfit. (I assume it's a joke because Banon is grizzled and looks similar to a yeti -Kain.)",
+     "falcon_song": "Final Fantasy VI: Returners",
+     "falcon_song_no": 12
+    },
+    {
+     "name": "Ronso's Waist Cloth: Ronso Warrior",
+     "jp": "ロンゾの腰布：ロンゾの戦士",
+     "unlock": "To obtain this costume complete Umaro's personal achievement \"Snowstorm\".",
+     "achievement": "Snowstorm",
+     "model": "This costume is modeled after Kimahri from Final Fantasy X.",
+     "falcon_song": "Final Fantasy X: Servants of the Mountain",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Full-Moon Hairpins: Hunter",
+     "jp": "満月の髪飾り：狩人",
+     "unlock": "To obtain this costume complete the achievement \"Character Master\".",
+     "achievement": "Character Master",
+     "model": "This costume is modeled after Red XIII from Final Fantasy VII.",
+     "falcon_song": "Final Fantasy VII: Cosmo Canyon",
+     "falcon_song_no": null
+    },
+    {
+     "name": "Pure-White Apron: Cook",
+     "jp": "純白のエプロン：コック",
+     "unlock": "To obtain this costume complete the achievement \"Quest Achiever\". Final Fantasy VI T-Edition. Mod Creator: Tsushiy◆KEHt9L6ti47L",
+     "achievement": "Quest Achiever",
+     "model": "This costume is modeled after Quina from Final Fantasy IX.",
+     "falcon_song": "Final Fantasy IX: Quina's Theme",
+     "falcon_song_no": null
+    }
+   ]
+  }
+ ]
+}
