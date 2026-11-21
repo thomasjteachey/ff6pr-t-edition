@@ -434,7 +434,7 @@
   "script": "sc_ted_cb316c",
   "pr_map": "Map_30531_4",
   "translated": {
-   "flow": 8,
+   "flow": 9,
    "map": 14,
    "wait": 12,
    "screen": 6,
@@ -444,7 +444,6 @@
    "flag": 1
   },
   "stubs": {
-   "flow": 1,
    "sound": 5
   },
   "wired": [
@@ -465,10 +464,10 @@
    "battle ok": 1,
    "dialog ok": 1,
    "flag ok": 1,
+   "flow A button (1B4) decided": 1,
    "flow facing test": 1,
    "flow game over check": 1,
    "flow ok": 6,
-   "flow stub:engine_bit": 1,
    "map tiles -> CueAnim": 12,
    "map tiles redraw": 2,
    "object ok": 13,
@@ -690,7 +689,7 @@
   "script": "sc_ted_cc370f",
   "pr_map": "Map_20040",
   "translated": {
-   "flow": 68,
+   "flow": 69,
    "dialog": 6,
    "wait": 20,
    "party": 16,
@@ -703,7 +702,6 @@
    "item": 1
   },
   "stubs": {
-   "flow": 1,
    "sound": 1
   },
   "wired": [
@@ -717,7 +715,6 @@
    }
   ],
   "wired_stubs": {
-   "case_test": 1,
    "sound": 1
   },
   "detail": {
@@ -725,6 +722,7 @@
    "battle vanilla twin": 1,
    "dialog ok": 6,
    "flag ok": 1,
+   "flow A button (1B4) decided": 1,
    "flow case load": 2,
    "flow facing test": 1,
    "flow game over check": 1,
@@ -732,7 +730,6 @@
    "flow party check": 1,
    "flow repeat": 7,
    "flow repeat end": 7,
-   "flow stub:engine_bit": 1,
    "flow switch on party": 1,
    "item ok": 1,
    "map tiles -> CueAnim": 2,

@@ -1,0 +1,6 @@
+{
+ "about": "ted-events: NPCs to hide while a flag is clear, in rooms whose load script another workstream ships (its prologue adds these): {PR map: [[entity id, flag category, flag index], ...]}",
+ "prologues": {
+  "Map_30531_4": []
+ }
+}

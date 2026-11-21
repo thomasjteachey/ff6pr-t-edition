@@ -730,11 +730,18 @@ def build(out=OUT, events=None, write=True, log=print):
     # the rooms' map scripts for the vanilla NPCs placed anew: hide each while its SNES show bit is clear
     # (a bit with no PR tie: always shown), then the PR's own map script (as TE.build's prologue)
     written_ms = set()
+    pf = os.path.join(P.ROOT, "data", "ted_events_room_prologues.json")
+    their_prologues = _json(pf).get("prologues", {}) if os.path.exists(pf) else {}
+    for pr_ in their_prologues:          # a room ted-events left to this folder only for its NPCs' hiding
+        if their_prologues[pr_] and _room_of(pr_) and TE.map_script_name(pr_) not in taken_ms:
+            g_, f_ = _room_of(pr_)
+            hidden.setdefault((g_, f_, pr_), [])
     for (group, folder, pr) in sorted(set(hidden) | set(entrances)):
         import event_translate as T
         items = hidden.get((group, folder, pr), [])
         ms = TE.map_script_name(pr)
-        t = Tr(rom, ms, snes_map=(items or entrances[(group, folder, pr)])[0][0], alloc=alloc, prog=prog, pr_map=pr)
+        src = items or entrances.get((group, folder, pr))
+        t = Tr(rom, ms, snes_map=src[0][0] if src else None, alloc=alloc, prog=prog, pr_map=pr)
         t.texts = texts
         ops = []
         for m_, n, bit, eid in items:
@@ -744,6 +751,13 @@ def build(out=OUT, events=None, write=True, log=print):
             skip = "shown_%d" % eid
             ops += [T.op("Branch", i=[idx, 1, "@" + skip], s=[cat, T.EQ, "imm"],
                          comment="SNES map %d NPC %d: shown while bit %03X is set" % (m_, n, bit))]
+            ops += t.puppet_ops([eid], [[T.op("Hide", kind=2)]])
+            ops += [T.lab(skip)]
+        # ted-events' NPCs in this room (data/ted_events_room_prologues.json: hide while the flag is clear)
+        for eid, cat, idx in their_prologues.get(pr, []):
+            skip = "shown_te_%d" % eid
+            ops += [T.op("Branch", i=[idx, 1, "@" + skip], s=[cat, T.EQ, "imm"],
+                         comment="ted-events' NPC %d: shown while %s %d is set" % (eid, cat, idx))]
             ops += t.puppet_ops([eid], [[T.op("Hide", kind=2)]])
             ops += [T.lab(skip)]
         tail = [T.op("Call", i=["@" + t.graft(sc_, callable_=True)], comment="T-Edition's entrance (SNES map %d)" % m_)

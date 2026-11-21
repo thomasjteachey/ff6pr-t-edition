@@ -304,6 +304,30 @@ def chest_lines():
     return out
 
 
+# audit U5 (change.html §1 "Equipment Details Menu"): what T-Edition's equipment details add for a weapon. Its special
+# effect is byte $1B's high nibble (checked against T-Edition's weapon guide, every weapon matched by name: 4 humans,
+# 6 MP absorb, 7 MP critical, 8 flying, E magical, F dragons; 5 HP absorb as vanilla's Drainer); "Row OK" byte $13
+# bit 5, "Throw OK" byte $00 bit 4
+WEAPON_EFFECTS = {0x4: "Bonus vs humans", 0x5: "HP Absorb", 0x6: "MP Absorb", 0x7: "MP Critical", 0x8: "Bonus vs flying",
+                  0xE: "Bonus vs magical", 0xF: "Bonus vs dragons"}
+
+
+def weapon_details(rom):
+    """{item slot: [labels]} for T-Edition's weapons with any (TedEquipDetails shows them under the description)."""
+    out = {}
+    for it in S.items(rom):
+        if len(it.raw) < 30 or it.raw[0] & 7 != 1:   # weapons only
+            continue
+        labels = [WEAPON_EFFECTS[it.raw[0x1B] >> 4]] if it.raw[0x1B] >> 4 in WEAPON_EFFECTS else []
+        if it.raw[0x13] & 0x20:
+            labels.append("Row OK")
+        if it.raw[0] & 0x10:
+            labels.append("Throw OK")
+        if labels:
+            out[it.id] = labels
+    return out
+
+
 def relic_bits(rom):
     """{"9.0": [item slots], ...}: T-Edition's items (its US-layout image) setting each relic bit."""
     out = {}
@@ -419,6 +443,7 @@ def main(argv):
         # T-Edition's relic effect bits the porter can't carry as data (the PR keys those effects on its own items'
         # ids): byte.bit -> the T-Edition item slots that set it (audit I5; scratchpad relic_bits.json decoding)
         "relic_bits": relic_bits(rom),
+        "weapon_details": weapon_details(rom),
         # TED:cmp's $1D28 area (known techniques as SNES bitfields): PR ability per bit, 0 = none (TedRam)
         "known_bits": {"swdtech": [M.spell(0x55 + i) or 0 for i in range(8)],
                        "lore": [M.spell(0x8B + i) or 0 for i in range(24)],

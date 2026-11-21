@@ -41,6 +41,8 @@ namespace TEdition.PR
                 if (a.Length == 2 && int.TryParse(a[0], out int c) && int.TryParse(a[1], out int k)) TedCostumes.Wear(c, k);
                 return $"{TedCostumes.Summary()}; magicite (rule 35): {TedMagicite.State}; art: {TedArt.ArtLine}; monster images: {TedArt.MonsterLine}";
             }, "tedcostume [CHAR 0-13 K 0-4]: put a costume on (as the dressing room's SysCall does), then the costumes, art and rule 35 state");
+            Battle("tedallies", a => string.Join(" | ", TedAllyStatus.Refresh(Last.Battle.BattlePlugManager.Instance())),
+                "tedallies: in a battle, the ally statuses holding Select shows (audit U7: Reraise, Defend, Runic, Sky)");
             Battle("tedsteal", TedSelfTest.Steal, "tedsteal [n]: in a battle, n Steals by the first party member through the game's functions (nothing applied): rate vs T-Edition's chance");
             Battle("tedprobe", TedSelfTest.Probe, "tedprobe blind [n]: in a battle, the game's Fight hit rate clear vs blinded (audit M5; nothing applied)");
             Battle("tedgil", TedSelfTest.GilToss, "tedgil: in a battle, the game's Gil Toss value and gil cost (information for rule 29; test runs never save)");

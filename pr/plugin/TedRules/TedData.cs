@@ -57,6 +57,7 @@ namespace TEdition.Rules
         public readonly Dictionary<string, int[]> RelicBits = new Dictionary<string, int[]>();
         // TED:cmp's $1D28 area: PR ability per bit of the SNES SwdTech / Lore / Rage bitfields (0 = none)
         public readonly Dictionary<string, int[]> KnownBits = new Dictionary<string, int[]>();
+        public readonly Dictionary<int, string[]> WeaponDetails = new Dictionary<int, string[]>();   // item slot -> U5 labels
         public int[] RelicSlots(string bit) => RelicBits.TryGetValue(bit, out var s) ? s : System.Array.Empty<int>();
 
         public int NamedContent(string role) => Named.TryGetValue(role, out var id) ? id : 0;
@@ -109,6 +110,13 @@ namespace TEdition.Rules
                     var l = new List<int>();
                     foreach (var v in p.Value.EnumerateArray()) if (v.ValueKind == JsonValueKind.Number) l.Add(v.GetInt32());
                     d.RelicBits[p.Name] = l.ToArray();
+                }
+            if (r.TryGetProperty("weapon_details", out var wd))
+                foreach (var p in wd.EnumerateObject())
+                {
+                    var l = new List<string>();
+                    foreach (var v in p.Value.EnumerateArray()) if (v.ValueKind == JsonValueKind.String) l.Add(v.GetString());
+                    if (int.TryParse(p.Name, out int slot)) d.WeaponDetails[slot] = l.ToArray();
                 }
             if (r.TryGetProperty("known_bits", out var kb))
                 foreach (var p in kb.EnumerateObject())

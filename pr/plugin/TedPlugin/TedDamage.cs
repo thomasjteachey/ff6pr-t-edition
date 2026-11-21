@@ -245,6 +245,21 @@ namespace TEdition.PR
                     r.Factor *= CommandMath.GilTossDamage(1) / (double)GameGilTossPerLevel;
                     r.Rule(29, $"Gil Toss: Lv x {CommandMath.GilTossDamage(1)} to each target (the game's Lv x {GameGilTossPerLevel})");
                 }
+                // 29, monsters (audit M42; C2/3F9F): a monster's Gil Toss (the PR's GP Rain row 694 for SNES command $18,
+                // GIL_THROW like the characters' 15: the game's Lv x 30 a target) costs Lv x 180 from its own gil
+                // (capped at what it carries) and deals paid / 2 / targets
+                else if (ability != null && ability.ProcessProg == "GIL_THROW" && c.userCharaData == null)
+                {
+                    var mon = aUnit?.TryCast<BattleEnemyData>()?.GetMonster();
+                    int lv = attacker.ConfirmedLevel(), n = Math.Max(1, c.numTarget);
+                    if (mon != null && lv > 0)
+                    {
+                        int paid = Math.Min(CommandMath.GilTossCost(lv), Math.Max(0, mon.Gill));
+                        int each = CommandMath.MonsterGilToss(paid, n);
+                        r.Factor *= each / (double)(lv * GameGilTossPerLevel);
+                        r.Rule(29, $"monster Gil Toss: Lv {lv} pays {paid} of its {mon.Gill} gil, {each} to each of {n} (the game's {lv * GameGilTossPerLevel})");
+                    }
+                }
                 if (valiant) r.Rule(60, "Valiant Knife meets the target's defense (T-Edition NOPs its ignore-defense)");
                 LastResult = r;
                 LastInputs = $"{(physical ? "physical" : heal ? "heal" : "magic")} ability {ability?.Id} (type {abilityType}) on " +

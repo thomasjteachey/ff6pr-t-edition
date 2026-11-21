@@ -67,6 +67,22 @@ class Tables(unittest.TestCase):
         self.assertEqual(out[1][2][0], 9)        # y bits 6-7: the layer (64 = BG2)
         self.assertEqual(bg1[1], [1, 1, 1, 1])  # the input untouched
 
+    def test_battle_backgrounds(self):
+        """G8: the backgrounds T-Edition recoloured, each from the vanilla painting with its graphics and layout."""
+        import ted_battle_bgs as B
+        import ff6snes as S
+        data = ted_rom()
+        got = [(b, base) for b, base, _, _ in B.changes(data, S.rom_bytes(P.VANILLA_ROM))]
+        self.assertEqual(got, [(4, 4), (5, 5), (10, 8), (43, 18), (49, 17), (56, 43)])
+        self.assertEqual(B.pr_group(49), "bg_ff6_50")
+        # a flat color repeated in vanilla's palette takes the mean of T-Edition's; padding black stays black
+        old = [(0, 0, 0)] + [(10, 20, 60)] * 15 + [(0, 0, 0)] * 32
+        new = [(0, 0, 0)] + [(200, 200, 200)] * 7 + [(0, 0, 0)] * 8 + [(0, 0, 0)] * 32
+        px = bytes([10, 20, 60, 255, 0, 0, 0, 255])
+        out = B.recolor(px, old, new)
+        self.assertTrue(80 < out[0] < 140)
+        self.assertEqual(out[4:], bytes([0, 0, 0, 255]))
+
 
 class Build(unittest.TestCase):
     UNBUILT = []   # 433 (a look of T-Edition's own: drawn from the nearest pictures) and 435 (391's copy) built 2026-11-20

@@ -130,6 +130,14 @@ namespace TEdition.PR
                     TedRoster.Call(rc, rbit, rvar);   // T-Edition's $1850+c bit tests (TedRoster.cs)
                 else if (parts.Length == 3 && parts[0] == "costume" && int.TryParse(parts[1], out int costumeOf) && int.TryParse(parts[2], out int k))
                     TedCostumes.Wear(costumeOf, k);   // the dressing room (TedCostumes.cs)
+                else if (parts[0] == "timer_start")   // TedTimers.cs (a line per timer number: NPC-step timers restart often)
+                {
+                    var line = TedTimers.Start(parts[1..]);
+                    Hooks.NoteOnce($"ted-timer-start-{(parts.Length > 1 ? parts[1] : "")}", () => $"[ted] {name}: {line}");
+                }
+                else if (parts[0] == "timer_reset") TedTimers.Reset(parts[1..]);
+                else if (parts.Length >= 2 && parts[0] == "timer_left" && int.TryParse(parts[1], out int tn))
+                    DataStorage.Instance?.Set(DataStorage.Category.kMapLocalVariable, parts.Length > 2 && int.TryParse(parts[2], out int tv) ? tv : 0, TedTimers.SecondsLeft(tn));
                 else Kit.Warn($"[ted] unknown call {name}");
             }
             catch (Exception e) { __result = 0; Hooks.WarnOnce("TedSysCalls", e); }

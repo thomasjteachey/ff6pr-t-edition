@@ -306,6 +306,7 @@ def _translator_class():
 
         case_kind = None
         cmp_state = None     # after a compare: (category, index, value) its result test reads (cond)
+        pressed_a = None     # whether the event starts with the A button (NPC talk, examine): engine bit 1B4; None unknown
         # the case word's loads the PR can test per character: DE (the active party) -> BranchByCharacter scope 0;
         # the recruited / available / any-party loads -> scope 1 (as the PR's "who's here at all" checks)
         CASE_SCOPE = {"case_party": 0, "case_created": 1, "case_recruited": 1, "case_available": 1, "case_parties": 1}
@@ -328,6 +329,26 @@ def _translator_class():
                 self.report[("flow", "chest bit -> treasure flag")] += 1
                 return [T.op("Branch", i=[idx, 0, "@L_%06X" % tgt], s=[cat, T.EQ, "imm"],
                              comment="SNES 5B: chest bit %d" % (0x80 + ins.args["bit"]))], True
+            if ins.name == "switch" and self.case_kind == "cmp" and self.cmp_state:
+                # BE after a compare: case k = result bit 1A0+k (equal / greater / less), the first that holds
+                import event_translate as T
+                cat, idx, val = self.cmp_state
+                syms = ("＝", "＞", "＜")
+                self.done["flow"] += 1
+                self.report[("flow", "switch on compare")] += 1
+                return [T.op("Branch", i=[idx, val, "@L_%06X" % tgt], s=[cat, syms[k], "imm"], comment="SNES BE case %d" % k)
+                        if cat == "ScenarioVariable" else
+                        T.op("Branch", i=[5 + k, 1, "@L_%06X" % tgt], s=[cat, T.EQ, "imm"], comment="SNES BE case %d (TED:cmp)" % k)
+                        for k, tgt in ins.args["cases"] if k < 3], True
+            if ins.name == "if_battle_bit_clear" and ins.args["bit"] == 0x40:
+                prev = self.prog.code.get((ins.off - 3, ins.mode))
+                if prev is not None and prev.name == "battle":
+                    # right after a battle the PR's Encount ends a lost one in its own game over: "not lost" holds
+                    import event_translate as T
+                    self.done["flow"] += 1
+                    self.report[("flow", "lost-battle test after a battle")] += 1
+                    tgt = next(x for k, x in ins.targets if k == "cond")
+                    return [T.op("Jump", i=["@L_%06X" % tgt], comment="SNES B7 40: won (a loss is Encount's game over)")], True
             if ins.name == "switch" and (self.case_kind == "facing" or self.case_kind in self.CASE_SCOPE):
                 # BE: the first case whose case bit is set -> the facing (up/right/down/left: BranchByPlayerDirection's
                 # four targets) or the character (BranchByCharacter per case, in order)
@@ -553,6 +574,28 @@ def _translator_class():
                 else:
                     out.append(T.op("Jump", i=[target]))
                 return out + [T.lab(skip)]
+            if self.pressed_a is not None and any(b == 0x1B4 for b, _ in ins.args["bits"]):
+                # engine bit 1B4: the event started with the A button ($06 bit 7 at C0/BA94: talking or examining, not
+                # a step-on tile or a room's entrance): known per event (pressed_a), so its terms are decided
+                bits = ins.args["bits"]
+                met = [w == self.pressed_a for b, w in bits if b == 0x1B4]
+                rest = [(b, w) for b, w in bits if b != 0x1B4]
+                self.done["flow"] += 1
+                self.report[("flow", "A button (1B4) decided")] += 1
+                jump = [T.op("Jump", i=["@L_%06X" % ins.args["event"]], comment="SNES bit 1B4: %s" % self.pressed_a)]
+                if ins.op >= 0xC8:                      # any
+                    if any(met):
+                        return jump
+                    if not rest:
+                        return []
+                elif not all(met):                      # all
+                    return []
+                elif not rest:
+                    return jump
+                ins2 = copy.copy(ins)
+                ins2.args = dict(ins.args, bits=rest)
+                return self.cond(ins2)
+
             def facing_of(b):
                 if 0x1B0 <= b <= 0x1B3:                 # the engine's "party faces up / right / down / left" (C0/BA80)
                     return b - 0x1B0
@@ -869,14 +912,18 @@ class Session:
         M.ITEM_OVERRIDES.clear()
         M.ITEM_OVERRIDES.update(self._saved)
 
-    def translate(self, event, snes_map, name, pr_map=None, layer=None, mode=None, fallbacks=None, preamble=()):
+    def translate(self, event, snes_map, name, pr_map=None, layer=None, mode=None, fallbacks=None, preamble=(),
+                  pressed_a=None):
         """One event -> (PR script, [(after-script name, script, PR map or None)], the translator: its
         .stubs / .done counters, .needs_formations). `layer`: the entity layer whose entities the scene's
         NPCs are; `fallbacks`: {SNES call target: PR script} grafted where the event calls vanilla's
-        routine; mode "vehicle" for a world-map tile event (default: by map)."""
+        routine; mode "vehicle" for a world-map tile event (default: by map); `pressed_a`: the event starts
+        with the A button (an NPC talked to, an object examined: True; a step-on tile or an entrance: False),
+        which decides tests of engine bit 1B4 (None: left as stubs)."""
         mode = mode or ("vehicle" if snes_map in E.WORLD_MAPS else "field")
         t = self.Tr(self.rom, name, snes_map=snes_map, alloc=self.alloc, prog=self.prog, pr_map=pr_map)
         t.texts = self.texts
+        t.pressed_a = pressed_a
         if layer:
             t.layers = layer
         for k, v in (fallbacks or {}).items():
@@ -2055,6 +2102,9 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
     for ev in events:
         off, snes_map, test_bits = ev["event"], ev["map"], ev.get("test_bits", ())
         name = ev.get("name") or "sc_ted_%s" % E.fmt(off).replace("/", "").lower()
+        # engine bit 1B4 ("started with the A button"): set when the party talks to an NPC, clear on a step-on
+        # tile or a room's entrance (a tile wired to an object to examine sets it per wiring, below)
+        Tr.pressed_a = "npc" in ev
         scripts = []
         if ev.get("entrance"):
             # an entrance event: the PR room's own load script (sc_map_<room>) does vanilla's entrance; after it
@@ -2116,6 +2166,7 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
                         "%s_%s_%s" % (name, room.replace("Map_", "m"), lay.replace("ev_e_", "l"))
                     t = Tr(rom, nm, snes_map=snes_map, alloc=alloc, prog=prog, pr_map=room)
                     t.texts, t.layers = texts, lay
+                    t.pressed_a = props.get("object_type") in (5, 10)      # an object to examine: the A button
                     extra = {}
                     if orig and part not in (None, off):
                         label = t.graft(Sc.load(orig), callable_=True)

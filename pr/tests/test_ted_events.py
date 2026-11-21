@@ -342,6 +342,13 @@ class WineOldMan(unittest.TestCase):
         self.assertEqual(t.instr(call, False, None), ([], True))
         ins.op, ins.args = 0xC8, {"bits": [(0x1A2, True)], "event": 0x10}                      # case bit 2: down
         self.assertEqual(t.cond(ins)[0]["operands"]["iValues"][:4], ["@dir_000020", "@dir_000020", "@L_000010", "@dir_000020"])
+        # 1B4 (the A button): decided once the event's kind is known; C1 "if 1B3 and 1B4 both clear" never jumps for an
+        # NPC talked to, and is a facing test alone for a step-on tile
+        ins.op, ins.args = 0xC1, {"bits": [(0x1B3, False), (0x1B4, False)], "event": 0x10}
+        t.pressed_a = True
+        self.assertEqual(t.cond(ins), [])
+        t.pressed_a = False
+        self.assertEqual(t.cond(ins)[0]["mnemonic"], "BranchByPlayerDirection")
 
     def test_chest_bits(self):
         # 5B b = "chest 128 + b not opened" -> a Branch on ted-maps' PR treasure flag for that chest (EA/230B: bit 138 ->

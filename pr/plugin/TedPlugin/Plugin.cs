@@ -65,12 +65,14 @@ namespace TEdition.PR
             Features.Add(new TedStatuses());     // its BattleConditionController.Update prefix before the kit's (below)
             Features.Add(new TedCommands());
             Features.Add(new TedVictory());
+            Features.Add(new TedAllyStatus());   // audit U7: Select in battle shows the allies' hidden statuses
             Features.ApplyAll();                 // also starts a test run (harness) when one is requested
             TedHarness.Register();
             if (TedMode) TedSysCalls.Apply(H);
             if (TedMode) TedMagicite.Apply(H);   // rule 35
             if (TedMode) TedStatusPage.Patch(H);   // audit U4: elements and immunities on the status screen
             if (TedMode) TedChestLines.Patch(H);   // audit U9: the chest line by party lead
+            if (TedMode) TedEquipDetails.Patch(H);   // audit U5: weapons' effects in the equip menu's description
             // audit G12: MP damage pink, MP healing blue (the kit's SnesMpNumbers)
             if (TedMode) PrKit.Ff6.SnesMpNumbers.Apply(H, new PrKit.Ff6.SnesMpNumbersMod
             {
@@ -245,6 +247,7 @@ namespace TEdition.PR
                 TedCostumes.Update();
                 TedSosReflect.Update();
                 TedMagitek.Update();
+                TedTimers.Update();   // T-Edition's field timers (TED:timer_start)
                 PrKit.Ff6.SnesMpNumbers.Update();
                 TedHarness.Update();
             }
@@ -253,7 +256,7 @@ namespace TEdition.PR
 
         void OnGUI()
         {
-            try { Plugin.Features?.OnGUI(); }
+            try { Plugin.Features?.OnGUI(); TedTimers.OnGUI(); }
             catch (Exception e) { Hooks.WarnOnce("ted-gui", e); }
         }
     }
