@@ -415,6 +415,158 @@
    "script_id": 9772
   }
  },
+ "467": {
+  "npcs": [
+   {
+    "index": 1,
+    "script": "sc_tedq_cd80f0_npc1",
+    "script_id": 13458,
+    "direction": 2
+   },
+   {
+    "index": 2,
+    "script": "sc_tedq_cd80f4_npc2",
+    "script_id": 13459,
+    "direction": 2
+   }
+  ],
+  "tiles": []
+ },
+ "469": {
+  "npcs": [],
+  "tiles": [
+   {
+    "x": 27,
+    "y": 8,
+    "script": "sc_tedq_cd1f50_tile",
+    "script_id": 13460
+   },
+   {
+    "x": 31,
+    "y": 8,
+    "script": "sc_tedq_cd1f70_tile",
+    "script_id": 13461
+   },
+   {
+    "x": 27,
+    "y": 23,
+    "script": "sc_tedq_cd1f90_tile",
+    "script_id": 13462
+   },
+   {
+    "x": 31,
+    "y": 23,
+    "script": "sc_tedq_cd1fc0_tile",
+    "script_id": 13463
+   },
+   {
+    "x": 33,
+    "y": 13,
+    "script": "sc_tedq_cd2310_tile",
+    "script_id": 13464
+   },
+   {
+    "x": 5,
+    "y": 20,
+    "script": "sc_tedq_cd7c00_tile",
+    "script_id": 13465
+   },
+   {
+    "x": 8,
+    "y": 20,
+    "script": "sc_tedq_cd7c20_tile",
+    "script_id": 13466
+   },
+   {
+    "x": 14,
+    "y": 20,
+    "script": "sc_tedq_cd7c40_tile",
+    "script_id": 13467
+   },
+   {
+    "x": 17,
+    "y": 20,
+    "script": "sc_tedq_cd7c60_tile",
+    "script_id": 13468
+   },
+   {
+    "x": 41,
+    "y": 20,
+    "script": "sc_tedq_cd7c80_tile",
+    "script_id": 13469
+   },
+   {
+    "x": 44,
+    "y": 20,
+    "script": "sc_tedq_cd7ca0_tile",
+    "script_id": 13470
+   },
+   {
+    "x": 50,
+    "y": 20,
+    "script": "sc_tedq_cd7cc0_tile",
+    "script_id": 13471
+   },
+   {
+    "x": 53,
+    "y": 20,
+    "script": "sc_tedq_cd7ce0_tile",
+    "script_id": 13472
+   },
+   {
+    "x": 5,
+    "y": 8,
+    "script": "sc_tedq_cdaf30_tile",
+    "script_id": 13473
+   },
+   {
+    "x": 8,
+    "y": 8,
+    "script": "sc_tedq_cdaf50_tile",
+    "script_id": 13474
+   },
+   {
+    "x": 14,
+    "y": 8,
+    "script": "sc_tedq_cdaf70_tile",
+    "script_id": 13475
+   },
+   {
+    "x": 17,
+    "y": 8,
+    "script": "sc_tedq_cdaf90_tile",
+    "script_id": 13476
+   },
+   {
+    "x": 41,
+    "y": 8,
+    "script": "sc_tedq_cdafb0_tile",
+    "script_id": 13477
+   },
+   {
+    "x": 44,
+    "y": 8,
+    "script": "sc_tedq_cdafd0_tile",
+    "script_id": 13478
+   },
+   {
+    "x": 50,
+    "y": 8,
+    "script": "sc_tedq_cdaff0_tile",
+    "script_id": 13479
+   },
+   {
+    "x": 53,
+    "y": 8,
+    "script": "sc_tedq_cdb010_tile",
+    "script_id": 13480
+   }
+  ],
+  "entrance": {
+   "script": "sc_tedq_e9e700_entrance",
+   "script_id": 13481
+  }
+ },
  "473": {
   "npcs": [
    {

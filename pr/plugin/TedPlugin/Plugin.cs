@@ -70,6 +70,7 @@ namespace TEdition.PR
             if (TedMode) TedSysCalls.Apply(H);
             if (TedMode) TedMagicite.Apply(H);   // rule 35
             if (TedMode) TedStatusPage.Patch(H);   // audit U4: elements and immunities on the status screen
+            if (TedMode) TedRelics.Patch(H);   // audit I5: relic effects on T-Edition's other items
             if (TedMode) TedDesperation.Patch(H);
             if (TedMode) TedUmaro.Patch(H);   // audit C28: Umaro takes commands; his Fight by T-Edition's table   // rule 39: desperation attacks
             if (TedMode) TedEncounters.Patch(H);   // rule 24: openings (pre-emptive relic x4, no enemy first strike)

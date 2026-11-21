@@ -270,6 +270,7 @@ def percent_damage(folder, log=print):
     return {"kinds": kinds, "notes": notes, "edited": edited, "cloned": len(made), "moved": moved}
 
 
+RAGE_BASE = 799   # a rage's PR ability: 799 + the PR monster id (SNES monster n + 1; TedVictory, Worlds Collide)
 RELIC_BITS = ((9, 0), (9, 1), (9, 2), (9, 3), (11, 0), (11, 2), (11, 7), (12, 0), (12, 2), (12, 7), (13, 2), (13, 4),
               (13, 5), (13, 6), (5, 0), (5, 1))
 
@@ -389,6 +390,10 @@ def main(argv):
         # T-Edition's relic effect bits the porter can't carry as data (the PR keys those effects on its own items'
         # ids): byte.bit -> the T-Edition item slots that set it (audit I5; scratchpad relic_bits.json decoding)
         "relic_bits": relic_bits(rom),
+        # TED:cmp's $1D28 area (known techniques as SNES bitfields): PR ability per bit, 0 = none (TedRam)
+        "known_bits": {"swdtech": [M.spell(0x55 + i) or 0 for i in range(8)],
+                       "lore": [M.spell(0x8B + i) or 0 for i in range(24)],
+                       "rage": [RAGE_BASE + 1 + n for n in range(256)]},
         "abilities": {**{name: M.spell(spell) for name, spell in NAMED_SPELLS.items() if M.spell(spell) is not None},
                       "rampage": RAMPAGE_ID},
         "esper_bonus_vanilla": [[M.esper_content(e), r[10]] for e, r in enumerate(S.Rom(P.VANILLA_ROM).table(*S.ESPERS))],

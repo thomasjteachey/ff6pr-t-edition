@@ -384,8 +384,13 @@ def catalog_events():
         return []
     return [(r["event"], ("q_" if r.get("pub") else "e_") + r["event"].replace("/", "").lower(), r.get("pub", ""))
             for r in sorted(_json(path), key=lambda r: (r["map"], r["event"]))
-            if r.get("owner") == "ted-ex" and r["event"] not in BUILT_ELSEWHERE
-            and (r.get("pub") or r["kind"] in BATCH_KINDS)]
+            if (r.get("owner") == "ted-ex" or r["map"] in OWN_MAPS) and r["event"] not in BUILT_ELSEWHERE
+            and (r.get("pub") or r["kind"] in BATCH_KINDS or r["map"] in OWN_MAPS)]
+
+
+# new maps whose events the lead moved here (11-21, audit X8/X10): 467 the EX Moogle's Mog House side, 469 the
+# Collection Room (EX's win bits). Until ted_events.owner() says so too
+OWN_MAPS = {467, 469}
 
 
 # vanilla-map events (not pub quests) this workstream took over from ted-events (maps 200-415, the lead,
@@ -768,6 +773,25 @@ def build(out=OUT, events=None, write=True, log=print):
 NEW_MAPS_JSON = os.path.join(P.ROOT, "data", "ted_quests_maps.json")
 
 
+def _new_map_npc_entities(rooms):
+    """{(PR room, SNES map, NPC): entity id} of the NPC objects ted-maps' build put in its rooms (mods/TEditionMaps:
+    objects named TEditionNPC<n> in entity_default), for every new map's rooms (data/ted_maps.json)."""
+    import glob
+    out = {}
+    base = os.path.join(P.ROOT, "mods", "TEditionMaps")
+    for m, rec in rooms.items():
+        for r in rec.get("rooms", []):
+            for f in glob.glob(os.path.join(base, r["group"], "**", r["pr_map"], "entity_default.json"), recursive=True):
+                for layer in _json(f).get("layers", []):
+                    for o in layer.get("objects") or []:
+                        name = o.get("name") or ""
+                        if name.startswith("TEditionNPC") and name[11:].isdigit():
+                            eid = next((q["value"] for q in o.get("properties", []) if q["name"] == "entity_id"), None)
+                            if eid:
+                                out[(r["pr_map"], int(m), int(name[11:]))] = eid
+    return out
+
+
 def new_map_events(out=OUT, write=True, log=print, prog=None, ids_q=None, ids_e=None):
     """The tagged events on T-Edition's new maps (416+): each translated (ted_events.Session) into the PR
     room ted-maps made for it (data/ted_maps.json: its npcs/events/entrance with PR rooms and spots), its
@@ -786,6 +810,9 @@ def new_map_events(out=OUT, write=True, log=print, prog=None, ids_q=None, ids_e=
     new_groups = {r["pr_map"]: r["group"] for rec in rooms.values() for r in rec.get("rooms", [])}
     to_list, vanilla_after, used_names = {}, [], {}         # new PR room -> after-scripts for its package; [(room, PR map, name, sc)]
     with TE.Session(prog=prog, persist=write) as s:
+        # ted-maps' NPC objects on its rooms (TEditionNPC<n>, their entity ids) for the translator, so a scene's
+        # shows/hides/moves of the map's NPCs (the Collection Room's paintings) aren't "no PR entity" stubs
+        s.Tr.created = _new_map_npc_entities(rooms)
         assets = T.sprite_assets(s.rom)
         ents = {}
         for off, kind, m, det in s.prog.entries:

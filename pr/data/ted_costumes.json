@@ -13,7 +13,8 @@
      "model": "",
      "falcon_song": "Romancing Saga 3: Catalina's Theme",
      "falcon_song_no": 209,
-     "falcon_song_id": 221
+     "falcon_song_id": 221,
+     "falcon_bgm": 1221
     },
     {
      "name": "Bodhum Military Uniform: l'Cie",
@@ -23,7 +24,8 @@
      "model": "The appearance used here is Lightning's model from Final Fantasy XIII.",
      "falcon_song": "Final Fantasy XIII: March of the Dreadnoughts",
      "falcon_song_no": 181,
-     "falcon_song_id": 244
+     "falcon_song_id": 244,
+     "falcon_bgm": 1244
     },
     {
      "name": "Flower Seller's Dress: Cetra",
@@ -33,7 +35,8 @@
      "model": "The costume is designed after Aerith's dress from Final Fantasy VII.",
      "falcon_song": "Final Fantasy VII: Aerith's Theme",
      "falcon_song_no": 130,
-     "falcon_song_id": 252
+     "falcon_song_id": 252,
+     "falcon_bgm": 1252
     },
     {
      "name": "Feymarch Bustier: Summoner",
@@ -43,7 +46,8 @@
      "model": "This costume is designed from Rydia's dress in Final Fantasy IV.",
      "falcon_song": "Final Fantasy IV: Rydia",
      "falcon_song_no": 98,
-     "falcon_song_id": 223
+     "falcon_song_id": 223,
+     "falcon_bgm": 1223
     }
    ]
   },
@@ -59,7 +63,8 @@
      "model": "The costume is modeled after Draco's sprite in Final Fantasy VI.",
      "falcon_song": "Romancing Saga 3: Julian's Theme",
      "falcon_song_no": 207,
-     "falcon_song_id": 219
+     "falcon_song_id": 219,
+     "falcon_bgm": 1219
     },
     {
      "name": "Wild Rose Bandana: Rebel",
@@ -69,7 +74,8 @@
      "model": "The model used here is Firion from Final Fantasy II.",
      "falcon_song": "Final Fantasy II: Town",
      "falcon_song_no": 80,
-     "falcon_song_id": 245
+     "falcon_song_id": 245,
+     "falcon_bgm": 1245
     },
     {
      "name": "SeeD Jacket: SeeD",
@@ -79,7 +85,8 @@
      "model": "This costume is modeled after Squall from Final Fantasy VIII.",
      "falcon_song": "Final Fantasy VIII: Fragments of Memories",
      "falcon_song_no": 141,
-     "falcon_song_id": 185
+     "falcon_song_id": 185,
+     "falcon_bgm": 1185
     },
     {
      "name": "Sky Pirate's Clothing: Sky Pirate",
@@ -89,7 +96,8 @@
      "model": "This costume is modeled after Vaan from Final Fantasy XII.",
      "falcon_song": "Final Fantasy XII: Clan Headquarters",
      "falcon_song_no": 176,
-     "falcon_song_id": 210
+     "falcon_song_id": 210,
+     "falcon_bgm": 1210
     }
    ]
   },
@@ -105,7 +113,8 @@
      "model": "This appearance is based off a foreign suit of armor. In this case the armor Seigfried uses.",
      "falcon_song": "Final Fantasy IX: Unforgettable Sorrow",
      "falcon_song_no": 148,
-     "falcon_song_id": 116
+     "falcon_song_id": 116,
+     "falcon_bgm": 1116
     },
     {
      "name": "Spira Monk Clothes: Guard",
@@ -115,7 +124,8 @@
      "model": "This costume is modeled after Auron from Final Fantasy X.",
      "falcon_song": "Final Fantasy X: To Zanarkand",
      "falcon_song_no": 155,
-     "falcon_song_id": 196
+     "falcon_song_id": 196,
+     "falcon_bgm": 1196
     },
     {
      "name": "Gold-Trim Armor: Samurai",
@@ -125,7 +135,8 @@
      "model": "This costume is modeled after Tenzen from Final Fantasy XI.",
      "falcon_song": "Final Fantasy XI: A New Horizon - Tavnazian Archipelago",
      "falcon_song_no": 173,
-     "falcon_song_id": 216
+     "falcon_song_id": 216,
+     "falcon_bgm": 1216
     },
     {
      "name": "Judge's Mail: Judge",
@@ -135,7 +146,8 @@
      "model": "This costume is modeled after Gabranth from Final Fantasy XII.",
      "falcon_song": "Final Fantasy XII: Destiny",
      "falcon_song_no": 179,
-     "falcon_song_id": 203
+     "falcon_song_id": 203,
+     "falcon_bgm": 1203
     }
    ]
   },
@@ -151,7 +163,8 @@
      "model": "This costume is based off of Shadow's original design prior to becoming a Ninja.",
      "falcon_song": "Final Fantasy V: Dear Friends",
      "falcon_song_no": 118,
-     "falcon_song_id": 226
+     "falcon_song_id": 226,
+     "falcon_bgm": 1226
     },
     {
      "name": "Lunar Mail: Magus",
@@ -161,7 +174,8 @@
      "model": "This costume is based off of Golbez from Final Fantasy IV.",
      "falcon_song": "Final Fantasy IV: Lunar Whale",
      "falcon_song_no": 109,
-     "falcon_song_id": 217
+     "falcon_song_id": 217,
+     "falcon_bgm": 1217
     },
     {
      "name": "SOLDIER Uniform: SOLDIER",
@@ -171,7 +185,8 @@
      "model": "This costume is based off of Cloud's model in Final Fantasy VII.",
      "falcon_song": "Final Fantasy VII: Interrupted By Fireworks",
      "falcon_song_no": 129,
-     "falcon_song_id": 193
+     "falcon_song_id": 193,
+     "falcon_bgm": 1193
     },
     {
      "name": "Shinobi Clothing: Ninja",
@@ -181,7 +196,8 @@
      "model": "This costume is modeled after Edge from Final Fantasy IV.",
      "falcon_song": "Final Fantasy IV: Mt. Ordeals",
      "falcon_song_no": 105,
-     "falcon_song_id": 178
+     "falcon_song_id": 178,
+     "falcon_bgm": 1178
     }
    ]
   },
@@ -197,7 +213,8 @@
      "model": "",
      "falcon_song": "Romancing Saga: Grey's Theme",
      "falcon_song_no": 197,
-     "falcon_song_id": 218
+     "falcon_song_id": 218,
+     "falcon_bgm": 1218
     },
     {
      "name": "Dragon Mail: Dragon Knight",
@@ -207,7 +224,8 @@
      "model": "This costume is modeled after Kain from Final Fantasy IV: The After Years.",
      "falcon_song": "Final Fantasy IV: Red Wings",
      "falcon_song_no": 96,
-     "falcon_song_id": 249
+     "falcon_song_id": 249,
+     "falcon_bgm": 1249
     },
     {
      "name": "Cross-Sword Coat: Witch's Knight",
@@ -217,7 +235,8 @@
      "model": "This costume is modeled after Seifer from Final Fantasy VIII.",
      "falcon_song": "Final Fantasy VIII: Fisherman's Horizon",
      "falcon_song_no": 139,
-     "falcon_song_id": 166
+     "falcon_song_id": 166,
+     "falcon_bgm": 1166
     },
     {
      "name": "Pilot's Suit: Pilot",
@@ -227,7 +246,8 @@
      "model": "This costume is modeled after Cid from Final Fantasy VII.",
      "falcon_song": "Final Fantasy VII: Cid's Theme",
      "falcon_song_no": 134,
-     "falcon_song_id": 198
+     "falcon_song_id": 198,
+     "falcon_bgm": 1198
     }
    ]
   },
@@ -243,7 +263,8 @@
      "model": "This costume is modeled after Edgar's original outfit.",
      "falcon_song": "Final Fantasy VI: Coin Song",
      "falcon_song_no": 30,
-     "falcon_song_id": 11
+     "falcon_song_id": 11,
+     "falcon_bgm": 28
     },
     {
      "name": "Fabul Martial Wear: Monk",
@@ -253,7 +274,8 @@
      "model": "This costume is modeled after Yang from Final Fantasy IV.",
      "falcon_song": "Final Fantasy IV: Fabul",
      "falcon_song_no": 103,
-     "falcon_song_id": 250
+     "falcon_song_id": 250,
+     "falcon_bgm": 1250
     },
     {
      "name": "Nora's Coat: Defender",
@@ -263,7 +285,8 @@
      "model": "This costume is modeled after Snow from Final Fantasy XIII.",
      "falcon_song": "Final Fantasy XIII: The Sunleth Waterscape",
      "falcon_song_no": 180,
-     "falcon_song_id": 242
+     "falcon_song_id": 242,
+     "falcon_bgm": 1242
     },
     {
      "name": "Auroch Bandana: Captain",
@@ -273,7 +296,8 @@
      "model": "This costume is based on Wakka from Final Fantasy X.",
      "falcon_song": "Final Fantasy X: Men Staked on Blitz",
      "falcon_song_no": 156,
-     "falcon_song_id": 202
+     "falcon_song_id": 202,
+     "falcon_bgm": 1202
     }
    ]
   },
@@ -289,7 +313,8 @@
      "model": "This costume is based off Maria's dress from the Opera.",
      "falcon_song": "Final Fantasy IV: Theme of Love",
      "falcon_song_no": 97,
-     "falcon_song_id": 222
+     "falcon_song_id": 222,
+     "falcon_bgm": 1222
     },
     {
      "name": "Alexandrian General Armor: Imperial Guard",
@@ -299,7 +324,8 @@
      "model": "This costume is modeled after Beatrix from Final Fantasy IX.",
      "falcon_song": "Final Fantasy IX: Rose of May",
      "falcon_song_no": 149,
-     "falcon_song_id": 243
+     "falcon_song_id": 243,
+     "falcon_bgm": 1243
     },
     {
      "name": "Summoner's Kimono: Summoner",
@@ -309,7 +335,8 @@
      "model": "This costume is modeled after Yuna from Final Fantasy X.",
      "falcon_song": "Final Fantasy X: Yuna's Theme",
      "falcon_song_no": 158,
-     "falcon_song_id": 254
+     "falcon_song_id": 254,
+     "falcon_bgm": 1254
     },
     {
      "name": "Witch's Robe: Black Mage",
@@ -319,7 +346,8 @@
      "model": "This costume is modeled after Lulu from Final Fantasy X.",
      "falcon_song": "Final Fantasy X: Yuna's Decision",
      "falcon_song_no": 160,
-     "falcon_song_id": 197
+     "falcon_song_id": 197,
+     "falcon_bgm": 1197
     }
    ]
   },
@@ -335,7 +363,8 @@
      "model": "This costume is modeled after the classic Black Mage in Final Fantasy.",
      "falcon_song": "Final Fantasy III: Let Me Know the Truth",
      "falcon_song_no": 89,
-     "falcon_song_id": 251
+     "falcon_song_id": 251,
+     "falcon_bgm": 1251
     },
     {
      "name": "Guru's Glasses: Sage",
@@ -345,7 +374,8 @@
      "model": "This costume is modeled after Tellah from Final Fantasy IV.",
      "falcon_song": "Final Fantasy IV: Mystic Mysidia",
      "falcon_song_no": 102,
-     "falcon_song_id": 87
+     "falcon_song_id": 87,
+     "falcon_bgm": 1087
     },
     {
      "name": "Lunar Cloak: Lunarian",
@@ -355,7 +385,8 @@
      "model": "This costume is modeled after Fusoya from Final Fantasy IV.",
      "falcon_song": "Final Fantasy IV: The Lunarians",
      "falcon_song_no": 104,
-     "falcon_song_id": 88
+     "falcon_song_id": 88,
+     "falcon_bgm": 1088
     },
     {
      "name": "Engineer's Goggles: Engineer",
@@ -365,7 +396,8 @@
      "model": "This costume is modeled after Cid from Final Fantasy IV.",
      "falcon_song": "Final Fantasy IV: Hey Cid!",
      "falcon_song_no": 99,
-     "falcon_song_id": 206
+     "falcon_song_id": 206,
+     "falcon_bgm": 1206
     }
    ]
   },
@@ -381,7 +413,8 @@
      "model": "This costume is modeled after the classic White Mage of Final Fantasy.",
      "falcon_song": "Final Fantasy III: Elia the Maiden of Water",
      "falcon_song_no": 87,
-     "falcon_song_id": 199
+     "falcon_song_id": 199,
+     "falcon_bgm": 1199
     },
     {
      "name": "Bal Kingdom Princess Clothing: Princess",
@@ -391,7 +424,8 @@
      "model": "The model used for this costume is Krile from Final Fantasy V.",
      "falcon_song": "Final Fantasy V: Spreading Grand Wings",
      "falcon_song_no": 117,
-     "falcon_song_id": 246
+     "falcon_song_id": 246,
+     "falcon_bgm": 1246
     },
     {
      "name": "Wizard's Attire: Scholar",
@@ -401,7 +435,8 @@
      "model": "This costume is modeled after Shantotto from Final Fantasy XI.",
      "falcon_song": "Final Fantasy XI: Windurst",
      "falcon_song_no": 166,
-     "falcon_song_id": 177
+     "falcon_song_id": 177,
+     "falcon_bgm": 1177
     },
     {
      "name": "Sky-Blue Dirndl: Blacksmith Apprentice",
@@ -411,7 +446,8 @@
      "model": "This costume is modeled after Refia from the Final Fantasy III remake.",
      "falcon_song": "Final Fantasy III: Cute Little Tozas",
      "falcon_song_no": 86,
-     "falcon_song_id": 200
+     "falcon_song_id": 200,
+     "falcon_bgm": 1200
     }
    ]
   },
@@ -427,7 +463,8 @@
      "model": "This look is based off of Setzer's outfit before he became an airship pilot. The look is modeled after a Returner's outfit. (I'm pretty sure this is made up by the author. Setzer never had a design like this -Kain.)",
      "falcon_song": "Final Fantasy VI: Blackjack",
      "falcon_song_no": 48,
-     "falcon_song_id": 53
+     "falcon_song_id": 53,
+     "falcon_bgm": 46
     },
     {
      "name": "Jet-Black Coat: JENOVA Hybrid",
@@ -437,7 +474,8 @@
      "model": "This costume is modeled after Sephiroth from Final Fantasy VII.",
      "falcon_song": "Final Fantasy VII: Holding My Thoughts in My Heart",
      "falcon_song_no": 128,
-     "falcon_song_id": 247
+     "falcon_song_id": 247,
+     "falcon_bgm": 1247
     },
     {
      "name": "Knight's Armor: Paladin",
@@ -447,7 +485,8 @@
      "model": "This costume is modeled after Cecil from Final Fantasy IV: The After Years.",
      "falcon_song": "Final Fantasy IV: Kingdom Baron",
      "falcon_song_no": 101,
-     "falcon_song_id": 86
+     "falcon_song_id": 86,
+     "falcon_bgm": 1086
     },
     {
      "name": "Emperor's Redingote: Consul",
@@ -457,7 +496,8 @@
      "model": "This costume is modeled after Vayne from Final Fantasy XII.",
      "falcon_song": "Final Fantasy XII: Time For a Rest",
      "falcon_song_no": 177,
-     "falcon_song_id": 201
+     "falcon_song_id": 201,
+     "falcon_bgm": 1201
     }
    ]
   },
@@ -473,7 +513,8 @@
      "model": "This costume is based off of the Geomancer look from Final Fantasy.",
      "falcon_song": "Romancing Saga 3: Snowman's Town",
      "falcon_song_no": 213,
-     "falcon_song_id": 224
+     "falcon_song_id": 224,
+     "falcon_bgm": 1224
     },
     {
      "name": "Mog Bag: Nomad Moogle",
@@ -483,7 +524,8 @@
      "model": "This costume is modeled after Stiltzkin from Final Fantasy IX.",
      "falcon_song": "Final Fantasy IX: South Gate",
      "falcon_song_no": 147,
-     "falcon_song_id": 248
+     "falcon_song_id": 248,
+     "falcon_bgm": 1248
     },
     {
      "name": "Shiny-Gold Crown: Puppet Master",
@@ -493,7 +535,8 @@
      "model": "This costume is modeled after Cait Sith from Final Fantasy VII.",
      "falcon_song": "Final Fantasy VII: Gold Saucer",
      "falcon_song_no": 132,
-     "falcon_song_id": 215
+     "falcon_song_id": 215,
+     "falcon_bgm": 1215
     },
     {
      "name": "Tonberry Coat: Tonberry",
@@ -503,7 +546,8 @@
      "model": "This costume is based off the Tonberry model from the Final Fantasy series.",
      "falcon_song": "Final Fantasy XI: Currents of Time",
      "falcon_song_no": 172,
-     "falcon_song_id": 204
+     "falcon_song_id": 204,
+     "falcon_bgm": 1204
     }
    ]
   },
@@ -519,7 +563,8 @@
      "model": "This costume is based on the tuxedo all the party members agreed on during the cutscene for dressing Gau up.",
      "falcon_song": "Romancing Saga 3: Tomas's Theme",
      "falcon_song_no": 208,
-     "falcon_song_id": 220
+     "falcon_song_id": 220,
+     "falcon_bgm": 1220
     },
     {
      "name": "Honorable Thief's Vest: Phantom Thief",
@@ -529,7 +574,8 @@
      "model": "This costume is modeled after Zidane from Final Fantasy IX.",
      "falcon_song": "Final Fantasy IX: A Place to Call Home",
      "falcon_song_no": 145,
-     "falcon_song_id": 238
+     "falcon_song_id": 238,
+     "falcon_bgm": 1238
     },
     {
      "name": "Traveler's Clothes: Traveler",
@@ -539,7 +585,8 @@
      "model": "This costume is modeled after Bartz from Final Fantasy V.",
      "falcon_song": "Final Fantasy V: My Home Sweet Home",
      "falcon_song_no": 114,
-     "falcon_song_id": 117
+     "falcon_song_id": 117,
+     "falcon_bgm": 1117
     },
     {
      "name": "Ace Uniform: Blitzball Ace",
@@ -549,7 +596,8 @@
      "model": "This costume is modeled after Tidus from Final Fantasy X.",
      "falcon_song": "Final Fantasy X-2: Eternity -Band ver-",
      "falcon_song_no": 164,
-     "falcon_song_id": 205
+     "falcon_song_id": 205,
+     "falcon_bgm": 1205
     }
    ]
   },
@@ -565,7 +613,8 @@
      "model": "This costume's name is based off the armor in Final Fantasy Tactics. During each battle Gogo wears this his sprite will change to one of the following: Leo, Banon, Trance Terra, Merchant, Ghost, Kefka, Gestahl, Cid, Daryl, or Rachel.",
      "falcon_song": "Final Fantasy IV: Hello! Big Chocobo!",
      "falcon_song_no": 100,
-     "falcon_song_id": 225
+     "falcon_song_id": 225,
+     "falcon_bgm": 1225
     },
     {
      "name": "Mysidian Priest's Robe: Cleric",
@@ -575,7 +624,8 @@
      "model": "This costume is modeled after Minwu from Final Fantasy II.",
      "falcon_song": "Final Fantasy II: Rebel Army Theme",
      "falcon_song_no": 81,
-     "falcon_song_id": 186
+     "falcon_song_id": 186,
+     "falcon_bgm": 1186
     },
     {
      "name": "Great Tree's Heavy Armor: Dark Mage",
@@ -585,7 +635,8 @@
      "model": "This costume is modeled after Exdeath from Final Fantasy V.",
      "falcon_song": "Final Fantasy V: The Dawn Warriors",
      "falcon_song_no": 119,
-     "falcon_song_id": 159
+     "falcon_song_id": 159,
+     "falcon_bgm": 1159
     },
     {
      "name": "Aegishjalmr: Hero",
@@ -595,7 +646,8 @@
      "model": "This costume is modeled after Seigfried from Final Fantasy VI.",
      "falcon_song": "Final Fantasy VI: Town2/Unreleased",
      "falcon_song_no": 125,
-     "falcon_song_id": 105
+     "falcon_song_id": 105,
+     "falcon_bgm": 1105
     }
    ]
   },
@@ -611,7 +663,8 @@
      "model": "This costume is modeled after Banon's outfit. (I assume it's a joke because Banon is grizzled and looks similar to a yeti -Kain.)",
      "falcon_song": "Final Fantasy VI: Returners",
      "falcon_song_no": 12,
-     "falcon_song_id": 46
+     "falcon_song_id": 46,
+     "falcon_bgm": 11
     },
     {
      "name": "Ronso's Waist Cloth: Ronso Warrior",
@@ -621,7 +674,8 @@
      "model": "This costume is modeled after Kimahri from Final Fantasy X.",
      "falcon_song": "Final Fantasy X: Servants of the Mountain",
      "falcon_song_no": 161,
-     "falcon_song_id": 102
+     "falcon_song_id": 102,
+     "falcon_bgm": 1102
     },
     {
      "name": "Full-Moon Hairpins: Hunter",
@@ -631,7 +685,8 @@
      "model": "This costume is modeled after Red XIII from Final Fantasy VII.",
      "falcon_song": "Final Fantasy VII: Cosmo Canyon",
      "falcon_song_no": 131,
-     "falcon_song_id": 253
+     "falcon_song_id": 253,
+     "falcon_bgm": 1253
     },
     {
      "name": "Pure-White Apron: Cook",
@@ -641,7 +696,8 @@
      "model": "This costume is modeled after Quina from Final Fantasy IX.",
      "falcon_song": "Final Fantasy IX: Quina's Theme",
      "falcon_song_no": 146,
-     "falcon_song_id": 212
+     "falcon_song_id": 212,
+     "falcon_bgm": 1212
     }
    ]
   }

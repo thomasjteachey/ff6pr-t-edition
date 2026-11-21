@@ -639,7 +639,12 @@ class TEdition(Profile):
                        (10, 3): {(61, 1, 30, 0)},    # Fight -> Jump (Dragoon Boots, Dragon Horn)
                        (10, 2): {(61, 16, 27, 0)},   # Runic -> Pray (Maiden's Prayer)
                        (10, 1): {(61, 18, 29, 0)},   # Sketch -> Spirit (Embroidered Tippet)
-                       (10, 0): {(61, 22, 24, 0)}}   # Dance -> Animal (Pheasant Strap)
+                       (10, 0): {(61, 22, 24, 0)},   # Dance -> Animal (Pheasant Strap)
+                       # passive bits on T-Edition's other items, as the PR's wear function 62 on vanilla's own (TedPlugin
+                       # decoded them, the audit's I5; the rest, PR-hardcoded per item id, are TedPlugin's TedRelics)
+                       (9, 2): {(62, 286, 0, 0)},    # HP +25% (Red Cap's): Mutsunokami, Grand Helm, Maximillian
+                       (9, 3): {(62, 288, 0, 0)},    # HP +50% (Muscle Belt's): Floral Fallal
+                       (12, 0): {(62, 253, 0, 0)}}   # Offering's four hits: Elven Dart, Offering
 
     def extra_data(self, rom):
         """Data beside the Magicite groups for T-Edition's other tools and its plugin.

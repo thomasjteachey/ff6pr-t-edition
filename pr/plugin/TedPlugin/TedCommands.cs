@@ -90,7 +90,13 @@ namespace TEdition.PR
 
         // --- 27: Steal --------------------------------------------------------------------------------
 
-        static int[] EnhancedSteal() => new[] { Plugin.D.BySlot(0xCF)?.Content ?? 0, Plugin.D.NamedContent("orichalcum") };   // Thief's Bracer, Orichalcum
+        // Thief's Bracer, Orichalcum, and every other item with T-Edition's Steal-up relic bit 11.0 (Mime's Book; audit I5)
+        static int[] EnhancedSteal()
+        {
+            var l = new List<int> { Plugin.D.BySlot(0xCF)?.Content ?? 0, Plugin.D.NamedContent("orichalcum") };
+            foreach (var c in TedRelics.Contents("11.0")) if (!l.Contains(c)) l.Add(c);
+            return l.ToArray();
+        }
 
         public static void Steal_Postfix(CalcControllerProvider __instance, ICalcResult __result)
         {
@@ -321,19 +327,17 @@ namespace TEdition.PR
     // and FF6 never uses FF2's keyword list (UserDataManager.OwnedKeyWaordList, saved as "ownedKeyWaordList"),
     // so the block is a marker "TED1" and 8 words there (BNW keeps its esper data the same way, marker "BNW1").
     // T-Edition's saves are its own files (ModSaves "TEdition"); test runs never save.
-    // T-Edition's success counters ($1E70 words 0-7: Steal, Twin Fang, Runic, Sketch, -, Slot, Snowstorm, Mimic) in the
-    // PR's global (scenario) variables, where the translated events' own word commands (E8-EB: Calc / Branch) and
-    // TED:counter / TED:cmp read them too: word n -> global Globals[n] (the PR has 16, 0-15; vanilla's scripts use 0, 2,
-    // 3, 5, 7, 10). Saves from before 11-21 kept them in a "TED1" block of OwnedKeyWaordList: moved over once on load.
+    // T-Edition's success counters ($1E70 words 0-7: Steal, Twin Fang, Runic, Sketch, -, Slot, Snowstorm, Mimic), kept in
+    // T-Edition's save as a "TED1" block of OwnedKeyWaordList (the PR's 16 global variables are its own scenes' and the
+    // translated E8-EB words': ted-events, 11-21). TED:counter and TED:cmp 1E70 read them for the events.
     static class TedCounters
     {
         public const int Steal = 0, TwinFang = 1, Runic = 2, Sketch = 3, Slot = 5, Snowstorm = 6, Mimic = 7, Count = 8;
-        public static readonly int[] Globals = { 6, 8, 9, 11, 12, 13, 14, 15 };
-        const int Marker = 0x54454431;   // "TED1" (the old block)
+        const int Marker = 0x54454431;   // "TED1"
         static readonly object Sync = new object();
         public static string State = "counters not read yet";
 
-        static Il2CppSystem.Collections.Generic.List<int> List() => Last.Management.UserDataManager.Instance()?.OwnedKeyWaordList;
+        static Il2CppSystem.Collections.Generic.List<int> List() => global::Last.Management.UserDataManager.Instance()?.OwnedKeyWaordList;
 
         static int Find(Il2CppSystem.Collections.Generic.List<int> list)
         {
@@ -343,28 +347,15 @@ namespace TEdition.PR
             return -1;
         }
 
-        // an old save's TED1 block: its values into the globals, the block removed
-        static void Migrate(Last.Interpreter.DataStorage ds)
-        {
-            var list = List();
-            if (list == null) return;
-            int at = Find(list);
-            if (at < 0) return;
-            for (int k = 0; k < Count; k++)
-                if (list[at + 1 + k] != 0) ds.Set(Last.Interpreter.DataStorage.Category.kScenarioVariable, Globals[k], list[at + 1 + k]);
-            for (int k = 0; k <= Count; k++) list.RemoveAt(at);
-            Kit.Info("[ted] success counters moved from the old TED1 block into the global variables");
-        }
-
         public static int Get(int which)
         {
             lock (Sync)
             {
-                var ds = Last.Interpreter.DataStorage.Instance;
-                if (ds == null || which < 0 || which >= Count) { State = "no save data"; return 0; }
-                Migrate(ds);
-                State = "counters in the global variables";
-                return ds.Get(Last.Interpreter.DataStorage.Category.kScenarioVariable, Globals[which]);
+                var list = List();
+                if (list == null || which < 0 || which >= Count) { State = "no save data"; return 0; }
+                int at = Find(list);
+                State = at < 0 ? "no counters in this save yet" : "counters in the save";
+                return at < 0 ? 0 : list[at + 1 + which];
             }
         }
 
@@ -372,11 +363,18 @@ namespace TEdition.PR
         {
             lock (Sync)
             {
-                var ds = Last.Interpreter.DataStorage.Instance;
-                if (ds == null || which < 0 || which >= Count) return;
-                Migrate(ds);
-                ds.Set(Last.Interpreter.DataStorage.Category.kScenarioVariable, Globals[which], value);
-                State = "counters in the global variables";
+                var list = List();
+                if (list == null || which < 0 || which >= Count) return;
+                int at = Find(list);
+                if (at < 0)
+                {
+                    at = list.Count;
+                    list.Add(Marker);
+                    for (int i = 0; i < Count; i++) list.Add(0);
+                    Kit.Info("[ted] started T-Edition's success counters in this save");
+                }
+                list[at + 1 + which] = value;
+                State = "counters in the save";
             }
         }
 

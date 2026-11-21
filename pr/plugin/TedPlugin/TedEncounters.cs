@@ -64,12 +64,12 @@ namespace TEdition.PR
                 int state = (int)preeMptiveState;
                 int was = __result;
                 if (state == 3) __result = 0;                                     // no enemy first strike in T-Edition
-                else if ((state == 0 || state == 1) && Wears(targetDatum, 219))
+                else if ((state == 0 || state == 1) && (Wears(targetDatum, 219) || TedRelics.AnyWears(targetDatum, "13.5")))
                 {
                     if (state == 0) __result = baseValue;                          // the PR's -13: not T-Edition's
                     else if (baseValue > 0)
                     {
-                        bool alarm = !isExceptAlarmEarrings && Wears(targetDatum, 218);   // back attack and pincer gone
+                        bool alarm = !isExceptAlarmEarrings && (Wears(targetDatum, 218) || TedRelics.AnyWears(targetDatum, "13.6"));   // back attack and pincer gone
                         __result = Others(preeMptiveFlags, alarm);                 // x4 of 32/256: one in two
                     }
                 }

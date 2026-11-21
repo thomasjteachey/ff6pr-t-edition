@@ -13,8 +13,9 @@ namespace TEdition.PR
     //   TED:set <area> <word> <value>
     // Areas (hex): 1E70 the success counters (TedCounters: the PR's global variables); 1DD0 and 1E40 T-Edition's own words
     // (kept in a "TED2" block of OwnedKeyWaordList, in the save); 1300 word 0 = the song playing << 8 (the Developer's
-    // Room patrons; T-Edition's own songs by number, a game track reads 0); 58E4CC / 58E52A: ROM tables from
-    // BepInEx/TEdition/ted_tables.json {"58E4CC": [words], ...}; anything else reads 0 (logged once per area).
+    // Room patrons; T-Edition's own songs by number, a game track reads 0); 1800 (gil, time, steps, items) and
+    // 1D00 / 1D01 (known SwdTechs, Lores, Rages) built from the PR's state (ted-events' names: "58E4CC" / "58E52A" are
+    // those areas); anything else reads 0 (logged once per area).
     static class TedRam
     {
         const int Marker = 0x54454432;   // "TED2": then n, then n (key, value) pairs; key = area << 16 | word
@@ -59,6 +60,12 @@ namespace TEdition.PR
                 int slot = PrKit.Snes.SnesBgm.Player?.CurrentSlot ?? -1;
                 return slot < 0 ? 0 : (slot & 0xFF) << 8;
             }
+            if (area == 0x1800 || area == 0x1D00 || area == 0x1D01)
+            {
+                var bytes = area == 0x1800 ? Ram1800() : Ram1D00();
+                int off = (area == 0x1D01 ? 1 : 0) + 2 * word;
+                return off >= 0 && off + 1 < bytes.Length ? bytes[off] | bytes[off + 1] << 8 : 0;
+            }
             if (tables.TryGetValue(area, out var t)) return word >= 0 && word < t.Length ? t[word] : 0;
             if (Stored(area))
             {
@@ -87,6 +94,60 @@ namespace TEdition.PR
             l.Insert(end, key);
             l.Insert(end + 1, value);
             l[at + 1] = l[at + 1] + 1;
+        }
+
+        // 7E/1800-19FF as T-Edition's events read it (69 "58E4CC" = $1800 + 2n): $1860 gil (24 bits), $1863-$1865 play
+        // time (hours, minutes, seconds), $1866 steps (24 bits), $1869 + i the inventory's T-Edition item slots,
+        // $1969 + i their counts
+        static byte[] Ram1800()
+        {
+            var b = new byte[0x200];
+            var udm = global::Last.Management.UserDataManager.Instance();
+            if (udm == null) return b;
+            void Put24(int at, int v) { b[at] = (byte)v; b[at + 1] = (byte)(v >> 8); b[at + 2] = (byte)(v >> 16); }
+            Put24(0x60, Math.Min(udm.OwendGil, 0xFFFFFF));
+            double t = udm.PlayTime;
+            b[0x63] = (byte)Math.Min(255, (int)(t / 3600));
+            b[0x64] = (byte)((int)(t / 60) % 60);
+            b[0x65] = (byte)((int)t % 60);
+            Put24(0x66, Math.Min(udm.Steps, 0xFFFFFF));
+            var slotOf = new Dictionary<int, int>();
+            foreach (var it in Plugin.D.Items) if (it.Slot < 256) slotOf[it.Content] = it.Slot;
+            var items = udm.GetOwnedItemsClone();
+            int i = 0;
+            if (items != null)
+                foreach (var it in items)
+                {
+                    if (i >= 256 || it == null || !slotOf.TryGetValue(it.ContentId, out int slot)) continue;
+                    b[0x69 + i] = (byte)slot;
+                    if (0x169 + i < b.Length) b[0x169 + i] = (byte)Math.Min(255, it.Count);
+                    i++;
+                }
+            return b;
+        }
+
+        // 7E/1D00-1D4F (6E "58E52A" = $1D00 + 2n, 6F 1D01): $1D28 the known SwdTechs, $1D29-$1D2B the Lores, $1D2C-$1D4B
+        // the Rages, as SNES bitfields from what the party has learned (ted_data "known_bits": the PR ability of each bit)
+        static byte[] Ram1D00()
+        {
+            var b = new byte[0x50];
+            var known = new HashSet<int>();
+            var owned = global::Last.Management.UserDataManager.Instance()?.OwnedCharacterList;
+            if (owned != null)
+                foreach (var c in owned)
+                    if (c?.OwnedAbilityList != null)
+                        foreach (var a in c.OwnedAbilityList)
+                            if (a?.Ability != null && a.SkillLevel >= 100) known.Add(a.Ability.Id);
+            void Bits(string key, int at)
+            {
+                if (!Plugin.D.KnownBits.TryGetValue(key, out var ids)) return;
+                for (int n = 0; n < ids.Length; n++)
+                    if (ids[n] > 0 && known.Contains(ids[n])) b[at + n / 8] |= (byte)(1 << (n % 8));
+            }
+            Bits("swdtech", 0x28);
+            Bits("lore", 0x29);
+            Bits("rage", 0x2C);
+            return b;
         }
 
         static int Hex(string s) => Convert.ToInt32(s, 16);

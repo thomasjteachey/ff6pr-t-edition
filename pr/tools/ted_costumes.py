@@ -127,6 +127,7 @@ def match_songs(chars):
             k["falcon_song_no"] = m["no"] if m else None
             k["falcon_song"] = k.get("falcon_song")
             k["falcon_song_id"] = m["song"] if m else None
+            k["falcon_bgm"] = (m["pr_bgm"] or 1000 + m["song"]) if m else None   # what TedPlugin plays (PR bgm id)
             matched += m is not None
     return matched
 

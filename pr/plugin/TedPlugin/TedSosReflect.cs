@@ -62,7 +62,7 @@ namespace TEdition.PR
                 if (u == null || done.Contains(u.Pointer)) continue;
                 var c = u.TryCast<BattlePlayerData>()?.ownedCharacterData;
                 if (c?.EquipmentData == null) continue;
-                bool wears = false;
+                bool wears = TedRelics.Wears(c, "13.2");
                 foreach (var kv in c.EquipmentData) if (kv.Value != null && kv.Value.ContentId == curtain) wears = true;
                 if (!wears) continue;
                 var conds = u.BattleUnitDataInfo?.GetConfirmedConditionType();

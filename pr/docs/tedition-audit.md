@@ -34,7 +34,7 @@ stalled ("the battle doesn't end") and ted-monsters hit `KeyNotFoundException` i
 |---|---:|---:|---:|---:|---:|---:|
 | Mechanics/battle | 44 | 5 | 26 | 7 | 5 | 1 |
 | Items and equipment | 21 | 1 | 15 | 4 | 1 | 0 |
-| Characters/commands/espers/magic | 31 | 1 | 19 | 8 | 3 | 0 |
+| Characters/commands/espers/magic | 31 | 1 | 20 | 7 | 3 | 0 |
 | Monsters/formations/AI | 9 | 1 | 6 | 2 | 0 | 0 |
 | Maps | 9 | 2 | 5 | 2 | 0 | 0 |
 | Events/story scenes | 44 | 0 | 1 | 35 | 8 | 0 |
@@ -47,7 +47,7 @@ stalled ("the battle doesn't end") and ted-monsters hit `KeyNotFoundException` i
 | Text/translation | 10 | 1 | 4 | 1 | 2 | 2 |
 | EX | 13 | 0 | 8 | 2 | 0 | 3 |
 | Platform patches (outside the game) | 4 | 0 | 0 | 0 | 0 | 4 |
-| **All** | **256** | **12** | **98** | **98** | **36** | **12** |
+| **All** | **256** | **12** | **99** | **97** | **36** | **12** |
 
 ## 2. Weighted completion
 
@@ -58,7 +58,7 @@ as a battle rule), so this is a feature count, not the effort-weighted table in 
 |---|---:|---:|---:|
 | Mechanics/battle | 43 | 34.5 | 80% |
 | Items and equipment | 21 | 18 | 86% |
-| Characters/commands/espers/magic | 31 | 24 | 77% |
+| Characters/commands/espers/magic | 31 | 24.5 | 79% |
 | Monsters/formations/AI | 9 | 8 | 89% |
 | Maps | 9 | 8 | 89% |
 | Events/story scenes | 44 | 18.5 | 42% |
@@ -71,7 +71,7 @@ as a battle rule), so this is a feature count, not the effort-weighted table in 
 | Text/translation | 8 | 5.5 | 69% |
 | EX | 10 | 9 | 90% |
 | Platform patches (outside the game) | 0 | 0 | (all LEFT OUT) |
-| **All** | **244** | **159** | **65%** |
+| **All** | **244** | **159.5** | **65%** |
 
 Read with care: only 12 of the 244 counted rows (5%) have been seen working in game; the 92 PORTED rows are code or data
 that has never run through its real trigger. PORTING.md's own estimate (~60%, effort-weighted) is close to this count,
@@ -142,7 +142,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | I2 | Weapon and armor stats, equip lists, elements, worn statuses | weapon.html, armor.html; 3.0.0 notes | PORTED | port_report "weapon: 114 changed", "armor: 104 changed", "job_group: 32 new equip groups", "equipment resistances" | — |
 | I3 | Weapon properties: MP Critical, HP/MP absorb, Row OK, throwable, bonus vs flying/human/magic/dragon | change §1 "Equipment Details Menu"; 3.0.0 | PARTIAL | port_report "weapon rules rebuild ... effective_species 114/114"; not portable: 2 weapons "with both a spell proc and HAWK_EYE", Zeus' Mace and Rune Bell "multi-element, kept first", 2 weak_attribute values, Trump's condition group | the listed weapons in TedPlugin [TedPlugin] |
 | I4 | Weapon spell procs | weapon.html | PORTED | port_report "weapon procs: 34 weapons (20 new ...)" | — |
-| I5 | Relic effects T-Edition re-coded (relic bits) | armor.html; history ("changed the address of the effect setting") | PARTIAL | port_report "not portable as data (need plugin)": ~35 item bits in bytes 5/9/11/12/13 + armor procs 0x8C-0x8E | decode each bit and implement (includes M9/M10's) [TedPlugin] |
+| I5 | Relic effects T-Edition re-coded (relic bits) | armor.html; history ("changed the address of the effect setting") | PARTIAL | 2026-11-21 TedPlugin TedRelics + ted_data relic_bits (9.0/9.1 +25%, 11.7 +50%, 11.0, 13.5, 13.6, 13.2, 12.0); profile relic_bit_funcs 9.2 HP+25%, 9.3 HP+50%, 12.0 Offering's hits as PR wear functions | 11.2 Sketch up, 12.2 Blade Grasp, 12.7 multi-jump [TedPlugin]; test in game |
 | I6 | Relic command swaps: Zeidrich (Shock), Maiden's Prayer (Pray), Embroidered Tippet (Spirit), Pheasant Strap (Animal), Gem Box, Dragon Horn, Thief, Heiji's Jitte | change §3 Terra/Celes/Relm/Mog; spec 31 | PORTED | `profile_tedition.py:630-637`; `ted_build.py:221-239` (Pray casts Sunbath, Spirit Bless, Animal random) | — |
 | I7 | Sprint Shoes and Fake Mustache removed (hold B to dash) | change §1 "Movement Speed"; §3 Relm | PORTED | neither in `mods/TEditionPort/ted_items.json`; the PR dashes by itself | — |
 | I8 | Stat Tabs, Golden Apple, Soma Drop raise stats | 3.0.0 "Tab items"; Quick Advice | PORTED | `ted_build.py:276-319` (layout "inferred, not seen: check one Tab in game") | — |
@@ -191,7 +191,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | C25 | Gau learns Rages from any won battle | change §3 Gau | PORTED | `TedVictory.cs:12-15, 65-80` (spec 34) | — |
 | C26 | Gau equips weapons (Rages keep his weapon) | change §3 Gau; Readme A7 | PARTIAL | equip lists in job_group (port_report); Rage animations with his own weapon not handled | Rage weapon graphic [TedPlugin] |
 | C27 | Gogo and Umaro equip espers and learn magic | change §3; 3.0.0 | PORTED | `TedMagicite.cs:8-66`; ted-7 log "rule 35: ... 3 checks hooked" | — |
-| C28 | Umaro controllable, Snowstorm command, Berserker Ring / Power Belt procs on Fight | change §3 Umaro | PARTIAL | 2026-11-21: TedPlugin TedUmaro (player commands, T-Edition's Fight table: Charge/Rampage/Throw Ally); ted_build umaro_rule (commands Attack, Snowstorm, Magic, Items; no initial Umalo); Rampage row pending (ability 9903) | Rampage row; test in game [TedPlugin] |
+| C28 | Umaro controllable, Snowstorm command, Berserker Ring / Power Belt procs on Fight | change §3 Umaro | PORTED | 2026-11-21: TedPlugin TedUmaro (player commands; T-Edition's Fight table: Charge/Rampage/Throw Ally); ted_build umaro_rule (Attack, Snowstorm, Magic, Items; no initial Umalo); ted_plugin_data rampage_rule (ability 9903, power 96, physical, all enemies) | test in game |
 | C29 | Magitek: six options for every character | change §3 "Character Overview"; spec 61 | PORTED | 2026-11-21 TedPlugin: every character has T-Edition's six Magitek options (PR 220-225) | test in game |
 | C30 | Veldt holds formations up to 511 | change §2 "Registering Monster Formations to the Veldt" | PORTED | `profile_tedition.py:623`; port_report "veldt: 511 formations in 64 groups" | — |
 | C31 | Dispel and Vanish usable outside battle | history ("You can now use Dispel and Vanish in the field") | MISSING | the spell porter keeps the template's field use (`port_spells.py:236-237`) | menu use for the two spells [lead] |
@@ -208,7 +208,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | B6 | Formations and encounter packs (world, dungeons, Gogo's cave none) | worldmap.txt; history | PORTED | port_report "encounters: {'new parties': 337 ...}" | — |
 | B7 | Metamorph (Ragnarok) sets | ragnarok.txt | PORTED | port_report "metamorph: ..." | — |
 | B8 | Formation AP and escape flags (Ninja, Don runnable) | 3.0.0 notes | PORTED | port_report "monster_party AP: 111", "escape: 25 parties changed" | — |
-| B9 | Kefka's Tower: new boss, new fixed battles, Number 024/128/Air Force on the Veldt | history | PARTIAL | formations through the porter; tower events (maps 334/354/355) scripted with 6-21% stubs, CA/0300 unscripted | wire CA/0300; play the fights [ted-ex] |
+| B9 | Kefka's Tower: new boss, new fixed battles, Number 024/128/Air Force on the Veldt | history | PARTIAL | formations through the porter; tower events (maps 334/354/355) scripted with 6-21% stubs; CA/0300 is not an event (decoration NPC pointer bytes on map 334, nothing jumps there: ted-ex 2026-11-21) | the tower events' stubs; play the fights [ted-ex] |
 
 ### Maps
 
@@ -230,7 +230,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 |---|---|---|---|---|---|
 | E1 | Narshe defense: new scene when Cyan meets Kefka | change §7 | MISSING | CC/BC96 (map 22) in the catalog, no script | wire it [ted-events] |
 | E2 | Night in Albrook: find Celes | change §7; Mato README | PARTIAL | CD/3DC0 (map 330) scripted, 0% stubs; the Celes search not traced | trace and wire the rest [ted-events] |
-| E3 | Fewer fish to save Cid | change §7 | PARTIAL | CA/5366 scripted (12% stubs); CD/4300 unscripted | [ted-ex] |
+| E3 | Fewer fish to save Cid | change §7 | PARTIAL | CA/5366 scripted (12% stubs, ted-events' edit of PR sc_e_0616); CD/4300 is not an event (decoration NPC pointer bytes on map 334: ted-ex 2026-11-21) | the scene's stubs [ted-events] |
 | E4 | Sabin's new lines at Gerad | change §7 | MISSING | CA/91D0 (map 169) not scripted | build and wire CA/91D0 [ted-events] |
 | E5 | Valigarmanda (WoR) needs Terra | change §7; readme.html §7 | MISSING | CC/370F (map 35) not scripted | build and wire CC/370F (also blocks Test of Strength's last step) [ted-events] |
 | E6 | Cyan's Dream: new solo battles, throne after the memories | change §7; readme.html §7 | PARTIAL | CD/4000, CD/4003 scripted (~19% stubs); CD/3FE0 (map 126), CD/4002 not | [ted-events] |
@@ -400,9 +400,9 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | X5 | EX boss songs | EX readme.html §1 | PORTED | PORTING.md music row "EX's 13 fights" | — |
 | X6 | EX boss battle backgrounds | EX_PLAN ("4D command") | PORTED | port_report "event parties on the event's background" | — |
 | X7 | EX shops (two shopkeepers) | EX readme.html §2 | PORTED | `tools/ted_ex_events.py` SHOPS {107: 128, 108: 129} | — |
-| X8 | Wins fill the Collection Room and count for "EX Complete" | EX readme.html §3 | PARTIAL | win bits allocated; paintings art missing (G9); Collection Room events 41% stubs (map 469) | [ted-ex] |
+| X8 | Wins fill the Collection Room and count for "EX Complete" | EX readme.html §3 | PARTIAL | win bits allocated; paintings art missing (G9); Collection Room events 41% stubs (map 469) | the room's stubs [ted-ex, from ted-maps by the lead 2026-11-21]; paintings (G9) [ted-maps] |
 | X9 | Omega Weapon as a 13th fight with Mato's reward (steal Megalixir, drop Omega Weapon) | Hidden Secret Boss info | PORTED | `ted_ex_events.py` EX_PATCH (pack 168); EX_PLAN line 1 decision | — |
-| X10 | EX room's Moogle: party and costume changes | EX readme.html §2 | PARTIAL | map 467 NPCs (2 events, 0% stubs); party/costume menu not traced | trace and test [ted-ex] |
+| X10 | EX room's Moogle: party and costume changes | EX readme.html §2 | PARTIAL | map 467 NPCs (2 events, 0% stubs); party/costume menu not traced | trace and test [ted-ex, from ted-maps by the lead 2026-11-21] |
 | X11 | Dragon's Den dungeon | Hidden Secret Boss info | LEFT OUT | `docs/tedition.md:125` "leave the Dragon's Den out" (user, 2026-11-20) | — |
 | X12 | Save swap between two ROMs | EX readme.html §2 | LEFT OUT | `docs/tedition.md:84-85` one mod, "no save swap" | — |
 | X13 | EX's own item set switch ($1440) and its broken leftovers (garbage randoms, flame NPC crash) | EX_PLAN | LEFT OUT | `pr/ted/EX_PLAN.md:158, 171-179` "not replicated" | — |

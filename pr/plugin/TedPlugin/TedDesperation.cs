@@ -32,7 +32,7 @@ namespace TEdition.PR
 
         static bool Fires(BattleActData act, BattlePlayerData unit, Last.Data.User.OwnedCharacterData c)
         {
-            if (Holds(c, Plugin.D.NamedContent("elven_darts")) || Holds(c, Plugin.D.BySlot(MastersScrollSlot)?.Content ?? 0)) return false;
+            if (TedRelics.Wears(c, "12.0") || Holds(c, Plugin.D.NamedContent("elven_darts")) || Holds(c, Plugin.D.BySlot(MastersScrollSlot)?.Content ?? 0)) return false;
             var conds = unit.BattleUnitDataInfo?.GetConfirmedConditionType();
             if (conds == null || !conds.Contains(ConditionType.Dying)) return false;            // Near Fatal
             var blocked = BattleProgressATBFF6.CantUseDyingSpecialAbilityConditions;

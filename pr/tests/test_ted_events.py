@@ -317,6 +317,32 @@ class WineOldMan(unittest.TestCase):
         self.assertEqual([(o["mnemonic"], o["operands"]["iValues"][:2], o["operands"]["sValues"][0]) for o in ops][:2],
                          [("Branch", [5, 0], "MapLocalVariable"), ("Jump", ["@L_046680", 0], "")])
 
+    def test_veldt_open(self):
+        # Gau's father (CB/681E -> CD/C113-C193, E32): 83 writes into the Veldt's formation bits (7E/1DDD+) -> one
+        # TED:veldt_open per write with those formations' PR parties (CD/C113: 83 06 FF00 = formations 0-7 = parties 1-8)
+        import event_translate as T
+        t = TE._translator_class()(prog().rom, "x", alloc=T.FlagAlloc(None), prog=prog())
+        ops, _ = t.instr(prog().code[(E.parse_addr("CD/C113"), "field")], False, None)
+        self.assertEqual(ops[0]["operands"]["sValues"][0], "TED:veldt_open 1 2 3 4 5 6 7 8")
+
+    def test_script_edits(self):
+        # Cid (CA/5366): the PR's sc_e_0616 with T-Edition's doubled health per fish (Calc ScenarioVariable 2: 32 -> 64,
+        # 12 -> 24), and sc_e_0625 with T-Edition's three tests (CD/4130: bits 0C1 0C9 0CD) just before "I'm all better
+        # now!", each to its own lines; both well formed
+        import event_translate as T
+        Tr, texts = TE._translator_class(), TE.Texts(prog().rom)
+        sc, _ = TE.script_edit(TE.SCRIPT_EDITS[0], prog().rom, prog(), T.FlagAlloc(None), Tr, texts)
+        self.assertEqual(T.check(sc), [])
+        calc = [m["operands"]["iValues"][:2] for m in sc["Mnemonics"] if m["mnemonic"] == "Calc"
+                and m["operands"]["sValues"][0] == "ScenarioVariable"]
+        self.assertEqual(calc[:2], [[2, 64], [2, 24]])
+        sc, _ = TE.script_edit(TE.SCRIPT_EDITS[1], prog().rom, prog(), T.FlagAlloc(None), Tr, texts)
+        self.assertEqual(T.check(sc), [])
+        ms = sc["Mnemonics"]
+        at = next(i for i, m in enumerate(ms) if m["mnemonic"] == "Msg" and m["operands"]["sValues"][0] == "E0616_00_191_a_08")
+        self.assertEqual([m["mnemonic"] for m in ms[at - 3:at]], ["Branch"] * 3)
+        self.assertTrue(any(m["mnemonic"] == "Msg" and m["operands"]["sValues"][0].startswith("TED_") for m in ms))
+
     def test_tile_changes(self):
         # CA/13F4 draws a 3x4 picture over walls on map 126 (Map_20451_2): a passability change, its cells with a
         # look (a cell of the map to copy, or the converter's gids; its bottom row's tile 74 over BG2 128 no

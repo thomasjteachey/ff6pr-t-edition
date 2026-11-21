@@ -53,6 +53,11 @@ namespace TEdition.Rules
 
         // vanilla's esper level-up bonus code (0-16, 0xFF none) by magicite content id (rule 4)
         public readonly Dictionary<int, int> EsperBonusVanilla = new Dictionary<int, int>();
+        // relic effect bits the PR keys on its own items' ids: "byte.bit" -> the T-Edition item slots that set it (audit I5)
+        public readonly Dictionary<string, int[]> RelicBits = new Dictionary<string, int[]>();
+        // TED:cmp's $1D28 area: PR ability per bit of the SNES SwdTech / Lore / Rage bitfields (0 = none)
+        public readonly Dictionary<string, int[]> KnownBits = new Dictionary<string, int[]>();
+        public int[] RelicSlots(string bit) => RelicBits.TryGetValue(bit, out var s) ? s : System.Array.Empty<int>();
 
         public int NamedContent(string role) => Named.TryGetValue(role, out var id) ? id : 0;
         public int NamedRow(string role) => Rows.TryGetValue(role, out var id) ? id : 0;
@@ -98,6 +103,20 @@ namespace TEdition.Rules
                 foreach (var pair in eb.EnumerateArray())
                     if (pair.GetArrayLength() == 2 && pair[0].ValueKind == JsonValueKind.Number)
                         d.EsperBonusVanilla[pair[0].GetInt32()] = pair[1].GetInt32();
+            if (r.TryGetProperty("relic_bits", out var rb))
+                foreach (var p in rb.EnumerateObject())
+                {
+                    var l = new List<int>();
+                    foreach (var v in p.Value.EnumerateArray()) if (v.ValueKind == JsonValueKind.Number) l.Add(v.GetInt32());
+                    d.RelicBits[p.Name] = l.ToArray();
+                }
+            if (r.TryGetProperty("known_bits", out var kb))
+                foreach (var p in kb.EnumerateObject())
+                {
+                    var l = new List<int>();
+                    foreach (var v in p.Value.EnumerateArray()) l.Add(v.ValueKind == JsonValueKind.Number ? v.GetInt32() : 0);
+                    d.KnownBits[p.Name] = l.ToArray();
+                }
             if (r.TryGetProperty("rows", out var rows))
                 foreach (var p in rows.EnumerateObject())
                     if (p.Value.ValueKind == JsonValueKind.Number) d.Rows[p.Name] = p.Value.GetInt32();

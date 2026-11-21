@@ -345,6 +345,18 @@ def _translator_class():
                 sym = {"word_set": "←", "word_add": "＋", "word_sub": "－"}[ins.name]
                 return [T.op("Calc", i=[idx, v], s=["ScenarioVariable", sym, "imm"],
                              comment="SNES %s word %d %d" % (ins.name, ins.args["word"], v))], True
+            if ins.name == "word1DD0_set" and VELDT_BITS[0] <= 0x1DD0 + 2 * ins.args["word"] + 1 \
+                    and 0x1DD0 + 2 * ins.args["word"] < VELDT_BITS[1]:
+                # 83 into 7E/1DDD-1E1C (the Veldt's "formations met" bits, one per formation): Gau's father opening every
+                # Veldt formation (CB/681E -> CD/C113-C193, E32) -> TedPlugin's TED:veldt_open with those formations' PR parties
+                import event_translate as T
+                parties = veldt_parties(self.rom.data, ins.args["word"], ins.args["value"])
+                self.done["flag"] += 1
+                self.report[("flag", "Veldt formations -> TED:veldt_open")] += 1
+                if not parties:
+                    return [], True
+                return [T.op("SysCall", s=["TED:veldt_open " + " ".join(map(str, parties))],
+                             comment="SNES 83 %d %04X" % (ins.args["word"], ins.args["value"]))], True
             if ins.name.startswith("cmp_") or ins.name in ("word1DD0_set", "word1E40_set"):
                 # T-Edition's compares of its RAM areas (67/68/69/6D/6E/6F/A4/FC: 1E70 counters, 1600 characters,
                 # 1300...) and its word sets (83, ED) -> TedPlugin: TED:cmp writes equal / greater / less to map
@@ -355,7 +367,9 @@ def _translator_class():
                 if ins.name.startswith("cmp_"):
                     self.report[("flag", "compare -> TED:cmp")] += 1
                     self.case_kind, self.cmp_state = "cmp", ("MapLocalVariable", None, None)
-                    return [T.op("SysCall", s=["TED:cmp %s %d %d" % (ins.name[4:], a_["word"], a_["value"])],
+                    mask = CMP_MASKS.get((ins.name[4:], a_["word"]))
+                    return [T.op("SysCall", s=["TED:cmp %s %d %d" % (ins.name[4:], a_["word"], a_["value"])
+                                               + (" 0x%X" % mask if mask else "")],
                                  comment="SNES %02X" % ins.op)], True
                 self.report[("flag", "word set -> TED:set")] += 1
                 return [T.op("SysCall", s=["TED:set %s %d %d" % (ins.name[4:8], a_["word"], a_["value"])],
@@ -1243,6 +1257,91 @@ def tile_cells(path=TILE_CELLS, log=print):
     return doc
 
 
+VELDT_BITS = (0x1DDD, 0x1E1D)     # 7E/1DDD-1E1C: one bit per formation 0-511 met (the Veldt's Leap draws from them)
+
+
+def formation_party(data, f):
+    """T-Edition formation f -> the PR monster party that fights it, as TedTranslator.battle_party does without a pack:
+    EX's (768+) and new formations (576+, or with monsters 384+) the porter's party unless a vanilla formation is
+    its byte copy (that one's PR party); others idmap.party. None: an empty formation."""
+    import idmap
+    import port_encounters as PE
+    import profile_tedition as PT
+    if f >= 768:
+        return PE.first_party_id(f)
+    mons = PT.formation_monsters(data, PT.FORMATIONS, f)
+    if not (f >= 576 or any(m >= 384 for m in mons)):
+        return idmap.party(f)
+    raw = _formation(data, PT.FORMATIONS, f)
+    twins = _vanilla_twins().get(raw, [])
+    if twins:
+        return idmap.party(twins[0])
+    if not any(raw[2 + k] != 0xFF or not raw[14] >> k & 1 for k in range(6)):
+        return None
+    return PE.first_party_id(f)
+
+
+def veldt_parties(data, word, value):
+    """The PR parties of the formations an 83 n v write into the Veldt bits turns on (word n = 7E/1DD0 + 2n, low
+    byte first)."""
+    out = []
+    for k in range(16):
+        addr = 0x1DD0 + 2 * word + k // 8
+        if value >> k & 1 and VELDT_BITS[0] <= addr < VELDT_BITS[1]:
+            p = formation_party(data, (addr - VELDT_BITS[0]) * 8 + k % 8)
+            if p is not None and p not in out:
+                out.append(p)
+    return out
+
+
+# T-Edition events that are vanilla's code with a few changes, ported as edits of the PR's own scripts (shipped under
+# their names): "calc" {(ScenarioVariable index, old value): new} on its Calc ops; "branches": T-Edition's tests (SNES
+# addresses) put before the PR line "before_line", each to its own translated code, which ends the event
+SCRIPT_EDITS = [
+    # CA/5366, Cid's fish: each fish raises his health twice as much as vanilla (CA/5390, CA/539C: word 7 +64 / +32
+    # for vanilla's +32 / +16; the PR's sc_e_0616 keeps it in ScenarioVariable 2 with +32 / +12 -> 64 / 24)
+    dict(event="CA/5366", script="sc_e_0616", pr_map="Map_20291_1", calc={(2, 32): 64, (2, 12): 24}),
+    # ... and at "Cid: I'm all better now!" (0x880, the PR's sc_e_0625) T-Edition's CD/4130 (audit E33 "Thoughts and
+    # Wishes"): bit 0C1 -> its line D56, 0C9 -> D45 and the scene with Celes and Locke (the Tynar Rouge), 0CD -> D44
+    dict(event="CA/5366", script="sc_e_0625", pr_map="Map_20291_1", snes_map=397, before_line="E0616_00_191_a_08",
+         branches=(0x34130, 0x34136, 0x3413C)),
+]
+
+
+def script_edit(spec, rom, prog, alloc, Tr, texts):
+    """SCRIPT_EDITS entry -> the PR script with T-Edition's changes (a script dict), and the translator's report."""
+    import copy
+    import event_translate as T
+    import pr_script as S
+    sc = copy.deepcopy(S.load(spec["script"]))
+    t = Tr(rom, spec["script"], snes_map=spec.get("snes_map"), alloc=alloc, prog=prog, pr_map=spec["pr_map"])
+    t.texts = texts
+    if spec.get("calc"):
+        todo = dict(spec["calc"])
+        for m in sc["Mnemonics"]:
+            o = m.get("operands") or {}
+            key = tuple((o.get("iValues") or [0, 0])[:2])
+            if m["mnemonic"] == "Calc" and (o.get("sValues") or [""])[0] == "ScenarioVariable" and key in todo:
+                o["iValues"][1] = todo.pop(key)
+                m["comment"] = "T-Edition: was %d" % key[1]
+        if todo:
+            raise ValueError("%s: no Calc %s" % (spec["script"], sorted(todo)))
+    if not spec.get("branches"):
+        return sc, t
+    label = t.graft(sc)
+    block = next(b for name, b in t.blocks if name == label)
+    at = next(i for i, m in enumerate(block) if m["mnemonic"] == "Msg" and m["operands"]["sValues"][0] == spec["before_line"])
+    tests = []
+    for a in spec["branches"]:
+        ins = prog.code[(a, "field")]
+        tests += t.cond(ins)
+        tgt = next(x for k, x in ins.targets if k == "cond")
+        seg = "ted_%06X" % tgt
+        t.blocks.append((seg, [T.lab(seg)] + t.body(tgt, "field", sub=False) + [T.op("Exit")]))
+    block[at:at] = tests
+    return t.assemble(spec["script"], [T.lab("Main"), T.op("Jump", i=["@" + label])], t.blocks), t
+
+
 def build_lock(log=print):
     """ted_build's lock (mods/TEdition.building: one writer of T-Edition's folders at a time, so its merge never reads
     a half-written sibling folder); none when this process already holds it."""
@@ -1396,6 +1495,9 @@ ENGINE_STORY_BITS = (0x1BC, 0x1BD, 0x1C0, 0x1C3, 0x1C4, 0x1C5, 0x1C7, 0x1C8, 0x1
 # its own sc_e_0616), and use 0 2 3 5 7 10; T-Edition's other words take free ones (TedPlugin keeps 1 4 6 8 9 14 15).
 # Not T-Edition's $1E70 counters (its 67 / TED:counter): those are TedPlugin's.
 WORD_GLOBALS = {0: 2, 7: 7, 1: 11, 5: 12, 6: 13}
+# T-Edition's compares that look at part of their word (its handlers: 69's 58/E4CC compares word 52, $1868, as one byte;
+# 6E's 58/E52A masks word 37, $1D4A, with 7FFF) -> TED:cmp's 4th argument: compare (word & mask) with (value & mask)
+CMP_MASKS = {("58E4CC", 52): 0xFF, ("58E52A", 37): 0x7FFF}
 BATTLE_KEY = 0x1000    # flag allocator key of battle bit b: 1000 + b, the kit's (port_ai event_bits: SnesAiHost
                         # loads/saves those flags around a fight, so fights and scenes share them)
 # the battle bits vanilla's events use (38-3A, 40 lost battle, 41-4D): left to event_translate; T-Edition's own
@@ -2126,10 +2228,22 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
         mod.asset(group, "Assets/GameAssets/Serial/Res/Map/%s/%s/%s.json" % (folder, pr_map, ms),
                   json.dumps(nop_stubs(sc), ensure_ascii=False, separators=(",", ":")), key="%s/%s" % (pr_map, ms))
         packages.setdefault((group, folder), {}).setdefault(pr_map, [])
+    # T-Edition's edits of the PR's own scripts (SCRIPT_EDITS: vanilla code with a few changes), shipped under their names
+    edited = []
+    for spec in (SCRIPT_EDITS if owner == "ted-events" else ()):
+        sc, t = script_edit(spec, rom, prog, alloc, Tr, texts)
+        room = os.path.dirname(tilemaps[spec["pr_map"]])
+        folder = os.path.basename(os.path.dirname(room))
+        group = os.path.relpath(room, E.P.VANILLA).replace(os.sep, "/").split("/")[0]
+        mod.asset(group, "Assets/GameAssets/Serial/Res/Map/%s/%s/%s.json" % (folder, spec["pr_map"], spec["script"]),
+                  json.dumps(nop_stubs(sc), ensure_ascii=False, separators=(",", ":")),
+                  key="%s/%s" % (spec["pr_map"], spec["script"]))
+        edited.append({"event": spec["event"], "script": spec["script"], "pr_map": spec["pr_map"], "stubs": dict(t.stubs)})
     if report:
         report[0].setdefault("build", {}).update({"added_npcs": sum(len(v) for v in new_objs.values()),
                                                  "hidden_by_map_script": len(hidden), "standins": standins,
-                                                 "map_scripts_left_to_owner": left_owner})
+                                                 "map_scripts_left_to_owner": left_owner,
+                                                 "script_edits": edited})
     mod.text("story_mes_en").update(texts.mes)
     mod.text("story_cha_en").update(texts.cha)
     if write:
@@ -2163,9 +2277,15 @@ NEW_MAPS = 416          # T-Edition's maps 416-511 are its own (ted-maps: data/t
 PUB_QUESTS = os.path.join(E.P.ROOT, "data", "snes_event_ted_pub_quests.json")
 # events kept here whatever the rule says: built or started before the splits (the wine old man, South
 # Figaro's pub quest; Ruby's Shine's Tzen bandit on 305/306; the Gilgamesh chain across maps 153-413)
-BUILT_HERE = {"CD/5850", "CC/9CE0", "CC/5DD3", "CB/B7EE", "CD/33C0", "CB/316C", "CD/4E20",
+BUILT_HERE = {"CA/5366", "CD/5850", "CC/9CE0", "CC/5DD3", "CB/B7EE", "CD/33C0", "CB/316C", "CD/4E20",
               "CD/3BD0", "CC/6F41"}   # + Nikeah's and Kohlingen's entrances (pub quests; one folder per map script)
 EX_VANILLA_MAPS = range(200, 416)      # vanilla maps whose events ted-ex translates (mods/TEditionQuests)
+# new maps whose events ted-ex translates (the lead's X8/X10, 11-21): 467 the EX Moogle's Mog House side, 469 the
+# Collection Room (handed to ted-maps through data/ted_quests_maps.json)
+EX_NEW_MAPS = frozenset({467, 469})
+# single events given to another workstream than the rules say: Mr. Clio (map 415 NPC 0, audit E44) stands in
+# ted-maps' room of map 510 and is no pub quest
+OWNER_OVERRIDES = {"CD/FD10": "ted-maps"}
 
 
 def owner(row, quests=None):
@@ -2176,7 +2296,11 @@ def owner(row, quests=None):
         quests = pub_quests()
     if row["event"] in BUILT_HERE:
         return "ted-events"
+    if row["event"] in OWNER_OVERRIDES:
+        return OWNER_OVERRIDES[row["event"]]
     if row["event"] in quests:
+        return "ted-ex"
+    if row["map"] in EX_NEW_MAPS:
         return "ted-ex"
     if row["map"] >= NEW_MAPS:
         return "ted-maps"

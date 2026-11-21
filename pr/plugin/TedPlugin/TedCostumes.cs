@@ -39,6 +39,97 @@ namespace TEdition.PR
         {
             Dir = Path.Combine(dataDir, "costumes");
             for (int i = 0; i < Count; i++) applied[i] = -1;
+            LoadTitles(Path.Combine(dataDir, "ted_costumes.json"));
+        }
+
+        // audit D7: the job title follows the worn costume: the part of its name after the colon ("Silk Dress: Hybrid" ->
+        // "Hybrid"; data/ted_costumes.json, installed beside the plugin's data). The character's job name text
+        // (MSG_JOB_NAME_<job>, one job per character) is set at runtime; costume 0 puts the game's own back.
+        static readonly string[][] titles = new string[Count][];
+        static readonly int[][] falconSongs = new int[Count][];
+
+        // audit D6: SysCall "TED:falconsong [var]" from the Falcon's entrance event (SNES map 12, EB/0EA0): the party
+        // leader's worn costume picks the Falcon's song (data/ted_costumes.json falcon_bgm: a vanilla song's own PR track, a T-Edition song's PR
+        // bgm 1000 + song, which TedMusic plays). Map-local <var> (default 0) = 1 when a costume song started, 0 when the
+        // leader wears no costume (the event then plays its own per-character song).
+        public static void FalconSong(int var)
+        {
+            int played = 0;
+            try
+            {
+                var udm = Last.Management.UserDataManager.Instance();
+                var corps = udm?.GetCorpsListClone();
+                int leader = -1;
+                if (corps != null)
+                    foreach (var e in corps)
+                    {
+                        if (e == null || e.CharacterId == 0) continue;
+                        foreach (var o in udm.OwnedCharacterList) if (o != null && o.Id == e.CharacterId) { leader = o.characterStatusId - 1; break; }
+                        break;
+                    }
+                if (leader >= 0 && leader < Count)
+                {
+                    int k = Get(leader);
+                    int song = k > 0 && falconSongs[leader] != null && k < falconSongs[leader].Length ? falconSongs[leader][k] : 0;
+                    if (song > 0)
+                    {
+                        Last.Management.AudioManager.Instance?.PlayBgm(song);
+                        played = 1;
+                        TedLog.Rule(0, "falcon", () => $"the Falcon plays {Names[leader]}'s costume song {song:X2} (audit D6)");
+                    }
+                }
+            }
+            catch (Exception e) { Hooks.WarnOnce("ted-falcon-song", e); }
+            Last.Interpreter.DataStorage.Instance?.Set(Last.Interpreter.DataStorage.Category.kMapLocalVariable, var, played);
+        }
+        static readonly Dictionary<string, string> originalTitle = new Dictionary<string, string>();
+
+        static void LoadTitles(string path)
+        {
+            if (!File.Exists(path)) return;
+            try
+            {
+                using var doc = System.Text.Json.JsonDocument.Parse(File.ReadAllText(path));
+                var chars = doc.RootElement.GetProperty("characters");
+                int i = 0;
+                foreach (var ch in chars.EnumerateArray())
+                {
+                    if (i >= Count) break;
+                    var list = new List<string> { null };
+                    var songs = new List<int> { 0 };
+                    foreach (var co in ch.GetProperty("costumes").EnumerateArray())
+                    {
+                        songs.Add(co.TryGetProperty("falcon_bgm", out var fs) && fs.ValueKind == System.Text.Json.JsonValueKind.Number ? fs.GetInt32() : 0);
+                        var name = co.TryGetProperty("name", out var n) ? n.GetString() ?? "" : "";
+                        int colon = name.LastIndexOf(':');
+                        list.Add(colon >= 0 ? name.Substring(colon + 1).Trim() : null);
+                    }
+                    falconSongs[i] = songs.ToArray();
+                    titles[i++] = list.ToArray();
+                }
+            }
+            catch (Exception e) { Plugin.L.LogWarning($"[ted] costume titles: {e.Message}"); }
+        }
+
+        static void Title(int c, int k)
+        {
+            try
+            {
+                var owned = Last.Management.UserDataManager.Instance()?.OwnedCharacterList;
+                if (owned == null) return;
+                int job = 0;
+                foreach (var o in owned) if (o != null && o.characterStatusId == c + 1) { job = o.JobId; break; }
+                if (job <= 0) return;
+                string key = $"MSG_JOB_NAME_{job:D2}";
+                if (!originalTitle.ContainsKey(key)) originalTitle[key] = GameText.Get(key);
+                string want = k > 0 && titles[c] != null && k < titles[c].Length && !string.IsNullOrEmpty(titles[c][k]) ? titles[c][k] : originalTitle[key];
+                if (want != null && GameText.Get(key) != want)
+                {
+                    GameText.Set(key, want);
+                    TedLog.Rule(0, $"title-{c}", () => $"{Names[c]}'s title follows the costume: '{want}' (audit D7)");
+                }
+            }
+            catch (Exception e) { Hooks.WarnOnce("ted-costume-title", e); }
         }
 
         static Il2CppSystem.Collections.Generic.List<int> List() => Last.Management.UserDataManager.Instance()?.OwnedKeyWaordList;
@@ -91,6 +182,7 @@ namespace TEdition.PR
         {
             applied[c] = k;
             Layer("costume:" + Names[c], k == 0 ? null : Path.Combine(Dir, $"{Names[c]}_{k}"));
+            Title(c, k);
             State = $"{Names[c]} costume {k}";
         }
 

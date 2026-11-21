@@ -57,7 +57,8 @@ def data_files():
     out = sorted(glob.glob(os.path.join(PR, "build", "t-edition", "plugin", "*.json")))
     out += sorted(f for f in glob.glob(os.path.join(MAGICITE, "*.json")))
     for extra in (os.path.join(PR, "build", "t-edition", "ex", "ted_ex_ai.json"),
-                  os.path.join(PR, "data", "ted_monster_images.json")):      # bc-sprites' recipe (TedArt.cs)
+                  os.path.join(PR, "data", "ted_monster_images.json"),       # bc-sprites' recipe (TedArt.cs)
+                  os.path.join(PR, "data", "ted_costumes.json")):            # costume titles (TedCostumes, audit D7)
         if os.path.exists(extra):
             out.append(extra)
     return [f for f in out if os.path.basename(f).lower() != "build.json"]

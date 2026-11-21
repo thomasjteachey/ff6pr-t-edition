@@ -11285,7 +11285,7 @@
    "party": 1
   },
   "needs_formations": [],
-  "owner": "ted-ex"
+  "owner": "ted-events"
  },
  {
   "event": "CA/55DF",
@@ -12136,7 +12136,7 @@
    "flow": 35
   },
   "needs_formations": [],
-  "owner": "ted-ex"
+  "owner": "ted-maps"
  },
  {
   "event": "EA/1280",
@@ -24447,7 +24447,7 @@
   "translated": 2,
   "stubs": {},
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/80F4",
@@ -24466,7 +24466,7 @@
   "translated": 2,
   "stubs": {},
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/7D30",
@@ -24664,7 +24664,7 @@
    "sound": 4
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/AF30",
@@ -24684,7 +24684,7 @@
    "flow": 3
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/AF50",
@@ -24704,7 +24704,7 @@
    "flow": 3
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/AF70",
@@ -24724,7 +24724,7 @@
    "flow": 3
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/AF90",
@@ -24744,7 +24744,7 @@
    "flow": 3
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/AFB0",
@@ -24764,7 +24764,7 @@
    "flow": 3
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/AFD0",
@@ -24784,7 +24784,7 @@
    "flow": 3
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/AFF0",
@@ -24804,7 +24804,7 @@
    "flow": 3
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/B010",
@@ -24824,7 +24824,7 @@
    "flow": 3
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/1F50",
@@ -24844,7 +24844,7 @@
    "flow": 3
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/1F70",
@@ -24864,7 +24864,7 @@
    "flow": 3
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/7C00",
@@ -24884,7 +24884,7 @@
    "flow": 3
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/7C20",
@@ -24904,7 +24904,7 @@
    "flow": 3
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/7C40",
@@ -24924,7 +24924,7 @@
    "flow": 3
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/7C60",
@@ -24944,7 +24944,7 @@
    "flow": 3
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/7C80",
@@ -24964,7 +24964,7 @@
    "flow": 3
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/7CA0",
@@ -24984,7 +24984,7 @@
    "flow": 3
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/7CC0",
@@ -25004,7 +25004,7 @@
    "flow": 3
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/7CE0",
@@ -25024,7 +25024,7 @@
    "flow": 3
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/1F90",
@@ -25046,7 +25046,7 @@
    "screen": 2
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/1FC0",
@@ -25068,7 +25068,7 @@
    "screen": 2
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/2310",
@@ -25088,7 +25088,7 @@
    "flow": 2
   },
   "needs_formations": [],
-  "owner": "ted-maps"
+  "owner": "ted-ex"
  },
  {
   "event": "CD/7A00",

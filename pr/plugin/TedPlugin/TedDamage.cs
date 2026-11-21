@@ -72,9 +72,15 @@ namespace TEdition.PR
 
         // 15: the Atlas-type physical boost (CalcExecuteCorrection.PhysicalType 2, "BasketsOfGiants") +25% once,
         // however many are worn (T-Edition NOPs the double-boost branch at C2/0D62)
-        public static void Physical_Postfix(CalcExecuteCorrection.PhysicalType physicalType, ref float __result)
+        public static void Physical_Postfix(CalcExecuteCorrection.PhysicalType physicalType, Last.Data.User.OwnedCharacterData ownedCharacterData, ref float __result)
         {
             if (!On || (int)physicalType != 2) return;
+            // audit I5: T-Edition's other "physical attack up" items (relic bit 9.0: Gram, Gigas Glove, Brave Ring ...)
+            if (__result == 1f && TedRelics.Wears(ownedCharacterData, "9.0"))
+            {
+                __result = 1.25f;
+                TedLog.Rule(15, "relic-9.0", () => "a T-Edition physical-boost item: +25% (bit 9.0, audit I5)");
+            }
             float was = __result;
             if (was > 1.25f) __result = 1.25f;                 // a multiplier
             else if (was > 0.25f && was < 1f) __result = 0.25f; // a fraction
@@ -112,8 +118,16 @@ namespace TEdition.PR
         [ThreadStatic] static bool ownAsk;
 
         // rule 15 (heals): notes whether the game itself asks for the Earring boost while computing a heal
-        public static void MagicBoost_Postfix()
+        public static void MagicBoost_Postfix(CalcExecuteCorrection.MagicType magicType, Last.Data.User.OwnedCharacterData ownedCharacterData,
+                                              ref int equipNum, ref float __result)
         {
+            // audit I5: T-Edition's other "magic attack up" items (relic bit 9.1: Wizard Rod, Brave Ring ...) count as one Earring
+            if ((int)magicType == 0 && equipNum == 0 && TedRelics.Wears(ownedCharacterData, "9.1"))
+            {
+                equipNum = 1;
+                __result = 1.25f;
+                TedLog.Rule(15, "relic-9.1", () => "a T-Edition magic-boost item: +25% (bit 9.1, audit I5)");
+            }
             if (!ownAsk && healCalc != null) healCalc.GameBoostedHeal = true;
         }
 

@@ -148,7 +148,24 @@
      "event": "CA/3F73"
     }
    ],
-   "map_scripts_left_to_owner": []
+   "map_scripts_left_to_owner": [],
+   "script_edits": [
+    {
+     "event": "CA/5366",
+     "script": "sc_e_0616",
+     "pr_map": "Map_20291_1",
+     "stubs": {}
+    },
+    {
+     "event": "CA/5366",
+     "script": "sc_e_0625",
+     "pr_map": "Map_20291_1",
+     "stubs": {
+      "map": 1,
+      "sound": 1
+     }
+    }
+   ]
   }
  },
  {

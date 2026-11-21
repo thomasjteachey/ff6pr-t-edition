@@ -108,6 +108,8 @@ namespace TEdition.PR
                     Kit.Info($"[ted] New Game+: {clear.Count} story flags cleared, {set.Count} set");
                     TedLog.Rule(0, "ngplus", () => $"New Game+: {clear.Count} story flags cleared, {set.Count} set (audit N1-N3)");
                 }
+                else if (parts.Length >= 1 && parts[0] == "falconsong")
+                    TedCostumes.FalconSong(parts.Length > 1 && int.TryParse(parts[1], out int fv) ? fv : 0);   // audit D6
                 else if (parts.Length >= 1 && parts[0] == "song")
                 {
                     // audit S7: the song playing (T-Edition's own: its pack slot, C5 song n = n, bank-43 song n = $100 + n;
