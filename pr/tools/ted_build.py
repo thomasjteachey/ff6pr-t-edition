@@ -84,10 +84,13 @@ def data_rules(folder, log=print):
     _ensure_master_key(folder, "weapon")
     log(f"T-Edition data rules: weapon critical rate {rate} on {n} rows")
     for rule in (growth_rule, relm_magic_rule, command_rule, dancing_dagger_rule, consumable_rule, shop_rule,
-                 desperation_rule):
+                 desperation_rule, umaro_rule):
         rule(folder, log)
-    import ted_plugin_data   # the spec's rule 49: percent damage of current vs max HP (the TedPlugin session)
-    ted_plugin_data.percent_damage(folder, log)
+    import ted_plugin_data   # the TedPlugin session's data: rule 49's percent damage and the rows its rules need
+    if hasattr(ted_plugin_data, "data_rules"):
+        ted_plugin_data.data_rules(folder, log)
+    else:
+        ted_plugin_data.percent_damage(folder, log)
 
 
 class MasterRows:
@@ -185,6 +188,24 @@ def desperation_rule(folder, log=print):
         row["type_id"], row["condition_group_id"] = "620", "414"
     ab.save()
     log(f"T-Edition data rules: desperation attacks {list(DESPERATION_NEW)} as type 620, condition group 414")
+
+
+UMARO_ROW = 14                    # character_status: Umaro (SNES character 13)
+UMARO_COMMANDS = [1, 26, 19, 7, 3, 0]   # Attack, the PR's hidden Magitek slot, Control = Snowstorm (command_rule), Magic, Items
+
+
+def umaro_rule(folder, log=print):
+    """Umaro takes the player's commands in T-Edition: his SNES list is Fight, Control (= Snowstorm), Magic, Item. The porter's
+    pr_commands drops Magic for him (the PR's own Umaro has no Magic slot to keep), so his row gets the full list; his
+    initial Umalo condition (the PR's uncontrolled Umaro) is cleared, as TedPlugin's TedUmaro also does at runtime (the
+    audit's C28). Idempotent."""
+    cs = MasterRows(folder, "character_status")
+    row = cs.row(UMARO_ROW)
+    for k, cid in enumerate(UMARO_COMMANDS, 1):
+        row[f"command_id{k}"] = str(cid)
+    row["initial_condition_group"] = "0"
+    cs.save()
+    log(f"T-Edition data rules: Umaro's commands {UMARO_COMMANDS}, no initial Umalo condition")
 
 
 def set_messages(folder, texts):
