@@ -40,14 +40,14 @@ stalled ("the battle doesn't end") and ted-monsters hit `KeyNotFoundException` i
 | Events/story scenes | 44 | 0 | 1 | 35 | 8 | 0 |
 | Pub quests | 20 | 0 | 2 | 18 | 0 | 0 |
 | NG+/post-game | 8 | 0 | 2 | 3 | 3 | 0 |
-| Costumes/dressing room | 10 | 0 | 5 | 2 | 2 | 1 |
+| Costumes/dressing room | 10 | 0 | 6 | 3 | 0 | 1 |
 | Music | 8 | 0 | 4 | 3 | 1 | 0 |
-| Graphics | 14 | 1 | 4 | 4 | 5 | 0 |
-| Menus/UI/rooms (Collection, Achievements, Track Record) | 11 | 0 | 0 | 4 | 6 | 1 |
+| Graphics | 14 | 1 | 5 | 4 | 4 | 0 |
+| Menus/UI/rooms (Collection, Achievements, Track Record) | 11 | 0 | 0 | 5 | 5 | 1 |
 | Text/translation | 10 | 1 | 4 | 1 | 2 | 2 |
 | EX | 13 | 0 | 8 | 2 | 0 | 3 |
 | Platform patches (outside the game) | 4 | 0 | 0 | 0 | 0 | 4 |
-| **All** | **256** | **12** | **103** | **93** | **36** | **12** |
+| **All** | **256** | **12** | **105** | **95** | **32** | **12** |
 
 ## 2. Weighted completion
 
@@ -64,14 +64,14 @@ as a battle rule), so this is a feature count, not the effort-weighted table in 
 | Events/story scenes | 44 | 18.5 | 42% |
 | Pub quests | 20 | 11 | 55% |
 | NG+/post-game | 8 | 3.5 | 44% |
-| Costumes/dressing room | 9 | 6 | 67% |
+| Costumes/dressing room | 9 | 7.5 | 83% |
 | Music | 8 | 5.5 | 69% |
-| Graphics | 14 | 7 | 50% |
-| Menus/UI/rooms (Collection, Achievements, Track Record) | 10 | 2 | 20% |
+| Graphics | 14 | 8 | 57% |
+| Menus/UI/rooms (Collection, Achievements, Track Record) | 10 | 2.5 | 25% |
 | Text/translation | 8 | 5.5 | 69% |
 | EX | 10 | 9 | 90% |
 | Platform patches (outside the game) | 0 | 0 | (all LEFT OUT) |
-| **All** | **244** | **161.5** | **66%** |
+| **All** | **244** | **164.5** | **67%** |
 
 Read with care: only 12 of the 244 counted rows (5%) have been seen working in game; the 92 PORTED rows are code or data
 that has never run through its real trigger. PORTING.md's own estimate (~60%, effort-weighted) is close to this count,
@@ -320,8 +320,8 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | D3 | Costume choice kept in the save | (system) | PORTED | `TedCostumes.cs:10-24` ("TEC1" block) | — |
 | D4 | Unlocks by treasures, events, achievements (in order) | dressroom.html; Quick Advice | PARTIAL | unlocks listed in `data/ted_costumes.json`; achievements are U2 | [ted-maps] |
 | D5 | "The Best Models": change clothes at 12 inns and halls | change §1 "New Game+" list | PARTIAL | TED:costume in inn scripts sc_tedq_e_cb4486 (Map_20151_5, 20191_2, 20331_2, 20431_5), sc_tedq_e_cc657d, sc_tedq_e_cc6140; not run | [ted-ex] |
-| D6 | Falcon music by worn costume (53 songs) | dressroom.html; history | MISSING | PORTING.md music row "left: the Falcon's costume songs"; MEDIA_PLAN "the table isn't found yet" | find the table; a costume-to-bgm rule [TedPlugin] |
-| D7 | Job title follows the costume | EX history ("changing costumes now changes job titles") | MISSING | no code | [TedPlugin] |
+| D6 | Falcon music by worn costume (53 songs) | dressroom.html; history | PARTIAL | 2026-11-21 TedPlugin TED:falconsong + data/ted_costumes.json (56 costume songs); ted-events wires the call after ted-8pc | wire the SysCall [ted-events]; test in game |
+| D7 | Job title follows the costume | EX history ("changing costumes now changes job titles") | PORTED | 2026-11-21 TedPlugin: costume job titles from data/ted_costumes.json (BepInEx/TEdition) | test in game; ship ted_costumes.json in the zip |
 | D8 | Gogo's Chameleon Robe takes other characters' forms in battle | EX history | PORTED | `TedCostumes.cs:16-17` (10 forms) | — |
 | D9 | Imp's Feelings / Piggy's Badge cosmetic relics | history ("2 new accessories") | PORTED | `TedCostumes.cs:17-18` (slots 277/278) | — |
 | D10 | Costume stat bonuses | 2.9.x; removed in 3.0.0 | LEFT OUT | BATTLE_SPEC "Docs vs code": "The costume system changes graphics only ... Port nothing from it" (3.0.0 removed stats) | — |
@@ -354,7 +354,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | G9 | Collection Room paintings | Mato README "Collection Room"; history | MISSING | MEDIA_INVENTORY §4.4 "I found no separate image table ... unknown" | [bc-sprites] |
 | G10 | Animations for new/changed spells (Blink, Flood, Comet, Toad, Holy's new graphic ...) | change §2 "Magic"; 3.0.0 | PARTIAL | port_report "spells using their own slot's look (no name match): 10:Toad, 19:Flood, 20:Scourge, ... 32:Comet, 50:Blink ..." | pick PR effects per spell [lead] |
 | G11 | Casting motions (White, Summon), Time magic animation and sound, Trance casting, Cyan's battle entry | change §2 "Magic Casting Motions"; §3 | MISSING | no code | [TedPlugin] |
-| G12 | MP damage in pink, MP healing in blue | change §2 "MP Damage/Recovery Display" | MISSING | no code | number colour hook [TedPlugin] |
+| G12 | MP damage in pink, MP healing in blue | change §2 "MP Damage/Recovery Display" | PORTED | 2026-11-21 TedPlugin: MP numbers in T-Edition's colours (kit SnesMpNumbers, reviewed) | test in game |
 | G13 | Window types 2-8 after other Square games | change §1 "Window Type"; windowtype.html | MISSING | no code (MEDIA_INVENTORY §4.4 "not examined") | decide: PR window skins or leave out [lead] |
 | G14 | Weapon and item icons/battle sprites changed | EX history | PARTIAL | item identity: new rows take a template item's look (port_report "48 rows took their template's look") | [bc-sprites] |
 
@@ -371,7 +371,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | U7 | Select in battle: icons for Reraise, Defend, Runic, Sky, Charm, Love Token, Cloudy Heaven | change §2 "Information Display of Status Ailments of Allies" | MISSING | no code | [TedPlugin] |
 | U8 | Play time past 99:59 | change §1 "3 Digit Playtime" | MISSING | not checked on the PR, no code | check the PR's clock; hook if it stops [TedPlugin] |
 | U9 | Treasure message depends on the party lead | change §1 "Treasure Chest Message" | MISSING | no code | [TedPlugin] |
-| U10 | Rage list in alphabetical order | change §3 Gau | MISSING | no code | [TedPlugin] |
+| U10 | Rage list in alphabetical order | change §3 Gau | PARTIAL | 2026-11-21 TedPlugin TedRageOrder: Rages alphabetical; unverified that the battle menu uses that sort | check the battle menu in game [TedPlugin] |
 | U11 | Hidden debug win (Select+Up) | spec 59 | LEFT OUT | spec 59 "do not port" | — |
 
 ### Text/translation

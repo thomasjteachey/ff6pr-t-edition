@@ -96,6 +96,26 @@ def recount(text):
                   for a in areas}, tot, round(100 * done(tot) / n)
 
 
+# the dashboard's and PORTING.md's T-Edition rows: audit areas folded into them, with PORTING's weights
+DASHBOARD = {"data": (20, ["Items and equipment", "Characters/commands/espers/magic", "Monsters/formations/AI"]),
+             "maps": (15, ["Maps"]), "events": (20, ["Events/story scenes", "Pub quests", "NG+/post-game"]),
+             "battle": (15, ["Mechanics/battle", "EX"]), "text": (8, ["Text/translation"]), "music": (7, ["Music"]),
+             "graphics": (5, ["Graphics", "Costumes/dressing room"]),
+             "menus": (5, ["Menus/UI/rooms (Collection, Achievements, Track Record)"])}
+
+
+def dashboard(per, testing_pct=10):
+    """{row: %} for the dashboard rows, and the weighted total (the testing row, weight 5, given)."""
+    def done(c):
+        return c["TESTED"] + c["PORTED"] + c["PARTIAL"] / 2
+
+    def n(c):
+        return sum(c.values()) - c["LEFT OUT"]
+    out = {g: round(100 * sum(done(per[a][0]) for a in ar) / sum(n(per[a][0]) for a in ar)) for g, (_, ar) in DASHBOARD.items()}
+    total = sum(w * out[g] for g, (w, _) in DASHBOARD.items()) / 100 + 5 * testing_pct / 100
+    return out, total
+
+
 def main(argv):
     text, crlf = _read()
     if argv and argv[0] == "set":
@@ -105,6 +125,8 @@ def main(argv):
     print(f"audit: {pct}% ({', '.join(f'{s} {tot[s]}' for s in STATUSES)})")
     for a, (c, p) in per.items():
         print(f"  {a}: {p}%")
+    rows, total = dashboard(per)
+    print(f"dashboard rows: {rows}, weighted total {total:.1f}")
 
 
 if __name__ == "__main__":
