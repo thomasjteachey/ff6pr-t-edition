@@ -615,10 +615,46 @@ class TEdition(Profile):
     # Image is lost on a dodge half the time (vanilla a quarter; C2/232C): the spec's rule 22
     condition_tuning = {19: {"until_value": "50"}}
     # monsters on T-Edition's own SNES AI in the plugin (the kit's SnesAiHost; TedPlugin/TedEnemyAi.cs): no AI engine
-    # changes in the spec, status effects of scripts off until its fights are tested (the plugin's [Battle] option)
+    # changes in the spec. Status effects of scripts on (audit B5, 2026-11-21): the bosses take BNW's route
+    # (port_ai.BossPolicy.snes_reason: their T-Edition script in the plugin, the PR battle scripts that work alongside
+    # it listed below) instead of the compile route that kept 46 on the PR's AI; ted_ai.json says so ("status_effects")
+    # and TedEnemyAi turns the host's FB 0B/0C/02 on from it
     snes_ai = True
     snes_ai_rules = "vanilla"
-    snes_ai_status = False
+    snes_ai_status = True
+    # PR battle scripts that work with T-Edition's AI in the plugin (BNW's list where T-Edition's script does the same;
+    # each checked against T-Edition's own script, tools: port_ai snes_reason)
+    snes_ai_hybrid_scripts = {
+        "sc_b_0086": "Tunnel Armor's fight: the intro talk at the start (T-Edition's event 10 there, as vanilla)",
+        "sc_b_2025": "the Phantom Train's escape animation (the party's idle pose only; vanilla's script)",
+        "sc_b_2023": "Doom Gaze's HP kept between encounters (its HP save/restore)",
+        "sc_b_2018": "Fiend's counter routine fires only on the PR AI's variable 9: idle",
+        "sc_b_2009": "Ifrit/Shiva's tag-team routine moves one only on the PR AI's variable 9: idle; T-Edition's "
+                     "script has no swaps (no F5): both stay on screen (start_shows)",
+        "sc_b_0055": "Vargas: T-Edition's script has no battle events (no Mash joining, no Pummel finish; he dies "
+                     "at 0 HP): the PR routine waits on modes nobody sets",
+        "sc_b_0065": "Ultros at the Lete River: the PR plays its dive and the exit (mode 1) at event 0a",
+        "sc_b_0115": "Kefka's escape (Shadow gives chase): the PR plays it and the exit (mode 1) at event 1d",
+        "sc_b_0709_1": "the first Phunbaba: the PR's breath routine blows the party out and ends the fight (pr_ends)",
+    }
+    # SNES battle events (F7) -> the PR monster mode its battle script reads, or None (an intro or talk only)
+    snes_ai_events = {
+        260: {0x10: None},   # Tunnel Armor: the intro talk (sc_b_0086 at the start)
+        298: {0x20: None},   # Kefka (Narshe): a talk the PR doesn't have
+        300: {0x0A: 1},      # Ultros (Lete River): dives, the fight ends
+        367: {0x1D: 1},      # Kefka (camp): runs, Shadow gives chase
+    }
+    snes_ai_brought_in = {303: 360,   # Chupon, brought in by Ultros
+                          341: 340}   # Rizopas, brought in by the Piranhas' PR routine (sc_b_2004)
+    snes_ai_pr_ends = [364]           # the first Phunbaba: the PR's breath routine ends the fight
+    snes_ai_start_shows = [440]       # Ifrit and Shiva both from the start (T-Edition's script never hides one)
+    # monster battle lines (F3 "message n", audit T8): Mato's own English lines from its moved table (CF/E000, text in
+    # bank 55: tools/ted_dialog.BattleMessages) as story_mes keys TED_BTL_<n>_<line>, not the PR's vanilla lines
+    battle_messages = True
+
+    def battle_lines(self, rom):
+        import ted_dialog
+        return ted_dialog.BattleMessages()
     # the battle bits T-Edition's monster scripts read (FC 0C/0D/14/15) or write (F8/F9), from a scan of all 512 scripts
     # (ted-ex, 2026-11-21): port_ai gives them PR flags from the event sessions' shared allocator, so scenes and fights
     # see the same bit
@@ -670,7 +706,8 @@ class TEdition(Profile):
         if sa is not None and self.snes_ai:
             import port_monster_ext
             port_monster_ext.snes_ai_extend(sa)   # T-Edition's monsters 384-511 and formations 576-767 (ted-monsters)
-            out["ted_ai.json"] = {"snes_ai": sa}
+            # status_effects: the data was built for the host's FB 0B/0C/02 (bosses die by their script, B5)
+            out["ted_ai.json"] = {"snes_ai": sa, "status_effects": bool(self.snes_ai_status)}
         return out
 
     def item_mod_items(self, rom):

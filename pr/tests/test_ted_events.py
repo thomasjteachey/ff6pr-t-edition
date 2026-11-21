@@ -180,20 +180,22 @@ class WineOldMan(unittest.TestCase):
 
     def test_new_npc(self):
         # Gilgamesh in the Colosseum (map 413 NPC 6): no PR entity and no PR sprite -> a new NPC object
-        # (entity 5000+) on the guard's look in the room's entity_default, running the event; listed as a
-        # stand-in for bc-sprites
+        # (entity 5000+) in the room's entity_default, running the event, on T-Edition's own look for him (ted-maps'
+        # art, ted_art_looks: sprite 221 -> mapobject 3100), else the guard's (a stand-in for bc-sprites)
         out = os.path.join(tempfile.mkdtemp(), "TEditionEvents")
         report, mod = TE.build(out=out, events=[dict(event=0x34E20, map=413, npc=6)], write=False, prog=prog())
         mod.write()
         w = report[0]["wired"][0]
         self.assertTrue(w["new"] and w["entity"] in TE.NEW_ENTITY_IDS)
-        self.assertEqual(report[0]["build"]["standins"][0]["sprite"], 221)
+        art = TE.ted_art_looks().get(221)
+        if art is None:
+            self.assertEqual(report[0]["build"]["standins"][0]["sprite"], 221)
         room = os.path.join(out, "map_20421", "Assets", "GameAssets", "Serial", "Res", "Map", "Map_20421", "Map_20421_2")
         objs = [{q["name"]: q["value"] for q in o["properties"]} for lay in TE._json(os.path.join(room, "entity_default.json"))["layers"]
                 for o in lay.get("objects") or []]
         new = [o for o in objs if o.get("entity_id") == w["entity"]]
         self.assertEqual([(o["script_id"], o["action_id"], o["object_type"], o["asset_id"]) for o in new],
-                         [(w["script_id"], 2, 6, TE.STANDIN_LOOK)])
+                         [(w["script_id"], 2, 6, TE.STANDIN_LOOK if art is None else art)])
 
     def test_party_checks(self):
         # DE (the active party) then "if any of bits 1A0+c": character c here -> the PR's BranchByCharacter

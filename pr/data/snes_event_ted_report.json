@@ -67,60 +67,6 @@
    "hidden_by_map_script": 17,
    "standins": [
     {
-     "sprite": 221,
-     "snes_map": 413,
-     "npc": 6,
-     "pr_map": "Map_20421_2",
-     "look": 51,
-     "entity": 5000,
-     "event": "CD/4E20"
-    },
-    {
-     "sprite": 221,
-     "snes_map": 384,
-     "npc": 4,
-     "pr_map": "Map_30531_4",
-     "look": 51,
-     "entity": 5001,
-     "event": "CB/316C"
-    },
-    {
-     "sprite": 95,
-     "snes_map": 384,
-     "npc": 5,
-     "pr_map": "Map_30531_4",
-     "look": 51,
-     "entity": 5002,
-     "event": "CB/316C"
-    },
-    {
-     "sprite": 221,
-     "snes_map": 221,
-     "npc": 19,
-     "pr_map": "Map_30510",
-     "look": 51,
-     "entity": 5003,
-     "event": "CD/33C0"
-    },
-    {
-     "sprite": 225,
-     "snes_map": 128,
-     "npc": 2,
-     "pr_map": "Map_20401_1",
-     "look": 51,
-     "entity": 5027,
-     "event": "CD/37A1"
-    },
-    {
-     "sprite": 221,
-     "snes_map": 153,
-     "npc": 0,
-     "pr_map": "Map_30441_9",
-     "look": 51,
-     "entity": 5036,
-     "event": "CB/B7EE"
-    },
-    {
      "sprite": 12,
      "snes_map": 7,
      "npc": 18,
@@ -148,7 +94,9 @@
      "event": "CA/3F73"
     }
    ],
-   "map_scripts_left_to_owner": [],
+   "map_scripts_left_to_owner": [
+    "sc_map_30531_4"
+   ],
    "script_edits": [
     {
      "event": "CA/5366",
@@ -800,6 +748,64 @@
    "sound song wait": 1,
    "sound stub:sound": 1,
    "wait ok": 20
+  }
+ },
+ {
+  "event": "EB/0EA0",
+  "script": "sc_ted_eb0ea0",
+  "pr_map": "Map_20391_2",
+  "translated": {
+   "flow": 2494,
+   "map": 8,
+   "flag": 238,
+   "sound": 70,
+   "object": 2
+  },
+  "stubs": {
+   "object": 838
+  },
+  "wired": [
+   {
+    "layer": "sc_map_20391_2",
+    "entity": null,
+    "was": "sc_map_20391_2",
+    "now": "sc_ted_eb0ea0_m20391_2",
+    "script_id": null,
+    "entrance": true
+   },
+   {
+    "layer": "sc_map_20391_1",
+    "entity": null,
+    "was": "sc_map_20391_1",
+    "now": "sc_ted_eb0ea0_m20391_1",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20391_1"
+   },
+   {
+    "layer": "sc_map_20391_3",
+    "entity": null,
+    "was": "sc_map_20391_3",
+    "now": "sc_ted_eb0ea0_m20391_3",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20391_3"
+   }
+  ],
+  "detail": {
+   "flag battle bit -> flag": 238,
+   "flow A5 in a party": 105,
+   "flow A5 roster bit": 210,
+   "flow case load": 105,
+   "flow engine bit (as on a walk-in)": 1,
+   "flow ok": 1969,
+   "flow party check": 105,
+   "map tiles: the PR map shows it": 8,
+   "object camera": 2,
+   "object ok": 2,
+   "object stub:obj_graphics": 420,
+   "object stub:obj_palette": 418,
+   "sound ok": 70
   }
  },
  {

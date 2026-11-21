@@ -35,15 +35,16 @@ namespace TEdition.PR
 
         public const int ExFirst = 512;
         internal static SnesAiData Data;
-        internal static bool Status;
+        internal static bool Status, DataStatus;
         internal static string State = "not loaded";
         internal static int ExMonsters, ExOverrides;
 
         public static void Apply(Harmony h, string path, string exPath, bool statusEffects)
         {
-            Status = statusEffects;
             var mod = new Ted();
             Data = Load(path, null);
+            // the porter's snes_ai_status (audit B5: bosses on their T-Edition scripts die by them) or the [Battle] option
+            Status = statusEffects || DataStatus;
             var ex = Load(exPath, mod.ExAttacks);
             if (ex != null)
             {
@@ -60,7 +61,7 @@ namespace TEdition.PR
             mod.D = Data;
             SnesAiHost.Patch(h, mod);
             State = $"{Data.Plugin.Count} monsters on their T-Edition scripts ({ExMonsters} EX scripts, {ExOverrides} EX attack overrides), " +
-                    $"{Data.BossDeath.Count} bosses die by script";
+                    $"{Data.BossDeath.Count} bosses die by script, script status effects {(Status ? "on" : "off")}";
             Kit.Info($"[ted] enemy AI: {State}");
         }
 
@@ -77,6 +78,8 @@ namespace TEdition.PR
                     return null;
                 }
                 var d = SnesAiData.Parse(sai);
+                if (overrides == null && doc.RootElement.TryGetProperty("status_effects", out var se) && se.ValueKind == JsonValueKind.True)
+                    DataStatus = true;
                 if (overrides != null && sai.TryGetProperty("attack_overrides", out var ao) && ao.ValueKind == JsonValueKind.Object)
                     foreach (var p in ao.EnumerateObject()) overrides[int.Parse(p.Name)] = p.Value.GetInt32();
                 return d;

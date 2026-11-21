@@ -154,6 +154,57 @@ def rom_bytes():
         return fh.read()
 
 
+# Monster battle lines (the SNES AI's F3 "message n"; audit T8): Mato moved vanilla's table (US C1/9846 LDA CF/DFE0,X,
+# text bank CF) to pointers at CF/E000 with the text in bank 55 (its C1/97F4: LDA #$55, STA $88A9 ... LDA $CFE000,X),
+# in this dialogue encoding: 01 new line, 05 pause, 02 nn a character's name, 6F an asterisk (*sploosh*).
+BATTLE_PTRS = 0x0FE000
+BATTLE_BANK = 0x550000
+
+
+def battle_lines(d, index, tags=True):
+    """Battle message `index` (0-255) -> its lines (pauses dropped, names as PR tags or plain names)."""
+    if not 0 <= index < 256:
+        return []
+    f = BATTLE_BANK | d[BATTLE_PTRS + 2 * index] | d[BATTLE_PTRS + 2 * index + 1] << 8
+    out, cur, k = [], [], f
+    while k < len(d) and d[k] != 0 and k - f < 600:
+        c = d[k]
+        if c == 0x01:
+            out.append("".join(cur))
+            cur = []
+        elif c == 0x05:
+            cur.append(" ")
+        elif c == 0x02:
+            k += 1
+            n = d[k] if k < len(d) else 0
+            cur.append((PR_TAGS if tags else NAMES)[n] if n < 14 else "")
+        elif c == 0x6F:
+            cur.append("*")
+        else:
+            cur.append(glyph(c) or "")
+        k += 1
+    out.append("".join(cur))
+    return [" ".join(x.split()) for x in out if x.split()]
+
+
+class BattleMessages:
+    """port_ai's battle line source for T-Edition (profile_tedition.battle_lines): message index -> story_mes keys
+    TED_BTL_<index>_<n>, one per line, shown in turn; .texts holds the lines (battle_text.Messages' interface)."""
+    def __init__(self, prefix="TED_BTL"):
+        self.d, self.prefix = rom_bytes(), prefix
+        self.keys, self.texts = {}, {}
+
+    def __call__(self, index):
+        if index not in self.keys:
+            ks = []
+            for n, line in enumerate(battle_lines(self.d, index), 1):
+                key = f"{self.prefix}_{index:03d}_{n:02d}"
+                self.texts[key] = line
+                ks.append(key)
+            self.keys[index] = ks
+        return self.keys[index]
+
+
 def pr_text(d, f):
     """A dialogue as a PR story line: names as tags, a speaker's "Name:" prefix split off,
     pages as <P>, lines as \\n (literal, as the message files write it). -> (speaker, text)."""

@@ -104,6 +104,7 @@ def _place_npc(rom, prog, Tr, texts, alloc, ids, mod, m, det, addr, name, script
 
 VANILLA_NPC_BASE = 5900          # entity ids of vanilla NPCs placed anew (ted-ex's 5500-5999; _place_npc's 5500+)
 STANDINS_FILE = os.path.join(P.ROOT, "data", "ted_quests_npc_standins.json")   # for bc-sprites, as ted-events'
+MAP_SCRIPTS_FILE = os.path.join(P.ROOT, "data", "ted_quests_map_scripts.json")  # the load scripts this folder ships
 
 
 def _place_vanilla_npc(rom, prog, Tr, texts, alloc, ids, mod, m, det, addr, name, scripts, fixed, hidden,
@@ -176,6 +177,44 @@ def _place_vanilla_npc(rom, prog, Tr, texts, alloc, ids, mod, m, det, addr, name
                      "script_id": sid, "asset_id": look, "standin": standin, "translated": sum(t.done.values()),
                      "stubs": dict(t.stubs), "needs_formations": sorted(t.needs_formations)})
     return rows
+
+
+def _scene_npcs(rom, prog, Tr, alloc, m, addr, pr, room, group, folder, lay, fixed, hidden, standins, taken_ms):
+    """The NPCs an event's scene shows, moves or hides that the PR room has no entity for (TE.build's
+    add_scene_npcs): new NPC objects at their SNES spots, known to the translator (Tr.created), hidden by the
+    room's map script while their show bit is clear. In a room whose map script another folder ships only
+    NPCs whose show bit has no PR flag (always shown) are added; the others stay stubs."""
+    import event_translate as T
+    import snes_events as E
+    import snes_maps as SM
+    import ted_events as TE
+    mt = next((x for x in SM.pr_maps(m) if x.pr == pr), None)
+    if mt is None:
+        return
+    probe = Tr(rom, "probe", snes_map=m, alloc=alloc, prog=prog, pr_map=pr)
+    probe.layers = lay
+    recs = TE.npc_records(m)
+    key = (room, group, folder, pr)
+    ms = TE.map_script_name(pr)
+    for n in sorted({i.args["obj"] - 0x10 for i in T.scene(prog, E.parse_addr(addr), "field")
+                     if isinstance(i.args.get("obj"), int) and 0x10 <= i.args["obj"] < 0x30}):
+        r = recs.get(n)
+        if r is None or (pr, m, n) in Tr.created or probe.npc_entity(n) is not None:
+            continue
+        bit = TE.NPC_BITS + r["show_bit"]
+        tied = not probe.untied(bit)
+        if tied and (ms is None or ms in taken_ms):
+            continue                     # can't hide it there: left a stub
+        eid = VANILLA_NPC_BASE + len(fixed[key])
+        Tr.created[(pr, m, n)] = eid
+        look, standin = TE.npc_look(rom, r["sprite"])
+        fixed[key].append(TE.npc_object(r["x"] + mt.dx, r["y"] + mt.dy, eid, look,
+                                        TE.DIRECTION.get(r.get("direction", 2), 4), 0, "TEditionNPC_%d_%d" % (m, n)))
+        if tied:
+            hidden.setdefault((group, folder, pr), []).append((m, n, bit, eid))
+        if standin:
+            standins.append({"sprite": r["sprite"], "snes_map": m, "npc": n, "pr_map": pr, "look": look,
+                             "entity": eid, "event": addr})
 
 
 def _entrance(rom, prog, Tr, texts, alloc, m, addr, name, entrances, taken_ms):
@@ -374,7 +413,7 @@ def _json(path):
         return json.load(f)
 
 
-BATCH_KINDS = ("tile", "npc")    # the vanilla-map events built so far (story order: tiles, then entrances, then NPCs)
+BATCH_KINDS = ("tile", "npc", "entrance")    # the vanilla-map events built (entrances run after the room's own load script)
 
 
 def catalog_events():
@@ -573,6 +612,8 @@ def build(out=OUT, events=None, write=True, log=print):
                 wired = []
                 conflicts = []
                 for pr, room, group, folder, lay, oid, sid in targets:
+                    _scene_npcs(rom, prog, Tr, alloc, m, addr, pr, room, group, folder, lay, fixed, hidden,
+                                standins, taken_ms)
                     prior = owners.get((room, group, folder, pr, lay, oid))
                     sn = "sc_tedq_%s_%s_%s" % (name, pr[4:].lower(), lay.replace("ev_e_", "l").replace("entity_default", "d"))
                     if prior is not None and prior[1] == sn:
@@ -688,6 +729,7 @@ def build(out=OUT, events=None, write=True, log=print):
                   key="package")
     # the rooms' map scripts for the vanilla NPCs placed anew: hide each while its SNES show bit is clear
     # (a bit with no PR tie: always shown), then the PR's own map script (as TE.build's prologue)
+    written_ms = set()
     for (group, folder, pr) in sorted(set(hidden) | set(entrances)):
         import event_translate as T
         items = hidden.get((group, folder, pr), [])
@@ -712,6 +754,7 @@ def build(out=OUT, events=None, write=True, log=print):
         sc = t.assemble(ms, [T.lab("Main")] + ops + [T.op("Call", i=["@" + label], comment="the PR's own " + ms)]
                         + tail + [T.op("Exit")], t.blocks)
         nop_stubs(sc)                    # (in place; it returns a count)
+        written_ms.add(ms)
         mod.asset(group, f"{RES}/{folder}/{pr}/{ms}.json", json.dumps(sc, ensure_ascii=False, separators=(",", ":")),
                   key=f"{pr}/{ms}")
     for key in list(added) + list(fixed):
@@ -754,6 +797,13 @@ def build(out=OUT, events=None, write=True, log=print):
                            "npcs": standins}, ensure_ascii=False, indent=1)
         if not os.path.exists(STANDINS_FILE) or open(STANDINS_FILE, encoding="utf-8").read() != text:
             with open(STANDINS_FILE, "w", encoding="utf-8") as f:
+                f.write(text)
+        # the rooms' load scripts this folder ships (one owner per map script): ted-events/ted-maps leave them be
+        ms = sorted(written_ms)
+        text = json.dumps({"about": "tools/ted_quests.py: the PR rooms' load scripts (sc_map_<room>) mods/TEditionQuests "
+                                    "ships; other T-Edition builders must not write them", "map_scripts": ms}, indent=1)
+        if not os.path.exists(MAP_SCRIPTS_FILE) or open(MAP_SCRIPTS_FILE, encoding="utf-8").read() != text:
+            with open(MAP_SCRIPTS_FILE, "w", encoding="utf-8") as f:
                 f.write(text)
         with open(os.path.join(os.path.dirname(REPORT), "npc_match.json"), "w", encoding="utf-8") as f:
             json.dump({"by_look": sprite_matched, "unmatched": unmatched, "blocked": blocked,

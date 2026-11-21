@@ -70,6 +70,7 @@ namespace TEdition.PR
             if (TedMode) TedSysCalls.Apply(H);
             if (TedMode) TedMagicite.Apply(H);   // rule 35
             if (TedMode) TedStatusPage.Patch(H);   // audit U4: elements and immunities on the status screen
+            if (TedMode) TedChestLines.Patch(H);   // audit U9: the chest line by party lead
             // audit G12: MP damage pink, MP healing blue (the kit's SnesMpNumbers)
             if (TedMode) PrKit.Ff6.SnesMpNumbers.Apply(H, new PrKit.Ff6.SnesMpNumbersMod
             {
@@ -104,7 +105,7 @@ namespace TEdition.PR
             if (TedMode) TedEnemyAi.Apply(H, Path.Combine(DataDir, "ted_ai.json"), Path.Combine(DataDir, "ted_ex_ai.json"),
                 Config.Bind("Battle", "ScriptStatusEffects", false,
                     "Monster scripts may set/clear statuses on themselves and end the battle (SNES AI FB 0B/0C/02; T-Edition's boss deaths). " +
-                    "Off until T-Edition's fights are tested with them.").Value);
+                    "On anyway when ted_ai.json was built for them (its \"status_effects\": the bosses on their T-Edition scripts, audit B5).").Value);
             L.LogInfo($"T-Edition {Version}: data {(TedMode ? "installed" : "missing")}, " +
                       $"{(DataError == null ? $"ted_data {D.Version} ({D.Items.Count} items, {D.NewWeapons.Count} new weapon rows, {D.HalfIgnoreDefense.Count} half-damage monsters)" : DataError)}; " +
                       $"load {clock.Elapsed.TotalSeconds:0.00} s");

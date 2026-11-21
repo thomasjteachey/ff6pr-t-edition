@@ -465,16 +465,22 @@ class _lock:
     """Holds LOCK (a folder with owner.txt) for one build; waits up to 10 minutes for another build, takes over a lock
     whose process is gone."""
 
+    held = 0   # re-entrant within one process (main holds it around the build and its checks)
+
     def __init__(self, log=print):
         self.log = log
 
     def __enter__(self):
         import time
+        if _lock.held:
+            _lock.held += 1
+            return self
         for i in range(600):
             try:
                 os.mkdir(LOCK)
                 with open(os.path.join(LOCK, "owner.txt"), "w", encoding="utf-8") as f:
                     f.write(f"{os.getpid()} {time.strftime('%H:%M:%S')} {' '.join(sys.argv)}\n")
+                _lock.held = 1
                 return self
             except FileExistsError:
                 try:
@@ -491,7 +497,9 @@ class _lock:
         raise SystemExit(f"ted_build: another build still holds {LOCK} after 10 minutes")
 
     def __exit__(self, *exc):
-        shutil.rmtree(LOCK, ignore_errors=True)
+        _lock.held -= 1
+        if not _lock.held:
+            shutil.rmtree(LOCK, ignore_errors=True)
 
 
 def _alive(pid):
@@ -651,6 +659,12 @@ def _build(run_port, full, log):
 
 
 def main(argv):
+    with _lock():   # the build and its checks under one lock: another session's build can't change OUT between them
+        ok = _main(argv)
+    sys.exit(0 if ok else 1)
+
+
+def _main(argv):
     rep, problems = build(run_port="--no-port" not in argv, full="--full" in argv, check="--verify" in argv)
     ok = not rep.conflicts and not problems
     if "--test" in argv:
@@ -662,7 +676,7 @@ def main(argv):
         r = subprocess.run([sys.executable, os.path.join(P.ROOT, "tools", "magicite_check.py"), OUT],
                            env=dict(os.environ, PYTHONIOENCODING="utf-8"), cwd=P.ROOT)
         ok = ok and r.returncode == 0
-    sys.exit(0 if ok else 1)
+    return ok
 
 
 if __name__ == "__main__":

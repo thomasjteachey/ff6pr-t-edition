@@ -2,6 +2,78 @@
  "about": "tools/ted_quests.py: vanilla NPCs placed anew on a stand-in look (the PR has no sprite for their SNES sprite), for bc-sprites, as data/ted_npc_standins.json",
  "npcs": [
   {
+   "sprite": 169,
+   "snes_map": 231,
+   "npc": 0,
+   "pr_map": "Map_20161_2",
+   "look": 51,
+   "entity": 5900,
+   "event": "CA/B71A"
+  },
+  {
+   "sprite": 172,
+   "snes_map": 231,
+   "npc": 18,
+   "pr_map": "Map_20161_2",
+   "look": 51,
+   "entity": 5907,
+   "event": "CA/B71A"
+  },
+  {
+   "sprite": 169,
+   "snes_map": 233,
+   "npc": 0,
+   "pr_map": "Map_20161_2",
+   "look": 51,
+   "entity": 5908,
+   "event": "CA/B71A"
+  },
+  {
+   "sprite": 172,
+   "snes_map": 233,
+   "npc": 2,
+   "pr_map": "Map_20161_2",
+   "look": 51,
+   "entity": 5910,
+   "event": "CA/B71A"
+  },
+  {
+   "sprite": 172,
+   "snes_map": 233,
+   "npc": 18,
+   "pr_map": "Map_20161_2",
+   "look": 51,
+   "entity": 5915,
+   "event": "CA/B71A"
+  },
+  {
+   "sprite": 172,
+   "snes_map": 234,
+   "npc": 2,
+   "pr_map": "Map_20161_2",
+   "look": 51,
+   "entity": 5916,
+   "event": "CA/B71A"
+  },
+  {
+   "sprite": 172,
+   "snes_map": 235,
+   "npc": 2,
+   "pr_map": "Map_20161_5",
+   "look": 51,
+   "entity": 5901,
+   "event": "CA/BF41"
+  },
+  {
+   "sprite": 108,
+   "snes_map": 235,
+   "npc": 10,
+   "pr_map": "Map_20161_5",
+   "look": 51,
+   "entity": 5906,
+   "event": "CA/BF41"
+  },
+  {
    "sprite": 94,
    "snes_map": 237,
    "npc": 5,
@@ -36,6 +108,87 @@
    "look": 51,
    "entity": 5900,
    "event": "CC/D6E1"
+  },
+  {
+   "sprite": 126,
+   "snes_map": 291,
+   "npc": 1,
+   "pr_map": "Map_30871_24",
+   "look": 51,
+   "entity": 5900,
+   "event": "CC/181D"
+  },
+  {
+   "sprite": 130,
+   "snes_map": 291,
+   "npc": 4,
+   "pr_map": "Map_30871_24",
+   "look": 51,
+   "entity": 5902,
+   "event": "CC/181D"
+  },
+  {
+   "sprite": 131,
+   "snes_map": 291,
+   "npc": 5,
+   "pr_map": "Map_30871_24",
+   "look": 51,
+   "entity": 5903,
+   "event": "CC/181D"
+  },
+  {
+   "sprite": 126,
+   "snes_map": 291,
+   "npc": 7,
+   "pr_map": "Map_30871_24",
+   "look": 51,
+   "entity": 5904,
+   "event": "CC/181D"
+  },
+  {
+   "sprite": 212,
+   "snes_map": 364,
+   "npc": 16,
+   "pr_map": "Map_30750",
+   "look": 51,
+   "entity": 5916,
+   "event": "CC/5441"
+  },
+  {
+   "sprite": 207,
+   "snes_map": 375,
+   "npc": 1,
+   "pr_map": "Map_30591_1",
+   "look": 51,
+   "entity": 5901,
+   "event": "CB/F2AB"
+  },
+  {
+   "sprite": 233,
+   "snes_map": 375,
+   "npc": 4,
+   "pr_map": "Map_30591_1",
+   "look": 51,
+   "entity": 5903,
+   "event": "CB/F2AB"
+  },
+  {
+   "sprite": 233,
+   "snes_map": 375,
+   "npc": 6,
+   "pr_map": "Map_30591_1",
+   "look": 51,
+   "entity": 5904,
+   "event": "CB/F2AB"
+  },
+  {
+   "sprite": 182,
+   "snes_map": 375,
+   "npc": 10,
+   "pr_map": "Map_30591_1",
+   "look": 51,
+   "entity": 5907,
+   "event": "CB/F2AB"
   },
   {
    "sprite": 118,
@@ -155,6 +308,24 @@
    "event": "CB/39C0"
   },
   {
+   "sprite": 81,
+   "snes_map": 393,
+   "npc": 1,
+   "pr_map": "Map_30600",
+   "look": 51,
+   "entity": 5900,
+   "event": "CA/5774"
+  },
+  {
+   "sprite": 155,
+   "snes_map": 394,
+   "npc": 2,
+   "pr_map": "Map_30600",
+   "look": 51,
+   "entity": 5901,
+   "event": "CA/DD14"
+  },
+  {
    "sprite": 138,
    "snes_map": 408,
    "npc": 1,
@@ -171,6 +342,15 @@
    "look": 51,
    "entity": 5901,
    "event": "CC/2051"
+  },
+  {
+   "sprite": 174,
+   "snes_map": 413,
+   "npc": 1,
+   "pr_map": "Map_20421_3",
+   "look": 51,
+   "entity": 5901,
+   "event": "CB/785A"
   }
  ]
 }

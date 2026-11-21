@@ -101,6 +101,19 @@ def data_rules(folder, log=print):
     """TedPlugin's data rules on a staged port folder (tools/ted_build.py calls it; idempotent)."""
     rampage_rule(folder, log)
     percent_damage(folder, log)
+    chest_rule(folder, log)
+
+
+CHEST_KEY = "TED_CHEST_{:02d}"   # + lead character 0-13 (TedChestLines.cs)
+
+
+def chest_rule(folder, log=print):
+    """Audit U9: T-Edition's chest line per lead character as text keys TED_CHEST_00..13 (English; the PR's own
+    T0001_01_01 elsewhere and for Banon, Ghost, Leo or an empty lead slot): <CT> on every line as the PR's."""
+    import ted_build as B
+    lines = chest_lines()
+    B.set_messages(folder, {CHEST_KEY.format(c): t.replace("\\n", "\\n<CT>") for c, t in enumerate(lines)})
+    log(f"T-Edition chest lines: {len(lines)} keys {CHEST_KEY.format(0)}..{CHEST_KEY.format(len(lines) - 1)}")
 
 
 def percent_damage(folder, log=print):
@@ -275,6 +288,22 @@ RELIC_BITS = ((9, 0), (9, 1), (9, 2), (9, 3), (11, 0), (11, 2), (11, 7), (12, 0)
               (13, 5), (13, 6), (5, 0), (5, 1))
 
 
+CHEST_LINES = 657   # EE dialogues 657-670: T-Edition's "found an item" line per lead character (change.html §1)
+
+
+def chest_lines():
+    """T-Edition's chest message for each lead character 0-13 (Terra..Umaro), as a PR line: name tags, (ITEM_N)
+    for the item, literal \n line breaks, centred like the PR's own T0001_01_01."""
+    import ted_dialog as D
+    d = D.rom_bytes()
+    out = []
+    for c in range(14):
+        t = D.text(d, D.file_of(d, D.PTRS2, CHEST_LINES + c), tags=True)
+        assert "<item>" in t, (c, t)
+        out.append("<CT>" + t.strip("\n").replace("<item>", "(ITEM_N)").replace("\n", "\\n"))
+    return out
+
+
 def relic_bits(rom):
     """{"9.0": [item slots], ...}: T-Edition's items (its US-layout image) setting each relic bit."""
     out = {}
@@ -397,6 +426,8 @@ def main(argv):
         "abilities": {**{name: M.spell(spell) for name, spell in NAMED_SPELLS.items() if M.spell(spell) is not None},
                       "rampage": RAMPAGE_ID},
         "esper_bonus_vanilla": [[M.esper_content(e), r[10]] for e, r in enumerate(S.Rom(P.VANILLA_ROM).table(*S.ESPERS))],
+        # audit U9: the chest line by party lead (Terra..Umaro), PR text with (ITEM_N) for the item (TedChestLines)
+        "chest_lines": chest_lines(),
     }
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     with open(out_path, "w", encoding="utf-8") as f:

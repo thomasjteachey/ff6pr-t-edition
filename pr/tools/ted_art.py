@@ -388,6 +388,9 @@ def costumes(out=COSTUME_OUT, walk=False, sheet=None, log=print):
     import ted_npc_art
     ted_npc_art.write(default, log=log)
     ted_npc_art.write_story(default, log=log)
+    # T-Edition's recoloured battle backgrounds (the audit's G8), in default/
+    import ted_battle_bgs
+    ted_battle_bgs.build(default, log=log)
     # Gogo's Chameleon Robe: each battle one of 10 battle-only looks, the battle sheets of slots 16-25 (ROM read:
     # 42/6000 + its colors at 42/5E00) drawn on Gogo's battle group (no field atlas, no portrait)
     gogo = slots["12"]

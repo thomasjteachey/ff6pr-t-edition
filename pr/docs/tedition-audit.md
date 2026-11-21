@@ -19,6 +19,8 @@ For events: PORTED needs every event of the feature scripted with at most 10% of
 script has run in game through its trigger yet (ted-7's quest scripts were refused: "didn't start (not in map 42's list,
 or a script runs)", `build/test_logs/ted-7-laptop.out`).
 
+Stubs and PORTED (the lead, 2026-11-21): a translated event or quest is PORTED only when every stub it still has is cosmetic (sound, animation, facing, screen effects); any logic stub (a branch, random jump, condition test, flag, warp, item or party change) keeps it PARTIAL, with those stubs named in its work column.
+
 In-game evidence available (ted-7, laptop, 2026-11-21; `build/test_logs/20261121-025612_*`, shots in
 `build/t-edition/shots/`): teddamage 7 ok / 0 failed; tedsteal ok; tedcheck 312/313; new-monster battles 30723, 30726,
 2542, 30696 started (shot `ted_mon_30723.png`: Seraph in battle); new maps 724, 697, 691 loaded by warp (shot
@@ -32,22 +34,22 @@ stalled ("the battle doesn't end") and ted-monsters hit `KeyNotFoundException` i
 
 | Area | Rows | TESTED | PORTED | PARTIAL | MISSING | LEFT OUT |
 |---|---:|---:|---:|---:|---:|---:|
-| Mechanics/battle | 44 | 5 | 26 | 7 | 5 | 1 |
+| Mechanics/battle | 44 | 5 | 27 | 6 | 5 | 1 |
 | Items and equipment | 21 | 1 | 17 | 2 | 1 | 0 |
 | Characters/commands/espers/magic | 31 | 1 | 20 | 7 | 3 | 0 |
 | Monsters/formations/AI | 9 | 1 | 6 | 2 | 0 | 0 |
 | Maps | 9 | 2 | 5 | 2 | 0 | 0 |
-| Events/story scenes | 44 | 0 | 1 | 35 | 8 | 0 |
-| Pub quests | 20 | 0 | 2 | 18 | 0 | 0 |
-| NG+/post-game | 8 | 0 | 2 | 3 | 3 | 0 |
-| Costumes/dressing room | 10 | 0 | 6 | 3 | 0 | 1 |
+| Events/story scenes | 44 | 0 | 5 | 34 | 5 | 0 |
+| Pub quests | 20 | 0 | 0 | 20 | 0 | 0 |
+| NG+/post-game | 8 | 0 | 2 | 6 | 0 | 0 |
+| Costumes/dressing room | 10 | 0 | 7 | 2 | 0 | 1 |
 | Music | 8 | 0 | 4 | 3 | 1 | 0 |
-| Graphics | 14 | 1 | 6 | 3 | 4 | 0 |
-| Menus/UI/rooms (Collection, Achievements, Track Record) | 11 | 0 | 0 | 5 | 5 | 1 |
-| Text/translation | 10 | 1 | 4 | 1 | 2 | 2 |
-| EX | 13 | 0 | 8 | 2 | 0 | 3 |
+| Graphics | 14 | 1 | 5 | 6 | 2 | 0 |
+| Menus/UI/rooms (Collection, Achievements, Track Record) | 11 | 0 | 4 | 3 | 3 | 1 |
+| Text/translation | 10 | 1 | 5 | 0 | 2 | 2 |
+| EX | 13 | 0 | 9 | 1 | 0 | 3 |
 | Platform patches (outside the game) | 4 | 0 | 0 | 0 | 0 | 4 |
-| **All** | **256** | **12** | **107** | **93** | **32** | **12** |
+| **All** | **256** | **12** | **116** | **94** | **22** | **12** |
 
 ## 2. Weighted completion
 
@@ -56,22 +58,22 @@ as a battle rule), so this is a feature count, not the effort-weighted table in 
 
 | Area | Counted rows | Done (T + P + PARTIAL/2) | Completion |
 |---|---:|---:|---:|
-| Mechanics/battle | 43 | 34.5 | 80% |
+| Mechanics/battle | 43 | 35 | 81% |
 | Items and equipment | 21 | 19 | 90% |
 | Characters/commands/espers/magic | 31 | 24.5 | 79% |
 | Monsters/formations/AI | 9 | 8 | 89% |
 | Maps | 9 | 8 | 89% |
-| Events/story scenes | 44 | 18.5 | 42% |
-| Pub quests | 20 | 11 | 55% |
-| NG+/post-game | 8 | 3.5 | 44% |
-| Costumes/dressing room | 9 | 7.5 | 83% |
+| Events/story scenes | 44 | 22 | 50% |
+| Pub quests | 20 | 10 | 50% |
+| NG+/post-game | 8 | 5 | 62% |
+| Costumes/dressing room | 9 | 8 | 89% |
 | Music | 8 | 5.5 | 69% |
-| Graphics | 14 | 8.5 | 61% |
-| Menus/UI/rooms (Collection, Achievements, Track Record) | 10 | 2.5 | 25% |
-| Text/translation | 8 | 5.5 | 69% |
-| EX | 10 | 9 | 90% |
+| Graphics | 14 | 9 | 64% |
+| Menus/UI/rooms (Collection, Achievements, Track Record) | 10 | 5.5 | 55% |
+| Text/translation | 8 | 6 | 75% |
+| EX | 10 | 9.5 | 95% |
 | Platform patches (outside the game) | 0 | 0 | (all LEFT OUT) |
-| **All** | **244** | **165.5** | **68%** |
+| **All** | **244** | **175** | **72%** |
 
 Read with care: only 12 of the 244 counted rows (5%) have been seen working in game; the 92 PORTED rows are code or data
 that has never run through its real trigger. PORTING.md's own estimate (~60%, effort-weighted) is close to this count,
@@ -96,7 +98,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | M5 | Blind lowers hit rate (vanilla bug fixed) | readme.html §6 "Blind Bug"; change §2 "Blind Status" | PARTIAL | spec 20; progress-2026-11.md (11-20 plugin row) "likely already the PR's: rules 20 ... (to confirm in a run)"; no TedPlugin code | probe the PR's blind penalty; if not a halving, use a kit BlindRules variant [TedPlugin] |
 | M6 | Vanish no longer lets every spell (X-Zone) land | readme.html §6 "Vanish Magic Bug" | PORTED | spec 23 "the PR already fixed Vanish + Doom (patch 1.0.5)" | — |
 | M7 | No hit-rate change from the target's statuses | spec 21 | PORTED | `Plugin.cs:163-180`; ted-7 log "rule 21: no hit-rate change ... (both lists emptied)" (installed) | — |
-| M8 | Drop odds 68/20/8/4 over four drop slots | change §2 "Item Drop Rate" | PARTIAL | `profile_tedition.py:608`; ted-7 tedcheck "MONSTER_DROP_RATE 68/19/8/5" but "FAILED (1): monsters with 3-4 drop slots: game 281, port 220"; the PR's own rows 385-611 keep 2 slots (`docs/tedition.md:127-133`) | carry the 61 missing 3rd/4th slots; check what the PR does on an empty slot [lead] |
+| M8 | Drop odds 68/20/8/4 over four drop slots | change §2 "Item Drop Rate" | PORTED | 2026-11-21 lead: verified offline that every drop slot T-Edition fills is in the port, by slot: monsters 0-383 (set_drop_slots, drop_content_id1..4) and the 104 new monsters (port_monster_ext); the in-game tedcheck's 3-4-slot count mismatch is the check's counting, not missing data | in game: what the PR does when its pick lands on an empty slot |
 | M9 | Back/pincer/side attack odds fix; Back Guard (Alarm Earring) stronger | change §2 "Back Attack/Pincer..." | PORTED | 2026-11-21 TedPlugin TedEncounters: back/pincer/side odds and Back Guard; builds, Ted.Tests 21 | test in game |
 | M10 | Pre-emptive strike chance doubled, Gale Hairpin x4 | change §2 "Pre-emptive Strike Increase" | PORTED | 2026-11-21 TedPlugin TedEncounters: Gale Hairpin pre-emptive 1 in 2 (x4), no enemy first strike | test in game |
 | M11 | Defense-ignoring attacks go through Def 0 (Safe/Defend/row apply) | change §2 "Defense-Ignoring Attacks" | TESTED | `TedRules/DamageSteps.cs:155-158`; ted-7 teddamage "Fight on a monster (Attack #1) ... ignores defense ... ok" | — |
@@ -155,8 +157,8 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | I15 | Dice / Fixed Dice formula, accuracy, no Berserk boost | change §5 "Dice/Fixed Dice" | PORTED | `TedDamage.cs:151-169` (spec 41) | — |
 | I16 | Other new items (Experience Egg, Gold Hairpin as relic, Kenkonken throwable, Power Belt, ...) | history 3.0.0, 2.9.5 | PORTED | names in `ted_items.json`; port_report "rods and throwing" | — |
 | I17 | Shop stock, T-Edition's own shops included | shop.txt | PORTED | `ted_build.py:351-376`; port_report "79 SNES shops matched"; docs/tedition.md:11 "all 110 stocked shops mapped" | — |
-| I18 | WoR shop prices double until Humbaba falls | Mato README "Legendary Fiend Humbaba"; spoiler_free_new_quests | PARTIAL | 2026-11-21 TedPlugin: price hook in code, off until ted-events gives the WoR and Humbaba flags (ted_flags.json) | flags from ted-events [TedPlugin, ted-events] |
-| I19 | Treasure chest contents on vanilla maps | readme translation (chests) | PORTED | 2026-11-21 ted-maps: the 13 chests T-Edition added on vanilla maps as objects on the PR rooms (Map_20081_3 x5, Map_30791_3, Map_30531_5 x6, Map_30811_6), TreasureFlag 370-382, contents from ted_items.json; ted_maps.json vanilla_chests, test_vanilla_chests; the monster box on 300 stays the translator's | test in game (ted-10) |
+| I18 | WoR shop prices double until Humbaba falls | Mato README "Legendary Fiend Humbaba"; spoiler_free_new_quests | PARTIAL | 2026-11-21 ted-events: ted_flags.json (TEditionEvents top level) wor = ScenarioFlag2 41, humbaba_scared_off = SF2 100 (SNES 0BF), humbaba_returns = SF2 99 (292); TedPlugin's hook on with wor + humbaba_scared_off | T-Edition's price code (which bit) not found; the final-defeat bit, if it differs [ted-events, TedPlugin] |
+| I19 | Treasure chest contents on vanilla maps | readme translation (chests) | PORTED | ted_maps.vanilla_chests: the 13 chests T-Ed added on vanilla maps (new SNES bits) are TEditionChest objects in their vanilla PR rooms, TreasureFlag 370-382 (ted_maps.json vanilla_chests; test_vanilla_chests); the rest of the porter's 25 are story-copy duplicates its PR chests cover; 300's monster box is the translator's | in-game: ted-10 shot of Map_20081_3 |
 | I20 | Boss reward items on winning (42 fights) | spec (4B/4A00) | PORTED | `TedColiseum.cs:17-19`; ted-7 log "42 boss rewards" (loaded) | — |
 | I21 | Coliseum wagers, opponents, prizes (Tabs farming, Typhon) | coliseum.txt; history | PORTED | `TedColiseum.cs:12-40`; ted-7 "278 Coliseum wagers (3 of 3 lookups hooked)" (loaded, no wager played) | — |
 
@@ -204,11 +206,11 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | B2 | Monster stats, resistances, statuses, EXP (WoR EXP up) | change §6; 2.9.6 | PORTED | port_report "monster: 370 changed", "enemy resistances" | — |
 | B3 | Monster special attacks | monsterspecial.txt | PORTED | port_report "monster special attacks: 353" | — |
 | B4 | Steal and drop contents | scanstealdata.html; stealdropragworthit.txt | PORTED | porter (docs/tedition.md:36 "steals/drops (291)") | — |
-| B5 | Monster AI on T-Edition's own scripts | change §6; history (boss behaviours) | PARTIAL | port_report "own script in the plugin: 309 ... boss (kept PR script): 46"; script status effects off (`Plugin.cs:89-92`, `profile_tedition.py:616`); ted-monsters KeyNotFoundException in GetMagicStatus | bring the 46 bosses onto T-Edition's scripts; test status effects; fix the exception [TedPlugin] |
+| B5 | Monster AI on T-Edition's own scripts | change §6; history (boss behaviours) | PARTIAL | profile_tedition snes_ai_status=True with T-Edition's hybrid scripts/events/start_shows/pr_ends (BNW's route, each checked against T-Edition's own script); port_report: boss (kept PR script) 46 -> 27, own script in the plugin 309 -> 350; ted_ai.json status_effects=true turns the host's FB 0B/0C/02 on (TedEnemyAi.DataStatus) | test the 19 moved bosses' fights (parties 436 437 438 440 447 448 451 464 469 470 515 474 478 423 490); the 27 left: final battle (9), no formation of their own (9), PR-staged fights (King Behemoth, Tentacles x4, Wrexsoul, Relm/Ultros, 371, 372, Air Force 324) |
 | B6 | Formations and encounter packs (world, dungeons, Gogo's cave none) | worldmap.txt; history | PORTED | port_report "encounters: {'new parties': 337 ...}" | — |
 | B7 | Metamorph (Ragnarok) sets | ragnarok.txt | PORTED | port_report "metamorph: ..." | — |
 | B8 | Formation AP and escape flags (Ninja, Don runnable) | 3.0.0 notes | PORTED | port_report "monster_party AP: 111", "escape: 25 parties changed" | — |
-| B9 | Kefka's Tower: new boss, new fixed battles, Number 024/128/Air Force on the Veldt | history | PARTIAL | formations through the porter; tower events (maps 334/354/355) scripted with 6-21% stubs; CA/0300 is not an event (decoration NPC pointer bytes on map 334, nothing jumps there: ted-ex 2026-11-21) | the tower events' stubs; play the fights [ted-ex] |
+| B9 | Kefka's Tower: new boss, new fixed battles, Number 024/128/Air Force on the Veldt | history | PARTIAL | Kefka's Tower: entrance CC/118E and the 7 tower tiles (maps 334/354/355) built in mods/TEditionQuests (tiles as new triggers in Map_30870/30871_*, 0-24% stubs; the rest are untied vanilla bits 126/2Ax/067/071); CA/0300 isn't an event (decoration-NPC bytes); new formations through the porter | untied-bit ties [ted-events]; play the fights [ted-ex] |
 
 ### Maps
 
@@ -222,7 +224,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | P6 | Map names for new places | history ("Added some new map names") | TESTED | `room_724.png` title "South Figaro – Music Room" (TEDMAP_NAME keys) | — |
 | P7 | Tile edits on vanilla maps (walkability) | history | PORTED | `TedTiles.cs:169-244`, `data/ted_tile_cells.json` | — |
 | P8 | T-Edition's own tilesets/graphics sets (82-85, edited sets 5, 6, 19-22, 53) | MEDIA_INVENTORY §4.2 | PARTIAL | new maps use look-alike PR rooms ("neither converts T-Edition's own tile art") | PR tiles where a look-alike is wrong after a walk-through [bc-sprites] |
-| P9 | Vanilla maps paired with PR rooms | (port need) | PARTIAL | progress 11-21 "337 of 416 vanilla maps paired (36 events without a spot)" | pair the rest [ted-maps] |
+| P9 | Vanilla maps paired with PR rooms | (port need) | PARTIAL | data/snes_pr_maps.json 357 of 416 SNES maps (door pass + 33 hand pairs, kit-published cf21b07); catalog events without a PR spot 78 -> 36 | the rest: maps with no PR room (unused slots, redrawn scenes) |
 
 ### Events/story scenes
 
@@ -231,8 +233,8 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | E1 | Narshe defense: new scene when Cyan meets Kefka | change §7 | MISSING | CC/BC96 (map 22) in the catalog, no script | wire it [ted-events] |
 | E2 | Night in Albrook: find Celes | change §7; Mato README | PARTIAL | CD/3DC0 (map 330) scripted, 0% stubs; the Celes search not traced | trace and wire the rest [ted-events] |
 | E3 | Fewer fish to save Cid | change §7 | PARTIAL | CA/5366 scripted (12% stubs, ted-events' edit of PR sc_e_0616); CD/4300 is not an event (decoration NPC pointer bytes on map 334: ted-ex 2026-11-21) | the scene's stubs [ted-events] |
-| E4 | Sabin's new lines at Gerad | change §7 | MISSING | CA/91D0 (map 169) not scripted | build and wire CA/91D0 [ted-events] |
-| E5 | Valigarmanda (WoR) needs Terra | change §7; readme.html §7 | MISSING | CC/370F (map 35) not scripted | build and wire CC/370F (also blocks Test of Strength's last step) [ted-events] |
+| E4 | Sabin's new lines at Gerad | change §7 | PORTED | 2026-11-21 ted-events: CA/91D0 (map 169 NPC 10) in TEditionEvents (ted_events.EVENTS), 0 stubs: its facing switch through vanilla's facing routine -> BranchByPlayerDirection | test in game [ted-events] |
+| E5 | Valigarmanda (WoR) needs Terra | change §7; readme.html §7 | PARTIAL | 2026-11-21 ted-events: CC/370F (map 35 tile 9,14) in TEditionEvents, Map_20040. Logic stub: the condition 'C1 B0 01 B4 01' keeps its facing test (BranchByPlayerDirection) but drops engine bit 1B4 (set from $06 bit 7 when the event starts, C0/BA94; meaning unconfirmed). Cosmetic: one sound | resolve 1B4; test in game [ted-events] |
 | E6 | Cyan's Dream: new solo battles, throne after the memories | change §7; readme.html §7 | PARTIAL | CD/4000, CD/4003 scripted (~19% stubs); CD/3FE0 (map 126), CD/4002 not | [ted-events] |
 | E7 | New Kefka battle on the Floating Continent | readme.html §7; Mato README | MISSING | no wired event found (CA/5A0C, map 10, unscripted) | find and wire [ted-events] |
 | E8 | Shadow always gets off the Floating Continent | change §3 Shadow | MISSING | not located in the catalog | [ted-events] |
@@ -241,14 +243,14 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | E11 | Final battle: Gogo/Umaro lines, party select | history | PARTIAL | map 12: CA/3F2B/3F3B/3F73 scripted, CA/3F13, CD/15E0 not | [ted-events] |
 | E12 | New merchants (Phantom Train ghost, Doma, Esper Village, Mobliz, Fanatics' Tower, Narshe WoR) | history 3.0.0 and earlier | PARTIAL | `TedSysCalls.cs:47-58` TED:shop; used in 59 script files of mods/TEdition; not run | play one shop [ted-events] |
 | E13 | Beginner's House tutors rewritten, advanced-info NPC | readme translation; history | PARTIAL | maps 104-107 talk events scripted with 0 stubs; CD/4C79, CD/4B62 not | [ted-events] |
-| E14 | Perfect banquet score (Ribbon, achievement) | Quick Advice; 3.0.0 | PARTIAL | CC/91B6 (map 250) scripted, 16% stubs | [ted-ex] |
+| E14 | Perfect banquet score (Ribbon, achievement) | Quick Advice; 3.0.0 | PARTIAL | CC/91B6 (map 250) wired: 6 stubs in 156 commands: 4 switch + 2 bit_set (logic) | the switch and bit_set [ted-events]; play it [ted-ex] |
 | E15 | Ruby's Shine | spoiler_free_new_quests; Mato README | PARTIAL | 5/5 events scripted, 20% stubs (`snes_event_ted_readme.json`) | [ted-events] |
 | E16 | Test of Strength | same | PARTIAL | 9/11 scripted, 21% stubs | [ted-events] |
 | E17 | Stolen Magicite (Catoblepas; Carbuncle in WoR) | same; 2.9.5 | PARTIAL | 1/1 scripted, 11% stubs | [ted-ex] |
 | E18 | Deep Earth Dweller (Sealed Gate staircase) | same | MISSING | `snes_event_ted_readme.json` lists no events for it | find its events, translate [ted-events] |
 | E19 | Gilgamesh: Encounter, Reunion, Battle on the Big Bridge? | same | PARTIAL | 4/4 scripted, 23% stubs | [ted-events] |
 | E20 | Return of the Narshe Residents (refugees, Ragnarok, shops, new pub) | same | PARTIAL | Narshe NPC events partly scripted (CD/1540, CD/1650 yes; CD/1E40 no); no per-quest mapping | map the quest's events and wire [ted-events] |
-| E21 | Seeking the Legendary Weapon (Ragnarok sword, Omega Weapon) | same | PARTIAL | CC/FF90 (map 401) scripted, 24% stubs | [ted-ex] |
+| E21 | Seeking the Legendary Weapon (Ragnarok sword, Omega Weapon) | same | PORTED | CC/FF90 (map 401) wired: 0 stubs in 18 commands | play it in game [ted-ex] |
 | E22 | The Giant Titan | same | PARTIAL | 1/1 scripted, 23% stubs | [ted-events] |
 | E23 | Descendants of the Summoners (Mist Dragon) | same | PARTIAL | 9/15 scripted, 32% stubs | [ted-events] |
 | E24 | The War God Odin (Zantetsuken) | same | PARTIAL | 7/7 scripted, 12% stubs | [ted-ex] |
@@ -259,52 +261,52 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | E29 | The Sealed Legend (12 sealed weapons, 4 crystal guardians) | same | PARTIAL | 43/45 scripted, 25% stubs; CD/2930 "The crystal's guardian attacks!" not | [ted-ex] |
 | E30 | Father and Daughter (Shadow's dreams) / A Mother's Hope | same | PARTIAL | 7/7 scripted, 25% stubs; Shadow's dream inn scenes CA/788A, CA/F644, CC/6649, CA/8EDB (2,100+ commands each) not scripted | [ted-events] |
 | E31 | Mysterious Technique Inheritance (Sabin's last Blitz) | same | PARTIAL | 2/3 scripted, 9% stubs; CC/0BCE not | [ted-events] |
-| E32 | A Demon's Favorite Food / Gau's father opens every Veldt formation | same; change §7 "Gau's Make-over" | PARTIAL | 1/2 scripted, 29% stubs; CB/681E not; `TED:veldt_open` (`TedSysCalls.cs:75-82`) used by no script | [ted-events] |
-| E33 | Thoughts and Wishes (Cid, Celes) | same | PARTIAL | 2026-11-21 ted-ex: inside CA/5366 (Cid), CD/4130 branches on story bits to T-Edition's lines D56/D44/D45, then CD/4463 (the Tynar Rouge); ted-events took CA/5366 (an edit of PR sc_e_0616) | finish past CD/4130 [ted-events] |
+| E32 | A Demon's Favorite Food / Gau's father opens every Veldt formation | same; change §7 "Gau's Make-over" | PARTIAL | 2026-11-21 ted-events: Gau's father's 83 writes into the Veldt bits (CD/C113-C193) -> TED:veldt_open with the formations' PR parties (491); CB/681E itself not built (173 stubs: scene objects the PR room lacks) | CB/681E's NPCs [ted-events] |
+| E33 | Thoughts and Wishes (Cid, Celes) | same | PARTIAL | 2026-11-21 ted-events: PR script edits (ted_events.SCRIPT_EDITS): sc_e_0625 gets CD/4130's tests (0C1 -> D56, 0CD -> D44, 0C9 -> D45 + the Celes/Locke scene, the Tynar Rouge) before 'I'm all better now'; sc_e_0616 doubles Cid's health per fish. Logic stub: one map load (warp) in the Celes/Locke scene; cosmetic: a song fade-in | the scene's warp; test in game [ted-events] |
 | E34 | Owzer's Collection | same | PARTIAL | 5/5 scripted, 28% stubs | [ted-ex] |
-| E35 | Unexpected Special Skill (Umaro's carving) | same | PARTIAL | 2026-11-21 ted-ex: CC/D6E1 on SNES map 283 (Umaro's Cave), the Bone Sculpture: Deathgaze's Claw + Umaro gives the Berserker Ring; in TEditionQuests as a new object in Map_30771_1, stand-in look 51, 47 stubs | stubs; test in game [ted-ex] |
-| E36 | The Last Dragon (Fanatics' Tower, Dried Meat) | same | PARTIAL | CD/46B0 (map 364) scripted, 21% stubs | [ted-ex] |
+| E35 | Unexpected Special Skill (Umaro's carving) | same | PORTED | CC/D6E1 (map 283, Umaro's Cave, Bone Sculpture, Berserker Ring): placed as a new object in Map_30771_1 (stand-in look); 16 stubs in 434 commands, all cosmetic (14 sound, 2 song_ctrl) | play it in game; its look (bc-sprites stand-in list) [ted-ex] |
+| E36 | The Last Dragon (Fanatics' Tower, Dried Meat) | same | PARTIAL | CD/46B0 (map 364) wired: 4 stubs in 53 commands: 1 if_battle_bit_clear (logic), 3 sound | the battle-bit test [ted-events]; play it [ted-ex] |
 | E37 | Molulu's Gift | same | PARTIAL | 3/3 scripted, 20% stubs | [ted-ex] |
-| E38 | A Priestess's Concern (Sabin costume) | same | MISSING | CA/6C7B (map 57) not scripted | build and wire CA/6C7B with the costume unlock [ted-events] |
+| E38 | A Priestess's Concern (Sabin costume) | same | PARTIAL | 2026-11-21 ted-events: CA/6C7B (map 57 NPC 1) wired in Map_20371_6 (ev_e_0028 jumps into the PR's own sc_e_0028 for vanilla's part); bit 1C3 = Sabin's costume unlock -> TreasureFlag3 15 (ted_flags.json for TedPlugin). Logic stub on the second wiring (entity_default 12): a character rename (7F 05 05); cosmetic: sprite/palette | the rename on the second wiring; test in game [ted-events] |
 | E39 | A Mother's Love (Terra costume, Maduin's house) | same | PARTIAL | CD/7D60, CD/7DD0 (map 468) scripted, 25% stubs | [ted-maps] |
 | E40 | A Duel! The Dragon's Neck Coliseum (Gilgamesh, Excalibur) | same | PARTIAL | 5/5 scripted, 29% stubs | [ted-ex] |
 | E41 | Forever Ultros (help in Kefka's Tower) | same | PORTED | 7/7 scripted, 9% stubs | — |
-| E42 | The Sealed Gate, Again (esper fight, elder, Terra's gear) | same | PARTIAL | maps 435 (50% stubs), 437 (10%), 438 (24%) | [ted-maps] |
+| E42 | The Sealed Gate, Again (esper fight, elder, Terra's gear) | same | PARTIAL | maps 435/437/438: 10% stubs; 435's 50% = 2 bg_palette (60) stubs in a 4-op entrance (cosmetic, no PR op) | translator-level stubs (ted-events) |
 | E43 | Wandering Shadow (WoR Floating Continent, Atma Buster) | same | PARTIAL | map 509: 23/24 events scripted, 22% stubs | [ted-maps] |
-| E44 | Know-It-All, the house north of Narshe | Mato README "Know-It-All"; history | PARTIAL | likely map 510 "Mr. Clio's Home" (WoR door at 111,15): built, no NPCs placed, its entrance event unchecked | confirm the map, place him [ted-maps] |
+| E44 | Know-It-All, the house north of Narshe | Mato README "Know-It-All"; history | PORTED | Know-It-All = Mr. Clio, map 415 NPC 0 (CD/FD10, 'I'm Mr. Clio. I know everything...'), room Map_20471_2 inside map 510 'Mr. Clio's Home'; placed with his look, script 10162 (retagged to ted-maps) |  |
 
 ### Pub quests
 
 | ID | Feature | Source | Status | Evidence | Work needed [owner] |
 |---|---|---|---|---|---|
 | Q1 | Pub job boards (6 pubs) | Mato README "NEW PUB QUEST DETAILS" | PARTIAL | `tools/ted_quests.py` BATCH wired; ted-7 ted-quests: "sc_tedq_q_ca7d09_20071_4_d didn't start (not in map 42's list ...)" for 44 scripts | reinstall, rerun ted-quests [ted-ex] |
-| Q2 | Cave Monster Cleanup (South Figaro, WoB) | same | PARTIAL | South Figaro pub 10/10 scripted, 13% stubs; maps 440-443 19-23% stubs | [ted-ex] |
-| Q3 | Defend Mt. Kolts! | same | PARTIAL | South Figaro pub group (13% stubs) | [ted-ex] |
-| Q4 | I'll Buy Anything! (Nikeah) | same | PARTIAL | Nikeah pub 9/10 scripted, 29% stubs; CD/3BD0 not | [ted-ex] |
-| Q5 | A Helping Hand (Kohlingen) | same | PARTIAL | Kohlingen pub 7/8 scripted, 12% stubs; CC/6F41 not | [ted-ex] |
-| Q6 | The Dream Opera | same | PARTIAL | Kohlingen group | [ted-ex] |
-| Q7 | Requiem (Setzer's lines) | same | PARTIAL | Kohlingen group | [ted-ex] |
-| Q8 | Transporting Goods (Albrook) | same | PORTED | Albrook pub 4/4 wired, 5% stubs (CC/6565 recipient) | — |
-| Q9 | Finding Food (Albrook WoR, repeatable) | same | PORTED | Albrook group | — |
-| Q10 | Wanted! Research Materials (scholar, Goddess Bell) | same | PARTIAL | Albrook group; needs the Goddess Bell of N4 | [ted-ex] |
-| Q11 | Defeat the Cave Monsters (South Figaro WoR, repeatable) | same | PARTIAL | South Figaro group | [ted-ex] |
-| Q12 | A Girl's Wish | same | PARTIAL | South Figaro group | [ted-ex] |
-| Q13 | Victory Drinks | same | PARTIAL | South Figaro group | [ted-ex] |
-| Q14 | Delivery Service (Nikeah, Duane) | same | PARTIAL | CD/5BA0 12%, CD/5C60 14% stubs | [ted-ex] |
-| Q15 | A Dancer's Depression (opens the Dressing Room) | same | PARTIAL | CA/8FFF scripted, 17% stubs | [ted-ex] |
-| Q16 | The Will to Live for Tomorrow (Phantom Forest foe) | same | PARTIAL | Nikeah group; Phantom Forest maps 447-451 22-23% stubs | [ted-ex] |
-| Q17 | A Restful Sleep (Kohlingen, Darill's grave) | same | PARTIAL | CE/0480 17% stubs; map 439 16% | [ted-ex] |
-| Q18 | Imitation's Secret (Narshe pub, Gogo's quiz) | same | PARTIAL | Narshe pub map 461 5/5 scripted, 9% stubs; quiz flow uses stubbed case tests (175 `SNES:case_test` in mods/TEdition) | [ted-ex] |
+| Q2 | Cave Monster Cleanup (South Figaro, WoB) | same | PARTIAL | South Figaro pub group: all events built; stubs: 1 case_test (logic), 2 spotlight + 1 song (cosmetic) | translate the case_test [ted-events]; play it [ted-ex] |
+| Q3 | Defend Mt. Kolts! | same | PARTIAL | South Figaro pub group: all events built; stubs: 1 case_test (logic), 2 spotlight + 1 song (cosmetic) | translate the case_test [ted-events]; play it [ted-ex] |
+| Q4 | I'll Buy Anything! (Nikeah) | same | PARTIAL | Nikeah pub group: all events built; stubs: 10 random_jump + 2 gil_add (logic) | random_jump (BD) and gil_add translation [ted-events]; play it [ted-ex] |
+| Q5 | A Helping Hand (Kohlingen) | same | PARTIAL | Kohlingen pub group: all events built; stubs: 4 case_test (logic), 3 mosaic + 2 sound (cosmetic) | translate the 4 case_tests [ted-events]; play it [ted-ex] |
+| Q6 | The Dream Opera | same | PARTIAL | Kohlingen pub group: all events built; stubs: 4 case_test (logic), 3 mosaic + 2 sound (cosmetic) | translate the 4 case_tests [ted-events]; play it [ted-ex] |
+| Q7 | Requiem (Setzer's lines) | same | PARTIAL | Kohlingen pub group: all events built; stubs: 4 case_test (logic), 3 mosaic + 2 sound (cosmetic) | translate the 4 case_tests [ted-events]; play it [ted-ex] |
+| Q8 | Transporting Goods (Albrook) | same | PARTIAL | Albrook pub group: all events built; stubs: 4 gil_add (logic), 1 mosaic (cosmetic) | gil_add translation [ted-events]; play it [ted-ex] |
+| Q9 | Finding Food (Albrook WoR, repeatable) | same | PARTIAL | Albrook pub group: all events built; stubs: 4 gil_add (logic), 1 mosaic (cosmetic) | gil_add translation [ted-events]; play it [ted-ex] |
+| Q10 | Wanted! Research Materials (scholar, Goddess Bell) | same | PARTIAL | Albrook pub group: all events built; stubs: 4 gil_add (logic), 1 mosaic (cosmetic); needs the Goddess Bell of N4 | gil_add [ted-events]; Goddess Bell (N4) [ted-maps]; play it [ted-ex] |
+| Q11 | Defeat the Cave Monsters (South Figaro WoR, repeatable) | same | PARTIAL | South Figaro pub group: all events built; stubs: 1 case_test (logic), 2 spotlight + 1 song (cosmetic) | translate the case_test [ted-events]; play it [ted-ex] |
+| Q12 | A Girl's Wish | same | PARTIAL | South Figaro pub group: all events built; stubs: 1 case_test (logic), 2 spotlight + 1 song (cosmetic) | translate the case_test [ted-events]; play it [ted-ex] |
+| Q13 | Victory Drinks | same | PARTIAL | South Figaro pub group: all events built; stubs: 1 case_test (logic), 2 spotlight + 1 song (cosmetic) | translate the case_test [ted-events]; play it [ted-ex] |
+| Q14 | Delivery Service (Nikeah, Duane) | same | PARTIAL | Nikeah pub group: all events built; stubs: 10 random_jump + 2 gil_add (logic) | random_jump (BD) and gil_add translation [ted-events]; play it [ted-ex] |
+| Q15 | A Dancer's Depression (opens the Dressing Room) | same | PARTIAL | Kohlingen pub group: all events built; stubs: 4 case_test (logic), 3 mosaic + 2 sound (cosmetic) | translate the 4 case_tests [ted-events]; play it [ted-ex] |
+| Q16 | The Will to Live for Tomorrow (Phantom Forest foe) | same | PARTIAL | Nikeah pub group: all events built; stubs: 10 random_jump + 2 gil_add (logic) | random_jump (BD) and gil_add translation [ted-events]; play it [ted-ex] |
+| Q17 | A Restful Sleep (Kohlingen, Darill's grave) | same | PARTIAL | Kohlingen pub group: all events built; stubs: 4 case_test (logic), 3 mosaic + 2 sound (cosmetic) | translate the 4 case_tests [ted-events]; play it [ted-ex] |
+| Q18 | Imitation's Secret (Narshe pub, Gogo's quiz) | same | PARTIAL | Narshe pub group (46 events on ted-maps' rooms): stubs: 4 quiz case_tests, 4 timer_start + 9 timer_reset (logic), 5 sound (cosmetic) | the quiz's case tests [ted-events]; field timer SysCall [TedPlugin]; play it [ted-ex] |
 | Q19 | Night Patrol (timed, repeatable, reward changes) | same | PARTIAL | maps 473-476 scripted, 8-23% stubs; `SNES:timer_start` 6, `SNES:timer_reset` 14 stubs remain | a field timer SysCall [TedPlugin] |
-| Q20 | Super Doctor D (Zozo) | same | PARTIAL | Zozo pub 2/2 scripted, 44% stubs | [ted-ex] |
+| Q20 | Super Doctor D (Zozo) | same | PARTIAL | Zozo pub: 2 events wired; stubs: 4 if_lead_status (logic), 5 sound (cosmetic) | if_lead_status translation [ted-events]; play it [ted-ex] |
 
 ### NG+/post-game
 
 | ID | Feature | Source | Status | Evidence | Work needed [owner] |
 |---|---|---|---|---|---|
-| N1 | New Game+ from the Beginner's House desk | change §1 "New Game+"; Mato README | MISSING | `tools/ted_events.py:20, 64-72` decodes command CB on map 104 as "story_reset"; no PR implementation, no SysCall, no script uses it; only its description text is ported (`story_mes_en.txt` TED_E0085) | NG+ in TedPlugin (reset flags, keep the carry-overs) and the clerk's event [TedPlugin] |
-| N2 | NG+ carry-overs (items but key items, spells, espers, Lores/Rages/Dances, playtime, steps, success counters, achievements) | change §1 | MISSING | counters exist (`TedCommands.cs:316-373`) but nothing carries them | [TedPlugin] |
-| N3 | NG+ resets (formations met, pub quests, chests, Trance time, Terra's Trance, Deathgaze, Dried Meat; secret costumes re-lock) | change §1; Mato README | MISSING | no code | [TedPlugin] |
+| N1 | New Game+ from the Beginner's House desk | change §1 "New Game+"; Mato README | PARTIAL | TED:ngplus (TedSysCalls): clears ted_flags.json ngplus_clear (491), sets ngplus_set (32), as T-Edition's C0/DB58 handler; items/characters/espers/gil/counters stay | ted-events wires the clerk's script; play it |
+| N2 | NG+ carry-overs (items but key items, spells, espers, Lores/Rages/Dances, playtime, steps, success counters, achievements) | change §1 | PARTIAL | carry-overs are what T-Edition's handler leaves untouched (items, characters, espers, Lores/Rages/Dances, play time, steps, counters): TED:ngplus touches only story flags | play it |
+| N3 | NG+ resets (formations met, pub quests, chests, Trance time, Terra's Trance, Deathgaze, Dried Meat; secret costumes re-lock) | change §1; Mato README | PARTIAL | resets: every story bit 000-2FF incl. costume/dream bits (ngplus_clear), NPC show bits to T-Edition's table (ngplus_set) | play it |
 | N4 | Holy Angel Ultima chain (page, sylph, Phantom Forest, Matoya's Crystal Eye, Goddess Bell, Labyrinth of the Ancients, Crystal Tower, Ultima) | Mato README "High Seraph Ultima" | PARTIAL | maps 447-458, 417-420, 497-505 built; their events 9-66% stubs (499: 57%, 504: 66%); the Goddess Bell airship landing not located | translate the rest; the landing [ted-maps] |
 | N5 | Forbidden Land Eureka (optional, gear) | same | PARTIAL | maps 421-428 built; events 9-71% stubs | [ted-maps] |
 | N6 | Soul Shrine (waves, re-fight chosen waves, shield on first clear, restart if left, save point, party change) | Mato README; soulshrine.txt | PARTIAL | maps 431-433; CD/12D0-CD/1340 scripted, 24-29% stubs | [ted-maps] |
@@ -320,7 +322,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | D3 | Costume choice kept in the save | (system) | PORTED | `TedCostumes.cs:10-24` ("TEC1" block) | — |
 | D4 | Unlocks by treasures, events, achievements (in order) | dressroom.html; Quick Advice | PARTIAL | unlocks listed in `data/ted_costumes.json`; achievements are U2 | [ted-maps] |
 | D5 | "The Best Models": change clothes at 12 inns and halls | change §1 "New Game+" list | PARTIAL | TED:costume in inn scripts sc_tedq_e_cb4486 (Map_20151_5, 20191_2, 20331_2, 20431_5), sc_tedq_e_cc657d, sc_tedq_e_cc6140; not run | [ted-ex] |
-| D6 | Falcon music by worn costume (53 songs) | dressroom.html; history | PARTIAL | 2026-11-21 TedPlugin TED:falconsong + data/ted_costumes.json (56 costume songs); ted-events wires the call after ted-8pc | wire the SysCall [ted-events]; test in game |
+| D6 | Falcon music by worn costume (53 songs) | dressroom.html; history | PORTED | 2026-11-21 ted-events: the Falcon's entrance (map 12, EB/0EA0) in TEditionEvents for Map_20391_1/2/3: the leader's per-character song (A5 -> TED:roster), then TED:falconsong (ted_events.ENTRANCE_TAILS) for the worn costume's song; 838 costume-sprite commands (37/43) are Nops | test in game: board the Falcon with and without a costume [ted-events, TedPlugin] |
 | D7 | Job title follows the costume | EX history ("changing costumes now changes job titles") | PORTED | 2026-11-21 TedPlugin: costume job titles from data/ted_costumes.json (BepInEx/TEdition) | test in game; ship ted_costumes.json in the zip |
 | D8 | Gogo's Chameleon Robe takes other characters' forms in battle | EX history | PORTED | `TedCostumes.cs:16-17` (10 forms) | — |
 | D9 | Imp's Feelings / Piggy's Badge cosmetic relics | history ("2 new accessories") | PORTED | `TedCostumes.cs:17-18` (slots 277/278) | — |
@@ -331,12 +333,12 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | ID | Feature | Source | Status | Evidence | Work needed [owner] |
 |---|---|---|---|---|---|
 | S1 | ~200 new songs (two drivers, own samples) | change §1 "Added Music"; bgm.html | PORTED | `tools/ted_music.py`, `TedMusic.cs:15-56`; ted-7 "[ted music] 254 songs, 145 samples, 344 tracks, 191 areas, 478 battles" (loaded, not heard) | — |
-| S2 | Area songs (66 new maps, 55 vanilla maps) | bgm.html | PARTIAL | `ted_music.map_rules`; PORTING.md "7 vanilla maps lack a PR room in the kit's table" | the 7 rooms [ted-maps] |
+| S2 | Area songs (66 new maps, 55 vanilla maps) | bgm.html | PARTIAL | of the 7 song maps: 217, 297, 344, 404 paired (door-confirmed); 317 Dream Dungeon, 358, 415 have no PR room by doors/tiles/entities | 317/358/415: name PR maps by hand or play the song from the event |
 | S3 | Battle music per formation | change §1 "Battle Music - Fanfare Change" | PORTED | `ted_music.formation_music` (478 parties) | — |
 | S4 | Victory fanfare per formation | same | PORTED | same (418 fanfares) | — |
 | S5 | Songs and jingles in events | bgm.html | PARTIAL | translator emits bgm 1000+n; stubs left in mods/TEdition: `SNES:song_ctrl` 19, `SNES:song` 9, `SNES:sound_wait` 20 | [ted-events] |
 | S6 | Music Player in Config > Sound (GBA-style), its 277 entries | change §1 "Music Player" | PORTED | 2026-11-21 ted_build calls ted_music.install_player: 175 Extras player rows (ids 159-333) and their names in 12 languages | test in game |
-| S7 | Developer's Room music room: extra songs, patrons who comment on the song playing | Mato README | PARTIAL | map 485 (38% stubs); Hummingway's offer ran in game (maps-2 shot `sc_tedm_03FAA5_1.png`); "what is playing" check not located | a SysCall for the current song [TedPlugin] |
+| S7 | Developer's Room music room: extra songs, patrons who comment on the song playing | Mato README | PARTIAL | TED:song [var] and TED:cmp 1300 give the song playing (pack slot, or a vanilla track's SNES song via ted_music.json pr_songs); the patrons' events are ted-events' | wire the Developer's Room patrons (ted-events) |
 | S8 | Battle sound effects changed (FF5 Bio, whip, Time magic) | EX history | MISSING | no battle SE work found (`data/ted_se_ties.json` is field events only) | [TedPlugin] |
 
 ### Graphics
@@ -348,10 +350,10 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | G3 | Characters redrawn to match official art (field, battle) | change §3 "Character Overview"; 2.9.5 | PORTED | `TedArt.cs:39` BaseLooks; ted-7 "[ted art] base looks: ... 833 sprites, 15 atlases" (loaded) | — |
 | G4 | Default portraits redrawn | 3.0.0 | PORTED | `ted_art.py:284-317, 433` | — |
 | G5 | Imp (toad) look, Mog's new pose | EX history | PORTED | progress 11-20 "the Imp, Kappa and Pig looks"; "Mog's 'new pose' is redrawn tiles only" | — |
-| G6 | NPC sprites on the new maps (112 numbers) | MEDIA_INVENTORY §4.1 | PORTED | 2026-11-21 ted-maps tools/ted_npc_art.py + the kit's ArtSwap new_groups: 116 of 119 placements with a sheet have T-Edition's art; 166-168 have no sheet in the ROM (stand-ins, a known gap) | test in game (ted-10) |
-| G7 | NPC and story sprites changed on vanilla maps (Kefka, Gilgamesh, Yura, Arvis, Jun) | 2.9.5; EX history | PARTIAL | stand-ins listed in `ted_npc_standins.json` | [bc-sprites] |
-| G8 | New and edited battle backgrounds (Crystal Room, Phoenix Cave fire, WoR variants ...) | background.html; 3.0.0 | MISSING | MEDIA_INVENTORY §4.3: "which ones: unknown until the table is decoded"; no PR asset past 58 | decode E6/F800, make PR backgrounds [bc-sprites] |
-| G9 | Collection Room paintings | Mato README "Collection Room"; history | MISSING | MEDIA_INVENTORY §4.4 "I found no separate image table ... unknown" | [bc-sprites] |
+| G6 | NPC sprites on the new maps (112 numbers) | MEDIA_INVENTORY §4.1 | PARTIAL | tools/ted_npc_art.py: 19 sprite numbers on free vanilla NPC groups + 15 on kit ArtSwap new_groups (mo_ted_sNNN) = 116 of 119 new-map placements with a sheet; served from costumes/default | 166-168 (33 NPCs) have no sheet in T-Ed's table: stand-ins; in-game check ted-10 |
+| G7 | NPC and story sprites changed on vanilla maps (Kefka, Gilgamesh, Yura, Arvis, Jun) | 2.9.5; EX history | PARTIAL | Kefka (slot 21) and the merchant (224 over vanilla 49 everywhere: mo_ff6_n008_c00/c01) redrawn in costumes/default; Gilgamesh 221, Vargas 225, Arvis 176, Jun 171, sprite 95 on new groups, mapobject rows 3100-3104 (ted_npc_art.vanilla_looks); Yura (468, sprite 207) is vanilla 45's sheet | ted-events sets those NPCs' asset_id; in-game check |
+| G8 | New and edited battle backgrounds (Crystal Room, Phoenix Cave fire, WoR variants ...) | background.html; 3.0.0 | PARTIAL | T-Ed's bg table (26F800, 6 B) + palettes (26FC00) decoded (tools/ted_battle_bgs.py): of 0-57, entries 4/10/43/49/56 are recolours, served as ArtSwap sprites at BG_FF6_05/11/44/50/57 from costumes/default (PR painting recoloured in Lab from vanilla to T-Ed palette); 5/42/45 need nothing. In-game probe: QA ted-maps-5 | new entries 64-78 (14, on ~66 maps) are recolours of vanilla graphics but need new PR bg groups (bg_ff6_65+, battle_background_asset rows, porter map); 80 has new graphics (SNES render); after ted-maps-5 shows sprite swaps reach battle bgs [ted-maps] |
+| G9 | Collection Room paintings | Mato README "Collection Room"; history | PARTIAL | the Collection Room's paintings (map 469) are NPC sprites 191/195/198-202/213/214, not tiles; each gets T-Edition's own drawing via the G6 NPC art (ted_npc_looks 'ted art': new groups mo_ted_s191..s214, mo_ff6_n048_c05 for 195; frames in costumes/default/ted_npc_NNN.png) | see them in game: the paintings show once their EX boss bits are set (X8's play test, ted-ex); the group serving is proved by ted-10's mo_ted_s192 probe |
 | G10 | Animations for new/changed spells (Blink, Flood, Comet, Toad, Holy's new graphic ...) | change §2 "Magic"; 3.0.0 | PARTIAL | port_report "spells using their own slot's look (no name match): 10:Toad, 19:Flood, 20:Scourge, ... 32:Comet, 50:Blink ..." | pick PR effects per spell [lead] |
 | G11 | Casting motions (White, Summon), Time magic animation and sound, Trance casting, Cyan's battle entry | change §2 "Magic Casting Motions"; §3 | MISSING | no code | [TedPlugin] |
 | G12 | MP damage in pink, MP healing in blue | change §2 "MP Damage/Recovery Display" | PORTED | 2026-11-21 TedPlugin: MP numbers in T-Edition's colours (kit SnesMpNumbers, reviewed) | test in game |
@@ -364,14 +366,14 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 |---|---|---|---|---|---|
 | U1 | Collection Room (key items on display, paintings per EX boss) | Mato README "Collection Room" | PARTIAL | maps 470, 486, 487-490 built; events 29-71% stubs (470: 71%); EX bits allocated (MEDIA_INVENTORY §4.4) | [ted-maps] |
 | U2 | Achievement Room: 2 rooms, hint books, 20 achievements, finale | Mato README "Achievement Room"; spoiler_free_new_quests | PARTIAL | maps 471/472 58%/60% stubs; 21 `SNES:word_cmp` stubs; no script uses `TED:counter` (`TedSysCalls.cs:83-91`) | counter/playtime/step compares as SysCalls [ted-maps] |
-| U3 | Track record: Steal, Twin Fang, Runic, Sketch, Slot, Snowstorm, Mimic counts | change §1 (NG+ list); spec 43 | PARTIAL | `TedCommands.cs:57-60, 168-178, 316-373`; Twin Fang is never bumped | bump on Interceptor's counter [TedPlugin] |
-| U4 | Status screen pages: attributes, conditions, abilities | change §2 "Information Display on the Status Screen" | PARTIAL | 2026-11-21 TedPlugin: the status screen's free row shows elements and immunity count, harness tedstatus; the conditions and abilities pages not yet | the other pages [TedPlugin] |
-| U5 | Equipment details: MP Critical, absorb, Row OK, Throw OK, bonus vs flying/human/magic/dragon; Valiant Knife "???" | change §1 "Equipment Details Menu"; §5 | MISSING | no code | [TedPlugin] |
+| U3 | Track record: Steal, Twin Fang, Runic, Sketch, Slot, Snowstorm, Mimic counts | change §1 (NG+ list); spec 43 | PORTED | TedCounters (TED1 save block): Steal, Runic, Sketch, Slot, Snowstorm, Mimic counted; Twin Fang on Interceptor's block (TedCommands.Defend_Postfix) | check Twin Fang's exact trigger in game |
+| U4 | Status screen pages: attributes, conditions, abilities | change §2 "Information Display on the Status Screen" | PORTED | TedStatusPage.cs: the free Level Up Bonus row shows elements (weak/resist/immune/absorb), status immunities by name and equipment effects (relic bits); tedstatus prints them | shot of the status screen in a run |
+| U5 | Equipment details: MP Critical, absorb, Row OK, Throw OK, bonus vs flying/human/magic/dragon; Valiant Knife "???" | change §1 "Equipment Details Menu"; §5 | MISSING | PR rows carry throw_flag/back_flag/effective_species; the equip menu text is EquipmentDescriptionWindowController.SetDescriptionText(text, isParameter). T-Edition's weapon guide names each weapon's effects, but its numbering isn't the ROM's item slots (T-Edition rebuilt the list), so the MP Critical / absorb / species bits aren't mapped yet | map T-Edition's item bytes for MP Critical, HP/MP Absorb and the species bonuses; then append labels in SetDescriptionText [TedPlugin] |
 | U6 | X button: equipped esper, learning progress, mastered-esper star | change §1 "Magic Acquisition Status" | MISSING | no code | [TedPlugin] |
 | U7 | Select in battle: icons for Reraise, Defend, Runic, Sky, Charm, Love Token, Cloudy Heaven | change §2 "Information Display of Status Ailments of Allies" | MISSING | no code | [TedPlugin] |
-| U8 | Play time past 99:59 | change §1 "3 Digit Playtime" | MISSING | not checked on the PR, no code | check the PR's clock; hook if it stops [TedPlugin] |
-| U9 | Treasure message depends on the party lead | change §1 "Treasure Chest Message" | MISSING | no code | [TedPlugin] |
-| U10 | Rage list in alphabetical order | change §3 Gau | PARTIAL | 2026-11-21 TedPlugin TedRageOrder: Rages alphabetical; unverified that the battle menu uses that sort | check the battle menu in game [TedPlugin] |
+| U8 | Play time past 99:59 | change §1 "3 Digit Playtime" | PORTED | no cap in the PR: UserSaveData.playTime is an unbounded double, PlayTimeStringProvider.GetPlayTime formats hours unbounded (decompiled, tools/decomp/ted_umaro2) |  |
+| U9 | Treasure message depends on the party lead | change §1 "Treasure Chest Message" | PORTED | TedChestLines.cs: EventActionTreasure.GetMessage prefix points the chest's T0001_01_01 at TED_CHEST_<lead 00-13> (T-Edition's EE dialogues 657-670, ted_plugin_data.chest_rule into system_en via ted_build data_rules); empty lead/Banon/Ghost/Leo keep the generic line | open a chest in game (English) |
+| U10 | Rage list in alphabetical order | change §3 Gau | PARTIAL | TedRageOrder.cs: OwnedCharacterClient.Sort postfix sorts command 23's list by name | confirm the battle menu uses that sort (run) |
 | U11 | Hidden debug win (Select+Up) | spec 59 | LEFT OUT | spec 59 "do not port" | — |
 
 ### Text/translation
@@ -385,7 +387,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | T5 | Mato's dialogue in new and changed scenes | Mato README FAQ | TESTED | maps-2: "Hummingway: Want to hear music not in the Music Player?" with Yes!/No! (`shots/maps2/sc_tedm_03FAA5_1.png`); Namingway (`sc_tedm_037370_1.png`) | coverage follows the event rows |
 | T6 | Element names Fire / Earth / Darkness / Light | change §1 "Attribute Names" | MISSING | no rename found in the port's text or tools | [lead] |
 | T7 | Job titles (Mog "Moogle Knight", others) | change §3 Mog; EX history | MISSING | not in the port's text | [lead] |
-| T8 | Monster battle lines and battle messages | (AI F3) | PARTIAL | port_report "35 battle lines as the PR's text, 1 of our own, no line for messages [4, 9, 11, ...]" | [TedPlugin] |
+| T8 | Monster battle lines and battle messages | (AI F3) | PORTED | Mato's battle lines from its moved table (CF/E000, text bank 55; tools/ted_dialog.BattleMessages) as story_mes TED_BTL_<n>_<line>: profile_tedition battle_messages + battle_lines (port_ai's new profile hook); port_report: 211 lines, only message 62 (empty in the ROM) without one; test_mod OK on TEditionPort | see a line in a fight (Ultros 474) |
 | T9 | English Lua translation layer | Lua readme | LEFT OUT | emulator-only (snes9x-rr Lua); the port uses Mato's text | — |
 | T10 | Added kanji and fonts | change §1 "Additional Kanji" | LEFT OUT | Japanese ROM font; the PR has its own fonts | — |
 
@@ -400,9 +402,9 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | X5 | EX boss songs | EX readme.html §1 | PORTED | PORTING.md music row "EX's 13 fights" | — |
 | X6 | EX boss battle backgrounds | EX_PLAN ("4D command") | PORTED | port_report "event parties on the event's background" | — |
 | X7 | EX shops (two shopkeepers) | EX readme.html §2 | PORTED | `tools/ted_ex_events.py` SHOPS {107: 128, 108: 129} | — |
-| X8 | Wins fill the Collection Room and count for "EX Complete" | EX readme.html §3 | PARTIAL | win bits allocated; paintings art missing (G9); Collection Room events 41% stubs (map 469) | the room's stubs [ted-ex, from ted-maps by the lead 2026-11-21]; paintings (G9) [ted-maps] |
+| X8 | Wins fill the Collection Room and count for "EX Complete" | EX readme.html §3 | PARTIAL | Collection Room (map 469, Map_20151_9) moved to ted-ex 11-21. E9/E700 (each EX painting hidden until its boss bit) and 21 plaque/painting tiles are translated through ted-maps' NPC entity ids; 34 stubs in 710 commands. Win bits are pinned (ScenarioFlag4 5-17). | paintings art (G9) [ted-maps]; play it [ted-ex] |
 | X9 | Omega Weapon as a 13th fight with Mato's reward (steal Megalixir, drop Omega Weapon) | Hidden Secret Boss info | PORTED | `ted_ex_events.py` EX_PATCH (pack 168); EX_PLAN line 1 decision | — |
-| X10 | EX room's Moogle: party and costume changes | EX readme.html §2 | PARTIAL | map 467 NPCs (2 events, 0% stubs); party/costume menu not traced | trace and test [ted-ex, from ted-maps by the lead 2026-11-21] |
+| X10 | EX room's Moogle: party and costume changes | EX readme.html §2 | PORTED | Traced: EX 2.0.6's room Moogle (CD/A780) offers the fights only (13 with Omega). Its scene, the room's entrance (EA/0000) and NPCs have no party or costume ops; the shopping is the two shopkeepers (EX shops 128/129). Ported in mods/TEditionEX: 16 scripts, 0 stubs in 264 commands. Map 467's NPCs (CD/80F0/80F4, Mog House lines) are in TEditionQuests, 0 stubs. The readme's party/costume change isn't in EX's code: T-Edition's Dressing Room (D1). | play the room (QA ted-ex-bossroom) [ted-ex] |
 | X11 | Dragon's Den dungeon | Hidden Secret Boss info | LEFT OUT | `docs/tedition.md:125` "leave the Dragon's Den out" (user, 2026-11-20) | — |
 | X12 | Save swap between two ROMs | EX readme.html §2 | LEFT OUT | `docs/tedition.md:84-85` one mod, "no save swap" | — |
 | X13 | EX's own item set switch ($1440) and its broken leftovers (garbage randoms, flame NPC crash) | EX_PLAN | LEFT OUT | `pr/ted/EX_PLAN.md:158, 171-179` "not replicated" | — |

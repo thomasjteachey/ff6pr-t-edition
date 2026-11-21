@@ -180,6 +180,9 @@ EVENTS = [
     dict(event=0x091D0, map=169, npc=10),
     # audit E5: Valigarmanda in the WoR needs Terra (map 35, tile 9,14; also the Test of Strength's last step)
     dict(event=0x2370F, map=35, tile=(9, 14)),
+    # audit D6: the Falcon's entrance (map 12): the leader's song (A5 roster tests -> per-character songs), then
+    # TED:falconsong (ENTRANCE_TAILS) for a worn costume's song; its costume sprites (37/43) are Nops
+    dict(event=0x210EA0, map=12, entrance=True),
 ]
 SCRIPTS = os.path.join(E.P.ROOT, "data", "snes_event_scripts_tedition.json")
 # bits T-Edition (and EX) use for their own meaning, whatever vanilla used them for: they always get a
@@ -1632,10 +1635,28 @@ def npc_records(snes_map):
     return _npc_records[snes_map]
 
 
+USE_TED_ART = True      # ted-maps' looks for T-Edition's figures (False: back to the PR's looks / stand-ins)
+
+
+def ted_art_looks():
+    """{T-Edition sprite: PR mapobject row} of ted-maps' art for T-Edition's figures on vanilla maps (audit G7:
+    ted_npc_art.vanilla_looks(), rows 3100+ in TEditionMaps' mapobject.csv); {} when off or not there."""
+    if not USE_TED_ART:
+        return {}
+    try:
+        import ted_npc_art
+        return ted_npc_art.vanilla_looks()
+    except (ImportError, AttributeError):
+        return {}
+
+
 def npc_look(rom, sprite):
-    """An SNES NPC sprite -> (PR asset id, stand-in?): the look the PR gave that sprite (learned,
-    event_translate.sprite_assets), else STANDIN_LOOK."""
+    """An SNES NPC sprite -> (PR asset id, stand-in?): T-Edition's own art for it (ted_art_looks), else the look the
+    PR gave that sprite (learned, event_translate.sprite_assets), else STANDIN_LOOK."""
     import event_translate as T
+    art = ted_art_looks().get(sprite)
+    if art is not None:
+        return art, False
     looks = T.sprite_assets(rom).get(sprite)
     return (looks[0], False) if looks else (STANDIN_LOOK, True)
 
@@ -1665,7 +1686,26 @@ def npc_object(px, py, eid, look, direction, script_id, name):
 
 # load scripts another T-Edition workstream ships (one owner per map script): ted-ex's TEditionQuests places vanilla
 # NPCs the PR dropped in these rooms (11-21)
-OTHERS_MAP_SCRIPTS = {"sc_map_20270", "sc_map_20460", "sc_map_30641_5", "sc_map_30811_5"}
+# SysCalls run right after an entrance event's part in its room's load script (by event): the Falcon (map 12's
+# EB/0EA0 plays the leader's per-character song; TedPlugin's TED:falconsong then plays the song of the leader's worn
+# costume, if any: audit D6)
+ENTRANCE_TAILS = {"EB/0EA0": ("TED:falconsong",)}
+OTHERS_MAP_SCRIPTS = {"sc_map_" + r for r in (     # ted-ex's (TEditionQuests), its list of 11-21 05:15 (a fallback)
+    "20151_5", "20161_2", "20191_2", "20211_2", "20221_2", "20270", "20321_3", "20331_2", "20431_5", "20441_3", "20460",
+    "20461_4", "20461_5", "20461_6", "30521_2", "30600", "30750", "30771_1", "30811_7")}
+QUESTS_MAP_SCRIPTS = os.path.join(E.P.ROOT, "data", "ted_quests_map_scripts.json")   # ted-ex's build writes it
+ROOM_PROLOGUES = os.path.join(E.P.ROOT, "data", "ted_events_room_prologues.json")    # ours, for those rooms' owner
+
+
+def others_map_scripts():
+    """The room load scripts another workstream ships (one owner per load script): ted-ex's own list of what
+    TEditionQuests ships (data/ted_quests_map_scripts.json, written by its every build; it skips rooms this folder
+    ships), plus OTHERS_MAP_SCRIPTS."""
+    import event_translate as T
+    try:
+        return set(OTHERS_MAP_SCRIPTS) | set(T.read_json(QUESTS_MAP_SCRIPTS)["map_scripts"])
+    except (OSError, KeyError, ValueError):
+        return set(OTHERS_MAP_SCRIPTS)
 
 
 def map_script_name(pr_map):
@@ -1980,6 +2020,7 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
     tilemaps.update(snes_maps.pr_tilemaps())        # ... the drawn ones' tilemaps (the folder is what's used)
     packages = {}
     layer_edits = {}                    # (PR map, entity layer) -> {entity id: new script id}
+    asset_edits = {}                    # (PR map, entity layer) -> {object id: T-Edition's look (ted_art_looks)}
     firsts = {}                         # (PR map, entity layer, entity id) -> (script name, script, SNES map)
     report = []
     ids = ScriptIds(ids_file, SCRIPT_ID_RANGES[owner])
@@ -2041,7 +2082,7 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
                     t.fallbacks[jp_entry] = empty
                 sc = t.translate(start)
                 scripts.extend((a_, s2, w or room) for a_, s2, w in t.after)
-                entrances.setdefault(room, []).append((snes_map, sc))
+                entrances.setdefault(room, []).append((snes_map, sc, ENTRANCE_TAILS.get(E.fmt(off), ())))
                 wired.append({"layer": map_script_name(room), "entity": None, "was": map_script_name(room), "now": nm,
                               "script_id": None, "entrance": True,
                               **({"from": E.fmt(start)} if start != off else {}),
@@ -2202,6 +2243,9 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
                 wired.append({"layer": lay, "entity": eid, "was": orig, "now": nm, "script_id": sid,
                               "object_type": props.get("object_type"), **({} if room == pr_map else {"room": room})})
                 edits[obj["id"]] = sid
+                art = ted_art_looks().get((npc_records(snes_map).get(ev["npc"]) or {}).get("sprite"))
+                if art is not None and props.get("asset_id") != art:     # the PR's stand-in for a T-Edition figure
+                    asset_edits.setdefault((room, lay), {})[obj["id"]] = art
             if own_missing and (pr_map, snes_map, ev["npc"]) in created:
                 eid = created[(pr_map, snes_map, ev["npc"])]
                 nm = "%s_new" % name
@@ -2289,6 +2333,8 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
                     # runs the script now (action_id 2, as the PR's 570 talking NPCs with scripts)
                     if "action_id" in props and props["action_id"]["value"] in (0, 4):
                         props["action_id"]["value"] = 2
+                if o.get("id") in asset_edits.get((pr_map, lay), {}) and "asset_id" in props:
+                    props["asset_id"]["value"] = asset_edits[(pr_map, lay)][o["id"]]
         if lay == "entity_default" and new_objs.get(pr_map):
             # each added object goes in the object group holding its kind (NPCs, triggers), else the first
             groups = [g for g in doc.get("layers", []) if g.get("type") == "objectgroup"]
@@ -2303,16 +2349,21 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
                   json.dumps(doc, ensure_ascii=False, separators=(",", ":")), key="%s/%s" % (pr_map, lay))
     # the rooms' map scripts: hide each added NPC while its SNES show bit is clear (a vanilla show bit the
     # PR has no tie for: always shown), then the PR's own map script (grafted in)
-    hidden, left_owner = [], []
+    hidden, left_owner, handoff = [], [], {}
+    others = others_map_scripts() if owner == "ted-events" else set()
     for pr_map in sorted(set(prologue) | set(entrances)):
         items = prologue.get(pr_map, [])
         ms = map_script_name(pr_map)
         if ms is None:
             continue
-        if ms in OTHERS_MAP_SCRIPTS:           # one owner per load script: another workstream ships it
-            left_owner.append(ms)
-            continue
         t = Tr(rom, ms, snes_map=(items or entrances[pr_map])[0][0], alloc=alloc, prog=prog, pr_map=pr_map)
+        if ms in others and not entrances.get(pr_map):
+            # one owner per load script: another workstream ships it. Our hides go to that owner instead
+            # (ROOM_PROLOGUES: "hide entity while flag clear", TEditionQuests adds them to its prologue); a room
+            # with an entrance part of ours stays ours (code can't be handed over as data)
+            left_owner.append(ms)
+            handoff[pr_map] = [[eid, *t.flag(bit)] for snes_map_, n, bit, eid in items if not t.untied(bit)]
+            continue
         ops = []
         for snes_map_, n, bit, eid in items:
             if t.untied(bit):
@@ -2324,8 +2375,9 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
             ops += t.puppet_ops([eid], [[T.op("Hide", kind=2)]])
             ops += [T.lab(skip)]
             hidden.append((pr_map, eid, bit))
-        tail = [T.op("Call", i=["@" + t.graft(sc_, callable_=True)], comment="T-Edition's entrance (SNES map %d)" % m_)
-                for m_, sc_ in entrances.get(pr_map, [])]
+        tail = [o for m_, sc_, after_ in entrances.get(pr_map, [])
+                for o in [T.op("Call", i=["@" + t.graft(sc_, callable_=True)], comment="T-Edition's entrance (SNES map %d)" % m_)]
+                + [T.op("SysCall", s=[c], comment="after T-Edition's entrance") for c in after_]]
         if not ops and not tail:
             continue
         label = t.graft(Sc.load(ms), callable_=True)
@@ -2368,6 +2420,11 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
                 shutil.copyfile(TILE_CELLS, os.path.join(mod.out, os.path.basename(TILE_CELLS)))
             if owner == "ted-events":
                 T.write_json(os.path.join(mod.out, "ted_flags.json"), ted_flags(alloc), indent=1)
+        if owner == "ted-events":
+            T.write_json(ROOM_PROLOGUES, {"about": "ted-events: NPCs to hide while a flag is clear, in rooms whose load "
+                                                   "script another workstream ships (its prologue adds these): "
+                                                   "{PR map: [[entity id, flag category, flag index], ...]}",
+                                          "prologues": handoff}, indent=1)
             swap_dir(mod.out, final)
         mod.out = final
         alloc.save()
