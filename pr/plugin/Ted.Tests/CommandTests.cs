@@ -10,6 +10,7 @@ static partial class Program
         Test("28/43: Orichalcum power and the counters' caps", OrichalcumRule);
         Test("29: Gil Toss cost and damage", GilTossRule);
         Test("38: Interceptor 171/256", InterceptorRule);
+        Test("C28: Umaro's Fight table", UmaroRule);
     }
 
     static void StealRule()
@@ -52,5 +53,16 @@ static partial class Program
         for (int r = 0; r < 256; r++) if (CommandMath.InterceptorBlock(r)) blocks++;
         Check(blocks == CommandMath.InterceptorBlocks, $"blocks {blocks}/256");
         Check(CommandMath.InterceptorAnswer(true) < 50 && CommandMath.InterceptorAnswer(false) >= 50, "the PR's roll answered");
+    }
+
+    static void UmaroRule()
+    {
+        var none = CommandMath.UmaroWeights(false, false);
+        Check(none[2] == 0 && none[3] == 0 && none[0] + none[1] == 255, "no relic: Fight 159 / Charge 96");
+        var both = CommandMath.UmaroWeights(true, true);
+        Check(both[0] == 63 && both[2] == 64 && both[3] == 64, "both relics: 63/64/64/64");
+        Check(CommandMath.UmaroWeights(false, true)[3] == 0 && CommandMath.UmaroWeights(true, false)[2] == 0, "one relic, one option");
+        Check(CommandMath.UmaroPick(none, 0) == 0 && CommandMath.UmaroPick(none, 158) == 0 && CommandMath.UmaroPick(none, 159) == 1, "pick boundaries");
+        Check(CommandMath.UmaroPick(both, 254) == 3, "the last option");
     }
 }

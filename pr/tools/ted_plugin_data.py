@@ -38,7 +38,9 @@ MASTER = os.path.join("master", "Assets", "GameAssets", "Serial", "Data", "Maste
 MESSAGE = os.path.join("message", "Assets", "GameAssets", "Serial", "Data", "Message", "system_en.txt")
 TYPES = {"item": "1", "weapon": "2", "armor": "3"}
 # SNES spells the rules name: effect $2A no longer split (rule 37: Mysidian Rabbit $FE, Heal Force $87, Flare Star $C6)
-NAMED_SPELLS = {"mysidian_rabbit": 0xFE, "heal_force": 0x87, "flare_star": 0xC6}
+NAMED_SPELLS = {"mysidian_rabbit": 0xFE, "heal_force": 0x87, "flare_star": 0xC6,
+               "rampage": 0xEF,   # Umaro's Fight with the Power Belt (battle_commands.md §11)
+               **{f"desperation_{c}": 0xF0 + c for c in range(14)}}   # rule 39: spell $F0 + character index
 # item slots the rules name (T-Edition's ids; pr/ted/battle_commands.md)
 NAMED_SLOTS = {"orichalcum": 0x66, "elven_darts": 0x6C, "valiant_knife": 0x08, "atma_weapon": 0x61,
                "dancing_dagger": 0x06, "dice": 0x50, "fixed_dice": 0x52}
@@ -66,6 +68,39 @@ def _fraction(power, current):
 
 def _share(mode, v3):
     return v3 / 100 if mode in (2, 4) else 1 / v3 if v3 else 0
+
+
+# Umaro's Rampage (battle_commands.md §11: spell $EF, which the PR has no row for: idmap.spell(0xEF) is None):
+# ability 9903 (reserved by ted_build: 9901/9902 Dancing Dagger / Animal), the PR's Snowstorm row (199, Umaro's) with
+# T-Edition's numbers, physical damage (function group 27: the PR's plain physical) on every enemy, and its name.
+RAMPAGE_ID, RAMPAGE_TEMPLATE, RAMPAGE_SPELL, PHYSICAL_GROUP = 9903, 199, 0xEF, 27
+RAMPAGE_TEXT = "TED_ABILITY_RAMPAGE"
+
+
+def rampage_rule(folder, log=print):
+    """The Rampage ability row (+ its content row and name) in a staged port folder; idempotent."""
+    import profile_tedition as T
+    import ted_build as B
+    T.build()
+    sp = S.spells(S.Rom(T.MATO))[RAMPAGE_SPELL]
+    name = (S.spell_names(S.Rom(T.MATO))[RAMPAGE_SPELL] or "Rampage").strip() or "Rampage"
+    ab, ct = B.MasterRows(folder, "ability"), B.MasterRows(folder, "content")
+    row = dict(ab.rows.get(RAMPAGE_TEMPLATE) or ab.van[RAMPAGE_TEMPLATE])
+    row.update(id=str(RAMPAGE_ID), sort_id=str(RAMPAGE_ID), standard_value=str(sp.power), attribute_id="0",
+               attribute_group_id="0", battle_function_group_id=str(PHYSICAL_GROUP), use_value="0")
+    ab.add(row)
+    src = next(r for r in ct.van if r["type_id"] == "4" and r["type_value"] == str(RAMPAGE_TEMPLATE))
+    ct.add(dict(src, id=str(RAMPAGE_ID), type_value=str(RAMPAGE_ID), mes_id_name=RAMPAGE_TEXT))
+    ab.save()
+    ct.save()
+    B.set_messages(folder, {RAMPAGE_TEXT: name})
+    log(f"T-Edition Umaro: Rampage ability {RAMPAGE_ID} ('{name}', power {sp.power}, physical, all enemies; template {RAMPAGE_TEMPLATE})")
+
+
+def data_rules(folder, log=print):
+    """TedPlugin's data rules on a staged port folder (tools/ted_build.py calls it; idempotent)."""
+    rampage_rule(folder, log)
+    percent_damage(folder, log)
 
 
 def percent_damage(folder, log=print):
@@ -235,6 +270,20 @@ def percent_damage(folder, log=print):
     return {"kinds": kinds, "notes": notes, "edited": edited, "cloned": len(made), "moved": moved}
 
 
+RELIC_BITS = ((9, 0), (9, 1), (9, 2), (9, 3), (11, 0), (11, 2), (11, 7), (12, 0), (12, 2), (12, 7), (13, 2), (13, 4),
+              (13, 5), (13, 6), (5, 0), (5, 1))
+
+
+def relic_bits(rom):
+    """{"9.0": [item slots], ...}: T-Edition's items (its US-layout image) setting each relic bit."""
+    out = {}
+    for it in S.items(rom):
+        for byte, bit in RELIC_BITS:
+            if it.raw[byte] >> bit & 1:
+                out.setdefault(f"{byte}.{bit}", []).append(it.id)
+    return out
+
+
 def mod_csv(name):
     path = os.path.join(MOD, MASTER, name + ".csv")
     if not os.path.exists(path):
@@ -337,7 +386,11 @@ def main(argv):
         # rule 4: T-Edition skips the esper level-up bonus call for everyone (C2/60B2-60DE): the plugin
         # answers every esper as "none" (PrKit SnesEsperBonus), which needs vanilla's codes by content id
         # PR abilities of the SNES spells the rules name (idmap.spell; T-Edition relocates none)
-        "abilities": {name: M.spell(spell) for name, spell in NAMED_SPELLS.items() if M.spell(spell) is not None},
+        # T-Edition's relic effect bits the porter can't carry as data (the PR keys those effects on its own items'
+        # ids): byte.bit -> the T-Edition item slots that set it (audit I5; scratchpad relic_bits.json decoding)
+        "relic_bits": relic_bits(rom),
+        "abilities": {**{name: M.spell(spell) for name, spell in NAMED_SPELLS.items() if M.spell(spell) is not None},
+                      "rampage": RAMPAGE_ID},
         "esper_bonus_vanilla": [[M.esper_content(e), r[10]] for e, r in enumerate(S.Rom(P.VANILLA_ROM).table(*S.ESPERS))],
     }
     os.makedirs(os.path.dirname(out_path), exist_ok=True)

@@ -91,6 +91,46 @@ def parse(lines):
     return chars
 
 
+# the guide's game titles -> the music player's short forms ("Romancing Saga 3: Julian's Theme" -> "RS3 Julian")
+GAME_SHORT = [("Final Fantasy Tactics", "FFT"), ("Final Fantasy XIII", "FF13"), ("Final Fantasy XII", "FF12"),
+              ("Final Fantasy XI", "FF11"), ("Final Fantasy X", "FF10"), ("Final Fantasy IX", "FF9"),
+              ("Final Fantasy VIII", "FF8"), ("Final Fantasy VII", "FF7"), ("Final Fantasy VI", "FF6"),
+              ("Final Fantasy V", "FF5"), ("Final Fantasy IV", "FF4"), ("Final Fantasy III", "FF3"),
+              ("Final Fantasy II", "FF2"), ("Final Fantasy", "FF1"), ("Romancing Saga 3", "RS3"), ("Romancing SaGa 3", "RS3"),
+              ("Romancing Saga 2", "RS2"), ("Romancing SaGa 2", "RS2"), ("Romancing Saga", "RS1"), ("Chrono Trigger", "CT"),
+              ("Chrono Cross", "CC"), ("Seiken Densetsu 3", "SD3"), ("Live A Live", "LAL"), ("Catalina", "Katalina")]
+
+
+def _norm(s):
+    import re
+    s = s.replace("’", "'")
+    for a, b in GAME_SHORT:
+        s = s.replace(a, b)
+    return re.sub(r"[^a-z0-9]", "", s.lower())
+
+
+def match_songs(chars):
+    """Each costume's Falcon song as the music player's number and song id (data/ted_music_player.json): the guide's
+    title with its game shortened as the player writes it, equal or contained either way (names over 5 letters)."""
+    if not os.path.exists(M.OUT):
+        return 0
+    with open(M.OUT, encoding="utf-8") as f:
+        songs = [s for s in json.load(f)["songs"] if s["in_player"]]
+    by = {}
+    for s in songs:
+        by.setdefault(_norm(s["name"]), s)
+    matched = 0
+    for c in chars:
+        for k in c["costumes"]:
+            n = _norm(k.get("falcon_song") or "")
+            m = by.get(n) or next((x for key, x in by.items() if n and len(key) > 5 and (n in key or key in n)), None)
+            k["falcon_song_no"] = m["no"] if m else None
+            k["falcon_song"] = k.get("falcon_song")
+            k["falcon_song_id"] = m["song"] if m else None
+            matched += m is not None
+    return matched
+
+
 def main(argv):
     if argv:
         text = M.read_html(argv[0])
@@ -105,21 +145,11 @@ def main(argv):
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
     chars = parse(text_lines(text))
-    songs = {}
-    if os.path.exists(M.OUT):
-        with open(M.OUT, encoding="utf-8") as f:
-            for s in json.load(f)["songs"]:
-                songs.setdefault(s["name"].lower(), s["no"])
-    matched = 0
-    for c in chars:
-        for k in c["costumes"]:
-            title = (k["falcon_song"] or "").split(":")[-1].strip().lower()
-            k["falcon_song_no"] = songs.get(title)
-            matched += k["falcon_song_no"] is not None
+    matched = match_songs(chars)
     n = sum(len(c["costumes"]) for c in chars)
     data = {"about": "T-Edition's dressing-room costumes (dressroom.html, 3.0.7 / EX 2.0.6) by tools/ted_costumes.py: "
-                     "graphics only; unlocks from events/achievements; falcon_song_no = the music player number when the "
-                     "guide's song title matches its display name.",
+                     "graphics only; unlocks from events/achievements; falcon_song_no / falcon_song = the music player number and "
+                     "T-Edition song (C5 driver) whose display name matches the guide's title (match_songs).",
             "characters": chars}
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=1)

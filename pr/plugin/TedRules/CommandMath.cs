@@ -46,5 +46,17 @@ namespace TEdition.Rules
         public static bool InterceptorBlock(int roll256) => roll256 >= 0x55;
         // the PR's own roll (GetRand(100) < 50) answered so the block comes with T-Edition's odds
         public static int InterceptorAnswer(bool block) => block ? 0 : 99;
+
+        // Umaro's Fight (battle_commands.md §11, C2/1636 over C2/5251): the weights of Fight, Charge, Rampage, Throw Ally
+        // (vanilla's table + 1; 0 = not offered) by the Berserker Ring (with a throwable ally) and the Power Belt
+        public static int[] UmaroWeights(bool ring, bool belt) =>
+            ring && belt ? new[] { 63, 64, 64, 64 } : ring ? new[] { 95, 64, 0, 96 } : belt ? new[] { 95, 64, 96, 0 } : new[] { 159, 96, 0, 0 };
+
+        public static int UmaroPick(int[] w, int roll)   // roll in 0 .. sum - 1
+        {
+            int pick = 0;
+            while (pick < w.Length - 1 && roll >= w[pick]) roll -= w[pick++];
+            return pick;
+        }
     }
 }

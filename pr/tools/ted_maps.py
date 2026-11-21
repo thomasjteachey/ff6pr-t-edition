@@ -823,6 +823,12 @@ class Builder:
         self.write(out_maps, into, shots)
 
     def write(self, out_maps, into, shots):
+        """Under ted_build's lock (mods/TEdition.building: a T-Edition merge reads this folder; the lead, 11-21)."""
+        import ted_build as TB
+        with TB._lock(self.log):
+            self._write_and_swap(out_maps, into, shots)
+
+    def _write_and_swap(self, out_maps, into, shots):
         """Writes the folder beside OUT, then puts it in OUT's place (an install copying OUT meanwhile
         never sees half a build)."""
         import shutil
@@ -834,9 +840,18 @@ class Builder:
             self._write(out_maps, into, shots)
         finally:
             built, OUT = OUT, final
-        if os.path.isdir(final):
-            shutil.rmtree(final)
-        os.replace(built, final)
+        # another process may hold a file of the old folder for a moment (a merge reading it, Windows): retry
+        import time
+        for tries in range(10):
+            try:
+                if os.path.isdir(final):
+                    shutil.rmtree(final)
+                os.replace(built, final)
+                break
+            except OSError:
+                if tries == 9:
+                    raise
+                time.sleep(3)
 
     def _write(self, out_maps, into, shots):
         R = self.R

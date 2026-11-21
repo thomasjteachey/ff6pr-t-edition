@@ -146,6 +146,13 @@ def build(log=print):
             rec["how"] = "none"
             none.append(s)
         out[str(s)] = rec
+    # T-Edition's own sprites drawn on free NPC groups (tools/ted_npc_art.py, served by ArtSwap): their row
+    import ted_npc_art
+    for a in ted_npc_art.assign([(s, out[str(s)]["placements"]) for s in none]):
+        rec = out.get(str(a["sprite"]))
+        if rec is not None and rec["how"] == "none":
+            rec.update(how="ted art", assets=[a["mapobject"]], group=a["group"])
+            none.remove(a["sprite"])
     counts = collections.Counter(r["how"] for r in out.values())
     placed = collections.Counter()
     for r in out.values():

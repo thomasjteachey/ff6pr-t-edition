@@ -112,6 +112,37 @@ namespace TEdition.PR
 
         // 29 (information for the rule): the game's Gil Toss (ability 15, GIL_THROW) by the first party member on
         // one monster and on every monster: its per-target value and the gil it took during the calculation
+        // audit M5 (information): the game's Fight hit rate by the first party member on the first monster, with and
+        // without Blind on the attacker (T-Edition fixes vanilla's bug: Blind lowers hit rate). n acts each, nothing applied.
+        internal static string Probe(string[] args)
+        {
+            var battle = BattlePlugManager.Instance();
+            if (battle == null || !battle.IsBattle()) return "error: not in a battle";
+            if (args.Length == 0 || args[0] != "blind") return "error: tedprobe blind [n]";
+            int n = args.Length > 1 && int.TryParse(args[1], out int k) ? k : 200;
+            var p0 = battle.GetPlayerUnits()?.FirstOrDefault(p => p?.BattleUnitDataInfo?.Parameter?.CurrentHP > 0);
+            var e0 = battle.GetEnemyUnits()?.FirstOrDefault(e => e?.BattleUnitDataInfo?.Parameter?.CurrentHP > 0);
+            var ab = Master.Get<Ability>(1);
+            var cmd = Master.Get<Command>(1);
+            if (p0 == null || e0 == null || ab == null || cmd == null) return "error: no fighters";
+            double Rate()
+            {
+                int hits = 0;
+                for (int i = 0; i < n; i++) { var (h, _) = Hit(p0, e0, cmd, ab); if (h == HitType.Hit || h == HitType.Critical) hits++; }
+                return 100.0 * hits / n;
+            }
+            var cc = battle.BattleConditionController;
+            bool had = Has(p0, ConditionType.Blind);
+            if (had) cc.InterruptRemoveCondition(p0, ConditionType.Blind);
+            double plain = Rate();
+            cc.InterruptAddCondition(p0, ConditionType.Blind);
+            double blind = Rate();
+            if (!had) cc.InterruptRemoveCondition(p0, ConditionType.Blind);
+            string line = $"tedprobe blind: Fight hit rate {plain:0.#}% clear, {blind:0.#}% blinded ({n} acts each)";
+            Kit.Info("[ted] " + line);
+            return line;
+        }
+
         internal static string GilToss(string[] args)
         {
             var battle = BattlePlugManager.Instance();

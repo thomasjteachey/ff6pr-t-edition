@@ -101,6 +101,27 @@ class Folder(unittest.TestCase):
                 missing.append((room, sn))
         self.assertEqual(missing, [])
 
+    def test_listed_scripts_exist(self):
+        """The other way round: every sc_tedq script a package names (this folder's, or ted-maps' for its
+        rooms from data/ted_quests_maps.json) has its file in that room here. A name the room can't load
+        makes the game refuse it (ted-7: one event on several SNES maps had one file for many rooms)."""
+        import glob
+        mods = os.path.join(HERE, "..", "mods")
+        if not os.path.isdir(os.path.join(mods, "TEditionQuests")):
+            self.skipTest("no quests build yet")
+        missing = []
+        for d in ("TEditionQuests", "TEditionMaps"):
+            for p in glob.glob(os.path.join(mods, d, "map_*", "**", "package.json"), recursive=True):
+                with open(p, encoding="utf-8") as f:
+                    pk = json.load(f)
+                rel = os.path.relpath(os.path.dirname(p), os.path.join(mods, d))
+                for m in pk["map"]:
+                    for s in m.get("script", []):
+                        if s["name"].startswith("sc_tedq_") and not os.path.exists(
+                                os.path.join(mods, "TEditionQuests", rel, s["asset"] + ".json")):
+                            missing.append((d, m["name"], s["name"]))
+        self.assertEqual(missing, [])
+
 
 if __name__ == "__main__":
     unittest.main()

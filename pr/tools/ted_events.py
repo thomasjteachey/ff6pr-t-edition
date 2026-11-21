@@ -172,6 +172,10 @@ EVENTS = [
     dict(event=0x333C0, map=221, tile=(38, 51)),
     # Kohlingen's pub-quest entrance (ted-ex's catalog, taken here: one owner per room load script)
     dict(event=0x26F41, map=191, entrance=True),
+    # audit E38 "A Priestess's Concern": Figaro's priestess (map 57 NPC 1). T-Edition's CD/5EF0 first: with Sabin
+    # here and bit 061 set, her new line and bit 1C3 (Sabin's costume unlock: ENGINE_STORY_BITS, a PR flag listed
+    # in ted_flags.json for TedPlugin's dressing room); then vanilla's talk from CA/6C81 (the PR's own sc_e_0028)
+    dict(event=0x06C7B, map=57, npc=1),
 ]
 SCRIPTS = os.path.join(E.P.ROOT, "data", "snes_event_scripts_tedition.json")
 # bits T-Edition (and EX) use for their own meaning, whatever vanilla used them for: they always get a
@@ -291,6 +295,7 @@ def _translator_class():
                     and bit not in (self.alloc.table if self.alloc is not None else ()))
 
         case_kind = None
+        cmp_state = None     # after a compare: (category, index, value) its result test reads (cond)
         # the case word's loads the PR can test per character: DE (the active party) -> BranchByCharacter scope 0;
         # the recruited / available / any-party loads -> scope 1 (as the PR's "who's here at all" checks)
         CASE_SCOPE = {"case_party": 0, "case_created": 1, "case_recruited": 1, "case_available": 1, "case_parties": 1}
@@ -327,6 +332,34 @@ def _translator_class():
                         self.report[("map", "tiles -> TED:tiles " + p["tag"])] += 1
                         return [T.op("SysCall", s=[tiles_syscall(p["cells"])],
                                      comment="SNES %02X %s on map %d" % (ins.op, p["tag"], m))], True
+            if ins.name in ("word_set", "word_add", "word_sub", "word_cmp") and ins.args["word"] in WORD_GLOBALS:
+                # vanilla's word commands (E8-EB on 7E/1FC2+, words 0 1 5 6 7) -> the PR's ScenarioVariable
+                # WORD_GLOBALS[n] (Calc); a compare leaves its operands for the result test (cond)
+                import event_translate as T
+                idx, v = WORD_GLOBALS[ins.args["word"]], ins.args["value"]
+                self.done["flag"] += 1
+                self.report[("flag", "word -> ScenarioVariable")] += 1
+                if ins.name == "word_cmp":
+                    self.case_kind, self.cmp_state = "cmp", ("ScenarioVariable", idx, v)
+                    return [], True
+                sym = {"word_set": "←", "word_add": "＋", "word_sub": "－"}[ins.name]
+                return [T.op("Calc", i=[idx, v], s=["ScenarioVariable", sym, "imm"],
+                             comment="SNES %s word %d %d" % (ins.name, ins.args["word"], v))], True
+            if ins.name.startswith("cmp_") or ins.name in ("word1DD0_set", "word1E40_set"):
+                # T-Edition's compares of its RAM areas (67/68/69/6D/6E/6F/A4/FC: 1E70 counters, 1600 characters,
+                # 1300...) and its word sets (83, ED) -> TedPlugin: TED:cmp writes equal / greater / less to map
+                # variables 5 / 6 / 7 (the case bits 1A0 / 1A1 / 1A2 the next test reads); TED:set stores the word
+                import event_translate as T
+                a_ = ins.args
+                self.done["flag"] += 1
+                if ins.name.startswith("cmp_"):
+                    self.report[("flag", "compare -> TED:cmp")] += 1
+                    self.case_kind, self.cmp_state = "cmp", ("MapLocalVariable", None, None)
+                    return [T.op("SysCall", s=["TED:cmp %s %d %d" % (ins.name[4:], a_["word"], a_["value"])],
+                                 comment="SNES %02X" % ins.op)], True
+                self.report[("flag", "word set -> TED:set")] += 1
+                return [T.op("SysCall", s=["TED:set %s %d %d" % (ins.name[4:8], a_["word"], a_["value"])],
+                             comment="SNES %02X" % ins.op)], True
             if ins.name in ("battle_bit_set", "battle_bit_clear", "if_battle_bit_clear") and \
                     ins.args["bit"] not in VANILLA_BATTLE_BITS:
                 # T-Edition's own battle bits (B7-B9 on $1DC9+: 01-3E, 69-6F): story flags its events set and
@@ -412,7 +445,7 @@ def _translator_class():
                 self.done["flag"] += 1
                 self.report[("flag", "NPC show bit, no NPC here")] += 1
                 return [], True
-            if ins.name in ("bit_set", "bit_clear") and 0x1B0 <= ins.args["bit"][0] < 0x1D0                     and ins.args["bit"][0] != 0x1BE:
+            if ins.name in ("bit_set", "bit_clear") and 0x1B0 <= ins.args["bit"][0] < 0x1D0                     and ins.args["bit"][0] != 0x1BE and ins.args["bit"][0] not in self.story_engine_bits:
                 # the field engine's own state (1CC: temporary song override, 1CE: party switching, 1C1/1C2:
                 # sprint / menu off...): the PR keeps none of it; nothing to do
                 self.done["flag"] += 1
@@ -455,6 +488,42 @@ def _translator_class():
                                 T.lab(ok_)]
                     else:
                         out.append(T.op("BranchByLeader", i=[b - 0x1A0 + 1, "@" + skip]))
+                if rest:
+                    ins2 = copy.copy(ins)
+                    ins2.args = dict(ins.args, bits=rest)
+                    out += self.cond(ins2)
+                else:
+                    out.append(T.op("Jump", i=[target]))
+                return out + [T.lab(skip)]
+            if self.case_kind == "cmp" and self.cmp_state and any(0x1A0 <= b <= 0x1A2 for b, _ in ins.args["bits"]):
+                # a compare's result (1A0 equal, 1A1 greater, 1A2 less: vanilla's pairs, e.g. Cid's thresholds on
+                # 1A1 and CB/70C7's "EB 07 21" as the PR's "< 22") -> a Branch on the compared ScenarioVariable, or on
+                # TED:cmp's map variables 5/6/7
+                cat, idx, val = self.cmp_state
+                target = "@L_%06X" % ins.args["event"]
+                terms = [(b, w) for b, w in ins.args["bits"] if 0x1A0 <= b <= 0x1A2]
+                rest = [(b, w) for b, w in ins.args["bits"] if (b, w) not in terms]
+                syms = {0x1A0: ("＝", "≠"), 0x1A1: ("＞", "≦"), 0x1A2: ("＜", "≧")}
+                flip = {"＝": "≠", "≠": "＝", "＞": "≦", "≦": "＞", "＜": "≧", "≧": "＜"}
+
+                def branch(b, w, to, negate=False):
+                    if cat == "ScenarioVariable":
+                        sym = syms[b][0 if w else 1]
+                        return T.op("Branch", i=[idx, val, to], s=[cat, flip[sym] if negate else sym, "imm"],
+                                    comment="SNES compare bit %03X" % b)
+                    return T.op("Branch", i=[5 + b - 0x1A0, (1 if w else 0) ^ int(negate), to], s=[cat, T.EQ, "imm"],
+                                comment="SNES compare bit %03X (TED:cmp)" % b)
+                self.done["flow"] += 1
+                self.report[("flow", "compare result")] += 1
+                if ins.op >= 0xC8:                      # any of them
+                    out = [branch(b, w, target) for b, w in terms]
+                    if rest:
+                        ins2 = copy.copy(ins)
+                        ins2.args = dict(ins.args, bits=rest)
+                        out += self.cond(ins2)
+                    return out
+                skip = "skip_%06X" % ins.off             # all of them: a failing one skips the jump
+                out = [branch(b, w, "@" + skip, negate=True) for b, w in terms]
                 if rest:
                     ins2 = copy.copy(ins)
                     ins2.args = dict(ins.args, bits=rest)
@@ -541,6 +610,8 @@ def _translator_class():
         # T-Edition's 76/9E/9F play from its second sound driver (bank 43); F0/EF/F1 from C5, whose
         # slots 25-51 aren't all vanilla's songs any more: both through data/ted_songs.json
         song_commands = frozenset(("ted_song", "ted_song_volume", "ted_song_fade_in"))
+        # engine-range bits only T-Edition's events touch (vanilla's never do): its own story flags (ENGINE_STORY_BITS)
+        story_engine_bits = frozenset(ENGINE_STORY_BITS)
 
         def song_bgm(self, song, command):
             """Vanilla's songs: their PR tracks (data/ted_songs.json). T-Edition's own: the music pack's
@@ -1090,6 +1161,49 @@ def tile_plan(m, pr_map, x, y, w, h, tiles, writes=None):
                        model=lambda: _tile_model(m, pr_map, bg1, bg2), tilesets=R._tilesets_of.get(pr_map), writes=mine)
 
 
+def ted_flags(alloc):
+    """TedPlugin's story flags (ted_flags.json, top level of TEditionEvents -> BepInEx/TEdition): [category, index]
+    of the PR flags its rules read. "wor": the World of Ruin has begun; Humbaba's two vanilla bits (I18's WoR prices:
+    T-Edition's price code wasn't found, so both); "engine_story_bits": T-Edition's own flags in the engine's range
+    (ENGINE_STORY_BITS; 1C3 = Sabin's costume from Figaro's priestess), allocated here so the mapping is stable."""
+    import event_translate as T
+    ties = T.maps()["flags"]
+    return {"about": "ted-events (tools/ted_events.py ted_flags): PR flags [category, index] for TedPlugin's rules",
+            "wor": list(WOR_FLAG),
+            "humbaba_scared_off": list(ties[0x0BF]),     # SNES 0BF: set after the first WoR Mobliz fight (CC/5035)
+            "humbaba_returns": list(ties[0x292]),        # SNES 292: set as he comes back for the last fight (CC/4C07)
+            "engine_story_bits": {"%03X" % b: list(alloc.get(b)) for b in ENGINE_STORY_BITS},
+            **ngplus_flags(alloc)}
+
+
+NGPLUS_SET = (0x1B2, 0x1CC, 0x1E3, 0x2E0, 0x2F0, 0x2FE)   # T-Edition's story reset sets these after clearing (C0/DA9C)
+NGPLUS_NPC_TABLE = 0x00E0A0                                # its initial NPC show bits (300-6FF), copied to 7E/1EE0
+
+
+def ngplus_flags(alloc):
+    """TedPlugin's TED:ngplus lists, from T-Edition's story reset (the Beginner's House clerk's CB on map 104: C0/DB58 ->
+    C0/DA9C clears 7E/1E80-1EDF = event bits 000-2FF, sets NGPLUS_SET, copies the NPC show bits 300-6FF from
+    C0/E0A0): "ngplus_clear" / "ngplus_set" = the PR flags those bits are (vanilla's ties and T-Edition's own flags,
+    its costume / dream bits included; battle bits aren't touched). Bits with no PR flag (engine bits, characters)
+    are left out."""
+    import event_translate as T
+    import ted_maps as TM
+    ties = T.maps()["flags"]
+    own = {k: tuple(v) for k, v in {**alloc._disk(), **alloc.table}.items() if k < 0x700}
+    flags = lambda b: {f for f in (ties.get(b), own.get(b)) if f}
+    want = {b: False for b in range(0x300)}
+    want.update({b: True for b in NGPLUS_SET})
+    data = TM.rom()
+    for i in range(0x80):
+        for k in range(8):
+            want[0x300 + 8 * i + k] = bool(data[NGPLUS_NPC_TABLE + i] >> k & 1)
+    clear, set_ = set(), set()
+    for b, on in want.items():
+        (set_ if on else clear).update(flags(b))
+    clear -= set_
+    return {"ngplus_clear": [list(f) for f in sorted(clear)], "ngplus_set": [list(f) for f in sorted(set_)]}
+
+
 TILE_CELLS = os.path.join(E.P.ROOT, "data", "ted_tile_cells.json")
 
 
@@ -1127,6 +1241,41 @@ def tile_cells(path=TILE_CELLS, log=print):
     T.write_json(path, doc, indent=0)
     log("tile cells: %d plans, %d rooms, %d cells -> %s" % (n, len(doc), sum(len(v) for v in doc.values()), path))
     return doc
+
+
+def build_lock(log=print):
+    """ted_build's lock (mods/TEdition.building: one writer of T-Edition's folders at a time, so its merge never reads
+    a half-written sibling folder); none when this process already holds it."""
+    import contextlib
+    import ted_build
+    try:
+        with open(os.path.join(ted_build.LOCK, "owner.txt"), encoding="utf-8") as f:
+            if int(f.read().split()[0]) == os.getpid():
+                return contextlib.nullcontext()
+    except (OSError, ValueError, IndexError):
+        pass
+    return ted_build._lock(log)
+
+
+def swap_dir(new, out, tries=40):
+    """Puts folder `new` in place of `out` with two renames (out -> out.old, new -> out), retrying while a reader
+    holds a file open (Windows refuses the rename then), and deletes the old one."""
+    import shutil
+    import time
+    old = out + ".old"
+    if os.path.isdir(old):
+        shutil.rmtree(old, ignore_errors=True)
+    for k in range(tries):
+        try:
+            if os.path.isdir(out):
+                os.replace(out, old)
+            os.replace(new, out)
+            break
+        except PermissionError:
+            if k == tries - 1:
+                raise
+            time.sleep(0.25)
+    shutil.rmtree(old, ignore_errors=True)
 
 
 def tiles_syscall(cells):
@@ -1238,7 +1387,16 @@ def nop_stubs(sc):
     return out
 
 
-BATTLE_KEY = 0x1000     # flag allocator key of battle bit b: 1000 + b, the kit's (port_ai event_bits: SnesAiHost
+# bits in the engine's range (1B0-1CF) that vanilla's events never touch and T-Edition's do (11-21 count over both
+# ROMs' event code): its own story flags (1C3 = Sabin's costume from Figaro's priestess, CD/5EF0; 1C4/1C5/1C7/1C8/1C9 =
+# the inn dreams' chapters; 1BC/1BD/1C0 set once and tested), allocated like its other story bits
+ENGINE_STORY_BITS = (0x1BC, 0x1BD, 0x1C0, 0x1C3, 0x1C4, 0x1C5, 0x1C7, 0x1C8, 0x1C9)
+# vanilla's event words (E8-EB on 7E/1FC2 + 2n; T-Edition's events use 0 1 5 6 7) -> the PR's ScenarioVariable (16 of them,
+# DataStorage.kGlobalVariables). The PR's own scenes keep word 0 in 2 and word 7 in 7 (Cid's health, also word 7, in 2:
+# its own sc_e_0616), and use 0 2 3 5 7 10; T-Edition's other words take free ones (TedPlugin keeps 1 4 6 8 9 14 15).
+# Not T-Edition's $1E70 counters (its 67 / TED:counter): those are TedPlugin's.
+WORD_GLOBALS = {0: 2, 7: 7, 1: 11, 5: 12, 6: 13}
+BATTLE_KEY = 0x1000    # flag allocator key of battle bit b: 1000 + b, the kit's (port_ai event_bits: SnesAiHost
                         # loads/saves those flags around a fight, so fights and scenes share them)
 # the battle bits vanilla's events use (38-3A, 40 lost battle, 41-4D): left to event_translate; T-Edition's own
 # (01-3E, 69-6F) are story flags its events set and test
@@ -1975,12 +2133,20 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
     mod.text("story_mes_en").update(texts.mes)
     mod.text("story_cha_en").update(texts.cha)
     if write:
-        mod.write()
-        if owner == "ted-events" and os.path.exists(TILE_CELLS):
-            # TedPlugin's walkability table for TED:tiles (top level: ted_build merges it into mods/TEdition, the
-            # test install copies that folder's *.json to BepInEx/TEdition)
-            import shutil
-            shutil.copyfile(TILE_CELLS, os.path.join(out, os.path.basename(TILE_CELLS)))
+        # written beside the folder, then swapped in: other workstreams' builds (ted_build's merge) read this folder
+        # at any time and must never see it half written
+        final, mod.out = out, out + ".new"
+        with build_lock():     # ted_build's lock: its merge never reads this folder mid-swap
+            mod.write()
+            if owner == "ted-events" and os.path.exists(TILE_CELLS):
+                # TedPlugin's walkability table for TED:tiles (top level: ted_build merges it into mods/TEdition, the
+                # test install copies that folder's *.json to BepInEx/TEdition)
+                import shutil
+                shutil.copyfile(TILE_CELLS, os.path.join(mod.out, os.path.basename(TILE_CELLS)))
+            if owner == "ted-events":
+                T.write_json(os.path.join(mod.out, "ted_flags.json"), ted_flags(alloc), indent=1)
+            swap_dir(mod.out, final)
+        mod.out = final
         alloc.save()
         ids.save()
         T.write_json(report_file, report, ensure_ascii=False, indent=1)

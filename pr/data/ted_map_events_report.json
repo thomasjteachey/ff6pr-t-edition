@@ -1,7 +1,7 @@
 {
  "stats": {
   "npcs": 455,
-  "stubs as nops": 2054,
+  "stubs as nops": 760,
   "entrances": 80,
   "scripts": 262,
   "tiles": 162,
@@ -19,10 +19,10 @@
    "map": 417,
    "pr_map": "Map_20371_15",
    "stubs": {
-    "map": 19,
     "flow": 15
    },
    "translated": {
+    "map": 19,
     "screen": 40,
     "flow": 49
    }
@@ -33,10 +33,10 @@
    "map": 418,
    "pr_map": "Map_20371_16",
    "stubs": {
-    "map": 8,
     "flow": 6
    },
    "translated": {
+    "map": 8,
     "screen": 40,
     "flow": 24
    }
@@ -47,10 +47,10 @@
    "map": 419,
    "pr_map": "Map_20371_17",
    "stubs": {
-    "map": 12,
     "flow": 10
    },
    "translated": {
+    "map": 12,
     "screen": 40,
     "flow": 37
    }
@@ -61,10 +61,10 @@
    "map": 420,
    "pr_map": "Map_20371_18",
    "stubs": {
-    "map": 5,
     "flow": 3
    },
    "translated": {
+    "map": 5,
     "screen": 40,
     "flow": 19
    }
@@ -96,10 +96,10 @@
    "map": 421,
    "pr_map": "Map_30651_14",
    "stubs": {
-    "map": 5,
     "flow": 3
    },
    "translated": {
+    "map": 5,
     "flow": 6
    }
   },
@@ -109,10 +109,10 @@
    "map": 422,
    "pr_map": "Map_30651_15",
    "stubs": {
-    "map": 3,
     "flow": 1
    },
    "translated": {
+    "map": 3,
     "flow": 2
    }
   },
@@ -122,10 +122,11 @@
    "map": 423,
    "pr_map": "Map_30651_16",
    "stubs": {
-    "map": 18,
+    "map": 1,
     "flow": 15
    },
    "translated": {
+    "map": 17,
     "flow": 30
    }
   },
@@ -135,10 +136,10 @@
    "map": 424,
    "pr_map": "Map_30651_17",
    "stubs": {
-    "map": 3,
     "flow": 1
    },
    "translated": {
+    "map": 3,
     "flow": 2
    }
   },
@@ -186,11 +187,11 @@
    "map": 425,
    "pr_map": "Map_30651_18",
    "stubs": {
-    "map": 9,
     "flow": 3,
     "screen": 1
    },
    "translated": {
+    "map": 9,
     "object": 2,
     "flow": 13
    }
@@ -201,10 +202,10 @@
    "map": 426,
    "pr_map": "Map_30651_19",
    "stubs": {
-    "map": 4,
     "flow": 1
    },
    "translated": {
+    "map": 4,
     "flow": 2
    }
   },
@@ -252,9 +253,10 @@
    "map": 427,
    "pr_map": "Map_30651_20",
    "stubs": {
-    "map": 5
+    "map": 2
    },
    "translated": {
+    "map": 3,
     "object": 2,
     "flow": 3
    }
@@ -323,10 +325,9 @@
    "kind": "entrance",
    "map": 428,
    "pr_map": "Map_30651_21",
-   "stubs": {
-    "map": 4
-   },
+   "stubs": {},
    "translated": {
+    "map": 4,
     "flow": 1
    }
   },
@@ -352,10 +353,10 @@
    "map": 429,
    "pr_map": "Map_30040_1",
    "stubs": {
-    "screen": 1,
-    "map": 1
+    "screen": 1
    },
    "translated": {
+    "map": 1,
     "flow": 3,
     "object": 1
    }
@@ -511,7 +512,8 @@
     "sound": 38,
     "item": 2,
     "screen": 17,
-    "battle": 247
+    "battle": 247,
+    "map": 16
    }
   },
   {
@@ -536,7 +538,8 @@
     "sound": 38,
     "item": 2,
     "screen": 17,
-    "battle": 247
+    "battle": 247,
+    "map": 16
    }
   },
   {
@@ -561,7 +564,8 @@
     "item": 2,
     "object": 81,
     "screen": 17,
-    "battle": 247
+    "battle": 247,
+    "map": 16
    }
   },
   {
@@ -586,7 +590,8 @@
     "sound": 38,
     "item": 2,
     "screen": 17,
-    "battle": 247
+    "battle": 247,
+    "map": 16
    }
   },
   {
@@ -797,7 +802,6 @@
    "stubs": {
     "flag": 8,
     "flow": 6,
-    "party": 15,
     "item": 1
    },
    "translated": {
@@ -807,7 +811,7 @@
     "dialog": 6,
     "flag": 3,
     "object": 21,
-    "party": 1,
+    "party": 16,
     "camera": 2
    }
   },
@@ -900,12 +904,11 @@
    "script": "sc_tedm_035CD0",
    "script_id": 9637,
    "stubs": {
-    "flow": 3,
-    "party": 15
+    "flow": 3
    },
    "translated": {
     "flow": 45,
-    "party": 2,
+    "party": 17,
     "object": 27,
     "wait": 3,
     "dialog": 2,
@@ -919,10 +922,10 @@
    "map": 438,
    "pr_map": "Map_20231_13",
    "stubs": {
-    "map": 3,
     "object": 2
    },
    "translated": {
+    "map": 3,
     "flow": 3
    }
   },
@@ -932,10 +935,10 @@
    "map": 438,
    "pr_map": "Map_20231_8",
    "stubs": {
-    "map": 3,
     "object": 2
    },
    "translated": {
+    "map": 3,
     "flow": 3
    }
   },
@@ -944,10 +947,9 @@
    "kind": "entrance",
    "map": 438,
    "pr_map": "Map_20231_9",
-   "stubs": {
-    "map": 3
-   },
+   "stubs": {},
    "translated": {
+    "map": 3,
     "flow": 3,
     "object": 2
    }
@@ -958,10 +960,10 @@
    "map": 438,
    "pr_map": "Map_20231_14",
    "stubs": {
-    "map": 3,
     "object": 2
    },
    "translated": {
+    "map": 3,
     "flow": 3
    }
   },
@@ -971,10 +973,10 @@
    "map": 438,
    "pr_map": "Map_20231_15",
    "stubs": {
-    "map": 3,
     "object": 2
    },
    "translated": {
+    "map": 3,
     "flow": 3
    }
   },
@@ -1445,10 +1447,9 @@
    "kind": "entrance",
    "map": 447,
    "pr_map": "Map_30421_5",
-   "stubs": {
-    "map": 2
-   },
+   "stubs": {},
    "translated": {
+    "map": 2,
     "screen": 3,
     "flow": 3
    }
@@ -1480,10 +1481,9 @@
    "kind": "entrance",
    "map": 449,
    "pr_map": "Map_30421_8",
-   "stubs": {
-    "map": 3
-   },
+   "stubs": {},
    "translated": {
+    "map": 3,
     "screen": 3,
     "flow": 3
    }
@@ -1721,10 +1721,9 @@
    "kind": "entrance",
    "map": 458,
    "pr_map": "Map_20231_10",
-   "stubs": {
-    "map": 3
-   },
+   "stubs": {},
    "translated": {
+    "map": 3,
     "flow": 1
    }
   },
@@ -1749,10 +1748,10 @@
    "script": "sc_tedm_03ACB0",
    "script_id": 9676,
    "stubs": {
-    "flow": 16,
     "map": 2,
     "object": 34,
-    "flag": 21
+    "flag": 21,
+    "flow": 8
    },
    "translated": {
     "flow": 3530,
@@ -1775,8 +1774,7 @@
    "script": "sc_tedm_036180",
    "script_id": 9677,
    "stubs": {
-    "flow": 8,
-    "party": 14,
+    "flow": 3,
     "map": 2,
     "object": 11,
     "screen": 1
@@ -1787,7 +1785,7 @@
     "dialog": 17,
     "object": 73,
     "sound": 88,
-    "party": 14,
+    "party": 28,
     "camera": 2,
     "wait": 53,
     "screen": 229,
@@ -1855,14 +1853,13 @@
    "script": "sc_tedm_0376B0",
    "script_id": 9682,
    "stubs": {
-    "flow": 3,
-    "party": 16
+    "flow": 3
    },
    "translated": {
     "flow": 54,
     "dialog": 6,
     "object": 41,
-    "party": 2,
+    "party": 18,
     "wait": 6,
     "flag": 2
    }
@@ -1875,14 +1872,13 @@
    "script": "sc_tedm_0376A0",
    "script_id": 9683,
    "stubs": {
-    "flow": 3,
-    "party": 16
+    "flow": 3
    },
    "translated": {
     "flow": 54,
     "dialog": 6,
     "object": 41,
-    "party": 2,
+    "party": 18,
     "wait": 6,
     "flag": 2
    }
@@ -1970,10 +1966,9 @@
    "kind": "entrance",
    "map": 463,
    "pr_map": "Map_20051_26",
-   "stubs": {
-    "map": 2
-   },
+   "stubs": {},
    "translated": {
+    "map": 2,
     "flow": 3,
     "object": 1
    }
@@ -1986,8 +1981,7 @@
    "script": "sc_tedm_0376C0",
    "script_id": 9690,
    "stubs": {
-    "flow": 1,
-    "party": 15
+    "flow": 1
    },
    "translated": {
     "flow": 44,
@@ -1995,7 +1989,7 @@
     "screen": 4,
     "map": 1,
     "object": 28,
-    "party": 2,
+    "party": 17,
     "wait": 3,
     "flag": 1
    }
@@ -2070,10 +2064,9 @@
    "kind": "entrance",
    "map": 464,
    "pr_map": "Map_20051_15",
-   "stubs": {
-    "map": 2
-   },
+   "stubs": {},
    "translated": {
+    "map": 2,
     "flow": 1
    }
   },
@@ -2098,14 +2091,13 @@
    "script": "sc_tedm_037440",
    "script_id": 9696,
    "stubs": {
-    "flow": 3,
-    "party": 16
+    "flow": 3
    },
    "translated": {
     "flow": 54,
     "dialog": 12,
     "object": 47,
-    "party": 2,
+    "party": 18,
     "wait": 16,
     "sound": 4,
     "flag": 2
@@ -2174,10 +2166,9 @@
    "kind": "entrance",
    "map": 465,
    "pr_map": "Map_20221_6",
-   "stubs": {
-    "map": 1
-   },
+   "stubs": {},
    "translated": {
+    "map": 1,
     "flow": 1
    }
   },
@@ -2349,15 +2340,14 @@
    "script_id": 10013,
    "stubs": {
     "flag": 8,
-    "flow": 6,
-    "party": 15
+    "flow": 6
    },
    "translated": {
     "flow": 55,
     "dialog": 2,
     "object": 29,
     "wait": 3,
-    "party": 2,
+    "party": 17,
     "flag": 1
    }
   },
@@ -2370,15 +2360,14 @@
    "script_id": 10014,
    "stubs": {
     "flag": 8,
-    "flow": 6,
-    "party": 15
+    "flow": 6
    },
    "translated": {
     "flow": 55,
     "dialog": 2,
     "object": 29,
     "wait": 3,
-    "party": 2,
+    "party": 17,
     "flag": 1
    }
   },
@@ -2426,10 +2415,9 @@
    "kind": "entrance",
    "map": 468,
    "pr_map": "Map_20231_16",
-   "stubs": {
-    "map": 4
-   },
+   "stubs": {},
    "translated": {
+    "map": 4,
     "flow": 1
    }
   },
@@ -2438,10 +2426,9 @@
    "kind": "entrance",
    "map": 468,
    "pr_map": "Map_20231_11",
-   "stubs": {
-    "map": 4
-   },
+   "stubs": {},
    "translated": {
+    "map": 4,
     "flow": 1
    }
   },
@@ -2450,10 +2437,9 @@
    "kind": "entrance",
    "map": 468,
    "pr_map": "Map_20231_12",
-   "stubs": {
-    "map": 4
-   },
+   "stubs": {},
    "translated": {
+    "map": 4,
     "flow": 1
    }
   },
@@ -2462,10 +2448,9 @@
    "kind": "entrance",
    "map": 468,
    "pr_map": "Map_20231_17",
-   "stubs": {
-    "map": 4
-   },
+   "stubs": {},
    "translated": {
+    "map": 4,
     "flow": 1
    }
   },
@@ -2474,10 +2459,9 @@
    "kind": "entrance",
    "map": 468,
    "pr_map": "Map_20231_18",
-   "stubs": {
-    "map": 4
-   },
+   "stubs": {},
    "translated": {
+    "map": 4,
     "flow": 1
    }
   },
@@ -2828,10 +2812,10 @@
    "map": 469,
    "pr_map": "Map_20151_9",
    "stubs": {
-    "map": 2,
     "screen": 5
    },
    "translated": {
+    "map": 2,
     "flag": 1,
     "flow": 26,
     "object": 36,
@@ -2871,10 +2855,9 @@
    "kind": "entrance",
    "map": 470,
    "pr_map": "Map_20431_9",
-   "stubs": {
-    "map": 20
-   },
+   "stubs": {},
    "translated": {
+    "map": 20,
     "flow": 12,
     "object": 20
    }
@@ -3123,10 +3106,9 @@
    "kind": "entrance",
    "map": 471,
    "pr_map": "Map_20051_27",
-   "stubs": {
-    "map": 17
-   },
+   "stubs": {},
    "translated": {
+    "map": 17,
     "flag": 127,
     "object": 224,
     "flow": 215,
@@ -3282,10 +3264,10 @@
    "map": 472,
    "pr_map": "Map_20051_28",
    "stubs": {
-    "map": 17,
     "screen": 10
    },
    "translated": {
+    "map": 17,
     "flag": 67,
     "object": 99,
     "flow": 95,
@@ -3297,10 +3279,9 @@
    "kind": "entrance",
    "map": 477,
    "pr_map": "Map_20451_10",
-   "stubs": {
-    "map": 2
-   },
+   "stubs": {},
    "translated": {
+    "map": 2,
     "object": 1,
     "flow": 3
    }
@@ -3312,9 +3293,7 @@
    "pr_map": "Map_20451_11",
    "script": "sc_tedm_032AC0",
    "script_id": 10065,
-   "stubs": {
-    "flag": 1
-   },
+   "stubs": {},
    "translated": {
     "flow": 6,
     "sound": 6,
@@ -3322,7 +3301,7 @@
     "screen": 3,
     "dialog": 3,
     "battle": 1,
-    "flag": 2,
+    "flag": 3,
     "party": 12
    }
   },
@@ -3333,9 +3312,7 @@
    "pr_map": "Map_20451_13",
    "script": "sc_tedm_032990",
    "script_id": 10066,
-   "stubs": {
-    "flag": 1
-   },
+   "stubs": {},
    "translated": {
     "flow": 6,
     "sound": 6,
@@ -3343,7 +3320,7 @@
     "screen": 3,
     "dialog": 3,
     "battle": 1,
-    "flag": 2,
+    "flag": 3,
     "party": 12
    }
   },
@@ -3462,10 +3439,9 @@
    "kind": "entrance",
    "map": 482,
    "pr_map": "Map_30660_1",
-   "stubs": {
-    "map": 1
-   },
+   "stubs": {},
    "translated": {
+    "map": 1,
     "screen": 40,
     "flow": 11
    }
@@ -3475,10 +3451,9 @@
    "kind": "entrance",
    "map": 484,
    "pr_map": "Map_30811_8",
-   "stubs": {
-    "map": 7
-   },
+   "stubs": {},
    "translated": {
+    "map": 7,
     "flow": 234,
     "object": 78
    }
@@ -3490,12 +3465,10 @@
    "pr_map": "Map_20281_6",
    "script": "sc_tedm_03F480",
    "script_id": 10071,
-   "stubs": {
-    "flag": 72,
-    "flow": 72
-   },
+   "stubs": {},
    "translated": {
-    "flow": 136,
+    "flag": 72,
+    "flow": 208,
     "dialog": 62
    }
   },
@@ -3506,12 +3479,10 @@
    "pr_map": "Map_20281_6",
    "script": "sc_tedm_03FAA0",
    "script_id": 10072,
-   "stubs": {
-    "flag": 6,
-    "flow": 6
-   },
+   "stubs": {},
    "translated": {
-    "flow": 17,
+    "flow": 23,
+    "flag": 6,
     "dialog": 19
    }
   },
@@ -3576,12 +3547,10 @@
    "pr_map": "Map_20281_6",
    "script": "sc_tedm_03FA90",
    "script_id": 10077,
-   "stubs": {
-    "flag": 9,
-    "flow": 9
-   },
+   "stubs": {},
    "translated": {
-    "flow": 23,
+    "flow": 32,
+    "flag": 9,
     "dialog": 28
    }
   },
@@ -3593,12 +3562,12 @@
    "script": "sc_tedm_03F490",
    "script_id": 10078,
    "stubs": {
-    "flow": 248,
-    "flag": 246
+    "flow": 2
    },
    "translated": {
-    "flow": 488,
-    "dialog": 237
+    "flow": 734,
+    "dialog": 237,
+    "flag": 246
    }
   },
   {
@@ -3606,10 +3575,9 @@
    "kind": "entrance",
    "map": 485,
    "pr_map": "Map_20281_6",
-   "stubs": {
-    "map": 2
-   },
+   "stubs": {},
    "translated": {
+    "map": 2,
     "flow": 3,
     "object": 1
    }
@@ -3645,10 +3613,9 @@
    "kind": "entrance",
    "map": 486,
    "pr_map": "Map_20161_7",
-   "stubs": {
-    "map": 2
-   },
+   "stubs": {},
    "translated": {
+    "map": 2,
     "flow": 5,
     "sound": 2
    }
@@ -3851,10 +3818,10 @@
    "map": 487,
    "pr_map": "Map_20161_8",
    "stubs": {
-    "map": 2,
     "flow": 4
    },
    "translated": {
+    "map": 2,
     "flag": 1,
     "flow": 32,
     "object": 26,
@@ -4058,10 +4025,9 @@
    "kind": "entrance",
    "map": 488,
    "pr_map": "Map_20161_9",
-   "stubs": {
-    "map": 2
-   },
+   "stubs": {},
    "translated": {
+    "map": 2,
     "flag": 1,
     "flow": 44,
     "object": 36,
@@ -4266,10 +4232,10 @@
    "map": 489,
    "pr_map": "Map_30811_9",
    "stubs": {
-    "map": 2,
     "object": 44
    },
    "translated": {
+    "map": 2,
     "flag": 1,
     "flow": 27,
     "object": 4,
@@ -4282,10 +4248,10 @@
    "map": 489,
    "pr_map": "Map_30811_11",
    "stubs": {
-    "map": 2,
     "object": 4
    },
    "translated": {
+    "map": 2,
     "flag": 1,
     "flow": 27,
     "object": 44,
@@ -4394,10 +4360,9 @@
    "kind": "entrance",
    "map": 490,
    "pr_map": "Map_20161_10",
-   "stubs": {
-    "map": 2
-   },
+   "stubs": {},
    "translated": {
+    "map": 2,
     "flag": 1,
     "flow": 22,
     "object": 22,
@@ -4448,11 +4413,11 @@
    "map": 491,
    "pr_map": "Map_20151_10",
    "stubs": {
-    "map": 2,
     "screen": 11,
     "object": 9
    },
    "translated": {
+    "map": 2,
     "flow": 12
    }
   },
@@ -4466,7 +4431,6 @@
    "stubs": {
     "flow": 2,
     "sound": 2,
-    "map": 1,
     "object": 2
    },
    "translated": {
@@ -4474,6 +4438,7 @@
     "dialog": 4,
     "object": 4,
     "wait": 5,
+    "map": 1,
     "screen": 3,
     "battle": 1,
     "sound": 1,
@@ -4485,10 +4450,9 @@
    "kind": "entrance",
    "map": 492,
    "pr_map": "Map_30661_2",
-   "stubs": {
-    "map": 3
-   },
+   "stubs": {},
    "translated": {
+    "map": 3,
     "flow": 4
    }
   },
@@ -4510,10 +4474,9 @@
    "kind": "entrance",
    "map": 493,
    "pr_map": "Map_30811_10",
-   "stubs": {
-    "map": 2
-   },
+   "stubs": {},
    "translated": {
+    "map": 2,
     "flow": 1
    }
   },
@@ -4561,10 +4524,9 @@
    "kind": "entrance",
    "map": 494,
    "pr_map": "Map_20011_16",
-   "stubs": {
-    "map": 2
-   },
+   "stubs": {},
    "translated": {
+    "map": 2,
     "flow": 6,
     "object": 2,
     "sound": 2
@@ -4605,10 +4567,10 @@
    "map": 497,
    "pr_map": "Map_20051_20",
    "stubs": {
-    "map": 23,
     "flow": 21
    },
    "translated": {
+    "map": 23,
     "flow": 42
    }
   },
@@ -4655,10 +4617,9 @@
    "kind": "entrance",
    "map": 498,
    "pr_map": "Map_20451_14",
-   "stubs": {
-    "map": 2
-   },
+   "stubs": {},
    "translated": {
+    "map": 2,
     "flow": 1
    }
   },
@@ -4668,10 +4629,10 @@
    "map": 499,
    "pr_map": "Map_20451_15",
    "stubs": {
-    "map": 5,
     "flow": 3
    },
    "translated": {
+    "map": 5,
     "flow": 6
    }
   },
@@ -4702,10 +4663,10 @@
    "map": 500,
    "pr_map": "Map_20451_16",
    "stubs": {
-    "map": 5,
     "flow": 3
    },
    "translated": {
+    "map": 5,
     "object": 1,
     "flow": 13
    }
@@ -4737,10 +4698,10 @@
    "map": 501,
    "pr_map": "Map_20051_21",
    "stubs": {
-    "map": 5,
     "flow": 3
    },
    "translated": {
+    "map": 5,
     "object": 1,
     "flow": 13
    }
@@ -4771,10 +4732,9 @@
    "kind": "entrance",
    "map": 502,
    "pr_map": "Map_20051_22",
-   "stubs": {
-    "map": 2
-   },
+   "stubs": {},
    "translated": {
+    "map": 2,
     "object": 1,
     "flow": 3
    }
@@ -4807,10 +4767,10 @@
    "map": 503,
    "pr_map": "Map_20051_23",
    "stubs": {
-    "map": 5,
     "flow": 3
    },
    "translated": {
+    "map": 5,
     "object": 1,
     "flow": 13
    }
@@ -4820,10 +4780,9 @@
    "kind": "entrance",
    "map": 504,
    "pr_map": "Map_20051_24",
-   "stubs": {
-    "map": 2
-   },
+   "stubs": {},
    "translated": {
+    "map": 2,
     "flow": 1
    }
   },
@@ -4854,10 +4813,9 @@
    "kind": "entrance",
    "map": 505,
    "pr_map": "Map_20451_17",
-   "stubs": {
-    "map": 2
-   },
+   "stubs": {},
    "translated": {
+    "map": 2,
     "object": 1,
     "flow": 3
    }
@@ -4895,7 +4853,6 @@
     "sound": 3,
     "screen": 3,
     "flow": 1,
-    "map": 60,
     "flag": 1
    },
    "translated": {
@@ -4903,7 +4860,7 @@
     "sound": 5,
     "screen": 10,
     "flow": 147,
-    "map": 2,
+    "map": 104,
     "flag": 8,
     "object": 8,
     "dialog": 1
@@ -4914,10 +4871,9 @@
    "kind": "entrance",
    "map": 508,
    "pr_map": "Map_30700_1",
-   "stubs": {
-    "map": 2
-   },
+   "stubs": {},
    "translated": {
+    "map": 2,
     "screen": 40,
     "flow": 11
    }
@@ -4947,12 +4903,12 @@
    "script": "sc_tedm_00D521",
    "script_id": 10140,
    "stubs": {
-    "sound": 1,
-    "map": 1
+    "sound": 1
    },
    "translated": {
     "flow": 5,
-    "flag": 1
+    "flag": 1,
+    "map": 2
    }
   },
   {
@@ -4963,12 +4919,12 @@
    "script": "sc_tedm_00D530",
    "script_id": 10141,
    "stubs": {
-    "sound": 2,
-    "map": 2
+    "sound": 2
    },
    "translated": {
     "flow": 7,
     "flag": 1,
+    "map": 4,
     "wait": 1
    }
   },
@@ -4980,12 +4936,12 @@
    "script": "sc_tedm_00D546",
    "script_id": 10142,
    "stubs": {
-    "sound": 2,
-    "map": 2
+    "sound": 2
    },
    "translated": {
     "flow": 7,
     "flag": 1,
+    "map": 4,
     "wait": 1
    }
   },
@@ -4997,12 +4953,12 @@
    "script": "sc_tedm_00D625",
    "script_id": 10143,
    "stubs": {
-    "sound": 2,
-    "map": 2
+    "sound": 2
    },
    "translated": {
     "flow": 7,
     "flag": 1,
+    "map": 4,
     "wait": 1
    }
   },
@@ -5014,12 +4970,12 @@
    "script": "sc_tedm_00D63B",
    "script_id": 10144,
    "stubs": {
-    "sound": 2,
-    "map": 4
+    "sound": 2
    },
    "translated": {
     "flow": 9,
     "flag": 1,
+    "map": 7,
     "wait": 2
    }
   },
@@ -5031,10 +4987,10 @@
    "script": "sc_tedm_00D656",
    "script_id": 10145,
    "stubs": {
-    "map": 6,
     "sound": 1
    },
    "translated": {
+    "map": 6,
     "wait": 3,
     "flow": 13,
     "object": 8
@@ -5048,10 +5004,10 @@
    "script": "sc_tedm_00D68D",
    "script_id": 10146,
    "stubs": {
-    "map": 6,
     "sound": 1
    },
    "translated": {
+    "map": 6,
     "wait": 3,
     "flow": 13,
     "object": 8
@@ -5065,10 +5021,10 @@
    "script": "sc_tedm_00D71E",
    "script_id": 10147,
    "stubs": {
-    "map": 6,
     "sound": 1
    },
    "translated": {
+    "map": 6,
     "wait": 3,
     "flow": 13,
     "object": 8
@@ -5082,10 +5038,10 @@
    "script": "sc_tedm_00D748",
    "script_id": 10148,
    "stubs": {
-    "map": 6,
     "sound": 1
    },
    "translated": {
+    "map": 6,
     "wait": 3,
     "flow": 13,
     "object": 8
@@ -5099,10 +5055,10 @@
    "script": "sc_tedm_222BF0",
    "script_id": 10149,
    "stubs": {
-    "map": 6,
     "sound": 1
    },
    "translated": {
+    "map": 6,
     "wait": 3,
     "flow": 13,
     "object": 8
@@ -5116,10 +5072,10 @@
    "script": "sc_tedm_222BB0",
    "script_id": 10150,
    "stubs": {
-    "map": 6,
     "sound": 1
    },
    "translated": {
+    "map": 6,
     "wait": 3,
     "flow": 13,
     "object": 8
@@ -5133,13 +5089,13 @@
    "script": "sc_tedm_00D87E",
    "script_id": 10151,
    "stubs": {
-    "map": 3,
     "sound": 2
    },
    "translated": {
     "flow": 9,
     "camera": 2,
     "sound": 1,
+    "map": 6,
     "object": 2,
     "flag": 1,
     "wait": 1
@@ -5153,13 +5109,13 @@
    "script": "sc_tedm_00D8A5",
    "script_id": 10152,
    "stubs": {
-    "map": 2,
     "sound": 1
    },
    "translated": {
     "flow": 7,
     "camera": 2,
     "sound": 1,
+    "map": 4,
     "object": 2,
     "flag": 1
    }
@@ -5172,13 +5128,13 @@
    "script": "sc_tedm_00D8C7",
    "script_id": 10153,
    "stubs": {
-    "map": 5,
     "sound": 2
    },
    "translated": {
     "flow": 13,
     "camera": 2,
     "sound": 1,
+    "map": 9,
     "object": 2,
     "flag": 1,
     "wait": 3
@@ -5192,12 +5148,12 @@
    "script": "sc_tedm_00D8FD",
    "script_id": 10154,
    "stubs": {
-    "sound": 1,
-    "map": 1
+    "sound": 1
    },
    "translated": {
     "flow": 5,
-    "flag": 1
+    "flag": 1,
+    "map": 2
    }
   },
   {
@@ -5208,10 +5164,10 @@
    "script": "sc_tedm_212470",
    "script_id": 10155,
    "stubs": {
-    "map": 6,
     "sound": 1
    },
    "translated": {
+    "map": 6,
     "wait": 3,
     "object": 8,
     "flow": 5
@@ -5225,10 +5181,10 @@
    "script": "sc_tedm_212AA0",
    "script_id": 10156,
    "stubs": {
-    "map": 6,
     "sound": 1
    },
    "translated": {
+    "map": 6,
     "wait": 3,
     "object": 8,
     "flow": 5
@@ -5242,12 +5198,12 @@
    "script": "sc_tedm_212740",
    "script_id": 10157,
    "stubs": {
-    "sound": 1,
-    "map": 10
+    "sound": 1
    },
    "translated": {
     "flow": 19,
     "flag": 5,
+    "map": 19,
     "object": 1
    }
   },
@@ -5259,17 +5215,16 @@
    "script": "sc_tedm_2125F0",
    "script_id": 10158,
    "stubs": {
-    "map": 5,
     "sound": 2,
     "screen": 1
    },
    "translated": {
+    "map": 6,
     "wait": 2,
     "object": 5,
     "flow": 15,
     "sound": 1,
-    "screen": 46,
-    "map": 1
+    "screen": 46
    }
   },
   {
@@ -5280,10 +5235,10 @@
    "script": "sc_tedm_2124F0",
    "script_id": 10159,
    "stubs": {
-    "map": 6,
     "sound": 1
    },
    "translated": {
+    "map": 6,
     "wait": 3,
     "object": 8,
     "flow": 5
@@ -5297,13 +5252,13 @@
    "script": "sc_tedm_212570",
    "script_id": 10160,
    "stubs": {
-    "map": 5,
     "sound": 2
    },
    "translated": {
     "flow": 7,
     "camera": 2,
     "sound": 1,
+    "map": 9,
     "object": 2,
     "flag": 1,
     "wait": 3
@@ -5317,10 +5272,10 @@
    "script": "sc_tedm_212680",
    "script_id": 10161,
    "stubs": {
-    "map": 6,
     "sound": 1
    },
    "translated": {
+    "map": 6,
     "wait": 3,
     "object": 8,
     "flow": 5
@@ -5332,10 +5287,10 @@
    "map": 509,
    "pr_map": "Map_30600_1",
    "stubs": {
-    "map": 30,
     "screen": 1
    },
    "translated": {
+    "map": 51,
     "flow": 70,
     "flag": 4,
     "object": 1

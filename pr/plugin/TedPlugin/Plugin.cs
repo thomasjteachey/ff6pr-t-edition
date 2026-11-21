@@ -69,6 +69,18 @@ namespace TEdition.PR
             TedHarness.Register();
             if (TedMode) TedSysCalls.Apply(H);
             if (TedMode) TedMagicite.Apply(H);   // rule 35
+            if (TedMode) TedStatusPage.Patch(H);   // audit U4: elements and immunities on the status screen
+            if (TedMode) TedDesperation.Patch(H);
+            if (TedMode) TedUmaro.Patch(H);   // audit C28: Umaro takes commands; his Fight by T-Edition's table   // rule 39: desperation attacks
+            if (TedMode) TedEncounters.Patch(H);   // rule 24: openings (pre-emptive relic x4, no enemy first strike)
+            if (TedMode) TedFlags.Load(Path.Combine(DataDir, "ted_flags.json"));   // ted-events' named PR flags
+            if (TedMode) TedRam.LoadTables(Path.Combine(DataDir, "ted_tables.json"));   // TED:cmp's ROM tables
+            if (TedMode) TedShop.Apply(H);   // audit I18: WoR prices x2 until Humbaba
+            if (TedMode)
+            {
+                TedTiles.LoadCells(Path.Combine(DataDir, "ted_tile_cells.json"));   // T-Edition's tile changes: walkability
+                TedTiles.Patch(H);
+            }
             if (TedMode) TedColiseum.Apply(H, Path.Combine(DataDir, "ted_rewards.json"));
             if (TedMode)
             {
@@ -223,6 +235,7 @@ namespace TEdition.PR
                 TedMusic.Update();
                 TedCostumes.Update();
                 TedSosReflect.Update();
+                TedMagitek.Update();
                 TedHarness.Update();
             }
             catch (Exception e) { Hooks.WarnOnce("ted-update", e); }

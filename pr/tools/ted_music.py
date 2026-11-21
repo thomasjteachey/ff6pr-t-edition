@@ -119,6 +119,11 @@ def installed_bgm():
     return out
 
 
+# SNES map -> PR rooms the room table lacks: 317 (Cyan's dream dungeon) is the PR's own Map_30821_1 (id 520), the room
+# T-Edition's load into it (CB/847A) goes to (ted-events, from the PR's script for the same event)
+EXTRA_ROOMS = {317: [520]}
+
+
 def map_rules(rom, pack_slots, game_songs=None):
     """BgmRules "maps": each PR room of a SNES map whose song is one of T-Edition's own plays it, in place of the
     bgm id the room asks for: its installed map.csv bgm_id, the PR track of the map's vanilla song (the PR's map
@@ -174,6 +179,9 @@ def map_rules(rom, pack_slots, game_songs=None):
                 add(room["pr_id"], m.get("song", 0), "new", (m.get("source") or {}).get("snes_map"))
     with open(os.path.join(PR, "data", "snes_pr_maps.json"), encoding="utf-8") as f:
         pairs = json.load(f)["maps"]
+    for m, rooms in EXTRA_ROOMS.items():          # PR rooms snes_pr_maps doesn't pair (ted-events found them)
+        pairs.setdefault(str(m), [])
+        pairs[str(m)] = pairs[str(m)] + [{"pr_id": r} for r in rooms if all(x.get("pr_id") != r for x in pairs[str(m)])]
     for m in range(416):
         song = rom[MAP_PROPS + MAP_SIZE * m + MAP_SONG]
         for room in pairs.get(str(m), []):
@@ -362,6 +370,59 @@ def sample_sources(songs, samples, bc_dir=BC_SAMPLES):
                      "(pack slots: C5 n, bank 43 $100 + n)",
             "bc_mit": bc, "no_source": none,
             "songs_using_no_source": ["%X" % n for n in using]}
+
+
+LANGS = ("de", "en", "es", "fr", "it", "ja", "ko", "pt", "ru", "th", "zhc", "zht")
+MESSAGE_DIR = os.path.join("message", "Assets", "GameAssets", "Serial", "Data", "Message")
+
+
+def install_player(folder, player=None, log=print):
+    """The Extras music player's rows (player.json) into a port folder: sound_player_list.csv rows (the folder's
+    partial table, tools/ted_build.MasterRows) and the song names as etc_text keys in every language's partial
+    etc_text_<lang>.txt (English names: T-Edition has no others), listed in the folder's message keys. Idempotent:
+    rows past the PR's own are replaced. tools/ted_build.py calls it after build()."""
+    import ted_build as B
+    if player is None:
+        with open(os.path.join(OUT, "player.json"), encoding="utf-8") as f:
+            player = json.load(f)
+    rows = player["rows"]
+    if not rows:
+        return
+    first = min(r["id"] for r in rows)
+    spl = B.MasterRows(folder, "sound_player_list")
+    for rid in [r for r in spl.rows if r >= first]:
+        del spl.rows[rid]
+    for r in rows:
+        spl.add(r)
+    spl.save()
+    mdir = os.path.join(folder, MESSAGE_DIR)
+    os.makedirs(mdir, exist_ok=True)
+    for lang in LANGS:
+        path = os.path.join(mdir, f"etc_text_{lang}.txt")
+        lines = {}
+        if os.path.exists(path):
+            for line in open(path, encoding="utf-8").read().splitlines():
+                if "\t" in line:
+                    k, v = line.split("\t", 1)
+                    lines[k] = v
+        lines.update(player["etc_text"])
+        with open(path, "w", encoding="utf-8", newline="") as f:
+            for k in sorted(lines):
+                f.write(f"{k}\t{lines[k]}\r\n")
+    kdir = os.path.join(folder, "message", "keys")
+    files = sorted(f for f in os.listdir(kdir) if f.endswith(".json")) if os.path.isdir(kdir) else []
+    kpath = os.path.join(kdir, files[0] if files else "mod_message.json")
+    doc = json.load(open(kpath, encoding="utf-8")) if os.path.exists(kpath) else {"keys": [], "values": []}
+    for lang in LANGS:
+        key = f"etc_text_{lang}"
+        if key not in doc["keys"]:
+            doc["keys"].append(key)
+            doc["values"].append(f"Assets/GameAssets/Serial/Data/Message/{key}")
+    os.makedirs(kdir, exist_ok=True)
+    with open(kpath, "w", encoding="utf-8") as f:
+        json.dump(doc, f, indent=2)
+    log(f"music player: {len(rows)} rows (ids {first}-{max(r['id'] for r in rows)}) and their names in {len(LANGS)} languages "
+        f"installed into {folder}")
 
 
 def build(out=OUT, every=False, log=print):

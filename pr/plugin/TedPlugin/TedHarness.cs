@@ -28,16 +28,24 @@ namespace TEdition.PR
             Harness.Register("tedgive", Give, "tedgive ID|sSLOT [n]: a content id (or T-Edition's item slot) into the inventory");
             Harness.Register("tedrules", _ => TedLog.Summary(), "tedrules: the T-Edition rules that have fired");
             Harness.Register("tedtile", TedTiles.Harness, "tedtile [#LAYER CELL [TILEID]]: field map layers / a cell's tile / write a tile at runtime (timed; T-Edition's tile changes)");
+            Harness.Register("tedequip", Equip, "tedequip <party index 0-3 | character status id 1-14 as c1..c14> <T-Edition item slot> [equip slot 1-6, default 5 (relic 1)]: give it if needed and equip it (memory only)");
+            Harness.Register("teduse", Use, "teduse <T-Edition item slot> <party index 0-3>: give it if needed and use it from the menu on that member (the game's OwnedItemClient.UseFunction); stats before/after");
             Harness.Register("tedcoliseum", _ => TedColiseum.Summary(), "tedcoliseum: T-Edition's Coliseum wagers and boss rewards loaded, the last match's choice");
+            Harness.Register("tedstatus", a =>
+            {
+                var m = Member(a.Length > 0 ? a[0] : "0");
+                return m == null ? "error: tedstatus <party 0-3|cN>" : $"{m.Name}: {string.Join(" | ", TedStatusPage.Lines(m, true))}";
+            }, "tedstatus [party 0-3|cN]: the element and immunity lines the status screen shows (audit U4), with element ids");
             Harness.Register("tedcostume", a =>
             {
                 if (a.Length == 2 && int.TryParse(a[0], out int c) && int.TryParse(a[1], out int k)) TedCostumes.Wear(c, k);
                 return $"{TedCostumes.Summary()}; magicite (rule 35): {TedMagicite.State}; art: {TedArt.ArtLine}; monster images: {TedArt.MonsterLine}";
             }, "tedcostume [CHAR 0-13 K 0-4]: put a costume on (as the dressing room's SysCall does), then the costumes, art and rule 35 state");
-            Harness.Register("tedsteal", TedSelfTest.Steal, "tedsteal [n]: in a battle, n Steals by the first party member through the game's functions (nothing applied): rate vs T-Edition's chance");
-            Harness.Register("tedgil", TedSelfTest.GilToss, "tedgil: in a battle, the game's Gil Toss value and gil cost (information for rule 29; test runs never save)");
-            Harness.Register("tedcast", TedSelfTest.Cast, "tedcast SLOT ABILITY p0..p3|e0..e5|allies|foes [COMMAND]: a party member's act, queued as the game queues the player's (log shows its damage)");
-            Harness.Register("tedcond", a =>
+            Battle("tedsteal", TedSelfTest.Steal, "tedsteal [n]: in a battle, n Steals by the first party member through the game's functions (nothing applied): rate vs T-Edition's chance");
+            Battle("tedprobe", TedSelfTest.Probe, "tedprobe blind [n]: in a battle, the game's Fight hit rate clear vs blinded (audit M5; nothing applied)");
+            Battle("tedgil", TedSelfTest.GilToss, "tedgil: in a battle, the game's Gil Toss value and gil cost (information for rule 29; test runs never save)");
+            Battle("tedcast", TedSelfTest.Cast, "tedcast SLOT ABILITY p0..p3|e0..e5|allies|foes [COMMAND]: a party member's act, queued as the game queues the player's (log shows its damage)");
+            Battle("tedcond", a =>
             {
                 if (a.Length < 2 || !int.TryParse(a[0], out int slot)) return "error: tedcond SLOT CONDITION [off]";
                 if (!Enum.TryParse<Last.Defaine.ConditionType>(a[1], true, out var type)) return $"error: no condition {a[1]}";
@@ -57,7 +65,7 @@ namespace TEdition.PR
                 if (a.Length >= 2 && a[0] == "steal" && int.TryParse(a[1], out int v)) TedCounters.Set(TedCounters.Steal, Math.Clamp(v, 0, 510));
                 return "counters: " + TedCounters.Summary();
             }, "tedcounters [steal N]: T-Edition's success counters in the loaded game (set the Steal count, for Orichalcum tests; test runs never save)");
-            Harness.Register("teddamage", TedSelfTest.Damage, "teddamage [n]: in a battle, T-Edition's damage rules against the game's own value, case by case (nothing applied)");
+            Battle("teddamage", TedSelfTest.Damage, "teddamage [n]: in a battle, T-Edition's damage rules against the game's own value, case by case (nothing applied)");
             Harness.Register("tedkeep", a =>
             {
                 Keep = a.Length == 0 || a[0] != "off";
@@ -255,6 +263,92 @@ namespace TEdition.PR
                 }
             }
             catch (Exception e) { Hooks.WarnOnce("ted-keep", e); }
+        }
+
+        // A battle command waits for the battle's Play phase (up to the harness's two minutes): run during its opening
+        // (CreateObj, the pre-emptive message), ted-7's self-tests saw the map's script take the battle script's place
+        // (sc_map_20160 over sc_b_0239) and the opening never ended.
+        static void Battle(string name, Func<string[], string> run, string help) =>
+            Harness.Register(name, (Harness.Handler)((args, tick) => InOpening() && tick < 3600 ? null : run(args) ?? ""), help);
+
+        static bool InOpening()
+        {
+            try
+            {
+                var bm = Last.Battle.BattlePlugManager.Instance();
+                if (bm == null || !bm.IsBattle()) return false;          // not in a battle: the command answers itself
+                var bc = UnityEngine.Object.FindObjectOfType<Last.Battle.BattleController>();
+                var phase = bc?.stateMachine?.Current.ToString();
+                return phase != null && phase != "Play";
+            }
+            catch (Exception) { return false; }
+        }
+
+        static Last.Data.User.OwnedCharacterData Member(string who)
+        {
+            var udm = UserDataManager.Instance();
+            if (udm == null) return null;
+            int charId = -1;
+            if (who.StartsWith("c") && int.TryParse(who.Substring(1), out int status))
+            {
+                foreach (var o in udm.OwnedCharacterList) if (o != null && o.characterStatusId == status) { charId = o.Id; break; }
+            }
+            else if (int.TryParse(who, out int idx))
+            {
+                var party = udm.GetPartyMemberData();
+                if (party != null && idx >= 0 && idx < party.Count && party[idx] != null) charId = party[idx].Id;
+            }
+            if (charId < 0) return null;
+            foreach (var o in udm.OwnedCharacterList) if (o != null && o.Id == charId) return o;
+            return null;
+        }
+
+        static Last.Data.User.OwnedItemData Held(int content)
+        {
+            var udm = UserDataManager.Instance();
+            var item = udm.SearchOwnedItem(content);
+            if (item == null) { new OwnedItemClient().AddOwnedItem(content, 1); item = udm.SearchOwnedItem(content); }
+            return item;
+        }
+
+        static string Equip(string[] a)
+        {
+            if (a.Length < 2 || !int.TryParse(a[1].TrimStart('s'), out int slot)) return "error: tedequip <party 0-3|cN> <T-Edition slot> [equip slot 1-6]";
+            int es = a.Length > 2 && int.TryParse(a[2], out int e) && e >= 1 && e <= 6 ? e : 5;
+            var m = Member(a[0]);
+            if (m == null) return $"error: no character {a[0]}";
+            int content = Plugin.D.BySlot(slot)?.Content ?? 0;
+            if (content <= 0) return $"error: T-Edition slot {slot} has no content id in ted_data";
+            var item = Held(content);
+            if (item == null) return $"error: content {content} not in the inventory after giving it";
+            m.EquipmentData[(Last.Defaine.EquipSlotType)es] = item;
+            return $"tedequip: {m.Name} (status {m.characterStatusId}) wears T-Edition slot {slot} (content {content}, {Plugin.D.BySlot(slot)?.Name}) in equip slot {es}";
+        }
+
+        static string Stats(Last.Data.User.OwnedCharacterData m)
+        {
+            var p = m.Parameter;
+            return $"Power +{p.AddtionalPower}, Speed +{p.AddtionalAgility}, Stamina +{p.AddtionalVitality}, Magic +{p.AddtionalMagic}, max HP {p.ConfirmedMaxHp()} (+{p.AddtionalMaxHp}), max MP +{p.AddtionalMaxMp}, HP {p.CurrentHP}";
+        }
+
+        static string Use(string[] a)
+        {
+            if (a.Length < 2 || !int.TryParse(a[0].TrimStart('s'), out int slot)) return "error: teduse <T-Edition slot> <party 0-3|cN>";
+            var m = Member(a[1]);
+            if (m == null) return $"error: no character {a[1]}";
+            int content = Plugin.D.BySlot(slot)?.Content ?? 0;
+            if (content <= 0) return $"error: T-Edition slot {slot} has no content id in ted_data";
+            if (Held(content) == null) return $"error: content {content} not in the inventory";
+            var client = new OwnedItemClient();
+            string before = Stats(m);
+            bool can = client.IsUseFunction(content, m.Id);
+            if (can)
+            {
+                var ids = new Il2CppInterop.Runtime.InteropTypes.Arrays.Il2CppStructArray<int>(1);
+                ids[0] = m.Id;
+                client.UseFunction(content, ids);
+            }
+            return $"teduse: {Plugin.D.BySlot(slot)?.Name} (content {content}) on {m.Name}: usable {can}; before [{before}]; after [{Stats(m)}]";
         }
     }
 }

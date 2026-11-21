@@ -92,6 +92,32 @@ namespace TEdition.PR
                 }
                 else if (parts.Length == 2 && parts[0] == "bump" && int.TryParse(parts[1], out int bump) && bump >= 0 && bump < TedCounters.Count)
                     TedCounters.Bump(bump);
+                else if (parts.Length == 4 && parts[0] == "cmp") TedRam.Cmp(parts[1..]);   // T-Edition's word compares (TedRam.cs)
+                else if (parts.Length == 4 && parts[0] == "set") TedRam.Set(parts[1..]);
+                else if (parts.Length >= 1 && parts[0] == "ngplus")
+                {
+                    // audit N1-N3: New Game+ from the Beginner's House clerk (T-Edition's C0/DB58 -> DA9C): every story bit
+                    // cleared (costume/dream bits included: costumes re-lock), the new-game bits set; items, characters,
+                    // espers, gil, chests, play time and T-Edition's counters stay (its handler doesn't touch them). The
+                    // PR flags are ted-events' (ted_flags.json "ngplus_clear" / "ngplus_set"); the clerk's translated
+                    // script does the rest (the NPC show bits, the warp).
+                    var clear = TedFlags.List("ngplus_clear");
+                    var set = TedFlags.List("ngplus_set");
+                    TedFlags.SetAll("ngplus_clear", 0);
+                    TedFlags.SetAll("ngplus_set", 1);
+                    Kit.Info($"[ted] New Game+: {clear.Count} story flags cleared, {set.Count} set");
+                    TedLog.Rule(0, "ngplus", () => $"New Game+: {clear.Count} story flags cleared, {set.Count} set (audit N1-N3)");
+                }
+                else if (parts.Length >= 1 && parts[0] == "song")
+                {
+                    // audit S7: the song playing (T-Edition's own: its pack slot, C5 song n = n, bank-43 song n = $100 + n;
+                    // 0 when the game plays one of its own tracks) into map-local variable <var> (default 0), for the
+                    // Developer's Room patrons who comment on the song
+                    int var = parts.Length > 1 && int.TryParse(parts[1], out int sv) ? sv : 0;
+                    int slot = PrKit.Snes.SnesBgm.Player?.CurrentSlot ?? -1;
+                    DataStorage.Instance?.Set(DataStorage.Category.kMapLocalVariable, var, Math.Max(0, slot));
+                    Hooks.NoteOnce("ted-song", () => $"[ted] {name}: song {slot} -> map-local {var}");
+                }
                 else if (parts.Length >= 2 && parts[0] == "tiles")
                 {
                     var line = TedTiles.Apply(parts[1..]);   // T-Edition's 73/74 tile changes (TedTiles.cs)

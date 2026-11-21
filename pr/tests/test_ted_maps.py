@@ -221,7 +221,7 @@ class Build(unittest.TestCase):
             doc = json.load(f)
         self.assertEqual(len(doc["looks"]), 112)
         self.assertGreaterEqual(len(L.looks()), 72)
-        self.assertTrue(all(0 < a < 1000 for v in L.looks().values() for a in v))
+        self.assertTrue(all(0 < a < 1000 or a >= 3001 for v in L.looks().values() for a in v))   # 3001+: ted_npc_art rows
         tile = bytes([0xFF, 0x00] * 8 + [0x00] * 16)            # plane 0 set: every pixel colour 1
         self.assertEqual(set(L.pixels(tile)), {1})
         self.assertEqual(L.iou([1, 1, 0, 0], [1, 0, 0, 0]), 0.5)

@@ -113,6 +113,7 @@ def _place_vanilla_npc(rom, prog, Tr, texts, alloc, ids, mod, m, det, addr, name
     look from TE.npc_look (a stand-in listed for bc-sprites), hidden by the room's map script while its SNES
     show bit is clear (written after the loop from `hidden`), talking runs the event. Rooms whose map script
     another folder ships are left out (one owner per map script) and reported. -> [rows]"""
+    import event_translate as T
     import snes_events as E
     import snes_maps as SM
     import ted_events as TE
@@ -126,6 +127,33 @@ def _place_vanilla_npc(rom, prog, Tr, texts, alloc, ids, mod, m, det, addr, name
             continue
         group, folder = where
         room = os.path.dirname(SM.pr_tilemaps()[pr])
+        key = (room, group, folder, pr)
+        # the NPC's entity id (and the scene's other NPCs the room lacks: TE.build's add_scene_npcs), known to
+        # the translator before translating, so the scene's moves/shows of them aren't "no PR entity" stubs
+        eid = Tr.created.get((pr, m, det["npc"]))     # already placed as another event's scene NPC: talks now
+        if eid is None:
+            eid = VANILLA_NPC_BASE + len(fixed[key])
+            Tr.created[(pr, m, det["npc"])] = eid
+            fixed[key].append(None)      # this NPC's slot, filled below
+            hidden.setdefault((group, folder, pr), []).append((m, det["npc"], det["bit"], eid))
+        probe = Tr(rom, "probe", snes_map=m, alloc=alloc, prog=prog, pr_map=pr)
+        probe.layers = "entity_default"
+        recs = TE.npc_records(m)
+        for n in sorted({i.args["obj"] - 0x10 for i in T.scene(prog, E.parse_addr(addr), "field")
+                         if isinstance(i.args.get("obj"), int) and 0x10 <= i.args["obj"] < 0x30}):
+            r = recs.get(n)
+            if r is None or (pr, m, n) in Tr.created or probe.npc_entity(n) is not None:
+                continue
+            e2 = VANILLA_NPC_BASE + len(fixed[key])
+            Tr.created[(pr, m, n)] = e2
+            look2, standin2 = TE.npc_look(rom, r["sprite"])
+            sx, sy = r["x"] + px - det["x"], r["y"] + py - det["y"]
+            fixed[key].append(TE.npc_object(sx, sy, e2, look2, TE.DIRECTION.get(r.get("direction", 2), 4), 0,
+                                            "TEditionNPC_%d_%d" % (m, n)))
+            hidden.setdefault((group, folder, pr), []).append((m, n, TE.NPC_BITS + r["show_bit"], e2))
+            if standin2:
+                standins.append({"sprite": r["sprite"], "snes_map": m, "npc": n, "pr_map": pr, "look": look2,
+                                 "entity": e2, "event": addr})
         sn = "sc_tedq_%s_%s_new" % (name, pr[4:].lower())
         t = Tr(rom, sn, snes_map=m, alloc=alloc, prog=prog, pr_map=pr)
         t.texts = texts
@@ -138,12 +166,9 @@ def _place_vanilla_npc(rom, prog, Tr, texts, alloc, ids, mod, m, det, addr, name
                 mod.table("script").add({"script_name": a}, id=ids.get(a))
         sid = ids.get(sn)
         mod.table("script").add({"script_name": sn}, id=sid)
-        key = (room, group, folder, pr)
-        eid = VANILLA_NPC_BASE + len(fixed[key])
         look, standin = TE.npc_look(rom, det["sprite"])
-        fixed[key].append(TE.npc_object(px, py, eid, look, TE.DIRECTION.get(rec.get("direction", 2), 4), sid,
-                                        "TEditionNPC_%d_%d" % (m, det["npc"])))
-        hidden.setdefault((group, folder, pr), []).append((m, det["npc"], det["bit"], eid))
+        fixed[key][eid - VANILLA_NPC_BASE] = TE.npc_object(px, py, eid, look, TE.DIRECTION.get(rec.get("direction", 2), 4),
+                                                           sid, "TEditionNPC_%d_%d" % (m, det["npc"]))
         if standin:
             standins.append({"sprite": det["sprite"], "snes_map": m, "npc": det["npc"], "pr_map": pr,
                              "look": look, "entity": eid, "event": addr})
@@ -370,7 +395,8 @@ EVENTS_SCRIPT_IDS = range(13000, 14000)
 TRIGGER_TYPES = (2, 5, 30)     # PR objects an event tile becomes: action_id 2 with these object types
 
 
-BUILT_ELSEWHERE = {"CD/5850"}   # South Figaro's wine old man: ted-events built him in mods/TEditionEvents
+BUILT_ELSEWHERE = {"CD/5850",   # South Figaro's wine old man: ted-events built him in mods/TEditionEvents
+                   "CA/5366"}   # Cid's fish game: ted-events edits the PR's own sc_e_0616 (11-21)
 
 
 # PR rooms snes_maps.pr_maps doesn't pair with an event's SNES map yet: {event: [(PR map, dx, dy)]}
@@ -472,6 +498,7 @@ def build(out=OUT, events=None, write=True, log=print):
     for bit in TE.EX_BOSS_BITS + (TE.EX_OMEGA_BIT,):     # the pinned flags first, as ted-events' build does
         alloc.get(bit)
     Tr = TE._translator_class()
+    Tr.created = {}          # (PR map, SNES map, NPC) -> entity id of NPCs placed here (as TE.build's)
     ids_q = TE.ScriptIds(IDS_FILE, ids=SCRIPT_IDS)
     ids_e = TE.ScriptIds(EVENTS_IDS_FILE, ids=EVENTS_SCRIPT_IDS)
     mod = MG.MagiciteMod(out, PD.GameData("ff6"), keys_name=KEYS_NAME)
@@ -708,7 +735,9 @@ def build(out=OUT, events=None, write=True, log=print):
     mod.text("story_mes_en").update(texts.mes)
     mod.text("story_cha_en").update(texts.cha)
     if write:
-        mod.write()
+        import ted_build as TB
+        with TB._lock(log):              # not while a T-Edition merge reads this folder (the lead, 11-21)
+            mod.write()
         alloc.save()
         ids_q.save()
         ids_e.save()
@@ -755,7 +784,7 @@ def new_map_events(out=OUT, write=True, log=print, prog=None, ids_q=None, ids_e=
     ids_e = ids_e or TE.ScriptIds(EVENTS_IDS_FILE, ids=EVENTS_SCRIPT_IDS)
     plan, scripts, sids = {}, collections.defaultdict(list), {}
     new_groups = {r["pr_map"]: r["group"] for rec in rooms.values() for r in rec.get("rooms", [])}
-    to_list, vanilla_after = {}, []         # new PR room -> after-scripts for its package; [(room, PR map, name, sc)]
+    to_list, vanilla_after, used_names = {}, [], {}         # new PR room -> after-scripts for its package; [(room, PR map, name, sc)]
     with TE.Session(prog=prog, persist=write) as s:
         assets = T.sprite_assets(s.rom)
         ents = {}
@@ -783,6 +812,10 @@ def new_map_events(out=OUT, write=True, log=print, prog=None, ids_q=None, ids_e=
                     where = (rec["rooms"][0]["pr_map"], None, None)
                 room = next((r for r in rec["rooms"] if r["pr_map"] == where[0]), rec["rooms"][0])
                 sn = f"sc_tedq_{code.lower()}_{kind}" + (f"{det['npc']}" if kind == "npc" else "")
+                # one event on several SNES maps (CD/5810 on 446 and another): a script per room, since a
+                # room's package can name only a file in that room (ted-maps lists each in its own room)
+                if used_names.setdefault(sn, where[0]) != where[0]:
+                    sn = f"{sn}_{where[0][4:].lower()}"
                 sc, after, t = s.translate(E.parse_addr(addr), m, sn, pr_map=where[0])
                 nop_stubs(sc)
                 key = (room["group"], room["group"].replace("map_", "Map_"), where[0])

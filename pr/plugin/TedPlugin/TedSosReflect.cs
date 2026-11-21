@@ -17,12 +17,41 @@ namespace TEdition.PR
         static bool inBattle;
         internal static int Casts;
 
+        // The game's magic calc reads the target character's EquipmentData[Slot5] / [Slot6] (relics: CalcControllerProvider.
+        // GetMagicStatus) with no check; a save whose characters lack those keys (ted-monsters-1's "load party" save)
+        // threw KeyNotFoundException on every spell at them. Missing slots are added empty at battle start.
+        internal static int SlotsFilled;
+
+        static void FillEquipSlots(BattlePlugManager bm)
+        {
+            try
+            {
+                var players = bm.GetPlayerUnits();
+                if (players == null) return;
+                foreach (var u in players)
+                {
+                    var eq = u?.TryCast<BattlePlayerData>()?.ownedCharacterData?.EquipmentData;
+                    if (eq == null) continue;
+                    for (int s = 1; s <= 6; s++)
+                    {
+                        var key = (EquipSlotType)s;
+                        if (eq.ContainsKey(key)) continue;
+                        eq[key] = null;
+                        SlotsFilled++;
+                    }
+                }
+                if (SlotsFilled > 0) Hooks.NoteOnce("ted-equip-slots", () => $"[ted] {SlotsFilled} missing equipment slots added empty (the save's characters lacked them)");
+            }
+            catch (Exception e) { Hooks.WarnOnce("ted-equip-slots", e); }
+        }
+
         public static void Update()
         {
             if (!Plugin.TedMode) return;
             var bm = BattlePlugManager.Instance();
             bool now = bm != null && bm.IsBattle();
             if (!now) { if (inBattle) done.Clear(); inBattle = false; return; }
+            if (!inBattle) FillEquipSlots(bm);
             inBattle = true;
             int curtain = Plugin.D.BySlot(LunarCurtainSlot)?.Content ?? 0;
             if (curtain <= 0) return;

@@ -384,6 +384,10 @@ def costumes(out=COSTUME_OUT, walk=False, sheet=None, log=print):
     L = look(rom, 15, imp["palette"])
     _write_look(pr_art.ArtWriter(default), C, imp, C.frame_names(imp["battle"]), L, {"costume": 0, "slot": 15,
                                                                                     "pal": imp["palette"]}, "Imp")
+    # T-Edition's own NPC sprites on the new maps (the audit's G6): free vanilla NPC groups redrawn, in default/
+    import ted_npc_art
+    ted_npc_art.write(default, log=log)
+    ted_npc_art.write_story(default, log=log)
     # Gogo's Chameleon Robe: each battle one of 10 battle-only looks, the battle sheets of slots 16-25 (ROM read:
     # 42/6000 + its colors at 42/5E00) drawn on Gogo's battle group (no field atlas, no portrait)
     gogo = slots["12"]

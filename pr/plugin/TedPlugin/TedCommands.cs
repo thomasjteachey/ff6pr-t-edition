@@ -140,6 +140,8 @@ namespace TEdition.PR
         // --- 33: one dance per command ----------------------------------------------------------------------
 
         const int DanceCommand = 22, DanceStatus = 51;
+        static readonly HashSet<IntPtr> gilPaid = new HashSet<IntPtr>();   // an act pays once (CreateActFunction may run per function)
+        const int GilTossCommand = 21;   // GP Rain (tedgil's command)
         const int SlotCommand = 20, SnowstormCommand = 19, MimicCommand = 25;   // PR command ids (tools/port.py SNES_CMD)   // condition 51 (type 619), added by every dance (function 9)
         static readonly Dictionary<IntPtr, int> lastCommand = new Dictionary<IntPtr, int>();
 
@@ -150,6 +152,19 @@ namespace TEdition.PR
             {
                 int cmd = battleActData.Command?.Id ?? 0;
                 lock (lastCommand) lastCommand[battleActData.AttackUnitData.Pointer] = cmd;
+                // 29: a character's Gil Toss costs Lv x 180 (the game takes Lv x 30 itself: the rest here, down to 0)
+                if (cmd == GilTossCommand && !Testing && gilPaid.Add(battleActData.Pointer))
+                {
+                    var pc = battleActData.AttackUnitData.TryCast<BattlePlayerData>()?.ownedCharacterData;
+                    var udm = Last.Management.UserDataManager.Instance();
+                    if (pc != null && udm != null)
+                    {
+                        int lv = pc.Parameter.ConfirmedLevel();
+                        int extra = Math.Min(udm.OwendGil, CommandMath.GilTossCost(lv) - TedDamage.GameGilTossPerLevel * lv);
+                        if (extra > 0) new Last.Management.OwnedItemClient().RemoveGil(extra);
+                        TedLog.Rule(29, "cost", () => $"Gil Toss costs Lv x 180 ({CommandMath.GilTossCost(lv)} at Lv {lv}; {extra} more than the game's)");
+                    }
+                }
                 // 43: the use counters T-Edition keeps for its achievements (Slot $1E7A, Snowstorm $1E7C, Mimic $1E7E:
                 // counted per use, as 40/0A00, C2/FB64, 40/0A20), a character's acts only, never in a test
                 if (!Testing && battleActData.AttackUnitData.TryCast<BattlePlayerData>() != null)
@@ -167,6 +182,7 @@ namespace TEdition.PR
 
         public static void ActEnd_Postfix(BattleProgressATB __instance, BattleUnitData battleUnitData, bool isCounter)
         {
+            gilPaid.Clear();   // the act is over: its object may be reused by a later act (rule 29 pays once per act)
             if (!On || isCounter || battleUnitData == null || !Hooks.IsA<BattleProgressATB>(__instance)) return;
             try
             {
@@ -283,6 +299,9 @@ namespace TEdition.PR
             if (!interceptorAnswered) return;   // not a physical hit it could block: no roll
             bool r = __result;
             if (r) Blocks++;
+            // 43 / audit U3: the Twin Fang track record ($1E72, cap 255) counts Interceptor's interventions (counted on
+            // his block, which the PR follows with his counter; unverified against T-Edition's exact trigger)
+            if (r && !Testing) TedCounters.Bump(TedCounters.TwinFang);
             TedLog.Rule(38, "", () => $"Interceptor rolled with T-Edition's odds (171/256): {(r ? "blocks" : "doesn't")}");
         }
 
@@ -302,10 +321,15 @@ namespace TEdition.PR
     // and FF6 never uses FF2's keyword list (UserDataManager.OwnedKeyWaordList, saved as "ownedKeyWaordList"),
     // so the block is a marker "TED1" and 8 words there (BNW keeps its esper data the same way, marker "BNW1").
     // T-Edition's saves are its own files (ModSaves "TEdition"); test runs never save.
+    // T-Edition's success counters ($1E70 words 0-7: Steal, Twin Fang, Runic, Sketch, -, Slot, Snowstorm, Mimic) in the
+    // PR's global (scenario) variables, where the translated events' own word commands (E8-EB: Calc / Branch) and
+    // TED:counter / TED:cmp read them too: word n -> global Globals[n] (the PR has 16, 0-15; vanilla's scripts use 0, 2,
+    // 3, 5, 7, 10). Saves from before 11-21 kept them in a "TED1" block of OwnedKeyWaordList: moved over once on load.
     static class TedCounters
     {
         public const int Steal = 0, TwinFang = 1, Runic = 2, Sketch = 3, Slot = 5, Snowstorm = 6, Mimic = 7, Count = 8;
-        const int Marker = 0x54454431;   // "TED1"
+        public static readonly int[] Globals = { 6, 8, 9, 11, 12, 13, 14, 15 };
+        const int Marker = 0x54454431;   // "TED1" (the old block)
         static readonly object Sync = new object();
         public static string State = "counters not read yet";
 
@@ -319,15 +343,28 @@ namespace TEdition.PR
             return -1;
         }
 
+        // an old save's TED1 block: its values into the globals, the block removed
+        static void Migrate(Last.Interpreter.DataStorage ds)
+        {
+            var list = List();
+            if (list == null) return;
+            int at = Find(list);
+            if (at < 0) return;
+            for (int k = 0; k < Count; k++)
+                if (list[at + 1 + k] != 0) ds.Set(Last.Interpreter.DataStorage.Category.kScenarioVariable, Globals[k], list[at + 1 + k]);
+            for (int k = 0; k <= Count; k++) list.RemoveAt(at);
+            Kit.Info("[ted] success counters moved from the old TED1 block into the global variables");
+        }
+
         public static int Get(int which)
         {
             lock (Sync)
             {
-                var list = List();
-                if (list == null) { State = "no save data"; return 0; }
-                int at = Find(list);
-                State = at < 0 ? "no counters in this save yet" : "counters in the save";
-                return at < 0 ? 0 : list[at + 1 + which];
+                var ds = Last.Interpreter.DataStorage.Instance;
+                if (ds == null || which < 0 || which >= Count) { State = "no save data"; return 0; }
+                Migrate(ds);
+                State = "counters in the global variables";
+                return ds.Get(Last.Interpreter.DataStorage.Category.kScenarioVariable, Globals[which]);
             }
         }
 
@@ -335,18 +372,11 @@ namespace TEdition.PR
         {
             lock (Sync)
             {
-                var list = List();
-                if (list == null) return;
-                int at = Find(list);
-                if (at < 0)
-                {
-                    at = list.Count;
-                    list.Add(Marker);
-                    for (int i = 0; i < Count; i++) list.Add(0);
-                    Kit.Info("[ted] started T-Edition's success counters in this save");
-                }
-                list[at + 1 + which] = value;
-                State = "counters in the save";
+                var ds = Last.Interpreter.DataStorage.Instance;
+                if (ds == null || which < 0 || which >= Count) return;
+                Migrate(ds);
+                ds.Set(Last.Interpreter.DataStorage.Category.kScenarioVariable, Globals[which], value);
+                State = "counters in the global variables";
             }
         }
 

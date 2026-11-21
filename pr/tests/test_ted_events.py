@@ -290,6 +290,33 @@ class WineOldMan(unittest.TestCase):
         ops = t.cond(prog().code[(E.parse_addr("CD/4A90"), "field")])                       # if 1CC clear -> always
         self.assertEqual([(o["mnemonic"], o["operands"]["iValues"][0]) for o in ops], [("Jump", "@L_034E00")])
 
+    def test_word_compares(self):
+        # vanilla's word commands -> ScenarioVariable WORD_GLOBALS[n]; a compare's result test -> a Branch with the
+        # comparison (1A0 equal, 1A1 greater, 1A2 less); T-Edition's own compares (FC: CE/63A0) -> TED:cmp and a
+        # Branch on its map variable 5 (equal)
+        import event_translate as T
+        t = TE._translator_class()(prog().rom, "x", alloc=T.FlagAlloc(None), prog=prog())
+
+        def ins(op, name, args, off=0):
+            i = E.Instr.__new__(E.Instr)
+            i.op, i.off, i.name, i.cls, i.args, i.size = op, off, name, "flag", args, 4
+            i.mode = i.next_mode = "field"
+            i.flow, i.targets, i.raw = "next", [], bytes([op])
+            return i
+        ops, _ = t.instr(ins(0xE9, "word_add", {"word": 5, "value": 3}), False, None)
+        self.assertEqual([(o["mnemonic"], o["operands"]["iValues"][:2], o["operands"]["sValues"][:2]) for o in ops],
+                         [("Calc", [TE.WORD_GLOBALS[5], 3], ["ScenarioVariable", "＋"])])
+        self.assertEqual(t.instr(ins(0xEB, "word_cmp", {"word": 7, "value": 21}), False, None), ([], True))
+        test = ins(0xC8, "if_any", {"bits": [(0x1A1, False)], "event": 0x10}, off=8)          # not greater: <= 21
+        self.assertEqual([(o["operands"]["iValues"][:3], o["operands"]["sValues"][:2]) for o in t.cond(test)],
+                         [([TE.WORD_GLOBALS[7], 21, "@L_000010"], ["ScenarioVariable", "≦"])])
+        cmp_ = prog().code[(E.parse_addr("CE/63A0"), "field")]
+        ops, _ = t.instr(cmp_, False, None)
+        self.assertEqual(ops[0]["operands"]["sValues"][0], "TED:cmp 1300 0 512")
+        ops = t.cond(prog().code[(E.parse_addr("CE/63A4"), "field")])
+        self.assertEqual([(o["mnemonic"], o["operands"]["iValues"][:2], o["operands"]["sValues"][0]) for o in ops][:2],
+                         [("Branch", [5, 0], "MapLocalVariable"), ("Jump", ["@L_046680", 0], "")])
+
     def test_tile_changes(self):
         # CA/13F4 draws a 3x4 picture over walls on map 126 (Map_20451_2): a passability change, its cells with a
         # look (a cell of the map to copy, or the converter's gids; its bottom row's tile 74 over BG2 128 no

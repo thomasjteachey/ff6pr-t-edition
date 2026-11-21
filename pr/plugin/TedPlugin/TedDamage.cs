@@ -106,6 +106,8 @@ namespace TEdition.PR
             public bool GameBoostedHeal;       // the game asked for the Earring boost during this heal
         }
 
+        internal const int GilTossAbility = 15, GameGilTossPerLevel = 30;   // rule 29 (ted-7: 90 at Lv 3)
+        internal static bool GameSplits = false;   // rule 37: the game splits effect $2A spells over targets (it doesn't)
         [ThreadStatic] static Calc healCalc;
         [ThreadStatic] static bool ownAsk;
 
@@ -199,12 +201,15 @@ namespace TEdition.PR
                 if (aid > 0 && (aid == Plugin.D.Ability("mysidian_rabbit") || aid == Plugin.D.Ability("heal_force") ||
                                 aid == Plugin.D.Ability("flare_star")) && !NoSplitTest)
                 {
+                    // ted-7 (2026-11-21): the game doesn't split these either (Mysidian Rabbit 76 on 1 target, 73 each
+                    // on 3), so T-Edition's rule holds as the game has it: no factor (GameSplits for a game that would)
                     int n = c.numTarget;
-                    if (n > 1)
+                    if (n > 1 && GameSplits)
                     {
                         r.Factor *= n;
                         r.Rule(37, $"ability {aid} not split over its {n} targets (x{n})");
                     }
+                    else if (n > 1) r.Rule(37, $"ability {aid} on {n} targets: not split (the game's own way)");
                 }
                 // 15: one +25% magic boost however many Earrings (the game: 1 + 0.25 x the number worn, in
                 // MagicExecution); heals: T-Edition boosts them too (whether the game does: unchecked)
@@ -218,6 +223,13 @@ namespace TEdition.PR
                         r.Factor *= 1.25 / (1 + 0.25 * n);
                         r.Rule(15, $"{n} magic boost relics: +25% once (the game's +{25 * n}%)");
                     }
+                }
+                // 29: a character's Gil Toss deals Lv x 90 to every target (the game's Lv x 30, unsplit: ted-7's tedgil,
+                // 90 at Lv 3 on one and on two monsters); the cost (Lv x 180) is TedCommands'
+                if (ability != null && ability.Id == GilTossAbility && c.userCharaData != null)
+                {
+                    r.Factor *= CommandMath.GilTossDamage(1) / (double)GameGilTossPerLevel;
+                    r.Rule(29, $"Gil Toss: Lv x {CommandMath.GilTossDamage(1)} to each target (the game's Lv x {GameGilTossPerLevel})");
                 }
                 if (valiant) r.Rule(60, "Valiant Knife meets the target's defense (T-Edition NOPs its ignore-defense)");
                 LastResult = r;

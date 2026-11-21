@@ -12,7 +12,8 @@
      "achievement": null,
      "model": "",
      "falcon_song": "Romancing Saga 3: Catalina's Theme",
-     "falcon_song_no": null
+     "falcon_song_no": 209,
+     "falcon_song_id": 221
     },
     {
      "name": "Bodhum Military Uniform: l'Cie",
@@ -21,7 +22,8 @@
      "achievement": "The Feeling of Love",
      "model": "The appearance used here is Lightning's model from Final Fantasy XIII.",
      "falcon_song": "Final Fantasy XIII: March of the Dreadnoughts",
-     "falcon_song_no": null
+     "falcon_song_no": 181,
+     "falcon_song_id": 244
     },
     {
      "name": "Flower Seller's Dress: Cetra",
@@ -30,7 +32,8 @@
      "achievement": "Character Master",
      "model": "The costume is designed after Aerith's dress from Final Fantasy VII.",
      "falcon_song": "Final Fantasy VII: Aerith's Theme",
-     "falcon_song_no": null
+     "falcon_song_no": 130,
+     "falcon_song_id": 252
     },
     {
      "name": "Feymarch Bustier: Summoner",
@@ -39,7 +42,8 @@
      "achievement": null,
      "model": "This costume is designed from Rydia's dress in Final Fantasy IV.",
      "falcon_song": "Final Fantasy IV: Rydia",
-     "falcon_song_no": null
+     "falcon_song_no": 98,
+     "falcon_song_id": 223
     }
    ]
   },
@@ -54,7 +58,8 @@
      "achievement": null,
      "model": "The costume is modeled after Draco's sprite in Final Fantasy VI.",
      "falcon_song": "Romancing Saga 3: Julian's Theme",
-     "falcon_song_no": null
+     "falcon_song_no": 207,
+     "falcon_song_id": 219
     },
     {
      "name": "Wild Rose Bandana: Rebel",
@@ -63,7 +68,8 @@
      "achievement": "Great Bandit",
      "model": "The model used here is Firion from Final Fantasy II.",
      "falcon_song": "Final Fantasy II: Town",
-     "falcon_song_no": null
+     "falcon_song_no": 80,
+     "falcon_song_id": 245
     },
     {
      "name": "SeeD Jacket: SeeD",
@@ -72,7 +78,8 @@
      "achievement": "Character Master",
      "model": "This costume is modeled after Squall from Final Fantasy VIII.",
      "falcon_song": "Final Fantasy VIII: Fragments of Memories",
-     "falcon_song_no": null
+     "falcon_song_no": 141,
+     "falcon_song_id": 185
     },
     {
      "name": "Sky Pirate's Clothing: Sky Pirate",
@@ -81,7 +88,8 @@
      "achievement": "Quest Achiever",
      "model": "This costume is modeled after Vaan from Final Fantasy XII.",
      "falcon_song": "Final Fantasy XII: Clan Headquarters",
-     "falcon_song_no": null
+     "falcon_song_no": 176,
+     "falcon_song_id": 210
     }
    ]
   },
@@ -96,7 +104,8 @@
      "achievement": null,
      "model": "This appearance is based off a foreign suit of armor. In this case the armor Seigfried uses.",
      "falcon_song": "Final Fantasy IX: Unforgettable Sorrow",
-     "falcon_song_no": null
+     "falcon_song_no": 148,
+     "falcon_song_id": 116
     },
     {
      "name": "Spira Monk Clothes: Guard",
@@ -105,7 +114,8 @@
      "achievement": "Doma-style Mastery",
      "model": "This costume is modeled after Auron from Final Fantasy X.",
      "falcon_song": "Final Fantasy X: To Zanarkand",
-     "falcon_song_no": null
+     "falcon_song_no": 155,
+     "falcon_song_id": 196
     },
     {
      "name": "Gold-Trim Armor: Samurai",
@@ -114,7 +124,8 @@
      "achievement": "Character Master",
      "model": "This costume is modeled after Tenzen from Final Fantasy XI.",
      "falcon_song": "Final Fantasy XI: A New Horizon - Tavnazian Archipelago",
-     "falcon_song_no": null
+     "falcon_song_no": 173,
+     "falcon_song_id": 216
     },
     {
      "name": "Judge's Mail: Judge",
@@ -123,7 +134,8 @@
      "achievement": "Quest Achiever",
      "model": "This costume is modeled after Gabranth from Final Fantasy XII.",
      "falcon_song": "Final Fantasy XII: Destiny",
-     "falcon_song_no": null
+     "falcon_song_no": 179,
+     "falcon_song_id": 203
     }
    ]
   },
@@ -138,7 +150,8 @@
      "achievement": null,
      "model": "This costume is based off of Shadow's original design prior to becoming a Ninja.",
      "falcon_song": "Final Fantasy V: Dear Friends",
-     "falcon_song_no": null
+     "falcon_song_no": 118,
+     "falcon_song_id": 226
     },
     {
      "name": "Lunar Mail: Magus",
@@ -147,7 +160,8 @@
      "achievement": "Nice Combination",
      "model": "This costume is based off of Golbez from Final Fantasy IV.",
      "falcon_song": "Final Fantasy IV: Lunar Whale",
-     "falcon_song_no": null
+     "falcon_song_no": 109,
+     "falcon_song_id": 217
     },
     {
      "name": "SOLDIER Uniform: SOLDIER",
@@ -156,7 +170,8 @@
      "achievement": "Character Master",
      "model": "This costume is based off of Cloud's model in Final Fantasy VII.",
      "falcon_song": "Final Fantasy VII: Interrupted By Fireworks",
-     "falcon_song_no": null
+     "falcon_song_no": 129,
+     "falcon_song_id": 193
     },
     {
      "name": "Shinobi Clothing: Ninja",
@@ -165,7 +180,8 @@
      "achievement": "Quest Achiever",
      "model": "This costume is modeled after Edge from Final Fantasy IV.",
      "falcon_song": "Final Fantasy IV: Mt. Ordeals",
-     "falcon_song_no": null
+     "falcon_song_no": 105,
+     "falcon_song_id": 178
     }
    ]
   },
@@ -180,7 +196,8 @@
      "achievement": null,
      "model": "",
      "falcon_song": "Romancing Saga: Grey's Theme",
-     "falcon_song_no": null
+     "falcon_song_no": 197,
+     "falcon_song_id": 218
     },
     {
      "name": "Dragon Mail: Dragon Knight",
@@ -189,7 +206,8 @@
      "achievement": "King's Responsibility",
      "model": "This costume is modeled after Kain from Final Fantasy IV: The After Years.",
      "falcon_song": "Final Fantasy IV: Red Wings",
-     "falcon_song_no": null
+     "falcon_song_no": 96,
+     "falcon_song_id": 249
     },
     {
      "name": "Cross-Sword Coat: Witch's Knight",
@@ -198,7 +216,8 @@
      "achievement": "Quest Achiever",
      "model": "This costume is modeled after Seifer from Final Fantasy VIII.",
      "falcon_song": "Final Fantasy VIII: Fisherman's Horizon",
-     "falcon_song_no": null
+     "falcon_song_no": 139,
+     "falcon_song_id": 166
     },
     {
      "name": "Pilot's Suit: Pilot",
@@ -207,7 +226,8 @@
      "achievement": "Character Master",
      "model": "This costume is modeled after Cid from Final Fantasy VII.",
      "falcon_song": "Final Fantasy VII: Cid's Theme",
-     "falcon_song_no": null
+     "falcon_song_no": 134,
+     "falcon_song_id": 198
     }
    ]
   },
@@ -222,7 +242,8 @@
      "achievement": null,
      "model": "This costume is modeled after Edgar's original outfit.",
      "falcon_song": "Final Fantasy VI: Coin Song",
-     "falcon_song_no": 30
+     "falcon_song_no": 30,
+     "falcon_song_id": 11
     },
     {
      "name": "Fabul Martial Wear: Monk",
@@ -231,7 +252,8 @@
      "achievement": "Duncan-style Martial Arts Master",
      "model": "This costume is modeled after Yang from Final Fantasy IV.",
      "falcon_song": "Final Fantasy IV: Fabul",
-     "falcon_song_no": null
+     "falcon_song_no": 103,
+     "falcon_song_id": 250
     },
     {
      "name": "Nora's Coat: Defender",
@@ -240,7 +262,8 @@
      "achievement": "Character Master",
      "model": "This costume is modeled after Snow from Final Fantasy XIII.",
      "falcon_song": "Final Fantasy XIII: The Sunleth Waterscape",
-     "falcon_song_no": null
+     "falcon_song_no": 180,
+     "falcon_song_id": 242
     },
     {
      "name": "Auroch Bandana: Captain",
@@ -249,7 +272,8 @@
      "achievement": "Quest Achiever",
      "model": "This costume is based on Wakka from Final Fantasy X.",
      "falcon_song": "Final Fantasy X: Men Staked on Blitz",
-     "falcon_song_no": null
+     "falcon_song_no": 156,
+     "falcon_song_id": 202
     }
    ]
   },
@@ -264,7 +288,8 @@
      "achievement": null,
      "model": "This costume is based off Maria's dress from the Opera.",
      "falcon_song": "Final Fantasy IV: Theme of Love",
-     "falcon_song_no": null
+     "falcon_song_no": 97,
+     "falcon_song_id": 222
     },
     {
      "name": "Alexandrian General Armor: Imperial Guard",
@@ -273,7 +298,8 @@
      "achievement": "Rune Master",
      "model": "This costume is modeled after Beatrix from Final Fantasy IX.",
      "falcon_song": "Final Fantasy IX: Rose of May",
-     "falcon_song_no": null
+     "falcon_song_no": 149,
+     "falcon_song_id": 243
     },
     {
      "name": "Summoner's Kimono: Summoner",
@@ -282,7 +308,8 @@
      "achievement": "Character Master",
      "model": "This costume is modeled after Yuna from Final Fantasy X.",
      "falcon_song": "Final Fantasy X: Yuna's Theme",
-     "falcon_song_no": null
+     "falcon_song_no": 158,
+     "falcon_song_id": 254
     },
     {
      "name": "Witch's Robe: Black Mage",
@@ -291,7 +318,8 @@
      "achievement": "Quest Achiever",
      "model": "This costume is modeled after Lulu from Final Fantasy X.",
      "falcon_song": "Final Fantasy X: Yuna's Decision",
-     "falcon_song_no": null
+     "falcon_song_no": 160,
+     "falcon_song_id": 197
     }
    ]
   },
@@ -306,7 +334,8 @@
      "achievement": null,
      "model": "This costume is modeled after the classic Black Mage in Final Fantasy.",
      "falcon_song": "Final Fantasy III: Let Me Know the Truth",
-     "falcon_song_no": null
+     "falcon_song_no": 89,
+     "falcon_song_id": 251
     },
     {
      "name": "Guru's Glasses: Sage",
@@ -315,7 +344,8 @@
      "achievement": "Old Dog's New Tricks",
      "model": "This costume is modeled after Tellah from Final Fantasy IV.",
      "falcon_song": "Final Fantasy IV: Mystic Mysidia",
-     "falcon_song_no": null
+     "falcon_song_no": 102,
+     "falcon_song_id": 87
     },
     {
      "name": "Lunar Cloak: Lunarian",
@@ -324,7 +354,8 @@
      "achievement": "Character Master",
      "model": "This costume is modeled after Fusoya from Final Fantasy IV.",
      "falcon_song": "Final Fantasy IV: The Lunarians",
-     "falcon_song_no": null
+     "falcon_song_no": 104,
+     "falcon_song_id": 88
     },
     {
      "name": "Engineer's Goggles: Engineer",
@@ -333,7 +364,8 @@
      "achievement": "Quest Achiever",
      "model": "This costume is modeled after Cid from Final Fantasy IV.",
      "falcon_song": "Final Fantasy IV: Hey Cid!",
-     "falcon_song_no": null
+     "falcon_song_no": 99,
+     "falcon_song_id": 206
     }
    ]
   },
@@ -348,7 +380,8 @@
      "achievement": null,
      "model": "This costume is modeled after the classic White Mage of Final Fantasy.",
      "falcon_song": "Final Fantasy III: Elia the Maiden of Water",
-     "falcon_song_no": null
+     "falcon_song_no": 87,
+     "falcon_song_id": 199
     },
     {
      "name": "Bal Kingdom Princess Clothing: Princess",
@@ -357,7 +390,8 @@
      "achievement": "I'll Draw a Portrait!",
      "model": "The model used for this costume is Krile from Final Fantasy V.",
      "falcon_song": "Final Fantasy V: Spreading Grand Wings",
-     "falcon_song_no": null
+     "falcon_song_no": 117,
+     "falcon_song_id": 246
     },
     {
      "name": "Wizard's Attire: Scholar",
@@ -366,7 +400,8 @@
      "achievement": "Character Master",
      "model": "This costume is modeled after Shantotto from Final Fantasy XI.",
      "falcon_song": "Final Fantasy XI: Windurst",
-     "falcon_song_no": null
+     "falcon_song_no": 166,
+     "falcon_song_id": 177
     },
     {
      "name": "Sky-Blue Dirndl: Blacksmith Apprentice",
@@ -375,7 +410,8 @@
      "achievement": "Quest Achiever",
      "model": "This costume is modeled after Refia from the Final Fantasy III remake.",
      "falcon_song": "Final Fantasy III: Cute Little Tozas",
-     "falcon_song_no": null
+     "falcon_song_no": 86,
+     "falcon_song_id": 200
     }
    ]
   },
@@ -390,7 +426,8 @@
      "achievement": null,
      "model": "This look is based off of Setzer's outfit before he became an airship pilot. The look is modeled after a Returner's outfit. (I'm pretty sure this is made up by the author. Setzer never had a design like this -Kain.)",
      "falcon_song": "Final Fantasy VI: Blackjack",
-     "falcon_song_no": 48
+     "falcon_song_no": 48,
+     "falcon_song_id": 53
     },
     {
      "name": "Jet-Black Coat: JENOVA Hybrid",
@@ -399,7 +436,8 @@
      "achievement": "Winning Streak",
      "model": "This costume is modeled after Sephiroth from Final Fantasy VII.",
      "falcon_song": "Final Fantasy VII: Holding My Thoughts in My Heart",
-     "falcon_song_no": null
+     "falcon_song_no": 128,
+     "falcon_song_id": 247
     },
     {
      "name": "Knight's Armor: Paladin",
@@ -408,7 +446,8 @@
      "achievement": null,
      "model": "This costume is modeled after Cecil from Final Fantasy IV: The After Years.",
      "falcon_song": "Final Fantasy IV: Kingdom Baron",
-     "falcon_song_no": null
+     "falcon_song_no": 101,
+     "falcon_song_id": 86
     },
     {
      "name": "Emperor's Redingote: Consul",
@@ -417,7 +456,8 @@
      "achievement": "Quest Achiever",
      "model": "This costume is modeled after Vayne from Final Fantasy XII.",
      "falcon_song": "Final Fantasy XII: Time For a Rest",
-     "falcon_song_no": null
+     "falcon_song_no": 177,
+     "falcon_song_id": 201
     }
    ]
   },
@@ -432,7 +472,8 @@
      "achievement": null,
      "model": "This costume is based off of the Geomancer look from Final Fantasy.",
      "falcon_song": "Romancing Saga 3: Snowman's Town",
-     "falcon_song_no": null
+     "falcon_song_no": 213,
+     "falcon_song_id": 224
     },
     {
      "name": "Mog Bag: Nomad Moogle",
@@ -441,7 +482,8 @@
      "achievement": "Fluffy Dancer",
      "model": "This costume is modeled after Stiltzkin from Final Fantasy IX.",
      "falcon_song": "Final Fantasy IX: South Gate",
-     "falcon_song_no": null
+     "falcon_song_no": 147,
+     "falcon_song_id": 248
     },
     {
      "name": "Shiny-Gold Crown: Puppet Master",
@@ -450,7 +492,8 @@
      "achievement": "Character Master",
      "model": "This costume is modeled after Cait Sith from Final Fantasy VII.",
      "falcon_song": "Final Fantasy VII: Gold Saucer",
-     "falcon_song_no": null
+     "falcon_song_no": 132,
+     "falcon_song_id": 215
     },
     {
      "name": "Tonberry Coat: Tonberry",
@@ -459,7 +502,8 @@
      "achievement": "Quest Achiever",
      "model": "This costume is based off the Tonberry model from the Final Fantasy series.",
      "falcon_song": "Final Fantasy XI: Currents of Time",
-     "falcon_song_no": null
+     "falcon_song_no": 172,
+     "falcon_song_id": 204
     }
    ]
   },
@@ -474,7 +518,8 @@
      "achievement": null,
      "model": "This costume is based on the tuxedo all the party members agreed on during the cutscene for dressing Gau up.",
      "falcon_song": "Romancing Saga 3: Tomas's Theme",
-     "falcon_song_no": null
+     "falcon_song_no": 208,
+     "falcon_song_id": 220
     },
     {
      "name": "Honorable Thief's Vest: Phantom Thief",
@@ -483,7 +528,8 @@
      "achievement": "Everyone's Friend!",
      "model": "This costume is modeled after Zidane from Final Fantasy IX.",
      "falcon_song": "Final Fantasy IX: A Place to Call Home",
-     "falcon_song_no": null
+     "falcon_song_no": 145,
+     "falcon_song_id": 238
     },
     {
      "name": "Traveler's Clothes: Traveler",
@@ -492,7 +538,8 @@
      "achievement": "Character Master",
      "model": "This costume is modeled after Bartz from Final Fantasy V.",
      "falcon_song": "Final Fantasy V: My Home Sweet Home",
-     "falcon_song_no": null
+     "falcon_song_no": 114,
+     "falcon_song_id": 117
     },
     {
      "name": "Ace Uniform: Blitzball Ace",
@@ -501,7 +548,8 @@
      "achievement": "Quest Achiever",
      "model": "This costume is modeled after Tidus from Final Fantasy X.",
      "falcon_song": "Final Fantasy X-2: Eternity -Band ver-",
-     "falcon_song_no": null
+     "falcon_song_no": 164,
+     "falcon_song_id": 205
     }
    ]
   },
@@ -516,7 +564,8 @@
      "achievement": null,
      "model": "This costume's name is based off the armor in Final Fantasy Tactics. During each battle Gogo wears this his sprite will change to one of the following: Leo, Banon, Trance Terra, Merchant, Ghost, Kefka, Gestahl, Cid, Daryl, or Rachel.",
      "falcon_song": "Final Fantasy IV: Hello! Big Chocobo!",
-     "falcon_song_no": null
+     "falcon_song_no": 100,
+     "falcon_song_id": 225
     },
     {
      "name": "Mysidian Priest's Robe: Cleric",
@@ -525,7 +574,8 @@
      "achievement": "Mimic",
      "model": "This costume is modeled after Minwu from Final Fantasy II.",
      "falcon_song": "Final Fantasy II: Rebel Army Theme",
-     "falcon_song_no": null
+     "falcon_song_no": 81,
+     "falcon_song_id": 186
     },
     {
      "name": "Great Tree's Heavy Armor: Dark Mage",
@@ -534,7 +584,8 @@
      "achievement": "Character Master",
      "model": "This costume is modeled after Exdeath from Final Fantasy V.",
      "falcon_song": "Final Fantasy V: The Dawn Warriors",
-     "falcon_song_no": null
+     "falcon_song_no": 119,
+     "falcon_song_id": 159
     },
     {
      "name": "Aegishjalmr: Hero",
@@ -543,7 +594,8 @@
      "achievement": "Quest Achiever",
      "model": "This costume is modeled after Seigfried from Final Fantasy VI.",
      "falcon_song": "Final Fantasy VI: Town2/Unreleased",
-     "falcon_song_no": null
+     "falcon_song_no": 125,
+     "falcon_song_id": 105
     }
    ]
   },
@@ -558,7 +610,8 @@
      "achievement": null,
      "model": "This costume is modeled after Banon's outfit. (I assume it's a joke because Banon is grizzled and looks similar to a yeti -Kain.)",
      "falcon_song": "Final Fantasy VI: Returners",
-     "falcon_song_no": 12
+     "falcon_song_no": 12,
+     "falcon_song_id": 46
     },
     {
      "name": "Ronso's Waist Cloth: Ronso Warrior",
@@ -567,7 +620,8 @@
      "achievement": "Snowstorm",
      "model": "This costume is modeled after Kimahri from Final Fantasy X.",
      "falcon_song": "Final Fantasy X: Servants of the Mountain",
-     "falcon_song_no": null
+     "falcon_song_no": 161,
+     "falcon_song_id": 102
     },
     {
      "name": "Full-Moon Hairpins: Hunter",
@@ -576,7 +630,8 @@
      "achievement": "Character Master",
      "model": "This costume is modeled after Red XIII from Final Fantasy VII.",
      "falcon_song": "Final Fantasy VII: Cosmo Canyon",
-     "falcon_song_no": null
+     "falcon_song_no": 131,
+     "falcon_song_id": 253
     },
     {
      "name": "Pure-White Apron: Cook",
@@ -585,7 +640,8 @@
      "achievement": "Quest Achiever",
      "model": "This costume is modeled after Quina from Final Fantasy IX.",
      "falcon_song": "Final Fantasy IX: Quina's Theme",
-     "falcon_song_no": null
+     "falcon_song_no": 146,
+     "falcon_song_id": 212
     }
    ]
   }

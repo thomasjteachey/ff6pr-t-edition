@@ -1,58 +1,38 @@
 {
  "_": "T-Edition NPC sprite number -> PR look (asset ids, most often first); tools/ted_npc_looks.py",
  "counts": {
-  "voted": 51,
-  "look-alike": 15,
-  "none": 40,
-  "same sheet": 6
+  "voted": 56,
+  "look-alike": 13,
+  "none": 18,
+  "same sheet": 6,
+  "ted art": 19
  },
  "placements": {
-  "voted": 220,
-  "look-alike": 65,
-  "none": 152,
-  "same sheet": 18
+  "voted": 270,
+  "look-alike": 27,
+  "none": 59,
+  "same sheet": 9,
+  "ted art": 90
  },
  "none": [
-  35,
   73,
-  92,
   166,
   167,
   168,
   172,
-  183,
-  185,
-  186,
-  187,
-  188,
-  189,
   190,
   191,
   192,
-  195,
   198,
   199,
   200,
   201,
   202,
-  203,
-  204,
-  205,
-  207,
   209,
-  210,
   213,
   214,
-  219,
-  220,
-  234,
   237,
-  249,
-  250,
-  252,
-  253,
-  254,
-  255
+  249
  ],
  "looks": {
   "0": {
@@ -60,7 +40,8 @@
    "how": "voted",
    "assets": [
     120,
-    19
+    19,
+    38
    ]
   },
   "1": {
@@ -77,8 +58,8 @@
    "placements": 1,
    "how": "voted",
    "assets": [
-    125,
-    122
+    122,
+    125
    ]
   },
   "3": {
@@ -128,10 +109,7 @@
   },
   "9": {
    "placements": 1,
-   "nearest": 9,
-   "likeness": 0.948,
-   "how": "look-alike",
-   "vanilla": 9,
+   "how": "voted",
    "assets": [
     129
    ]
@@ -222,8 +200,7 @@
    "how": "voted",
    "assets": [
     211,
-    223,
-    10
+    223
    ]
   },
   "20": {
@@ -263,14 +240,18 @@
   },
   "35": {
    "placements": 1,
-   "nearest": 53,
-   "likeness": 0.889,
-   "how": "none"
+   "nearest": 35,
+   "likeness": 0.942,
+   "how": "look-alike",
+   "vanilla": 35,
+   "assets": [
+    24
+   ]
   },
   "73": {
    "placements": 1,
-   "nearest": 18,
-   "likeness": 0.43,
+   "nearest": 83,
+   "likeness": 0.521,
    "how": "none"
   },
   "74": {
@@ -323,7 +304,11 @@
    "placements": 4,
    "nearest": 91,
    "likeness": 0.67,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    50
+   ],
+   "group": "mo_ff6_n042_c00"
   },
   "93": {
    "placements": 1,
@@ -341,17 +326,10 @@
   },
   "101": {
    "placements": 33,
-   "nearest": 101,
-   "likeness": 1.0,
-   "how": "look-alike",
-   "vanilla": 101,
+   "how": "voted",
    "assets": [
-    62,
-    1,
-    56,
-    155,
-    47,
-    103
+    297,
+    77
    ]
   },
   "105": {
@@ -366,13 +344,10 @@
   },
   "106": {
    "placements": 5,
-   "nearest": 106,
-   "likeness": 1.0,
-   "how": "look-alike",
-   "vanilla": 106,
+   "how": "voted",
    "assets": [
     257,
-    258
+    10
    ]
   },
   "111": {
@@ -471,6 +446,7 @@
    "assets": [
     27,
     32,
+    157,
     103,
     49
    ]
@@ -494,11 +470,7 @@
    "placements": 3,
    "how": "voted",
    "assets": [
-    4,
-    2,
-    7,
-    155,
-    6
+    4
    ]
   },
   "180": {
@@ -525,46 +497,68 @@
    "how": "look-alike",
    "vanilla": 57,
    "assets": [
-    64,
-    63,
-    68
+    63
    ]
   },
   "183": {
    "placements": 4,
    "nearest": 101,
    "likeness": 0.221,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    86
+   ],
+   "group": "mo_ff6_n072_c00"
   },
   "185": {
    "placements": 2,
    "nearest": 87,
    "likeness": 0.48,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    225
+   ],
+   "group": "mo_ff6_v002_c02"
   },
   "186": {
    "placements": 6,
    "nearest": 101,
    "likeness": 0.301,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    21
+   ],
+   "group": "mo_ff6_n007_c02"
   },
   "187": {
    "placements": 6,
-   "nearest": 87,
-   "likeness": 0.16,
-   "how": "none"
+   "nearest": 109,
+   "likeness": 0.162,
+   "how": "ted art",
+   "assets": [
+    22
+   ],
+   "group": "mo_ff6_n007_c03"
   },
   "188": {
    "placements": 6,
    "nearest": 101,
    "likeness": 0.235,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    25
+   ],
+   "group": "mo_ff6_n008_c02"
   },
   "189": {
    "placements": 6,
    "nearest": 87,
    "likeness": 0.268,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    28
+   ],
+   "group": "mo_ff6_n010_c00"
   },
   "190": {
    "placements": 2,
@@ -588,7 +582,11 @@
    "placements": 3,
    "nearest": 87,
    "likeness": 0.418,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    390
+   ],
+   "group": "mo_ff6_n048_c05"
   },
   "197": {
    "placements": 5,
@@ -620,8 +618,8 @@
   },
   "201": {
    "placements": 2,
-   "nearest": 0,
-   "likeness": 0.441,
+   "nearest": 83,
+   "likeness": 0.477,
    "how": "none"
   },
   "202": {
@@ -634,25 +632,39 @@
    "placements": 6,
    "nearest": 101,
    "likeness": 0.318,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    30
+   ],
+   "group": "mo_ff6_n014_c01"
   },
   "204": {
    "placements": 4,
    "nearest": 90,
    "likeness": 0.437,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    87
+   ],
+   "group": "mo_ff6_n072_c01"
   },
   "205": {
    "placements": 4,
    "nearest": 90,
    "likeness": 0.428,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    88
+   ],
+   "group": "mo_ff6_n073_c00"
   },
   "207": {
    "placements": 1,
-   "nearest": 51,
-   "likeness": 0.894,
-   "how": "none"
+   "how": "same sheet",
+   "vanilla": 45,
+   "assets": [
+    9
+   ]
   },
   "208": {
    "placements": 2,
@@ -663,15 +675,19 @@
   },
   "209": {
    "placements": 2,
-   "nearest": 87,
-   "likeness": 0.417,
+   "nearest": 83,
+   "likeness": 0.437,
    "how": "none"
   },
   "210": {
    "placements": 15,
    "nearest": 15,
    "likeness": 0.679,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    8
+   ],
+   "group": "mo_ff6_n003_c04"
   },
   "211": {
    "placements": 5,
@@ -710,7 +726,8 @@
    "assets": [
     38,
     2,
-    19
+    19,
+    120
    ]
   },
   "218": {
@@ -722,24 +739,29 @@
   },
   "219": {
    "placements": 1,
-   "nearest": 13,
-   "likeness": 0.896,
-   "how": "none"
+   "how": "voted",
+   "assets": [
+    69
+   ]
   },
   "220": {
    "placements": 5,
-   "nearest": 41,
-   "likeness": 0.738,
-   "how": "none"
+   "nearest": 45,
+   "likeness": 0.739,
+   "how": "ted art",
+   "assets": [
+    35
+   ],
+   "group": "mo_ff6_n028_c00"
   },
   "222": {
    "placements": 2,
-   "nearest": 53,
-   "likeness": 0.901,
+   "nearest": 47,
+   "likeness": 0.955,
    "how": "look-alike",
-   "vanilla": 53,
+   "vanilla": 47,
    "assets": [
-    201
+    42
    ]
   },
   "223": {
@@ -783,8 +805,7 @@
   },
   "231": {
    "placements": 10,
-   "how": "same sheet",
-   "vanilla": 55,
+   "how": "voted",
    "assets": [
     60
    ]
@@ -793,7 +814,8 @@
    "placements": 2,
    "how": "voted",
    "assets": [
-    62
+    62,
+    40
    ]
   },
   "233": {
@@ -801,23 +823,24 @@
    "how": "same sheet",
    "vanilla": 57,
    "assets": [
-    64,
-    63,
-    68
+    63
    ]
   },
   "234": {
    "placements": 4,
    "nearest": 40,
    "likeness": 0.373,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    89
+   ],
+   "group": "mo_ff6_n074_c00"
   },
   "235": {
    "placements": 1,
    "how": "voted",
    "assets": [
-    1,
-    141
+    1
    ]
   },
   "236": {
@@ -873,31 +896,51 @@
    "placements": 3,
    "nearest": 87,
    "likeness": 0.326,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    391
+   ],
+   "group": "mo_ff6_n001_c02"
   },
   "252": {
    "placements": 3,
    "nearest": 101,
    "likeness": 0.387,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    392
+   ],
+   "group": "mo_ff6_n078_c02"
   },
   "253": {
    "placements": 3,
    "nearest": 101,
    "likeness": 0.387,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    3001
+   ],
+   "group": "mo_ff6_n048_c04"
   },
   "254": {
    "placements": 3,
    "nearest": 90,
    "likeness": 0.422,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    3002
+   ],
+   "group": "mo_ff6_n084_c01"
   },
   "255": {
    "placements": 3,
    "nearest": 101,
    "likeness": 0.275,
-   "how": "none"
+   "how": "ted art",
+   "assets": [
+    224
+   ],
+   "group": "mo_ff6_v002_c01"
   }
  }
 }

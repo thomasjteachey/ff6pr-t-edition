@@ -18,8 +18,7 @@ namespace TEdition.PR
     // every frame when the layer has chip animations (IsExistChipAnim). So a cell changes look by getting a one-frame
     // animated MapTileUVData (or the source cell's own animation) on a layer marked IsExistChipAnim.
     // Unverified until a run (ted-8's tedtile probe): the cell index (y x width + x), gid -> tileId (gid - 1 assumed).
-    // Walkability is the map's physics colliders (FieldColliderEntity), not the tiles: ":attr" is counted and logged,
-    // and passability is planned as conditional colliders in ted-maps' map data.
+    // Walkability (":attr" and ted_tile_cells.json): see the walkability part below.
     static class TedTiles
     {
         internal static string Last = "";
@@ -107,8 +106,10 @@ namespace TEdition.PR
                 var dst = item.Substring(0, eq).Split(',');
                 var rest = item.Substring(eq + 1);
                 int colon = rest.IndexOf(':');
+                string attrText = colon >= 0 ? rest.Substring(colon + 1) : null;
                 if (colon >= 0) { attrs++; rest = rest.Substring(0, colon); }
                 if (dst.Length != 2 || !int.TryParse(dst[0], out int px) || !int.TryParse(dst[1], out int py)) { missing++; continue; }
+                if (attrText != null && int.TryParse(attrText, out int attr)) SetWalk(px, py, attr);
                 if (rest == "-") continue;
                 int dcell = py * width + px;
                 if (rest.StartsWith("#"))
@@ -147,8 +148,124 @@ namespace TEdition.PR
                 try { m.ReflectUvDatas(); } catch (Exception e) { Hooks.WarnOnce("ted-tiles-reflect", e); }
             }
             Cells += cells; AttrCells += attrs; Missing += missing;
-            Last = $"{cells} cells on {touched.Count} layers ({attrs} with passability, logged only; {missing} skipped) in {clock.Elapsed.TotalMilliseconds:0.0} ms";
+            Last = $"{cells} cells on {touched.Count} layers ({attrs} passability; {missing} skipped) in {clock.Elapsed.TotalMilliseconds:0.0} ms";
             return Last;
+        }
+
+
+        // --- walkability (the map's physics colliders and the PR's per-step gate) ------------------------------------
+        // ted-events' ted_tile_cells.json {pr map id: [[x, y, attr], ...]}: every cell a T-Edition tile change can open or
+        // block, with its load-time collision value (0 walk, else blocked). A map's table starts from it on entry; ":attr"
+        // items change it; nothing persists (the SNES's entrance events re-apply their changes). A step into a cell the
+        // table blocks is refused (FieldController.IsCanMoveToDestPosition postfix: the PR's per-step gate); a step a map
+        // collider would stop into a cell the table opens is let through (FieldColliderEntity.CanEnter postfix).
+        // Cells: FieldController.ConvertWorldPositionToCellPosition (x, y as ted-events' tilemap.json: unverified).
+        static Dictionary<int, List<int[]>> fileCells;
+        static readonly Dictionary<long, int> walk = new Dictionary<long, int>();
+        static int walkMap = -1;
+        static Last.Map.FieldController controller;
+        internal static int Refused, Opened;
+
+        public static void LoadCells(string path)
+        {
+            fileCells = new Dictionary<int, List<int[]>>();
+            if (!System.IO.File.Exists(path)) return;
+            try
+            {
+                using var doc = System.Text.Json.JsonDocument.Parse(System.IO.File.ReadAllText(path));
+                foreach (var m in doc.RootElement.EnumerateObject())
+                {
+                    if (!int.TryParse(m.Name, out int id)) continue;
+                    var list = new List<int[]>();
+                    foreach (var c in m.Value.EnumerateArray())
+                    {
+                        var a = new List<int>();
+                        foreach (var v in c.EnumerateArray()) a.Add(v.GetInt32());
+                        if (a.Count >= 3) list.Add(a.ToArray());
+                    }
+                    fileCells[id] = list;
+                }
+                Plugin.L.LogInfo($"[ted tiles] passability cells for {fileCells.Count} rooms");
+            }
+            catch (Exception e) { Plugin.L.LogWarning($"[ted tiles] {path}: {e.Message}"); }
+        }
+
+        static long Key(int x, int y) => ((long)x << 32) | (uint)y;
+
+        static void SyncMap()
+        {
+            int id = MapScripts.MapId;
+            if (id == walkMap) return;
+            walkMap = id;
+            walk.Clear();
+            if (fileCells != null && fileCells.TryGetValue(id, out var list))
+                foreach (var c in list) walk[Key(c[0], c[1])] = c[2];
+        }
+
+        static void SetWalk(int x, int y, int attr)
+        {
+            SyncMap();
+            walk[Key(x, y)] = attr;
+        }
+
+        static bool Lookup(Vector3 world, out int attr, out int cx, out int cy)
+        {
+            attr = 0; cx = cy = 0;
+            if (controller == null) return false;
+            SyncMap();
+            if (walk.Count == 0) return false;
+            var cell = controller.ConvertWorldPositionToCellPosition(world);
+            cx = Mathf.FloorToInt(cell.x + 0.5f); cy = Mathf.FloorToInt(cell.y + 0.5f);
+            return walk.TryGetValue(Key(cx, cy), out attr);
+        }
+
+        public static void Patch(HarmonyLib.Harmony h)
+        {
+            Hooks.Patch(h, typeof(Last.Map.FieldController), "IsCanMoveToDestPosition", typeof(TedTiles), postfix: nameof(Move_Postfix));
+            Hooks.Patch(h, typeof(Last.Entity.Field.FieldColliderEntity), "CanEnter", typeof(TedTiles), postfix: nameof(Enter_Postfix));
+        }
+
+        public static void Move_Postfix(Last.Map.FieldController __instance, ref Vector3 destPos, ref bool __result)
+        {
+            try
+            {
+                controller = __instance;
+                if (!__result || !Plugin.TedMode) return;
+                if (Lookup(destPos, out int attr, out int cx, out int cy) && attr != 0)
+                {
+                    __result = false;
+                    Refused++;
+                    Hooks.NoteOnce("ted-tiles-refused", () => $"[ted tiles] a step into blocked cell {cx},{cy} (map {walkMap}) refused");
+                }
+            }
+            catch (Exception e) { Hooks.WarnOnce("ted-tiles-move", e); }
+        }
+
+        public static void Enter_Postfix(Last.Entity.Field.FieldEntity enterEntity, Vector2 moveVector, ref bool __result)
+        {
+            try
+            {
+                if (__result || !Plugin.TedMode || enterEntity == null) return;
+                var dest = enterEntity.transform.position + new Vector3(moveVector.x, moveVector.y, 0f);
+                if (Lookup(dest, out int attr, out int cx, out int cy) && attr == 0)
+                {
+                    __result = true;
+                    Opened++;
+                    Hooks.NoteOnce("ted-tiles-opened", () => $"[ted tiles] a step into opened cell {cx},{cy} (map {walkMap}) let through a map collider");
+                }
+            }
+            catch (Exception e) { Hooks.WarnOnce("ted-tiles-enter", e); }
+        }
+
+        // the party's cell (for the probe: x, y as the table's)
+        static string Where()
+        {
+            if (controller == null) return "no field controller seen yet (take a step)";
+            var p = Object.FindObjectOfType<Last.Entity.Field.FieldPlayer>();
+            if (p == null) return "no player";
+            var c = controller.ConvertWorldPositionToCellPosition(p.transform.position);
+            SyncMap();
+            return $"map {walkMap}: player world {p.transform.position} -> cell {c}; table {walk.Count} cells; refused {Refused}, opened {Opened}";
         }
 
         // a new map: its layers are new objects (the snapshot is per layer data)
@@ -160,6 +277,7 @@ namespace TEdition.PR
             var layers = Layers();
             if (layers.Count == 0) return "error: no field layers (not on a map?)";
             if (a.Length > 0 && a[0] == "apply") return Apply(a[1..]);
+            if (a.Length > 0 && a[0] == "where") return Where();
             if (a.Length == 0)
             {
                 var parts = new List<string>();

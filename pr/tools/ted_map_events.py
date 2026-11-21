@@ -121,15 +121,6 @@ def _translator(builder):
                 return super().npc_entity(n)
             return builder.npc_ids.get((self.snes_map, n, self.pr_map))
 
-        def _instr_bits(self, ins, sub, last):
-            # tile changes (73/74/75) on a new map: ted-events' tile_plan reads vanilla PR maps only, and a new
-            # room's look is snes_rooms' conversion: a stub (counted) until there's a plan for new rooms
-            if ins.name in ("tiles_set", "tiles_set_later", "tiles_refresh") and self.room() is not None:
-                if ins.name == "tiles_refresh":
-                    return [], True
-                return self.left(ins, "tile change on a new map")
-            return super()._instr_bits(ins, sub, last)
-
         def place(self, m, x, y):
             if m in builder.rooms:
                 hit = builder.place(m, x, y)
@@ -196,6 +187,7 @@ class Events:
         saved = dict(M.ITEM_OVERRIDES)
         M.ITEM_OVERRIDES.clear()
         M.ITEM_OVERRIDES.update(self.ted.item_overrides())
+        unhook = self._room_hooks()
         import ted_npc_looks
         looks = dict(self.T.sprite_assets(self.rom))
         looks.update(ted_npc_looks.looks())      # data/ted_npc_looks.json: voted, same sheet, look-alike
@@ -331,6 +323,46 @@ class Events:
         finally:
             M.ITEM_OVERRIDES.clear()
             M.ITEM_OVERRIDES.update(saved)
+            unhook()
+
+    def _room_hooks(self):
+        """While translating: ted-events' tile-change helpers (ted_events.pr_cells, room_offset, pr_group; the kit's
+        snes_rooms._tilesets_of) answer for this build's new rooms from memory (a clone: its vanilla room's cells
+        with the build's patch; a conversion: its layers and collision) rather than from the last build's files,
+        so T-Edition's tile changes (73/74) on the new maps translate with snes_rooms.tile_plan as on vanilla
+        rooms. Returns the function that puts the helpers back."""
+        import snes_rooms as R
+        TE = self.ted
+        rooms = {r.name: r for rs in self.b.rooms.values() for r in rs}
+        cache = {}
+
+        def cells_of(pr):
+            if pr not in cache:
+                r = rooms[pr]
+                if r.kind == "clone":
+                    cells = [list(row) for row in R._cells(r.src)[0]]
+                    for (px, py), (stack, coll) in (r.patch or {}).items():
+                        if 0 <= py < len(cells) and 0 <= px < len(cells[0]):
+                            cells[py][px] = (tuple(stack), coll)
+                    R._tilesets_of[pr] = R._tilesets_of.get(r.src)
+                else:
+                    conv = r.room
+                    cells = [[(tuple(conv.layers[n][y][x] for n in R.LAYERS), conv.collision[y][x])
+                              for x in range(conv.width)] for y in range(conv.height)]
+                    R._tilesets_of[pr] = R.room_tilesets(conv)[0]
+                cache[pr] = cells
+            return cache[pr]
+
+        orig = (TE.pr_cells, TE.room_offset, TE.pr_group)
+        TE.pr_cells = lambda pr: cells_of(pr) if pr in rooms else orig[0](pr)
+        TE.room_offset = lambda m, pr: (rooms[pr].dx, rooms[pr].dy) if pr in rooms else orig[1](m, pr)
+        TE.pr_group = lambda pr: rooms[pr].group if pr in rooms else orig[2](pr)
+
+        def unhook():
+            TE.pr_cells, TE.room_offset, TE.pr_group = orig
+            for pr in cache:
+                R._tilesets_of.pop(pr, None)
+        return unhook
 
     _done = None
 
@@ -413,6 +445,9 @@ class Events:
                 json.dump(sc, f, ensure_ascii=False)
         if rows:
             R.add_rows(out, "script", rows)
+        import ted_npc_art     # mapobject rows for the free NPC groups that have none (T-Edition's own sprites)
+        if ted_npc_art.new_rows():
+            R.add_rows(out, "mapobject", ted_npc_art.new_rows())
         # story text (Mato's lines as TED_* keys, as ted-events writes them)
         for fname, table in (("story_mes_en", self.texts.mes), ("story_cha_en", self.texts.cha)):
             if not table:
