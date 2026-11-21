@@ -9,6 +9,69 @@
    "look": 51,
    "entity": 5000,
    "event": "CD/4E20"
+  },
+  {
+   "sprite": 221,
+   "snes_map": 384,
+   "npc": 4,
+   "pr_map": "Map_30531_4",
+   "look": 51,
+   "entity": 5001,
+   "event": "CB/316C"
+  },
+  {
+   "sprite": 95,
+   "snes_map": 384,
+   "npc": 5,
+   "pr_map": "Map_30531_4",
+   "look": 51,
+   "entity": 5002,
+   "event": "CB/316C"
+  },
+  {
+   "sprite": 221,
+   "snes_map": 221,
+   "npc": 19,
+   "pr_map": "Map_30510",
+   "look": 51,
+   "entity": 5003,
+   "event": "CD/33C0"
+  },
+  {
+   "sprite": 106,
+   "snes_map": 17,
+   "npc": 13,
+   "pr_map": "Map_20390",
+   "look": 51,
+   "entity": 5005,
+   "event": "CA/5EA9"
+  },
+  {
+   "sprite": 231,
+   "snes_map": 44,
+   "npc": 8,
+   "pr_map": "Map_30011_3",
+   "look": 51,
+   "entity": 5021,
+   "event": "CD/19A0"
+  },
+  {
+   "sprite": 231,
+   "snes_map": 44,
+   "npc": 7,
+   "pr_map": "Map_30011_3",
+   "look": 51,
+   "entity": 5022,
+   "event": "CD/19C0"
+  },
+  {
+   "sprite": 225,
+   "snes_map": 128,
+   "npc": 2,
+   "pr_map": "Map_20061_1",
+   "look": 51,
+   "entity": 5024,
+   "event": "CD/37A1"
   }
  ]
 }

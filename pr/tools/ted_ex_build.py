@@ -262,7 +262,9 @@ def room(R, out, scripts, script_ids, log=print):
         pkg = json.load(fh)
     entry = next(e for e in pkg["map"] if e["name"] == name)
     assets = []
+    import ted_quests as Q
     for sn, sc in scripts.items():
+        Q.nop_stubs(sc)
         with open(os.path.join(dest, sn + ".json"), "w", encoding="utf-8") as fh:
             json.dump(sc, fh, ensure_ascii=False, separators=(",", ":"))
         if not any(x["name"] == sn for x in entry["script"]):
@@ -308,14 +310,24 @@ def build(out=OUT, log=print, with_room=True):
         changed["script"].add(sid)
         script_ids[n] = sid
     story.update(texts["story_mes_en"])
+    # EX's menu pages (EE 513/514/518/519, Omega's 1263) are choices only: their question is EE 512's last
+    # page. The PR shows a choice under a message: an empty one would be a blank box, so they show that line
+    question = texts["story_mes_en"]["TEDX_E0512_a_01"].split("<P>")[-1].replace(chr(92) + "n", " ").strip()
+    for k, v in texts["story_mes_en"].items():
+        if k.endswith("_a_01") and not v.strip() and k.replace("_a_01", "_c_01") in texts["story_mes_en"]:
+            story[k] = question
     cha.update(texts["story_cha_en"])
     if os.path.isdir(out):
         shutil.rmtree(out)
     write(out, tables, changed, {"system_en": system, "story_mes_en": story, "story_cha_en": cha})
     if with_room:
         room(R, out, scripts, script_ids, log)
-        with open(MAPS_JSON, "w", encoding="utf-8") as fh:
-            json.dump(mog_house_door(), fh, indent=1)
+        # written only when it changes: ted-maps' build reads it, and its time tells whether that build is newer
+        text = json.dumps(mog_house_door(), indent=1)
+        old = open(MAPS_JSON, encoding="utf-8").read() if os.path.exists(MAPS_JSON) else None
+        if text != old:
+            with open(MAPS_JSON, "w", encoding="utf-8") as fh:
+                fh.write(text)
     ids.save()
     alloc.save()
     os.makedirs(X.OUT, exist_ok=True)

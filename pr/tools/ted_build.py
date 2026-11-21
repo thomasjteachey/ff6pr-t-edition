@@ -80,7 +80,7 @@ def data_rules(folder, log=print):
         f.write(out.getvalue())
     _ensure_master_key(folder, "weapon")
     log(f"T-Edition data rules: weapon critical rate {rate} on {n} rows")
-    for rule in (growth_rule, relm_magic_rule, command_rule, dancing_dagger_rule):
+    for rule in (growth_rule, relm_magic_rule, command_rule, dancing_dagger_rule, consumable_rule):
         rule(folder, log)
     import ted_plugin_data   # the spec's rule 49: percent damage of current vs max HP (the TedPlugin session)
     ted_plugin_data.percent_damage(folder, log)
@@ -260,6 +260,86 @@ def dancing_dagger_rule(folder, log=print):
     with open(extra, "w", encoding="utf-8") as f:
         json.dump(doc, f, ensure_ascii=False, indent=1)   # as the porter writes it
     log(f"T-Edition data rules: Dancing Dagger (weapon {wid}) casts one of abilities {abilities} at 50% (ability {aid})")
+
+
+# T-Edition's consumables whose effect vanilla's item on their PR row lacks (item identity copies only the look, so the
+# row kept its old effect: Power Tab opened the rename screen). Stat items: T-Edition's menu code (C3/922F -> 40/7700)
+# raises a stat by 1 (to 128), max HP by 100 (to 9999), max MP by 10 (to 999) for party members 0-13: the PR's
+# "persistence parameter" function (FunctionType 4, OwnedItemClient.PersistenceParameterExecute; no FF6 item uses it)
+# with value1 1 = amount from the item's standard_value (as Recovery's), value2 = ParameterType (HP 2, MP 3, Power 4,
+# Vitality 5, Agility 6, Magic 14). The layout is inferred, not seen: check one Tab in game; TedPlugin's
+# OwnedItemClient.UseFunction postfix is the fallback. Cures: the statuses T-Edition's record removes (bytes 21-24) as a
+# condition group (port_resist.PROTECT: vanilla's Antidote / Remedy groups come out the same). Fixed ids 9920 up.
+STAT_ITEMS = {231: (4, 1), 241: (6, 1), 242: (5, 1), 243: (14, 1), 244: (2, 100), 246: (3, 10)}   # slot: (parameter, amount)
+CURE_ITEMS = (248, 249, 253)   # Antidote (+blind, mute, seizure), Smelling Salts (berserk, muddle, sleep), Gold Needle (+imp)
+REVIVE_ITEMS = {250: 433}      # Reincarnation: battle only, revive to full (vanilla Arise's function group 433)
+ITEM_FG_BASE = 9920
+
+
+def consumable_rule(folder, log=print):
+    import json
+    import port_resist as R
+    import profile_tedition as T
+    import ff6snes as S
+    items = os.path.join(folder, "ted_items.json")
+    if not os.path.exists(items):
+        log("T-Edition data rules: consumables skipped (no ted_items.json in the port)")
+        return
+    slots = json.load(open(items, encoding="utf-8"))["items"]
+    T.build()
+    raw = {it.id: it.raw for it in S.items(S.Rom(T.MATO))}
+    it, fg, cg = MasterRows(folder, "item"), MasterRows(folder, "function_group"), MasterRows(folder, "condition_group")
+    for i in [i for i, r in cg.rows.items() if int(r["group_id"]) >= ITEM_FG_BASE]:
+        del cg.rows[i]
+    done, n = [], 0
+
+    def row_of(slot):
+        v = slots.get(str(slot))
+        return it.row(int(v["id"])) if v and v["table"] == "item" else None
+
+    def group(fid, funcs):
+        r = {c: "0" for c in fg.header}
+        r["id"] = str(fid)
+        for k, f in enumerate(funcs, 1):
+            for c, x in zip(("id", "value1", "value2", "value3"), f):
+                r[f"function{k}_{c}"] = str(x)
+        fg.add(r)
+    for slot, (param, amount) in sorted(STAT_ITEMS.items()):
+        row = row_of(slot)
+        if row is None:
+            continue
+        fid = ITEM_FG_BASE + n
+        n += 1
+        group(fid, [(4, 1, param, 0)])
+        row.update(system_id="1", menu_renge_id="7", battle_renge_id="0", battle_function_group_id="0",
+                   menu_function_group_id=str(fid), standard_value=str(amount), menu_se_asset_id="585")
+        done.append(f"{slot} +{amount} param {param}")
+    for slot in CURE_ITEMS:
+        row = row_of(slot)
+        if row is None:
+            continue
+        r = raw[slot]
+        bits = r[21] | r[22] << 8
+        conds = sorted({c for b in range(16) if bits >> b & 1 for c in R.PROTECT.get(b, [])})
+        fid = ITEM_FG_BASE + n
+        n += 1
+        for k, c in enumerate(conds):
+            cg.add({"id": fid * 100 + k, "group_id": fid, "condition_id": c, "type_id": 1, "invocation_rate": 0})
+        group(fid, [(12, fid, 0, 0)])
+        battle_only = not r[0] & 0x40
+        row.update(battle_function_group_id=str(fid), menu_function_group_id="0" if battle_only else str(fid),
+                   menu_renge_id="0" if battle_only else "7", battle_renge_id="7", system_id="1")
+        done.append(f"{slot} cures {conds}")
+    for slot, gid in REVIVE_ITEMS.items():
+        row = row_of(slot)
+        if row is None:
+            continue
+        row.update(system_id="1", menu_function_group_id="0", menu_renge_id="0", battle_renge_id="7",
+                   accuracy_rate="100", standard_value="0", battle_function_group_id=str(gid))
+        done.append(f"{slot} revives (group {gid})")
+    for t in (it, fg, cg):
+        t.save()
+    log(f"T-Edition data rules: consumables: {'; '.join(done)}")
 
 
 def relm_magic_rule(folder, log=print):

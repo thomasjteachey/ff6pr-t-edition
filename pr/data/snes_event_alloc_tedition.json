@@ -95,6 +95,14 @@
 "ScenarioFlag4",
 105
 ],
+"0A5": [
+"ScenarioFlag3",
+217
+],
+"0B5": [
+"ScenarioFlag3",
+216
+],
 "0B7": [
 "ScenarioFlag3",
 155
@@ -131,6 +139,18 @@
 "ScenarioFlag4",
 50
 ],
+"0D5": [
+"ScenarioFlag3",
+228
+],
+"0D6": [
+"ScenarioFlag3",
+227
+],
+"0DB": [
+"ScenarioFlag3",
+221
+],
 "0DF": [
 "ScenarioFlag3",
 147
@@ -147,6 +167,10 @@
 "ScenarioFlag3",
 150
 ],
+"0E4": [
+"ScenarioFlag3",
+218
+],
 "0E5": [
 "ScenarioFlag4",
 93
@@ -154,6 +178,10 @@
 "0E6": [
 "ScenarioFlag4",
 96
+],
+"0E7": [
+"ScenarioFlag3",
+220
 ],
 "0E8": [
 "ScenarioFlag4",
@@ -170,6 +198,18 @@
 "0EC": [
 "ScenarioFlag3",
 163
+],
+"0ED": [
+"ScenarioFlag3",
+226
+],
+"0EE": [
+"ScenarioFlag3",
+219
+],
+"0EF": [
+"ScenarioFlag3",
+222
 ],
 "0F0": [
 "ScenarioFlag3",
@@ -203,6 +243,10 @@
 "ScenarioFlag3",
 149
 ],
+"0F9": [
+"ScenarioFlag3",
+213
+],
 "0FA": [
 "ScenarioFlag3",
 194
@@ -222,6 +266,10 @@
 "0FE": [
 "ScenarioFlag3",
 87
+],
+"0FF": [
+"ScenarioFlag3",
+214
 ],
 "107": [
 "ScenarioFlag4",
@@ -807,9 +855,17 @@
 "ScenarioFlag4",
 113
 ],
+"5CF": [
+"ScenarioFlag3",
+224
+],
 "5D0": [
 "ScenarioFlag3",
 206
+],
+"5D1": [
+"ScenarioFlag3",
+223
 ],
 "5D2": [
 "ScenarioFlag3",
@@ -822,6 +878,10 @@
 "5D4": [
 "ScenarioFlag4",
 129
+],
+"5D5": [
+"ScenarioFlag3",
+225
 ],
 "5D8": [
 "ScenarioFlag3",
@@ -914,6 +974,10 @@
 "5EE": [
 "ScenarioFlag3",
 164
+],
+"5F0": [
+"ScenarioFlag3",
+215
 ],
 "5F1": [
 "ScenarioFlag4",

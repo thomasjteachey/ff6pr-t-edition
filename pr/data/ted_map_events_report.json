@@ -1,11 +1,11 @@
 {
  "stats": {
   "npcs": 455,
-  "npcs shown always (untied vanilla bit)": 402,
-  "stubs as nops": 5524,
+  "stubs as nops": 4374,
   "entrances": 73,
   "scripts": 262,
   "tiles": 162,
+  "npcs shown always (untied vanilla bit)": 48,
   "scripts for vanilla maps (skipped)": 5
  },
  "events": [
@@ -1736,14 +1736,14 @@
    "stubs": {
     "flow": 788,
     "map": 2,
-    "object": 1184,
+    "object": 34,
     "flag": 268,
     "party": 5
    },
    "translated": {
     "flow": 2939,
     "dialog": 488,
-    "object": 43,
+    "object": 1193,
     "screen": 20,
     "wait": 18,
     "map": 3,

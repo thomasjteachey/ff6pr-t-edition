@@ -178,7 +178,7 @@ def translate(room=None, pr_map=None, write_ids=False, log=print):
     import ted_events as TE
     rom, prog = load()
     texts = TE.Texts(rom, prefix="TEDX")      # EX's own EE table; its " >  The Chaotic" lines are choices there
-    alloc = T.FlagAlloc(TE.ALLOC)
+    alloc = TE.flag_alloc()           # the shared allocator (all of FLAG_RANGES), as ted-events asks
     for bit in TE.EX_BOSS_BITS + (TE.EX_OMEGA_BIT,):
         alloc.get(bit)
     Tr = translator_class(parties(), room)

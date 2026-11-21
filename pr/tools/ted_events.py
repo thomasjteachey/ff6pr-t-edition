@@ -156,6 +156,11 @@ EVENTS = [
     # README "Showdown at the Coliseum" / the Gilgamesh chain: Gilgamesh in the Colosseum (map 413 NPC 6),
     # a T-Edition NPC the PR has no entity or sprite for: a new NPC on a stand-in look (data/ted_npc_standins.json)
     dict(event=0x34E20, map=413, npc=6),
+    # Big Bridge (map 384, tile 71,15): vanilla's staircase switch (the PR's own sc_e_0449 on its switch object),
+    # then T-Edition's Gilgamesh and Enkidu (CD/3460: new entities on stand-in looks), and Zozo's new tile (map
+    # 221, 38,51: a new step-on trigger). The Phantom Train's (CB/B7EE, map 153) has no PR room yet.
+    dict(event=0x1316C, map=384, tile=(71, 15)),
+    dict(event=0x333C0, map=221, tile=(38, 51)),
 ]
 SCRIPTS = os.path.join(E.P.ROOT, "data", "snes_event_scripts_tedition.json")
 # bits T-Edition (and EX) use for their own meaning, whatever vanilla used them for: they always get a
@@ -271,7 +276,17 @@ def _translator_class():
                     and bit not in T.SCRATCH and bit not in T.ENGINE_BITS and bit not in T.CHAR_BITS
                     and bit not in (self.alloc.table if self.alloc is not None else ()))
 
+        case_kind = None
+        # the case word's loads the PR can test per character: DE (the active party) -> BranchByCharacter scope 0;
+        # the recruited / available / any-party loads -> scope 1 (as the PR's "who's here at all" checks)
+        CASE_SCOPE = {"case_party": 0, "case_created": 1, "case_recruited": 1, "case_available": 1, "case_parties": 1}
+
         def _instr_bits(self, ins, sub, last):
+            if ins.name in self.CASE_SCOPE:
+                self.case_kind = ins.name
+                self.done[ins.cls] += 1
+                self.report[(ins.cls, "case load")] += 1
+                return [], True
             # setting a vanilla bit the PR has no flag for: left as a stub (a made-up flag would be read
             # by nothing of the PR's), counted, until event_translate learns its tie
             if ins.name in ("bit_set", "bit_clear") and self.untied(ins.args["bit"][0]):
@@ -279,10 +294,38 @@ def _translator_class():
             return super().instr(ins, sub, last)
 
         def cond(self, ins):
-            # a test of such a bit: dropped from the condition like the engine's bits (an "all" takes it
-            # as met, an "any" as not met), noted as a stub
+            # case-word bits (1A0 + c after a party load): "character c is here" -> the PR's BranchByCharacter
             import copy
             import event_translate as T
+            case = [(b, w) for b, w in ins.args["bits"]
+                    if 0x1A0 <= b < 0x1AE and self.case_kind in self.CASE_SCOPE]
+            if case:
+                scope = self.CASE_SCOPE[self.case_kind]
+                target = "@L_%06X" % ins.args["event"]
+                rest = [(b, w) for b, w in ins.args["bits"] if (b, w) not in case]
+                self.done["flow"] += 1
+                self.report[("flow", "party check")] += 1
+                char = lambda b: b - 0x1A0 + 1          # the PR's character ids: SNES id + 1
+                if ins.op >= 0xC8:                      # any of them
+                    out = [T.op("BranchByCharacter", i=[char(b), 0 if w else 1, scope, target],
+                                comment="SNES %s bit %03X" % (self.case_kind, b)) for b, w in case]
+                    if rest:
+                        ins2 = copy.copy(ins)
+                        ins2.args = dict(ins.args, bits=rest)
+                        out += self.cond(ins2)
+                    return out
+                skip = "skip_%06X" % ins.off             # all of them: any failing test skips the jump
+                out = [T.op("BranchByCharacter", i=[char(b), 1 if w else 0, scope, "@" + skip],
+                            comment="SNES %s bit %03X" % (self.case_kind, b)) for b, w in case]
+                if rest:
+                    ins2 = copy.copy(ins)
+                    ins2.args = dict(ins.args, bits=rest)
+                    out += self.cond(ins2)
+                else:
+                    out.append(T.op("Jump", i=[target]))
+                return out + [T.lab(skip)]
+            # a test of an untied vanilla bit: dropped from the condition like the engine's bits (an "all"
+            # takes it as met, an "any" as not met), noted as a stub
             bits = ins.args["bits"]
             gone = [b for b, _ in bits if self.untied(b)]
             if not gone:
@@ -304,6 +347,15 @@ def _translator_class():
             return self.texts.keys(key)
 
         created = None       # {(PR map, SNES map, NPC): entity id} of NPC entities a build added
+
+        def place(self, m, x, y):
+            # T-Edition's own maps (415+): ted-maps' rooms and arrival points (data/ted_maps.json)
+            if m >= NEW_MAPS - 1:
+                import ted_maps
+                r = ted_maps.arrival(m, x, y)
+                if r:
+                    return tuple(r)
+            return super().place(m, x, y)
 
         def npc_entity(self, n):
             e = self.created.get((self.pr_map, self.snes_map, n)) if self.created else None
@@ -754,6 +806,75 @@ def costume(char, slot, palette=None):
     return next((c["costume"] for c in looks if c["slot"] == slot and c["costume"]), None)
 
 
+TRIGGER_TYPES = (2, 5, 30, 10)          # the PR's forms of an event tile: step-on (2), examine (5, 10), step switch (30)
+
+
+def trigger_objects(pr_map, spot, near=1):
+    """[(layer, object, its properties)] for the PR room's scripted triggers (action_id 2) of an SNES event
+    tile: a step-on trigger on the spot, else an object to examine or a switch within `near` tiles (the PR
+    made some tiles a thing to examine next to them: the Big Bridge's staircase switch)."""
+    import snes_maps
+    room = os.path.dirname(snes_maps.pr_tilemaps()[pr_map])
+    pk = _json(os.path.join(os.path.dirname(room), "package.json"))
+    entry = next(m for m in pk["map"] if m["name"] == pr_map)
+    out = []
+    for nm in [x["name"] for x in entry.get("entity", [])] + ["entity_default"]:
+        f = os.path.join(room, nm + ".json")
+        if not os.path.exists(f):
+            continue
+        best = None
+        for lay in _json(f).get("layers", []):
+            for o in lay.get("objects") or []:
+                props = {q["name"]: q["value"] for q in o.get("properties", [])}
+                kind = props.get("object_type")
+                if kind not in TRIGGER_TYPES or props.get("action_id") != 2 or "script_id" not in props:
+                    continue
+                at = (int(o["x"] // 16), int(o["y"] // 16) - (1 if "gid" in o else 0))
+                d = abs(at[0] - spot[0]) + abs(at[1] - spot[1])
+                if (d == 0 or (kind != 2 and d <= near)) and (best is None or d < best[0]):
+                    best = (d, o, props)
+        if best is not None:
+            out.append((nm, best[1], best[2]))
+    return out
+
+
+def tile_rooms(snes_map, xy, primary=None):
+    """[(PR room, its tile)]: the PR rooms of the SNES map's world walkable at (or next to) the tile,
+    `primary` (else the room snes_maps.to_pr draws there) first."""
+    import snes_maps
+    world = snes_world(snes_map)
+    out = []
+    for mt in snes_maps.pr_maps(snes_map):
+        spot = (xy[0] + mt.dx, xy[1] + mt.dy)
+        if mt.pr != primary:
+            if world is not None and pr_world(mt.pr) not in (None, world):
+                continue
+            wk = snes_maps.pr_walkable(mt.pr)
+            if not any((spot[0] + a, spot[1] + b) in wk for a in (-1, 0, 1) for b in (-1, 0, 1)):
+                continue
+        out.append((mt.pr, spot))
+    first = primary or (snes_maps.to_pr(snes_map, *xy) or [None])[0]
+    out.sort(key=lambda rs: rs[0] != first)
+    return out
+
+
+def _vanilla_tile_event(snes_map, xy):
+    """The JP ROM's event tile at a map's spot (its address), or None."""
+    jp = E.load("jp")
+    return next((e[0] for e in E.entry_points(jp) if e[2] == snes_map and e[1] == "tile" and tuple(e[3]) == tuple(xy)), None)
+
+
+def trigger_object(px, py, eid, script_id, name):
+    """A PR step-on trigger (object_type 2, Tiled tile object) at PR tile (px, py) running `script_id`."""
+    vals = {"action_id": 2, "direction": 0, "entity_id": eid, "gimmick": False, "ignore_route_link_object_id": -1,
+            "link_object_id": 0, "object_id": 0, "object_type": 2, "script_id": script_id,
+            "target_transportation_ids": ""}
+    types = {bool: "bool", int: "int", str: "string"}
+    return {"gid": 998, "height": 16, "id": eid, "name": name, "rotation": 0, "type": "", "visible": True,
+            "width": 16, "x": px * 16, "y": (py + 1) * 16,
+            "properties": [{"name": k, "type": types[type(v)], "value": v} for k, v in vals.items()]}
+
+
 def npc_objects(pr_map, spot, looks=(), near=2):
     """[(layer, object, its properties)] for each entity layer of a PR map (and entity_default) with the
     NPC: the one at `spot`, else (the PR moved some by a tile or two: Tzen's World of Balance bandit,
@@ -922,6 +1043,7 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
     new_objs = {}                       # PR map -> [NPC objects to add to its entity_default]
     prologue = {}                       # PR map -> [(SNES map, NPC, show bit, entity id)] hidden until shown
     standins = []                       # NPCs on a stand-in look (bc-sprites converts their sprites later)
+    added_ids = set()                   # entity ids of the triggers added
     mod = MG.MagiciteMod(out, PD.GameData("ff6"), keys_name=keys_name)
     tilemaps = snes_maps.pr_tilemaps()
     packages = {}
@@ -930,114 +1052,192 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
     report = []
     ids = ScriptIds(ids_file, SCRIPT_ID_RANGES[owner])
     names_by_id = {r["id"]: r["script_name"] for r in csv.DictReader(io.StringIO(_text(os.path.join(E.P.MASTER, "script.csv"))))}
+    def add_npc(pr_map, snes_map, n, dx, dy, off):
+        """A new NPC object for SNES NPC n in the PR room's entity_default (hidden by the room's map script
+        while its show bit is clear) -> its entity id, or None (no such NPC record)."""
+        rec = npc_records(snes_map).get(n)
+        if rec is None:
+            return None
+        eid = next(i for i in NEW_ENTITY_RANGES[owner] if i not in set(created.values()) | added_ids)
+        look, standin = npc_look(rom, rec["sprite"])
+        created[(pr_map, snes_map, n)] = eid
+        new_objs.setdefault(pr_map, []).append(npc_object(rec["x"] + dx, rec["y"] + dy, eid, look,
+                                                          DIRECTION.get(rec["direction"], 4), 0,
+                                                          "TEditionNPC_%d_%d" % (snes_map, n)))
+        prologue.setdefault(pr_map, []).append((snes_map, n, NPC_BITS + rec["show_bit"], eid))
+        if standin:
+            standins.append({"sprite": rec["sprite"], "snes_map": snes_map, "npc": n, "pr_map": pr_map,
+                             "look": look, "entity": eid, "event": E.fmt(off)})
+        return eid
+
+    def add_scene_npcs(pr_map, snes_map, dx, dy, layer, off, mode="field"):
+        """Entities for the NPCs the event's scene moves that the PR room has none for."""
+        probe = Tr(rom, "probe", snes_map=snes_map, alloc=alloc, prog=prog, pr_map=pr_map)
+        probe.layers = layer
+        for n in sorted({i.args["obj"] - 0x10 for i in T.scene(prog, off, mode)
+                         if isinstance(i.args.get("obj"), int) and 0x10 <= i.args["obj"] < 0x30}):
+            if (pr_map, snes_map, n) not in created and probe.npc_entity(n) is None:
+                add_npc(pr_map, snes_map, n, dx, dy, off)
+
     for ev in events:
         off, snes_map, test_bits = ev["event"], ev["map"], ev.get("test_bits", ())
         name = ev.get("name") or "sc_ted_%s" % E.fmt(off).replace("/", "").lower()
         scripts = []
-        # wired: the NPC's script in each entity layer it stands in becomes T-Edition's event with the
-        # layer's own PR script grafted in for the vanilla talk the SNES event falls back to
-        vanilla = _vanilla_npc_event(snes_map, ev["npc"])
-        xy = next((e[3]["x"], e[3]["y"]) for e in E.entry_points(rom)
-                  if e[2] == snes_map and e[1] == "npc" and e[3]["npc"] == ev["npc"])
-        # every PR room of the event's world where the NPC stands (the PR often has a World of Balance
-        # and a World of Ruin copy of one SNES map: Kohlingen, Tzen, South Figaro), the main one first
-        looks = npc_looks(snes_map, ev["npc"])
-        rooms = npc_rooms(snes_map, xy, ev.get("pr_map"), looks)
-        if not rooms:                       # a SNES map the PR has no room for (a scene-only map)
-            report.append({"event": E.fmt(off), "script": None, "pr_map": None, "translated": {}, "stubs": {},
-                           "wired": [], "skipped": "no PR room for SNES map %d" % snes_map})
-            continue
-        pr_map = rooms[0][0]
-        objs = npc_objects(pr_map, rooms[0][1], looks)
-        layer = ev.get("layer") or next((lay for lay, o, p in objs if lay != "entity_default"), "entity_default")
-        wired = []
-        # T-Edition's NPCs the PR room has no entity for (the event's own NPC, the ones its scene moves):
-        # new NPC objects in the room's entity_default, hidden by the map script while their show bit is clear
-        own_missing = not any(True for room, spot in rooms for _ in npc_objects(room, spot, looks))
-        dx, dy = rooms[0][1][0] - xy[0], rooms[0][1][1] - xy[1]
-        probe = Tr(rom, name, snes_map=snes_map, alloc=alloc, prog=prog, pr_map=pr_map)
-        probe.layers = layer
-        scene_npcs = sorted({i.args["obj"] - 0x10 for i in T.scene(prog, off)
-                             if isinstance(i.args.get("obj"), int) and 0x10 <= i.args["obj"] < 0x30})
-        for n in scene_npcs + ([ev["npc"]] if own_missing else []):
-            if (pr_map, snes_map, n) in created or (n != ev["npc"] or not own_missing) and probe.npc_entity(n) is not None:
+        if "tile" in ev:
+            # an event tile: the PR room's trigger at that spot runs T-Edition's event (in every room of the
+            # map's world); a vanilla tile event T-Edition changed in place keeps the PR's own script for the
+            # part that is still vanilla's (ted_part) and goes on with T-Edition's; a tile T-Edition added
+            # gets a new step-on trigger
+            xy = tuple(ev["tile"])
+            rooms = tile_rooms(snes_map, xy, ev.get("pr_map"))
+            if not rooms:
+                report.append({"event": E.fmt(off), "script": None, "pr_map": None, "translated": {}, "stubs": {},
+                               "wired": [], "skipped": "no PR room for SNES map %d" % snes_map})
                 continue
-            rec = npc_records(snes_map).get(n)
-            if rec is None:
+            pr_map, layer, wired = rooms[0][0], ev.get("layer") or "entity_default", []
+            add_scene_npcs(pr_map, snes_map, rooms[0][1][0] - xy[0], rooms[0][1][1] - xy[1], layer, off,
+                           "vehicle" if snes_map in E.WORLD_MAPS else "field")
+            vanilla = _vanilla_tile_event(snes_map, xy)
+            part = ted_part(off, prog) if vanilla == off else None
+            for room, spot in rooms:
+                for lay, obj, props in trigger_objects(room, spot):
+                    orig = names_by_id.get(str(props["script_id"]))
+                    if props["script_id"] and not orig:
+                        continue
+                    edits = layer_edits.setdefault((room, lay), {})
+                    eid = props.get("entity_id")
+                    if eid in edits:
+                        continue
+                    nm = "%s_%s" % (name, lay.replace("ev_e_", "l")) if room == pr_map else \
+                        "%s_%s_%s" % (name, room.replace("Map_", "m"), lay.replace("ev_e_", "l"))
+                    t = Tr(rom, nm, snes_map=snes_map, alloc=alloc, prog=prog, pr_map=room)
+                    t.texts, t.layers = texts, lay
+                    extra = {}
+                    if orig and part not in (None, off):
+                        label = t.graft(Sc.load(orig), callable_=True)
+                        sc = t.translate(part, preamble=[T.op("Call", i=["@" + label],
+                                                              comment="the PR's own %s: vanilla's part (to %s)" % (orig, E.fmt(part)))])
+                        extra["vanilla_part"] = orig
+                    else:
+                        if vanilla is not None and vanilla != off and orig:
+                            t.fallbacks[vanilla] = Sc.load(orig)
+                        sc = t.translate(off)
+                    scripts.append((nm, sc, room))
+                    scripts.extend((a_, s2, w or room) for a_, s2, w in t.after)
+                    sid = ids.get(nm)
+                    mod.table("script").add({"script_name": nm}, id=sid)
+                    edits[eid] = sid
+                    wired.append({"layer": lay, "entity": eid, "was": orig, "now": nm, "script_id": sid,
+                                  "object_type": props.get("object_type"), **extra,
+                                  **({} if room == pr_map else {"room": room})})
+            if not wired:
+                spot = rooms[0][1]
+                eid = next(i for i in NEW_ENTITY_RANGES[owner] if i not in set(created.values()) | added_ids)
+                added_ids.add(eid)
+                nm = "%s_trig" % name
+                t = Tr(rom, nm, snes_map=snes_map, alloc=alloc, prog=prog, pr_map=pr_map)
+                t.texts, t.layers = texts, layer
+                sc = t.translate(off)
+                scripts.append((nm, sc, pr_map))
+                scripts.extend((a_, s2, w or pr_map) for a_, s2, w in t.after)
+                sid = ids.get(nm)
+                mod.table("script").add({"script_name": nm}, id=sid)
+                new_objs.setdefault(pr_map, []).append(trigger_object(spot[0], spot[1], eid, sid,
+                                                                      "TEditionTile_%d_%d_%d" % (snes_map, xy[0], xy[1])))
+                wired.append({"layer": "entity_default", "entity": eid, "was": None, "now": nm, "script_id": sid,
+                              "object_type": 2, "new": True})
+        else:
+            # wired: the NPC's script in each entity layer it stands in becomes T-Edition's event with the
+            # layer's own PR script grafted in for the vanilla talk the SNES event falls back to
+            vanilla = _vanilla_npc_event(snes_map, ev["npc"])
+            xy = next((e[3]["x"], e[3]["y"]) for e in E.entry_points(rom)
+                      if e[2] == snes_map and e[1] == "npc" and e[3]["npc"] == ev["npc"])
+            # every PR room of the event's world where the NPC stands (the PR often has a World of Balance
+            # and a World of Ruin copy of one SNES map: Kohlingen, Tzen, South Figaro), the main one first
+            looks = npc_looks(snes_map, ev["npc"])
+            rooms = npc_rooms(snes_map, xy, ev.get("pr_map"), looks)
+            if not rooms:                       # a SNES map the PR has no room for (a scene-only map)
+                report.append({"event": E.fmt(off), "script": None, "pr_map": None, "translated": {}, "stubs": {},
+                               "wired": [], "skipped": "no PR room for SNES map %d" % snes_map})
                 continue
-            taken = set(created.values())
-            eid = next(i for i in NEW_ENTITY_RANGES[owner] if i not in taken)
-            look, standin = npc_look(rom, rec["sprite"])
-            created[(pr_map, snes_map, n)] = eid
-            new_objs.setdefault(pr_map, []).append(npc_object(rec["x"] + dx, rec["y"] + dy, eid, look,
-                                                              DIRECTION.get(rec["direction"], 4), 0,
-                                                              "TEditionNPC_%d_%d" % (snes_map, n)))
-            prologue.setdefault(pr_map, []).append((snes_map, n, NPC_BITS + rec["show_bit"], eid))
-            if standin:
-                standins.append({"sprite": rec["sprite"], "snes_map": snes_map, "npc": n, "pr_map": pr_map,
-                                 "look": look, "entity": eid, "event": E.fmt(off)})
-        for k, (room, lay, obj, props) in enumerate((room, lay, obj, props) for ri, (room, spot) in enumerate(rooms)
-                                                    for lay, obj, props in npc_objects(room, spot, looks)):
-            orig = names_by_id.get(str(props["script_id"]))
-            if props["script_id"] and not orig:
-                continue
-            edits = layer_edits.setdefault((room, lay), {})
-            eid = props.get("entity_id")
-            nm = "%s_%s" % (name, lay.replace("ev_e_", "l")) if room == pr_map else                 "%s_%s_%s" % (name, room.replace("Map_", "m"), lay.replace("ev_e_", "l"))
-            t = Tr(rom, nm, snes_map=snes_map, alloc=alloc, prog=prog, pr_map=room)
-            t.texts, t.layers = texts, lay
-            if vanilla is not None and orig:     # no PR script (a walk-on): vanilla's SNES talk, translated
-                t.fallbacks[vanilla] = Sc.load(orig)
-            sc = t.translate(off)
-            scripts.extend((a, s2, w or room) for a, s2, w in t.after)
-            if eid in edits:
-                # two SNES NPCs on one PR entity: the PR merged a World of Balance room and its World of
-                # Ruin twin (Tzen: maps 306 / 305). One script under the first event's name and id runs
-                # either scene by the PR's "after the collapse" flag (ScenarioFlag2 41, SNES bit 0A4).
-                nm1, sc1, map1 = firsts[(room, lay, eid)]
-                worlds = {snes_world(map1), snes_world(snes_map)}
-                if worlds != {0, 1}:
-                    wired.append({"layer": lay, "entity": eid, "was": orig,    # the earlier event keeps it
-                                  "conflict": "entity runs script %d (an earlier event)" % edits[eid]})
+            pr_map = rooms[0][0]
+            objs = npc_objects(pr_map, rooms[0][1], looks)
+            layer = ev.get("layer") or next((lay for lay, o, p in objs if lay != "entity_default"), "entity_default")
+            wired = []
+            # T-Edition's NPCs the PR room has no entity for (the event's own NPC, the ones its scene moves):
+            # new NPC objects in the room's entity_default, hidden by the map script while their show bit is clear
+            own_missing = not any(True for room, spot in rooms for _ in npc_objects(room, spot, looks))
+            dx, dy = rooms[0][1][0] - xy[0], rooms[0][1][1] - xy[1]
+            probe = Tr(rom, name, snes_map=snes_map, alloc=alloc, prog=prog, pr_map=pr_map)
+            probe.layers = layer
+            scene_npcs = sorted({i.args["obj"] - 0x10 for i in T.scene(prog, off)
+                                 if isinstance(i.args.get("obj"), int) and 0x10 <= i.args["obj"] < 0x30})
+            for n in scene_npcs + ([ev["npc"]] if own_missing else []):
+                if (pr_map, snes_map, n) in created or (n != ev["npc"] or not own_missing) and probe.npc_entity(n) is not None:
                     continue
-                tw = Tr(rom, nm1, snes_map=map1, alloc=alloc, prog=prog, pr_map=room)
-                la, lb = tw.graft(sc1), tw.graft(sc)
-                wor, wob = (la, lb) if snes_world(map1) == 1 else (lb, la)
-                main = [T.lab("Main"),
-                        T.op("Branch", i=[WOR_FLAG[1], 1, "@" + wor], s=[WOR_FLAG[0], T.EQ, "imm"],
-                             comment="World of Ruin: SNES map %d's scene" % (map1 if wor == la else snes_map)),
-                        T.op("Jump", i=["@" + wob]), T.op("Exit")]
-                merged = tw.assemble(nm1, main, tw.blocks)
-                scripts.append((nm1, merged, room))
-                firsts[(room, lay, eid)] = (nm1, merged, None)
-                wired.append({"layer": lay, "entity": eid, "was": orig, "now": nm1, "script_id": edits[eid],
-                              "merged": "%s: World of Ruin -> map %d's scene, else map %d's" % (
-                                  nm1, map1 if wor == la else snes_map, snes_map if wor == la else map1)})
-                continue
-            scripts.append((nm, sc, room))
-            firsts[(room, lay, eid)] = (nm, sc, snes_map)
-            sid = ids.get(nm)
-            mod.table("script").add({"script_name": nm}, id=sid)
-            wired.append({"layer": lay, "entity": eid, "was": orig, "now": nm, "script_id": sid,
-                          "object_type": props.get("object_type"), **({} if room == pr_map else {"room": room})})
-            edits[eid] = sid
-        if own_missing and (pr_map, snes_map, ev["npc"]) in created:
-            eid = created[(pr_map, snes_map, ev["npc"])]
-            nm = "%s_new" % name
-            t = Tr(rom, nm, snes_map=snes_map, alloc=alloc, prog=prog, pr_map=pr_map)
-            t.texts, t.layers = texts, layer
-            sc = t.translate(off)
-            scripts.append((nm, sc, pr_map))
-            scripts.extend((a, s2, w or pr_map) for a, s2, w in t.after)
-            sid = ids.get(nm)
-            mod.table("script").add({"script_name": nm}, id=sid)
-            for o in new_objs[pr_map]:
-                if o["id"] == eid:
-                    for q in o["properties"]:
-                        if q["name"] in ("script_id", "action_id"):
-                            q["value"] = sid if q["name"] == "script_id" else 2
-            wired.append({"layer": "entity_default", "entity": eid, "was": None, "now": nm, "script_id": sid,
-                          "new": True})
+                add_npc(pr_map, snes_map, n, dx, dy, off)
+            for k, (room, lay, obj, props) in enumerate((room, lay, obj, props) for ri, (room, spot) in enumerate(rooms)
+                                                        for lay, obj, props in npc_objects(room, spot, looks)):
+                orig = names_by_id.get(str(props["script_id"]))
+                if props["script_id"] and not orig:
+                    continue
+                edits = layer_edits.setdefault((room, lay), {})
+                eid = props.get("entity_id")
+                nm = "%s_%s" % (name, lay.replace("ev_e_", "l")) if room == pr_map else                 "%s_%s_%s" % (name, room.replace("Map_", "m"), lay.replace("ev_e_", "l"))
+                t = Tr(rom, nm, snes_map=snes_map, alloc=alloc, prog=prog, pr_map=room)
+                t.texts, t.layers = texts, lay
+                if vanilla is not None and orig:     # no PR script (a walk-on): vanilla's SNES talk, translated
+                    t.fallbacks[vanilla] = Sc.load(orig)
+                sc = t.translate(off)
+                scripts.extend((a, s2, w or room) for a, s2, w in t.after)
+                if eid in edits:
+                    # two SNES NPCs on one PR entity: the PR merged a World of Balance room and its World of
+                    # Ruin twin (Tzen: maps 306 / 305). One script under the first event's name and id runs
+                    # either scene by the PR's "after the collapse" flag (ScenarioFlag2 41, SNES bit 0A4).
+                    nm1, sc1, map1 = firsts[(room, lay, eid)]
+                    worlds = {snes_world(map1), snes_world(snes_map)}
+                    if worlds != {0, 1}:
+                        wired.append({"layer": lay, "entity": eid, "was": orig,    # the earlier event keeps it
+                                      "conflict": "entity runs script %d (an earlier event)" % edits[eid]})
+                        continue
+                    tw = Tr(rom, nm1, snes_map=map1, alloc=alloc, prog=prog, pr_map=room)
+                    la, lb = tw.graft(sc1), tw.graft(sc)
+                    wor, wob = (la, lb) if snes_world(map1) == 1 else (lb, la)
+                    main = [T.lab("Main"),
+                            T.op("Branch", i=[WOR_FLAG[1], 1, "@" + wor], s=[WOR_FLAG[0], T.EQ, "imm"],
+                                 comment="World of Ruin: SNES map %d's scene" % (map1 if wor == la else snes_map)),
+                            T.op("Jump", i=["@" + wob]), T.op("Exit")]
+                    merged = tw.assemble(nm1, main, tw.blocks)
+                    scripts.append((nm1, merged, room))
+                    firsts[(room, lay, eid)] = (nm1, merged, None)
+                    wired.append({"layer": lay, "entity": eid, "was": orig, "now": nm1, "script_id": edits[eid],
+                                  "merged": "%s: World of Ruin -> map %d's scene, else map %d's" % (
+                                      nm1, map1 if wor == la else snes_map, snes_map if wor == la else map1)})
+                    continue
+                scripts.append((nm, sc, room))
+                firsts[(room, lay, eid)] = (nm, sc, snes_map)
+                sid = ids.get(nm)
+                mod.table("script").add({"script_name": nm}, id=sid)
+                wired.append({"layer": lay, "entity": eid, "was": orig, "now": nm, "script_id": sid,
+                              "object_type": props.get("object_type"), **({} if room == pr_map else {"room": room})})
+                edits[eid] = sid
+            if own_missing and (pr_map, snes_map, ev["npc"]) in created:
+                eid = created[(pr_map, snes_map, ev["npc"])]
+                nm = "%s_new" % name
+                t = Tr(rom, nm, snes_map=snes_map, alloc=alloc, prog=prog, pr_map=pr_map)
+                t.texts, t.layers = texts, layer
+                sc = t.translate(off)
+                scripts.append((nm, sc, pr_map))
+                scripts.extend((a, s2, w or pr_map) for a, s2, w in t.after)
+                sid = ids.get(nm)
+                mod.table("script").add({"script_name": nm}, id=sid)
+                for o in new_objs[pr_map]:
+                    if o["id"] == eid:
+                        for q in o["properties"]:
+                            if q["name"] in ("script_id", "action_id"):
+                                q["value"] = sid if q["name"] == "script_id" else 2
+                wired.append({"layer": "entity_default", "entity": eid, "was": None, "now": nm, "script_id": sid,
+                              "new": True})
         for nm, test in ((name, False), (name + "_test", True)):
             t = Tr(rom, nm, snes_map=snes_map, alloc=alloc, prog=prog, pr_map=pr_map)
             t.texts, t.layers = texts, layer
@@ -1098,13 +1298,15 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
                     if "action_id" in props and props["action_id"]["value"] in (0, 4):
                         props["action_id"]["value"] = 2
         if lay == "entity_default" and new_objs.get(pr_map):
-            # the added NPCs go in the object group the room's NPCs are in (else the first)
+            # each added object goes in the object group holding its kind (NPCs, triggers), else the first
             groups = [g for g in doc.get("layers", []) if g.get("type") == "objectgroup"]
-            npc_group = next((g for g in groups if any(q["name"] == "object_type" and q["value"] == 6
-                                                       for o in g.get("objects") or [] for q in o.get("properties", []))),
-                             groups[0] if groups else None)
-            if npc_group is not None:
-                npc_group.setdefault("objects", []).extend(new_objs[pr_map])
+            for new in new_objs[pr_map]:
+                kind = next(q["value"] for q in new["properties"] if q["name"] == "object_type")
+                g = next((g for g in groups if any(q["name"] == "object_type" and q["value"] == kind
+                                                  for o in g.get("objects") or [] for q in o.get("properties", []))),
+                         groups[0] if groups else None)
+                if g is not None:
+                    g.setdefault("objects", []).append(new)
         mod.asset(group, "Assets/GameAssets/Serial/Res/Map/%s/%s/%s.json" % (folder, pr_map, lay),
                   json.dumps(doc, ensure_ascii=False, separators=(",", ":")), key="%s/%s" % (pr_map, lay))
     # the rooms' map scripts: hide each added NPC while its SNES show bit is clear (a vanilla show bit the
@@ -1387,6 +1589,18 @@ if __name__ == "__main__" and sys.argv[1:2] == ["readme"]:
     sys.exit(0)
 
 
+BATCH = os.path.join(E.P.ROOT, "data", "snes_event_ted_batch.json")
+
+
+def all_events():
+    """EVENTS (hand-checked) + the bulk batch (data/snes_event_ted_batch.json): what mods/TEditionEvents holds."""
+    import event_translate as T
+    have = {e["event"] for e in EVENTS}
+    bulk = [dict(event=E.parse_addr(r["event"]), map=r["map"], **({"tile": tuple(r["tile"])} if "tile" in r else {"npc": r["npc"]}))
+            for r in (T.read_json(BATCH)["events"] if os.path.exists(BATCH) else [])]
+    return EVENTS + [e for e in bulk if e["event"] not in have]
+
+
 if __name__ == "__main__":
-    rep, _ = build(siblings="--with-siblings" in sys.argv)
+    rep, _ = build(events=all_events(), siblings="--with-siblings" in sys.argv)
     print(json.dumps(rep, ensure_ascii=False, indent=1))
