@@ -43,6 +43,18 @@ namespace TEdition.PR
             }, "tedcostume [CHAR 0-13 K 0-4]: put a costume on (as the dressing room's SysCall does), then the costumes, art and rule 35 state");
             Battle("tedallies", a => string.Join(" | ", TedAllyStatus.Refresh(Last.Battle.BattlePlugManager.Instance())),
                 "tedallies: in a battle, the ally statuses holding Select shows (audit U7: Reraise, Defend, Runic, Sky)");
+            Battle("teddigits", a =>
+            {
+                var bm = Last.Battle.BattlePlugManager.Instance();
+                Last.Battle.BattleUnitData target = null;
+                foreach (var e in bm.GetEnemyUnits()) if (e != null && e.BattleUnitDataInfo?.Parameter?.CurrentHP > 0) { target = e; break; }
+                if (target == null) return "error: no living monster";
+                int value = a.Length > 0 && int.TryParse(a[0], out int v) ? v : 12345;
+                int before = TedDamageDigits.Grown;
+                var view = Last.Battle.BattleUtility.CreateDamageView(target, value, false, false);
+                int children = view?.prefab != null ? view.prefab.transform.childCount : -1;
+                return $"teddigits: {value} drawn on the first monster: prefab children {children}, {TedDamageDigits.Grown - before} added (audit M30)";
+            }, "teddigits [value]: in a battle, a damage number (default 12345) on the first monster: the prefab's digit slots (audit M30)");
             Battle("tedsteal", TedSelfTest.Steal, "tedsteal [n]: in a battle, n Steals by the first party member through the game's functions (nothing applied): rate vs T-Edition's chance");
             Battle("tedprobe", TedSelfTest.Probe, "tedprobe blind [n]: in a battle, the game's Fight hit rate clear vs blinded (audit M5; nothing applied)");
             Battle("tedgil", TedSelfTest.GilToss, "tedgil: in a battle, the game's Gil Toss value and gil cost (information for rule 29; test runs never save)");

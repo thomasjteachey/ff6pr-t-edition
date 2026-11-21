@@ -73,6 +73,11 @@ namespace TEdition.PR
             if (TedMode) TedStatusPage.Patch(H);   // audit U4: elements and immunities on the status screen
             if (TedMode) TedChestLines.Patch(H);   // audit U9: the chest line by party lead
             if (TedMode) TedEquipDetails.Patch(H);   // audit U5: weapons' effects in the equip menu's description
+            if (TedMode) TedDamageDigits.Patch(H);   // audit M30: 5-digit damage numbers (cap 32000)
+            if (TedMode) TedNearFatal.Patch(H);   // audit M17: percent spells miss monsters immune to Near Fatal
+            if (TedMode) TedBlocker.Patch(H);   // audit M38: Golem / Interceptor blocks against defense 119
+            if (TedMode) TedUltima.Patch(H);   // audit I12: the Ultima Weapon's blade at T-Edition's damage thresholds
+            if (TedMode) TedBarrage.Patch(H);   // audit M34: the Offering's hits at normal accuracy
             // audit G12: MP damage pink, MP healing blue (the kit's SnesMpNumbers)
             if (TedMode) PrKit.Ff6.SnesMpNumbers.Apply(H, new PrKit.Ff6.SnesMpNumbersMod
             {
@@ -248,6 +253,7 @@ namespace TEdition.PR
                 TedSosReflect.Update();
                 TedMagitek.Update();
                 TedTimers.Update();   // T-Edition's field timers (TED:timer_start)
+                TedMpCritical.Update();   // audit I3: the PR's MP Critical weapon list -> T-Edition's
                 PrKit.Ff6.SnesMpNumbers.Update();
                 TedHarness.Update();
             }

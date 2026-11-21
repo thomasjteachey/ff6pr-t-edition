@@ -36,6 +36,9 @@ namespace TEdition.Rules
         // attacks that ignore defense (rule 9)
         public readonly HashSet<int> HalfIgnoreDefense = new HashSet<int>();
         public readonly List<int> HalfIgnoreDefenseNew = new List<int>();   // SNES ids 384+ (no PR row yet)
+        public readonly HashSet<int> NearFatalImmune = new HashSet<int>();     // M17: PR monster ids immune to Near Fatal
+        public readonly HashSet<int> PercentAbilities = new HashSet<int>();    // M17: the percent spells' PR abilities
+        public readonly Dictionary<string, HashSet<int>> MonsterKinds = new Dictionary<string, HashSet<int>>();   // I3: "magical" / "dragons" PR monster ids
         // content ids by role (orichalcum, elven_darts, offering, ...): what the rules test for
         public readonly Dictionary<string, int> Named = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
         // their rows in their table (weapon rows: the game keys Atma Weapon and Valiant Knife on them)
@@ -87,6 +90,17 @@ namespace TEdition.Rules
             if (r.TryGetProperty("new_weapons", out var weapons))
                 foreach (var e in weapons.EnumerateArray())
                     d.NewWeapons.Add(new Weapon { Row = Int(e, "row"), Content = Int(e, "content"), Attack = Int(e, "attack"), Name = Str(e, "name") });
+            if (r.TryGetProperty("near_fatal_immune", out var nfi))
+                foreach (var v in nfi.EnumerateArray()) if (v.ValueKind == JsonValueKind.Number) d.NearFatalImmune.Add(v.GetInt32());
+            if (r.TryGetProperty("monster_kinds", out var mk))
+                foreach (var p in mk.EnumerateObject())
+                {
+                    var set = new HashSet<int>();
+                    foreach (var v in p.Value.EnumerateArray()) if (v.ValueKind == JsonValueKind.Number) set.Add(v.GetInt32());
+                    d.MonsterKinds[p.Name] = set;
+                }
+            if (r.TryGetProperty("percent_abilities", out var pa))
+                foreach (var v in pa.EnumerateArray()) if (v.ValueKind == JsonValueKind.Number) d.PercentAbilities.Add(v.GetInt32());
             if (r.TryGetProperty("half_ignore_defense", out var half))
             {
                 if (half.TryGetProperty("pr", out var pr))

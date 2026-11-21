@@ -74,27 +74,40 @@ namespace TEdition.PR
         [ThreadStatic] static bool sketchArmed;
         internal static int SketchBoosts, Jumps;
 
-        public static void Sketch_Postfix(Last.Battle.BattleUnitData unitData)
+        // audit C20 (spec 30): T-Edition's Sketch hits with chance min(1, Relm's level / the target's level), the target's
+        // level taken x170/256 with an Enhanced Sketch item (bit 11.2: the Beret and T-Edition's others). The PR rolls
+        // GetRandPlus(100) < (its own threshold) right after IsResistanceSketch (decompiled UniqueUpdateParameterProvider.
+        // HitCalc, tools/decomp/gilthrow): that roll is answered from T-Edition's chance (int.MinValue hits, MaxValue misses).
+        [ThreadStatic] static double sketchChance;
+
+        public static void Sketch_Postfix(Last.Battle.BattleUnitData unitData, Last.Data.Master.Monster monster, bool __result)
         {
             try
             {
                 sketchArmed = false;
-                if (!Plugin.TedMode) return;
-                var c = unitData?.TryCast<global::BattlePlayerData>()?.ownedCharacterData;
-                if (c == null || !Wears(c, "11.2")) return;
-                foreach (var kv in c.EquipmentData) if (kv.Value != null && kv.Value.ContentId == BeretContent) return;   // the game's own x2
+                if (!Plugin.TedMode || __result || unitData == null || monster == null) return;
+                var c = unitData.TryCast<global::BattlePlayerData>()?.ownedCharacterData;
+                int lv = unitData.BattleUnitDataInfo?.Parameter?.ConfirmedLevel() ?? 0;
+                double target = Math.Max(1, monster.Lv);
+                bool enhanced = c != null && Wears(c, "11.2");
+                if (enhanced) target = Math.Max(1.0, target * 170 / 256);
+                sketchChance = Math.Min(1.0, lv / target);
                 sketchArmed = true;
+                if (enhanced) SketchBoosts++;
+                double shown = sketchChance;
+                TedLog.Rule(30, enhanced ? "sketch-enhanced" : "sketch",
+                    () => $"Sketch: Lv {lv} vs monster Lv {monster.Lv}{(enhanced ? " (x170/256, Enhanced Sketch)" : "")}: {shown:P0} (audit C20)");
             }
             catch (Exception e) { Hooks.WarnOnce("ted-relic-sketch", e); }
         }
+
+        static readonly Random sketchRng = new Random();
 
         public static void RandPlus_Postfix(int max, ref int __result)
         {
             if (!sketchArmed || max != 100) return;
             sketchArmed = false;
-            __result /= 2;   // floor(r / 2) < t  ==  r < 2t: the Beret's doubled threshold
-            SketchBoosts++;
-            TedLog.Rule(0, "relic-11.2", () => "Sketch chance up from a T-Edition item (bit 11.2, audit I5)");
+            __result = sketchRng.NextDouble() < sketchChance ? int.MinValue : int.MaxValue;
         }
 
         public static void Evasion_Postfix(PlayerCharacterParameter __instance, bool isNatunalValue, ref int __result)

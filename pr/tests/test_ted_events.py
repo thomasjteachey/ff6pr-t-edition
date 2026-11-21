@@ -350,6 +350,30 @@ class WineOldMan(unittest.TestCase):
         t.pressed_a = False
         self.assertEqual(t.cond(ins)[0]["mnemonic"], "BranchByPlayerDirection")
 
+    def test_timers(self):
+        # A0 (Night Patrol's CD/A980: A0 C0 A8 50 A6 53) -> TED:timer_start <n> <frames> <flags> <the expiry event's script,
+        # a script of this room>; A1 n -> TED:timer_reset n
+        import event_translate as T
+        t = TE._translator_class()(prog().rom, "sc_x", snes_map=1, alloc=T.FlagAlloc(None), prog=prog())
+        t.texts = TE.Texts(prog().rom)
+        ops, _ = t.instr(prog().code[(E.parse_addr("CD/A980"), "field")], False, None)
+        self.assertEqual(ops[0]["operands"]["sValues"][0], "TED:timer_start 0 43200 0x50 sc_x_t1")
+        self.assertEqual(t.after[0][0], "sc_x_t1")
+        reset = next(i for i in prog().code.values() if i.name == "timer_reset")
+        ops, _ = t.instr(reset, False, None)
+        self.assertEqual(ops[0]["operands"]["sValues"][0], "TED:timer_reset %d" % reset.args["timer"])
+        # a timer whose event restarts it (CB/8138) gets one script, not an endless chain
+        ops, _ = t.instr(prog().code[(E.parse_addr("CB/8138"), "field")], False, None)
+        self.assertTrue(ops[0]["operands"]["sValues"][0].startswith("TED:timer_start"))
+
+    def test_load_safe(self):
+        # inside a room's load script: fades instant, no waits (ted-8 hung on timed ColorFades there)
+        import event_translate as T
+        sc = {"Mnemonics": [T.op("ColorFade", i=[0, 0, 0, 61], r=[0.35]), T.op("Wait", r=[0.5]), T.op("Exit")]}
+        TE.load_safe(sc)
+        self.assertEqual([(m["mnemonic"], m["operands"]["rValues"][0]) for m in sc["Mnemonics"]],
+                         [("ColorFade", 0), ("Nop", 0.5), ("Exit", 0)])
+
     def test_chest_bits(self):
         # 5B b = "chest 128 + b not opened" -> a Branch on ted-maps' PR treasure flag for that chest (EA/230B: bit 138 ->
         # chest 266 -> flag 300 = TreasureFlag2 44)

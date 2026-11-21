@@ -83,6 +83,7 @@ def _place_npc(rom, prog, Tr, texts, alloc, ids, mod, m, det, addr, name, script
     sn = "sc_tedq_%s_%s_new" % (name, pr[4:].lower())
     t = Tr(rom, sn, snes_map=m, alloc=alloc, prog=prog, pr_map=pr)
     t.texts = texts
+    t.pressed_a = True               # SNES bit 1B4: the event started with the A button
     sc = t.translate(E.parse_addr(addr))
     scripts[(group, folder, pr)].append((sn, sc))
     for a, s2, w in t.after:
@@ -158,6 +159,7 @@ def _place_vanilla_npc(rom, prog, Tr, texts, alloc, ids, mod, m, det, addr, name
         sn = "sc_tedq_%s_%s_new" % (name, pr[4:].lower())
         t = Tr(rom, sn, snes_map=m, alloc=alloc, prog=prog, pr_map=pr)
         t.texts = texts
+        t.pressed_a = True               # SNES bit 1B4: the event started with the A button
         sc = t.translate(E.parse_addr(addr))
         scripts[(group, folder, pr)].append((sn, sc))
         for a, s2, w in t.after:
@@ -217,6 +219,26 @@ def _scene_npcs(rom, prog, Tr, alloc, m, addr, pr, room, group, folder, lay, fix
                              "entity": eid, "event": addr})
 
 
+def _guarded(Tr):
+    """Tr with a guard: an event already being translated further up (a timer whose expiry event restarts the
+    same timer: ted_events' A0 translation recursed forever, 11-21) becomes an empty script instead."""
+    import event_translate as T
+
+    class Guarded(Tr):
+        _active = set()
+
+        def translate(self, event, *a, **k):
+            key = event if isinstance(event, int) else repr(event)
+            if key in Guarded._active:
+                return self.assemble(self.name, [T.lab("Main"), T.op("Exit", comment="(already translated above)")], [])
+            Guarded._active.add(key)
+            try:
+                return super().translate(event, *a, **k)
+            finally:
+                Guarded._active.discard(key)
+    return Guarded
+
+
 def _entrance(rom, prog, Tr, texts, alloc, m, addr, name, entrances, taken_ms):
     """A T-Edition entrance event on a vanilla map, as ted-events' TE.build does them: in every PR room of
     the map's world with a load script (sc_map_<room>), T-Edition's part (from where its code leaves the JP
@@ -248,10 +270,15 @@ def _entrance(rom, prog, Tr, texts, alloc, m, addr, name, entrances, taken_ms):
             continue
         t = Tr(rom, "%s_%s" % (name, pr[4:].lower()), snes_map=m, alloc=alloc, prog=prog, pr_map=pr)
         t.texts = texts
+        t.pressed_a = False               # SNES bit 1B4: the event started with the A button
+        t.base_layer_only = True          # a room's load script: no puppets on story-layer NPCs (they'd wait forever
+                                          # when another layer is loaded: ted-8's hang in sc_map_20181_6)
         if jp_entry is not None and jp_entry != off:
             t.fallbacks[jp_entry] = Tr(rom, "empty", snes_map=m, alloc=alloc, prog=prog).assemble(
                 "empty", [T.lab("Main"), T.op("Exit")], [])
         sc = t.translate(start)
+        TE.load_safe(sc)                  # inside a room's load script: fades instant, Waits as Nops (vanilla's own
+                                          # load scripts never wait: a timed fade hung ted-8 in sc_map_20181_6)
         entrances.setdefault((group, folder, pr), []).append((m, sc, addr))
         rows.append({"pr_map": pr, "script": ms, "from": E.fmt(start), "translated": sum(t.done.values()),
                      "stubs": dict(t.stubs)})
@@ -342,6 +369,7 @@ def _place_trigger(rom, prog, Tr, texts, alloc, ids, mod, m, spot, addr, name, s
     sn = "sc_tedq_%s_%s_trig" % (name, pr[4:].lower())
     t = Tr(rom, sn, snes_map=m, alloc=alloc, prog=prog, pr_map=pr)
     t.texts = texts
+    t.pressed_a = False               # SNES bit 1B4: the event started with the A button
     sc = t.translate(E.parse_addr(addr))
     scripts[(group, folder, pr)].append((sn, sc))
     for a, s2, w in t.after:
@@ -541,7 +569,7 @@ def build(out=OUT, events=None, write=True, log=print):
     alloc = TE.flag_alloc(persist=write)   # the shared allocator; a dry run hands out nothing for good
     for bit in TE.EX_BOSS_BITS + (TE.EX_OMEGA_BIT,):     # the pinned flags first, as ted-events' build does
         alloc.get(bit)
-    Tr = TE._translator_class()
+    Tr = _guarded(TE._translator_class())
     Tr.created = {}          # (PR map, SNES map, NPC) -> entity id of NPCs placed here (as TE.build's)
     ids_q = TE.ScriptIds(IDS_FILE, ids=SCRIPT_IDS)
     ids_e = TE.ScriptIds(EVENTS_IDS_FILE, ids=EVENTS_SCRIPT_IDS)
@@ -626,6 +654,7 @@ def build(out=OUT, events=None, write=True, log=print):
                     my_bit = det.get("bit") if kind == "npc" else None
                     t = Tr(rom, sn, snes_map=m, alloc=alloc, prog=prog, pr_map=pr)
                     t.texts, t.layers = texts, lay
+                    t.pressed_a = kind == "npc"               # SNES bit 1B4: the event started with the A button
                     orig = names_by_id.get(str(sid)) if sid else None
                     if orig and vanilla is not None:
                         t.fallbacks[vanilla] = Sc.load(orig)
@@ -876,6 +905,7 @@ def new_map_events(out=OUT, write=True, log=print, prog=None, ids_q=None, ids_e=
     with TE.Session(prog=prog, persist=write) as s:
         # ted-maps' NPC objects on its rooms (TEditionNPC<n>, their entity ids) for the translator, so a scene's
         # shows/hides/moves of the map's NPCs (the Collection Room's paintings) aren't "no PR entity" stubs
+        s.Tr = _guarded(s.Tr)
         s.Tr.created = _new_map_npc_entities(rooms)
         assets = T.sprite_assets(s.rom)
         ents = {}
@@ -907,7 +937,8 @@ def new_map_events(out=OUT, write=True, log=print, prog=None, ids_q=None, ids_e=
                 # room's package can name only a file in that room (ted-maps lists each in its own room)
                 if used_names.setdefault(sn, where[0]) != where[0]:
                     sn = f"{sn}_{where[0][4:].lower()}"
-                sc, after, t = s.translate(E.parse_addr(addr), m, sn, pr_map=where[0])
+                sc, after, t = s.translate(E.parse_addr(addr), m, sn, pr_map=where[0], pressed_a=kind == "npc",
+                                             base_layer_only=kind == "entrance", load_script=kind == "entrance")
                 nop_stubs(sc)
                 key = (room["group"], room["group"].replace("map_", "Map_"), where[0])
                 scripts[key].append((sn, sc))

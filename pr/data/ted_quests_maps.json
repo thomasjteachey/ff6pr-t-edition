@@ -47,7 +47,9 @@
   ],
   "Map_20010_1": [
    "sc_tedq_cd6c60_npc0_m1",
-   "sc_tedq_cd6c60_npc0_m2",
+   "sc_tedq_cd6c60_npc0_m1_t1",
+   "sc_tedq_cd6c60_npc0_m4",
+   "sc_tedq_cd6c60_npc0_m4_t1",
    "sc_tedq_cda690_entrance",
    "sc_tedq_cda6e0_npc10_b1",
    "sc_tedq_cda700_npc11_b1",
@@ -64,6 +66,7 @@
    "sc_tedq_e9e700_entrance"
   ],
   "Map_20020_1": [
+   "sc_tedq_cda940_tile_t1",
    "sc_tedq_cda9a0_entrance"
   ],
   "Map_30021_9": [
@@ -97,6 +100,7 @@
    "sc_tedq_cdab40_npc5_b1",
    "sc_tedq_cdab50_npc6_b1",
    "sc_tedq_cdab60_npc7_b1",
+   "sc_tedq_cdabc0_tile_t1",
    "sc_tedq_cdac60_entrance"
   ],
   "Map_20111_8": [

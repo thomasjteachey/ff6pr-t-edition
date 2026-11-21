@@ -309,10 +309,13 @@ class Events:
                         self.stats["ted-ex entrances"] += 1
                     elif qe and not own:
                         self.log(f"  ted-ex entrance {qe['script']} for map {m}: not in {QUESTS_DIR} yet")
+                    t.pressed_a = False          # a room's entrance event: no A button (engine bit 1B4 clear)
                     sc = t.translate(entrance if own else 0x5EA9, preamble=pre)
                     self.stats["stubs as nops"] += _nops(sc)
                     sc["Name"] = f"sc_{r.name}"
-                    self.map_scripts[r.name] = sc
+                    # it runs as the room's load script: fades instant, no Waits (a timed one waits for a screen
+                    # that only shows once the load script ends: ted-8 hung there; ted_events.load_safe)
+                    self.map_scripts[r.name] = self.ted.load_safe(sc)
                     for a, s2, w in t.after:
                         self.stats["stubs as nops"] += _nops(s2)
                         self.scripts.append((w or r.name, a, s2))
@@ -375,6 +378,9 @@ class Events:
         if key not in self._done:
             t = Tr(self.rom, nm, snes_map=m, alloc=self.alloc, prog=self.prog, pr_map=pr_map)
             t.texts = self.texts
+            # engine bit 1B4 (the event started with the A button: C0/BA94): an NPC is talked to (object type 6); a
+            # tile event is stepped on (type 2), so the translator decides T-Edition's 1B4 case tests
+            t.pressed_a = kind == "npc"
             sc = t.translate(addr)
             self.stats["stubs as nops"] += _nops(sc)
             self.scripts.append((pr_map, nm, sc))

@@ -329,6 +329,37 @@ def _translator_class():
                 self.report[("flow", "chest bit -> treasure flag")] += 1
                 return [T.op("Branch", i=[idx, 0, "@L_%06X" % tgt], s=[cat, T.EQ, "imm"],
                              comment="SNES 5B: chest bit %d" % (0x80 + ins.args["bit"]))], True
+            if ins.name == "timer_start":
+                # A0: field timer n (0-3) running `frames`, then its event -> TedPlugin's TED:timer_start <n> <frames>
+                # <flags> <script>: the event translated as a script of this room (listed in its package: the plugin
+                # starts it from there), flags = zz & F0 (bits 4-6 show a countdown)
+                import event_translate as T
+                zz = ins.args["timer_flags"] << 2
+                # one script per expiry event and room, shared down the translator tree (child() copies this dict by
+                # reference): a timer whose event restarts it (a repeating patrol) reuses the name instead of
+                # translating itself forever
+                if getattr(self, "timer_scripts", None) is None:
+                    self.timer_scripts = {}
+                key = (ins.args["event"], self.pr_map)
+                after = self.timer_scripts.get(key)
+                if after is None:
+                    after = self.timer_scripts[key] = "%s_t%d" % (self.name, len(self.after) + 1)
+                    t = self.child(after, self.snes_map, self.pr_map)
+                    script = t.translate(ins.args["event"])
+                    self.after.append((after, script, self.pr_map))
+                    self.after.extend(t.after)
+                    for k in ("report", "stubs", "done", "stub_at", "needs_formations"):
+                        getattr(self, k).update(getattr(t, k))
+                self.done["flow"] += 1
+                self.report[("flow", "timer -> TED:timer_start")] += 1
+                return [T.op("SysCall", s=["TED:timer_start %d %d 0x%02X %s" % ((zz >> 2) & 3, ins.args["frames"],
+                                                                               zz & 0xF0, after)],
+                             comment="SNES A0 -> %s" % E.fmt(ins.args["event"]))], True
+            if ins.name == "timer_reset":
+                import event_translate as T
+                self.done["flow"] += 1
+                self.report[("flow", "timer -> TED:timer_reset")] += 1
+                return [T.op("SysCall", s=["TED:timer_reset %d" % ins.args["timer"]])], True
             if ins.name == "switch" and self.case_kind == "cmp" and self.cmp_state:
                 # BE after a compare: case k = result bit 1A0+k (equal / greater / less), the first that holds
                 import event_translate as T
@@ -739,9 +770,21 @@ def _translator_class():
                 return None
             return r
 
+        # a room's load script (an entrance part): only the room's entity_default entities, always there; an NPC the
+        # PR keeps in a story layer (ev_e_*) may not be loaded, and puppeting it makes ExecPuppet wait forever (ted-8:
+        # Map_20181_6 hung on entities 5/9/11 of ev_e_0503)
+        base_layer_only = False
+
         def npc_entity(self, n):
             e = self.created.get((self.pr_map, self.snes_map, n)) if self.created else None
-            return e if e is not None else super().npc_entity(n)
+            if e is not None:
+                return e
+            e = super().npc_entity(n)
+            if e is None or not self.base_layer_only or self.pr_map is None:
+                return e
+            import event_translate as T
+            base = {o[3] for layer, objs in T.pr_entities(self.pr_map) if layer == "entity_default" for o in objs}
+            return e if e in base else None
 
         # T-Edition's 76/9E/9F play from its second sound driver (bank 43); F0/EF/F1 from C5, whose
         # slots 25-51 aren't all vanilla's songs any more: both through data/ted_songs.json
@@ -913,22 +956,28 @@ class Session:
         M.ITEM_OVERRIDES.update(self._saved)
 
     def translate(self, event, snes_map, name, pr_map=None, layer=None, mode=None, fallbacks=None, preamble=(),
-                  pressed_a=None):
+                  pressed_a=None, base_layer_only=False, load_script=False):
         """One event -> (PR script, [(after-script name, script, PR map or None)], the translator: its
         .stubs / .done counters, .needs_formations). `layer`: the entity layer whose entities the scene's
         NPCs are; `fallbacks`: {SNES call target: PR script} grafted where the event calls vanilla's
         routine; mode "vehicle" for a world-map tile event (default: by map); `pressed_a`: the event starts
         with the A button (an NPC talked to, an object examined: True; a step-on tile or an entrance: False),
-        which decides tests of engine bit 1B4 (None: left as stubs)."""
+        which decides tests of engine bit 1B4 (None: left as stubs); `base_layer_only`: for a room's load script
+        (an entrance part): NPCs only from the room's entity_default (a story layer may not be loaded, and a
+        puppet on a missing entity hangs the script); `load_script`: the script runs inside a room's load script
+        (load_safe: instant fades, no waits; its continuation scripts are left as they are)."""
         mode = mode or ("vehicle" if snes_map in E.WORLD_MAPS else "field")
         t = self.Tr(self.rom, name, snes_map=snes_map, alloc=self.alloc, prog=self.prog, pr_map=pr_map)
         t.texts = self.texts
         t.pressed_a = pressed_a
+        t.base_layer_only = base_layer_only      # an entrance part (a room's load script): see TedTranslator
         if layer:
             t.layers = layer
         for k, v in (fallbacks or {}).items():
             t.fallbacks[k] = v
         sc = t.translate(event, mode, preamble=preamble)
+        if load_script:
+            load_safe(sc)
         return sc, list(t.after), t
 
 
@@ -1499,6 +1548,20 @@ def facing_routines():
         d = load("ted").data
         _facing = {m.start() - 0x0A0000 for m in re.finditer(re.escape(FACING_PATTERN), d) if m.start() >= 0x0A0000}
     return _facing
+
+
+def load_safe(sc):
+    """A script that runs inside a room's load script (an entrance part), made safe there: every ColorFade instant
+    (vanilla's 14 in load scripts all take 0 s; a timed one waits for a screen that only shows once the load script
+    ends: ted-8 hung in Map_20451_4 and Map_20181_6) and every Wait a Nop (vanilla's 537 load scripts have none).
+    In place; returns sc."""
+    for m in sc["Mnemonics"]:
+        if m["mnemonic"] == "ColorFade" and (m["operands"].get("rValues") or [0])[0]:
+            m["operands"]["rValues"][0] = 0
+        elif m["mnemonic"] == "Wait":
+            m["mnemonic"] = "Nop"
+            m["comment"] = ("load script: no wait. " + (m.get("comment") or "")).strip()
+    return sc
 
 
 def build_lock(log=print):
@@ -2128,9 +2191,10 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
                 nm = "%s_%s" % (name, room.replace("Map_", "m"))
                 t = Tr(rom, nm, snes_map=snes_map, alloc=alloc, prog=prog, pr_map=room)
                 t.texts, t.layers = texts, layer
+                t.base_layer_only = True              # a room's load script: no puppets on story-layer NPCs
                 if jp_entry is not None and jp_entry != off:
                     t.fallbacks[jp_entry] = empty
-                sc = t.translate(start)
+                sc = load_safe(t.translate(start))     # it runs inside the room's load script
                 scripts.extend((a_, s2, w or room) for a_, s2, w in t.after)
                 entrances.setdefault(room, []).append((snes_map, sc, ENTRANCE_TAILS.get(E.fmt(off), ())))
                 wired.append({"layer": map_script_name(room), "entity": None, "was": map_script_name(room), "now": nm,

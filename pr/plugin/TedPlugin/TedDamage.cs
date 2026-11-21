@@ -131,6 +131,24 @@ namespace TEdition.PR
             if (!ownAsk && healCalc != null) healCalc.GameBoostedHeal = true;
         }
 
+        // audit I3: a PR weapon row's T-Edition species bonus label (ted_data weapon_details by item slot), or null
+        static Dictionary<int, string> weaponKind;
+        static string WeaponKind(int row)
+        {
+            if (weaponKind == null)
+            {
+                var map = new Dictionary<int, string>();
+                foreach (var it in Plugin.D.Items)
+                    if (it.Table == "weapon" && Plugin.D.WeaponDetails.TryGetValue(it.Slot, out var l))
+                        foreach (var x in l)
+                            if (x == "Bonus vs flying" || x == "Bonus vs magical" || x == "Bonus vs dragons") map[it.Row] = x;
+                weaponKind = map;
+            }
+            return weaponKind.TryGetValue(row, out var k) ? k : null;
+        }
+
+        static bool Kind(string kind, int monster) => Plugin.D.MonsterKinds.TryGetValue(kind, out var set) && set.Contains(monster);
+
         [ThreadStatic] static Calc current;
 
         public static void Fight_Prefix(CalcControllerProvider __instance, ref Calc __state) => Enter(__instance, ref __state, true, false);
@@ -244,6 +262,21 @@ namespace TEdition.PR
                 {
                     r.Factor *= CommandMath.GilTossDamage(1) / (double)GameGilTossPerLevel;
                     r.Rule(29, $"Gil Toss: Lv x {CommandMath.GilTossDamage(1)} to each target (the game's Lv x {GameGilTossPerLevel})");
+                }
+                // audit I3: T-Edition's weapon effects 8 / E / F (its pre-damage table C2/3DB5): x2 on a flying target
+                // (Float), a magical monster (byte $12 bit 0) or a dragon (bit 5), as vanilla's Man-Eater on humans (the
+                // PR's species 2, ported as data)
+                if (physical && weapon != null && !targetIsCharacter && monsterId > 0)
+                {
+                    var kind = WeaponKind(weapon.Id);
+                    bool x2 = kind == "Bonus vs flying" ? Has(tCond, (ConditionType)409)
+                            : kind == "Bonus vs magical" ? Kind("magical", monsterId)
+                            : kind == "Bonus vs dragons" && Kind("dragons", monsterId);
+                    if (x2)
+                    {
+                        r.Factor *= 2;
+                        r.Rule(0, $"{kind}: x2 on monster {monsterId} (audit I3)");
+                    }
                 }
                 // 29, monsters (audit M42; C2/3F9F): a monster's Gil Toss (the PR's GP Rain row 694 for SNES command $18,
                 // GIL_THROW like the characters' 15: the game's Lv x 30 a target) costs Lv x 180 from its own gil

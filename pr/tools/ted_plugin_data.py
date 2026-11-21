@@ -420,6 +420,13 @@ def main(argv):
     with open(T.MATO, "rb") as f:            # the 6 MB ROM itself (S.Rom(T.MATO) is the US-layout image)
         raw = f.read()
     half = [e for e in range(512) if raw[T.MONSTERS + 32 * e + 0x12] & 0x02]
+    # audit M17 (spec 48): monsters immune to Near Fatal (status immunity byte $15 bit 1) dodge T-Edition's percent spells
+    near_fatal_immune = [e for e in range(512) if raw[T.MONSTERS + 32 * e + 0x15] & 0x02]
+    # audit I3: T-Edition's weapon effects E (magical) and F (dragons) double damage on monsters with byte $12 bit 0 / bit 5
+    # ($3C95; its pre-damage table C2/3DB5 -> C2/3EB2 / 3EBE; 8 = flying is the target's Float, C2/38F5)
+    magical = [e for e in range(512) if raw[T.MONSTERS + 32 * e + 0x12] & 0x01]
+    dragons = [e for e in range(512) if raw[T.MONSTERS + 32 * e + 0x12] & 0x20]
+    percent = sorted({M.spell(i) for i, sp in enumerate(S.spells(rom)) if sp.flags3 & PERCENT_FLAG and sp.power and M.spell(i)})
     named, rows = {}, {}
     for role, slot in NAMED_SLOTS.items():
         it = next((i for i in items if i["slot"] == slot), None)
@@ -444,6 +451,12 @@ def main(argv):
         # ids): byte.bit -> the T-Edition item slots that set it (audit I5; scratchpad relic_bits.json decoding)
         "relic_bits": relic_bits(rom),
         "weapon_details": weapon_details(rom),
+        # audit M17: PR monster ids (as half_ignore_defense) immune to Near Fatal, and the percent spells' PR abilities
+        "near_fatal_immune": [e + 1 if e < 384 else 1000 + e for e in near_fatal_immune],
+        "percent_abilities": percent,
+        # audit I3: PR monster ids T-Edition's magical / dragon weapons hit for double damage
+        "monster_kinds": {"magical": [e + 1 if e < 384 else 1000 + e for e in magical],
+                          "dragons": [e + 1 if e < 384 else 1000 + e for e in dragons]},
         # TED:cmp's $1D28 area (known techniques as SNES bitfields): PR ability per bit, 0 = none (TedRam)
         "known_bits": {"swdtech": [M.spell(0x55 + i) or 0 for i in range(8)],
                        "lore": [M.spell(0x8B + i) or 0 for i in range(24)],
