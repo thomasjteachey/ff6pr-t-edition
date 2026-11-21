@@ -33,7 +33,7 @@ stalled ("the battle doesn't end") and ted-monsters hit `KeyNotFoundException` i
 | Area | Rows | TESTED | PORTED | PARTIAL | MISSING | LEFT OUT |
 |---|---:|---:|---:|---:|---:|---:|
 | Mechanics/battle | 44 | 5 | 26 | 7 | 5 | 1 |
-| Items and equipment | 21 | 1 | 16 | 3 | 1 | 0 |
+| Items and equipment | 21 | 1 | 17 | 2 | 1 | 0 |
 | Characters/commands/espers/magic | 31 | 1 | 20 | 7 | 3 | 0 |
 | Monsters/formations/AI | 9 | 1 | 6 | 2 | 0 | 0 |
 | Maps | 9 | 2 | 5 | 2 | 0 | 0 |
@@ -42,12 +42,12 @@ stalled ("the battle doesn't end") and ted-monsters hit `KeyNotFoundException` i
 | NG+/post-game | 8 | 0 | 2 | 3 | 3 | 0 |
 | Costumes/dressing room | 10 | 0 | 6 | 3 | 0 | 1 |
 | Music | 8 | 0 | 4 | 3 | 1 | 0 |
-| Graphics | 14 | 1 | 5 | 4 | 4 | 0 |
+| Graphics | 14 | 1 | 6 | 3 | 4 | 0 |
 | Menus/UI/rooms (Collection, Achievements, Track Record) | 11 | 0 | 0 | 5 | 5 | 1 |
 | Text/translation | 10 | 1 | 4 | 1 | 2 | 2 |
 | EX | 13 | 0 | 8 | 2 | 0 | 3 |
 | Platform patches (outside the game) | 4 | 0 | 0 | 0 | 0 | 4 |
-| **All** | **256** | **12** | **105** | **95** | **32** | **12** |
+| **All** | **256** | **12** | **107** | **93** | **32** | **12** |
 
 ## 2. Weighted completion
 
@@ -57,7 +57,7 @@ as a battle rule), so this is a feature count, not the effort-weighted table in 
 | Area | Counted rows | Done (T + P + PARTIAL/2) | Completion |
 |---|---:|---:|---:|
 | Mechanics/battle | 43 | 34.5 | 80% |
-| Items and equipment | 21 | 18.5 | 88% |
+| Items and equipment | 21 | 19 | 90% |
 | Characters/commands/espers/magic | 31 | 24.5 | 79% |
 | Monsters/formations/AI | 9 | 8 | 89% |
 | Maps | 9 | 8 | 89% |
@@ -66,12 +66,12 @@ as a battle rule), so this is a feature count, not the effort-weighted table in 
 | NG+/post-game | 8 | 3.5 | 44% |
 | Costumes/dressing room | 9 | 7.5 | 83% |
 | Music | 8 | 5.5 | 69% |
-| Graphics | 14 | 8 | 57% |
+| Graphics | 14 | 8.5 | 61% |
 | Menus/UI/rooms (Collection, Achievements, Track Record) | 10 | 2.5 | 25% |
 | Text/translation | 8 | 5.5 | 69% |
 | EX | 10 | 9 | 90% |
 | Platform patches (outside the game) | 0 | 0 | (all LEFT OUT) |
-| **All** | **244** | **164.5** | **67%** |
+| **All** | **244** | **165.5** | **68%** |
 
 Read with care: only 12 of the 244 counted rows (5%) have been seen working in game; the 92 PORTED rows are code or data
 that has never run through its real trigger. PORTING.md's own estimate (~60%, effort-weighted) is close to this count,
@@ -156,7 +156,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | I16 | Other new items (Experience Egg, Gold Hairpin as relic, Kenkonken throwable, Power Belt, ...) | history 3.0.0, 2.9.5 | PORTED | names in `ted_items.json`; port_report "rods and throwing" | — |
 | I17 | Shop stock, T-Edition's own shops included | shop.txt | PORTED | `ted_build.py:351-376`; port_report "79 SNES shops matched"; docs/tedition.md:11 "all 110 stocked shops mapped" | — |
 | I18 | WoR shop prices double until Humbaba falls | Mato README "Legendary Fiend Humbaba"; spoiler_free_new_quests | PARTIAL | 2026-11-21 TedPlugin: price hook in code, off until ted-events gives the WoR and Humbaba flags (ted_flags.json) | flags from ted-events [TedPlugin, ted-events] |
-| I19 | Treasure chest contents on vanilla maps | readme translation (chests) | PARTIAL | port_report "129 PR chests changed in 92 map files; skipped {'no PR chest (new in BNW or unmatched)': 25}" | place or reroute the 25 [ted-maps] |
+| I19 | Treasure chest contents on vanilla maps | readme translation (chests) | PORTED | 2026-11-21 ted-maps: the 13 chests T-Edition added on vanilla maps as objects on the PR rooms (Map_20081_3 x5, Map_30791_3, Map_30531_5 x6, Map_30811_6), TreasureFlag 370-382, contents from ted_items.json; ted_maps.json vanilla_chests, test_vanilla_chests; the monster box on 300 stays the translator's | test in game (ted-10) |
 | I20 | Boss reward items on winning (42 fights) | spec (4B/4A00) | PORTED | `TedColiseum.cs:17-19`; ted-7 log "42 boss rewards" (loaded) | — |
 | I21 | Coliseum wagers, opponents, prizes (Tabs farming, Typhon) | coliseum.txt; history | PORTED | `TedColiseum.cs:12-40`; ted-7 "278 Coliseum wagers (3 of 3 lookups hooked)" (loaded, no wager played) | — |
 
@@ -348,7 +348,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | G3 | Characters redrawn to match official art (field, battle) | change §3 "Character Overview"; 2.9.5 | PORTED | `TedArt.cs:39` BaseLooks; ted-7 "[ted art] base looks: ... 833 sprites, 15 atlases" (loaded) | — |
 | G4 | Default portraits redrawn | 3.0.0 | PORTED | `ted_art.py:284-317, 433` | — |
 | G5 | Imp (toad) look, Mog's new pose | EX history | PORTED | progress 11-20 "the Imp, Kappa and Pig looks"; "Mog's 'new pose' is redrawn tiles only" | — |
-| G6 | NPC sprites on the new maps (112 numbers) | MEDIA_INVENTORY §4.1 | PARTIAL | 72 of 112 with a PR look (`data/ted_npc_looks.json`), 40 on stand-ins (`data/ted_npc_standins.json`) | 40 new NPC sprites [bc-sprites] |
+| G6 | NPC sprites on the new maps (112 numbers) | MEDIA_INVENTORY §4.1 | PORTED | 2026-11-21 ted-maps tools/ted_npc_art.py + the kit's ArtSwap new_groups: 116 of 119 placements with a sheet have T-Edition's art; 166-168 have no sheet in the ROM (stand-ins, a known gap) | test in game (ted-10) |
 | G7 | NPC and story sprites changed on vanilla maps (Kefka, Gilgamesh, Yura, Arvis, Jun) | 2.9.5; EX history | PARTIAL | stand-ins listed in `ted_npc_standins.json` | [bc-sprites] |
 | G8 | New and edited battle backgrounds (Crystal Room, Phoenix Cave fire, WoR variants ...) | background.html; 3.0.0 | MISSING | MEDIA_INVENTORY §4.3: "which ones: unknown until the table is decoded"; no PR asset past 58 | decode E6/F800, make PR backgrounds [bc-sprites] |
 | G9 | Collection Room paintings | Mato README "Collection Room"; history | MISSING | MEDIA_INVENTORY §4.4 "I found no separate image table ... unknown" | [bc-sprites] |
