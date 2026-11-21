@@ -33,7 +33,7 @@ stalled ("the battle doesn't end") and ted-monsters hit `KeyNotFoundException` i
 | Area | Rows | TESTED | PORTED | PARTIAL | MISSING | LEFT OUT |
 |---|---:|---:|---:|---:|---:|---:|
 | Mechanics/battle | 44 | 5 | 26 | 7 | 5 | 1 |
-| Items and equipment | 21 | 1 | 15 | 4 | 1 | 0 |
+| Items and equipment | 21 | 1 | 16 | 3 | 1 | 0 |
 | Characters/commands/espers/magic | 31 | 1 | 20 | 7 | 3 | 0 |
 | Monsters/formations/AI | 9 | 1 | 6 | 2 | 0 | 0 |
 | Maps | 9 | 2 | 5 | 2 | 0 | 0 |
@@ -47,7 +47,7 @@ stalled ("the battle doesn't end") and ted-monsters hit `KeyNotFoundException` i
 | Text/translation | 10 | 1 | 4 | 1 | 2 | 2 |
 | EX | 13 | 0 | 8 | 2 | 0 | 3 |
 | Platform patches (outside the game) | 4 | 0 | 0 | 0 | 0 | 4 |
-| **All** | **256** | **12** | **102** | **94** | **36** | **12** |
+| **All** | **256** | **12** | **103** | **93** | **36** | **12** |
 
 ## 2. Weighted completion
 
@@ -57,7 +57,7 @@ as a battle rule), so this is a feature count, not the effort-weighted table in 
 | Area | Counted rows | Done (T + P + PARTIAL/2) | Completion |
 |---|---:|---:|---:|
 | Mechanics/battle | 43 | 34.5 | 80% |
-| Items and equipment | 21 | 18 | 86% |
+| Items and equipment | 21 | 18.5 | 88% |
 | Characters/commands/espers/magic | 31 | 24.5 | 79% |
 | Monsters/formations/AI | 9 | 8 | 89% |
 | Maps | 9 | 8 | 89% |
@@ -71,7 +71,7 @@ as a battle rule), so this is a feature count, not the effort-weighted table in 
 | Text/translation | 8 | 5.5 | 69% |
 | EX | 10 | 9 | 90% |
 | Platform patches (outside the game) | 0 | 0 | (all LEFT OUT) |
-| **All** | **244** | **161** | **66%** |
+| **All** | **244** | **161.5** | **66%** |
 
 Read with care: only 12 of the 244 counted rows (5%) have been seen working in game; the 92 PORTED rows are code or data
 that has never run through its real trigger. PORTING.md's own estimate (~60%, effort-weighted) is close to this count,
@@ -142,7 +142,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | I2 | Weapon and armor stats, equip lists, elements, worn statuses | weapon.html, armor.html; 3.0.0 notes | PORTED | port_report "weapon: 114 changed", "armor: 104 changed", "job_group: 32 new equip groups", "equipment resistances" | — |
 | I3 | Weapon properties: MP Critical, HP/MP absorb, Row OK, throwable, bonus vs flying/human/magic/dragon | change §1 "Equipment Details Menu"; 3.0.0 | PARTIAL | port_report "weapon rules rebuild ... effective_species 114/114"; not portable: 2 weapons "with both a spell proc and HAWK_EYE", Zeus' Mace and Rune Bell "multi-element, kept first", 2 weak_attribute values, Trump's condition group | the listed weapons in TedPlugin [TedPlugin] |
 | I4 | Weapon spell procs | weapon.html | PORTED | port_report "weapon procs: 34 weapons (20 new ...)" | — |
-| I5 | Relic effects T-Edition re-coded (relic bits) | armor.html; history ("changed the address of the effect setting") | PARTIAL | 2026-11-21 TedPlugin TedRelics + ted_data relic_bits (9.0/9.1 +25%, 11.7 +50%, 11.0, 13.5, 13.6, 13.2, 12.0); profile relic_bit_funcs 9.2 HP+25%, 9.3 HP+50%, 12.0 Offering's hits as PR wear functions | 11.2 Sketch up, 12.2 Blade Grasp, 12.7 multi-jump [TedPlugin]; test in game |
+| I5 | Relic effects T-Edition re-coded (relic bits) | armor.html; history ("changed the address of the effect setting") | PORTED | 2026-11-21 TedPlugin TedRelics + ted_data relic_bits (9.0/9.1 +25%, 11.7 +50%, 11.0, 11.2 Sketch up, 12.2 Blade Grasp as +20 evasion, 12.7 multi-jump, 13.5, 13.6, 13.2, 12.0); profile relic_bit_funcs 9.2 HP+25%, 9.3 HP+50%, 12.0 as PR wear functions | test in game |
 | I6 | Relic command swaps: Zeidrich (Shock), Maiden's Prayer (Pray), Embroidered Tippet (Spirit), Pheasant Strap (Animal), Gem Box, Dragon Horn, Thief, Heiji's Jitte | change §3 Terra/Celes/Relm/Mog; spec 31 | PORTED | `profile_tedition.py:630-637`; `ted_build.py:221-239` (Pray casts Sunbath, Spirit Bless, Animal random) | — |
 | I7 | Sprint Shoes and Fake Mustache removed (hold B to dash) | change §1 "Movement Speed"; §3 Relm | PORTED | neither in `mods/TEditionPort/ted_items.json`; the PR dashes by itself | — |
 | I8 | Stat Tabs, Golden Apple, Soma Drop raise stats | 3.0.0 "Tab items"; Quick Advice | PORTED | `ted_build.py:276-319` (layout "inferred, not seen: check one Tab in game") | — |

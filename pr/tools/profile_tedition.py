@@ -626,6 +626,8 @@ class TEdition(Profile):
     snes_event_alloc = os.path.join(P.ROOT, "data", "snes_event_alloc_tedition.json")
     # T-Edition's Veldt records every won formation up to $1FF (C2/49D4: the "not on the Veldt" check is gone; the spec's rule 58)
     veldt_all_formations = True
+    # the PR holds 400 Veldt entries: past that, keep the formations that teach a Rage (a monster below 256) first
+    veldt_rage_first = True
     # every weapon's critical hit rate: T-Edition rolls random(256) < 20 (vanilla < 8; C2/33FE): the spec's rule 18
     weapon_critical_rate = 8
     # relic command swaps (the spec's rule 31): T-Edition's 8 swaps (CE/01E8 -> CE/01F8, C2/5390) are item byte 10
