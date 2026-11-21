@@ -116,6 +116,33 @@ def dashboard(per, testing_pct=10):
     return out, total
 
 
+PORTING_ROWS = {"data": "| Data through the porter:", "maps": "| Maps: T-Edition's NPC/exit/event tables",
+                "events": "| Events: ~45 new events", "battle": "| Battle overhaul:",
+                "text": "| Text: names (Mato's full names, done)", "music": "| Music: ~200 songs on the kit's SNES music player",
+                "graphics": "| Graphics: new monster art", "menus": "| Menus: music player, dressing room"}
+
+
+def sync_porting(rows, total, pct):
+    """pr/PORTING.md's T-Edition weighted table, its Mod-table line and the audit figure, from the dashboard rows."""
+    p = os.path.join(os.path.dirname(HERE), "PORTING.md")
+    raw = open(p, encoding="utf-8", newline="").read()
+    crlf = "\r\n" in raw
+    s = raw.replace("\r\n", "\n")
+    lines = s.split("\n")
+    for i, line in enumerate(lines):
+        for g, prefix in PORTING_ROWS.items():
+            if line.startswith(prefix):
+                w = DASHBOARD[g][0]
+                lines[i] = re.sub(r"\| %d \| \d+%% \| [\d.]+ \|$" % w, f"| {w} | {rows[g]}% | {w * rows[g] / 100:g} |", line)
+    s = "\n".join(lines)
+    s = re.sub(r"\| \*\*Total\*\* \| \*\*100\*\* \| \| \*\*~\d+\*\* \|", f"| **Total** | **100** | | **~{round(total)}** |", s, count=1)
+    s = re.sub(r"\| T-Edition \(3\.0\.7 \+ EX, Mato's English\) \| ~\d+% \(table below, from the feature audit\)",
+               f"| T-Edition (3.0.7 + EX, Mato's English) | ~{round(total)}% (table below, from the feature audit)", s, count=1)
+    s = re.sub(r"The audit's own unweighted figure is \d+%", f"The audit's own unweighted figure is {pct}%", s, count=1)
+    with open(p, "w", encoding="utf-8", newline="") as f:
+        f.write(s.replace("\n", "\r\n") if crlf else s)
+
+
 def main(argv):
     text, crlf = _read()
     if argv and argv[0] == "set":
@@ -127,6 +154,9 @@ def main(argv):
         print(f"  {a}: {p}%")
     rows, total = dashboard(per)
     print(f"dashboard rows: {rows}, weighted total {total:.1f}")
+    if "--porting" in argv:   # also write PORTING.md's T-Edition table from it
+        sync_porting(rows, total, pct)
+        print("PORTING.md synced")
 
 
 if __name__ == "__main__":
