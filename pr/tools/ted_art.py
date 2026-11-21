@@ -259,6 +259,166 @@ def apply(folder, data=OUT, log=print):
     return made, pointed, missing
 
 
+# --- costumes -------------------------------------------------------------------------------------------------
+#
+# T-Edition's characters (MEDIA_INVENTORY.md 3; ROM read 2026-11-20): a look is a graphic slot, the byte the dressing
+# room's events set with 37 (obj, slot) + 43 (obj, field palette); everything else is looked up by that slot:
+#   field sheet   F8/0400 (2-byte offset) + F8/0600 (bank, then 0x20) per slot; banks C0-FF and 40-7D (ExHiROM)
+#   battle sheet  42/6000 (3-byte pointer) per slot (C1/3D46): some differ from the field sheet
+#   battle colors FE/F000 + 32 x [42/5E00 + slot] (C1/3E0A; vanilla C2/CE2B into ED/6300)
+#   portrait      F8/0A00 (offset into 49/0000, 0x320 each) and F8/0B00 (palette id into 41/5200) per slot (C3/6EA8)
+#   field colors  E6/8000 + 32 x the event's palette (as vanilla)
+# The 56 costumes are slots 26-39 (costume 1), 40-53 (2), 54-67 (3), 68-72 and 76-84 (4), in no character order:
+# which character wears which comes from the events (costume_slots).
+COSTUMES = os.path.join(ROOT, "data", "ted_costume_art.json")
+COSTUME_OUT = os.path.join(ROOT, "..", "build", "t-edition", "art", "costumes")
+CAST = ["Terra", "Locke", "Cyan", "Shadow", "Edgar", "Sabin", "Celes", "Strago", "Relm", "Setzer", "Mog", "Gau",
+        "Gogo", "Umaro"]
+CHAMELEON = ["Leo", "Banon", "Trance Terra", "Merchant", "Ghost", "Kefka", "Gestahl", "Cid", "Daryl", "Rachel"]   # slots 16-25
+COSTUME_RANGES = [(1, range(26, 40)), (2, range(40, 54)), (3, range(54, 68)), (4, list(range(68, 73)) + list(range(76, 85)))]
+
+
+def _file(bank, off):
+    if bank >= 0xC0:
+        return (bank - 0xC0) << 16 | off
+    if 0x40 <= bank < 0x7E:
+        return bank << 16 | off
+    return None
+
+
+def look(rom, slot, field_pal):
+    """A graphic slot's sheets and colors: {field, battle (0x16A0-byte 4bpp sheets), field_pal, battle_pal (32 B),
+    portrait (0x320 B), portrait_pal (32 B)}."""
+    d = rom
+    f = _file(d[0x380600 + 2 * slot], d[0x380400 + 2 * slot] | d[0x380401 + 2 * slot] << 8)
+    p = 0x426000 + 3 * slot
+    b = _file(d[p + 2], d[p] | d[p + 1] << 8)
+    bp = 0x3EF000 + 0x20 * d[0x425E00 + slot]
+    po = 0x490000 + (d[0x380A00 + 2 * slot] | d[0x380A01 + 2 * slot] << 8)
+    pp = 0x415200 + 0x20 * d[0x380B00 + slot]
+    return {"field": d[f:f + 0x16A0], "battle": d[b:b + 0x16A0], "field_pal": d[0x268000 + 0x20 * field_pal:][:0x20],
+            "battle_pal": d[bp:bp + 0x20], "portrait": d[po:po + 0x320], "portrait_pal": d[pp:pp + 0x20],
+            "at": {"field": f, "battle": b, "battle_pal": bp, "portrait": po, "portrait_pal": pp}}
+
+
+def costume_slots(log=print):
+    """Each character's looks from T-Edition's events (the slow part: a walk of all its event code): {name: [{costume,
+    slot, pal}]}, costume 0 = the default (slot = the character's own)."""
+    import snes_events as E
+    import ted_events  # noqa: F401  (registers "ted")
+    prog = E.Program(E.load("ted"))
+    prog.walk_all()
+    ins = [i for _, i in sorted(prog.code.items(), key=lambda kv: kv[0])]
+    votes = collections.defaultdict(collections.Counter)    # (char, slot) -> palettes
+    for k, i in enumerate(ins):
+        if i.op != 0x37 or i.args["obj"] >= 14:
+            continue
+        c, s = i.args["obj"], i.args["gfx"]
+        n = ins[k + 1] if k + 1 < len(ins) else None
+        if n is not None and n.op == 0x43 and n.args.get("obj") == c:
+            votes[(c, s)][n.args["pal"]] += 1
+    out = {}
+    for c, name in enumerate(CAST):
+        looks = [{"costume": 0, "slot": c, "pal": votes[(c, c)].most_common(1)[0][0]}]
+        for k, slots in COSTUME_RANGES:
+            mine = [s for s in slots if votes[(c, s)]]
+            if len(mine) != 1:
+                raise SystemExit(f"{name} costume {k}: slots {mine}")
+            looks.append({"costume": k, "slot": mine[0], "pal": votes[(c, mine[0])].most_common(1)[0][0]})
+        out[name] = looks
+    log("costume slots: " + "; ".join(f"{n} {[x['slot'] for x in v[1:]]}" for n, v in out.items()))
+    return out
+
+
+def costumes(out=COSTUME_OUT, walk=False, sheet=None, log=print):
+    """Every character's 5 looks (default + 4 costumes) as ArtSwap folders <out>/<Name>_<costume>: the battle group
+    (bc_ff6_pNNN), the field atlas (mo_ff6_pNNN: the field sheet's frames, which can differ) and the portrait
+    (fa_ff6_pNNN). The slot table is data/ted_costume_art.json (rebuilt with walk=True)."""
+    import shutil
+    import snes_charsprites as C
+    import pr_art
+    rom = open(TED_ROM, "rb").read()
+    if walk or not os.path.exists(COSTUMES):
+        table = costume_slots(log)
+        with open(COSTUMES, "w", encoding="utf-8") as f:
+            json.dump({"_doc": "T-Edition's looks per character (tools/ted_art.py costumes): costume 0 = default, "
+                       "1-4 the dressing room's; slot = the graphic slot the events set (37), pal = their field "
+                       "palette (43). The art itself is read from the ROM by slot.", "characters": table}, f, indent=1)
+    table = json.load(open(COSTUMES, encoding="utf-8"))["characters"]
+    slots = C.data()["slots"]
+    review = []
+    default = os.path.join(out, "default")      # all 14 default looks in one folder (ArtSwap.Load, no layers needed)
+    if os.path.isdir(default):
+        shutil.rmtree(default)
+    for c, name in enumerate(CAST):
+        g = slots[str(c)]
+        names = C.frame_names(g["battle"])
+        for lk in table[name]:
+            L = look(rom, lk["slot"], lk["pal"])
+            folder = os.path.join(out, f"{name}_{lk['costume']}")
+            if os.path.isdir(folder):
+                shutil.rmtree(folder)
+            for folder in ([folder, default] if lk["costume"] == 0 else [folder]):
+                _write_look(pr_art.ArtWriter(folder), C, g, names, L, lk, name)
+            review.append((name, lk, C.group_frames(L["battle"], L["battle_pal"], names),
+                           C.group_frames(L["field"], C.palette(L["field_pal"]), names),
+                           C.portrait(L["portrait"], L["portrait_pal"])))
+    # Gogo's Chameleon Robe: each battle one of 10 battle-only looks, the battle sheets of slots 16-25 (ROM read:
+    # 42/6000 + its colors at 42/5E00) drawn on Gogo's battle group (no field atlas, no portrait)
+    gogo = slots["12"]
+    for k, form in enumerate(CHAMELEON):
+        s = 16 + k
+        L = look(rom, s, 0)
+        folder = os.path.join(out, f"Gogo_chameleon_{k}")
+        if os.path.isdir(folder):
+            shutil.rmtree(folder)
+        w = pr_art.ArtWriter(folder)
+        frames = C.group_frames(L["battle"], L["battle_pal"], C.frame_names(gogo["battle"]))
+        w.character(gogo["battle"], frames)
+        w.art["ted"] = [{"character": "Gogo", "chameleon": form, "slot": s}]
+        w.save()
+        review.append((f"Gogo/{form}", {"costume": k % 5, "slot": s}, frames, {}, b"\0" * 6400))
+    log(f"T-Edition looks: {len(review)} looks ({len(CAST)} characters x 5 + {len(CHAMELEON)} Chameleon Robe forms) "
+        f"+ default in {out}")
+    if sheet:
+        costume_sheet(review, sheet)
+    return review
+
+
+def _write_look(w, C, g, names, L, lk, name):
+    """One look into an ArtWriter folder: battle group, field atlas (its own sheet and colors), portrait."""
+    w.character(g["battle"], C.group_frames(L["battle"], L["battle_pal"], names))
+    png, rects = C.pack(C.group_frames(L["field"], C.palette(L["field_pal"]), names))
+    fn = g["field"] + ".png"
+    w.png(fn, png)
+    w.art["atlases"][g["field"].upper()] = {n: {"png": fn, "rect": r, "pivot": [0.5, 0]} for n, r in rects.items()}
+    w.face(g["face"], C.portrait(L["portrait"], L["portrait_pal"]))
+    w.art.setdefault("ted", []).append({"character": name, "costume": lk["costume"], "slot": lk["slot"],
+                                        "field_pal": lk["pal"]})
+    w.save()
+
+
+def costume_sheet(review, path, scale=2):
+    from PIL import Image, ImageDraw
+    show = ["Default_00", "WalkL_00", "Idle_00", "Win_00", "Down_00"]
+    cw = (len(show) * 2 * 32 + 40 + 16) * scale
+    rows = len(CAST)
+    im = Image.new("RGBA", (5 * cw, rows * 44 * scale + 10), (52, 52, 60, 255))
+    dr = ImageDraw.Draw(im)
+    for n, (name, lk, battle, field, face) in enumerate(review):
+        r, k = n // 5, lk["costume"]
+        x, y = k * cw, r * 44 * scale + 10
+        dr.text((x + 2, y - 10), f"{name} {k} (slot {lk['slot']})", fill=(255, 255, 0, 255))
+        im.alpha_composite(Image.frombytes("RGBA", (40, 40), face).resize((40 * scale, 40 * scale), Image.NEAREST), (x, y))
+        for j, nm in enumerate(show):
+            for h, src in enumerate((field, battle)):
+                if nm in src:
+                    fr = Image.frombytes("RGBA", (32, 32), src[nm]).resize((32 * scale, 32 * scale), Image.NEAREST)
+                    im.alpha_composite(fr, (x + (40 + 4 + (2 * j + h) * 32) * scale, y + 4 * scale))
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    im.save(path)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -267,8 +427,14 @@ def main():
     m.add_argument("--sheet", default=None, help="a review sheet: each converted monster beside the SNES's")
     p = sub.add_parser("apply", help="the monster art's rows on a port folder (ted_build does this)")
     p.add_argument("folder", nargs="?", default=os.path.join(ROOT, "mods", "TEditionPort"))
+    c = sub.add_parser("costumes", help="every character's default look and 4 costumes as ArtSwap folders")
+    c.add_argument("--out", default=COSTUME_OUT)
+    c.add_argument("--walk", action="store_true", help="re-read the costume slots from the events (slow)")
+    c.add_argument("--sheet", default=None)
     a = ap.parse_args()
-    if a.cmd == "monsters":
+    if a.cmd == "costumes":
+        costumes(a.out, a.walk, a.sheet)
+    elif a.cmd == "monsters":
         monsters(a.out, a.sheet)
     elif a.cmd == "apply":
         apply(a.folder)
