@@ -4,6 +4,12 @@ Owner: T-Edition lead. Moved verbatim from `pr/PORTING.md` on 2026-11-20 (roadma
 
 ## Live progress (newest first)
 
+Earlier rows (2026-11-20 and before) are in `docs/progress-2026-11.md`.
+
+| When | Batch | Result |
+|---|---|---|
+| 2026-11-20 evening (consumables, events at 9% stubs, the kit freeze over) | **T-Edition's consumables work as in T-Edition; its events catalog is down to 9% stubs; the day's work is pushed** (ted-monsters, ted-events, ted-ex, ted-maps; reviewed by the lead). Consumables (`ted_build` consumable rule): item identity copies only a row's look, so re-slotted consumables kept their old row's effect (Power Tab opened the rename screen, Reincarnation was a thrown Super Ball); now the Tabs, Golden Apple and Soma Drop use the PR's stat function, Antidote, Smelling Salts and Gold Needle cure what T-Edition's records say, Reincarnation revives fully. Events: party checks (DE-E3 with case bits) as the PR's BranchByCharacter removed ~11,600 stubs catalog-wide; entrances run after each room's own load script; shops through TedPlugin's `TED:shop <group>` (82 vanilla shops matched); 83 events on vanilla maps (122 wired scripts), 155 scripts on maps 200-415, 262 on the new maps. The second item bank, the 42 boss-reward parties and T-Edition's own shops wait on kit work, which the end of the WC freeze (20:11) now allows. Checks: ted_build --test 0 conflicts, 0 problems, test_mod 50 OK, tests/test_ted* 58 OK; pushed f6aad03, e259ffd. Not run in game yet. T-Edition ~52% |
+
 ## T-Edition feasibility (2026-11-20)
 
 Mato's English build (3.0.7 A7 r1, `build/t-edition/T-Edition 3.0.7 (Mato).sfc`, 6 MB ExHiROM on

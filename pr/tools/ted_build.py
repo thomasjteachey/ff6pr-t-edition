@@ -1,12 +1,15 @@
 """T-Edition's Magicite folder, pr/mods/TEdition: the porter's output with every workstream's folder merged in.
 
-    .venv/Scripts/python tools/ted_build.py [--no-port] [--test]
+    .venv/Scripts/python tools/ted_build.py [--no-port] [--test] [--full] [--verify]
 
 1. The porter (`port.py tedition`) into mods/TEditionPort (it wipes its output folder each run), unless
    --no-port reuses the last one.
-2. mods/TEdition made afresh from it, then each workstream's Magicite folder merged in (SIBLINGS, in
+2. mods/TEdition as a fresh copy of it with each workstream's Magicite folder merged in (SIBLINGS, in
    order; those that exist) by the kit's three-way merge (tools/magicite_merge.py): the game reads one
-   copy of each map package, entity file and master table, so T-Edition ships one folder.
+   copy of each map package, entity file and master table, so T-Edition ships one folder. Only output
+   paths whose inputs changed since the last build are redone (merge_into, mods/TEdition.manifest.json);
+   --full redoes everything, --verify checks the result against a full merge file by file. One build at a
+   time (mods/TEdition.building, a lock several sessions share).
    T-Edition's data rules the porter has no field for (data_rules: every weapon's critical rate) go onto the
    porter's output first.
 3. The kit's Magicite check (prkit magicite.validate) on the result; --test also runs test_mod, the porter's
@@ -80,7 +83,7 @@ def data_rules(folder, log=print):
         f.write(out.getvalue())
     _ensure_master_key(folder, "weapon")
     log(f"T-Edition data rules: weapon critical rate {rate} on {n} rows")
-    for rule in (growth_rule, relm_magic_rule, command_rule, dancing_dagger_rule, consumable_rule):
+    for rule in (growth_rule, relm_magic_rule, command_rule, dancing_dagger_rule, consumable_rule, shop_rule):
         rule(folder, log)
     import ted_plugin_data   # the spec's rule 49: percent damage of current vs max HP (the TedPlugin session)
     ted_plugin_data.percent_damage(folder, log)
@@ -342,6 +345,37 @@ def consumable_rule(folder, log=print):
     log(f"T-Edition data rules: consumables: {'; '.join(done)}")
 
 
+SHOP_GROUP_BASE = 900   # product groups for SNES shops the porter matched to none: 900 + shop (the PR's end at 209)
+
+
+def shop_rule(folder, log=print):
+    """T-Edition's shops the porter paired with no PR product group (its own: repopulated Narshe, Kohlingen WoB...): a
+    product group each (SHOP_GROUP_BASE + shop; rows 90000 + 10 shop + k, the porter's coefficient 0 and no limit), from
+    ted_shops.json's "unmatched" (profile extra_data). Writes "shops" {SNES shop: PR group} (matched and made) back into
+    ted_shops.json for ted-events' TED:shop. Idempotent."""
+    import json
+    path = os.path.join(folder, "ted_shops.json")
+    if not os.path.exists(path):
+        log("T-Edition data rules: shops skipped (no ted_shops.json in the port)")
+        return
+    doc = json.load(open(path, encoding="utf-8"))
+    pr = MasterRows(folder, "product")
+    for rid in [i for i in pr.rows if i >= 90000]:
+        del pr.rows[rid]
+    shops = {s: int(g) for s, g in doc.get("pairs", {}).items()}
+    for s, v in sorted(doc.get("unmatched", {}).items(), key=lambda kv: int(kv[0])):
+        g = SHOP_GROUP_BASE + int(s)
+        for k, cid in enumerate(v["stock"]):
+            pr.add({"id": 90000 + 10 * int(s) + k, "content_id": cid, "group_id": g, "coefficient": 0, "purchase_limit": 0})
+        shops[s] = g
+    pr.save()
+    doc["shops"] = {s: shops[s] for s in sorted(shops, key=int)}
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(doc, f, indent=1)
+    log(f"T-Edition data rules: shops: {len(doc.get('pairs', {}))} on the porter's PR groups, "
+        f"{len(doc.get('unmatched', {}))} new groups ({SHOP_GROUP_BASE}+shop): {sorted(map(int, doc.get('unmatched', {})))}")
+
+
 def relm_magic_rule(folder, log=print):
     """Relm learns magic by level (the spec's rule 5): 16 (spell, level) pairs at EC/E3A0 -> learning rows of type 1
     (learned at a level: value1 = level, as Terra's and Celes'), job of Relm's character_status row, content = the
@@ -386,8 +420,178 @@ def _ensure_master_key(folder, table):
             json.dump(doc, f, indent=2)
 
 
-def build(run_port=True, log=print):
+MANIFEST = OUT + ".manifest.json"   # beside mods/TEdition, never installed: each input file's fingerprint per output path
+LOCK = OUT + ".building"            # one build at a time (several sessions run ted_build): an atomic mkdir
+
+
+class _lock:
+    """Holds LOCK (a folder with owner.txt) for one build; waits up to 10 minutes for another build, takes over a lock
+    whose process is gone."""
+
+    def __init__(self, log=print):
+        self.log = log
+
+    def __enter__(self):
+        import time
+        for i in range(600):
+            try:
+                os.mkdir(LOCK)
+                with open(os.path.join(LOCK, "owner.txt"), "w", encoding="utf-8") as f:
+                    f.write(f"{os.getpid()} {time.strftime('%H:%M:%S')} {' '.join(sys.argv)}\n")
+                return self
+            except FileExistsError:
+                try:
+                    pid = int(open(os.path.join(LOCK, "owner.txt"), encoding="utf-8").read().split()[0])
+                except (OSError, ValueError, IndexError):
+                    pid = None
+                if pid and not _alive(pid):
+                    self.log(f"ted_build: taking over the lock of process {pid}, which is gone")
+                    shutil.rmtree(LOCK, ignore_errors=True)
+                    continue
+                if i % 30 == 0:
+                    self.log(f"ted_build: waiting for another build (lock {LOCK}, process {pid})")
+                time.sleep(1)
+        raise SystemExit(f"ted_build: another build still holds {LOCK} after 10 minutes")
+
+    def __exit__(self, *exc):
+        shutil.rmtree(LOCK, ignore_errors=True)
+
+
+def _alive(pid):
+    if sys.platform == "win32":
+        r = subprocess.run(["tasklist", "/FI", f"PID eq {pid}", "/NH"], capture_output=True, text=True)
+        return str(pid) in r.stdout
+    try:
+        os.kill(pid, 0)
+        return True
+    except OSError:
+        return False
+
+
+def merge_into(out, sources, full=False, log=print, manifest=None):
+    """The porter's output (STAGE) and the workstreams' folders merged into out, as magicite_merge.merge does on a fresh
+    copy of STAGE, but redoing only output paths whose inputs changed since the last build (MANIFEST: each input's size,
+    mtime and sha1; a file whose mtime moved but whose bytes didn't counts as unchanged). Every group's keys files are
+    always rebuilt. Conflicts of unchanged paths come back from the manifest. full=True (or no usable manifest): the
+    whole merge afresh. Same result either way (`ted_build.py --verify` diffs the two)."""
+    import hashlib
+    import json
     import magicite_merge as MM
+    manifest = manifest or MANIFEST
+    names = [os.path.basename(os.path.normpath(s)) for s in sources]
+    with open(MM.__file__, "rb") as f:   # a changed merger redoes everything
+        merger = hashlib.sha1(f.read()).hexdigest()
+    old = None
+    if not full and os.path.isdir(out) and os.path.exists(manifest):
+        try:
+            with open(manifest, encoding="utf-8") as f:
+                old = json.load(f)
+        except (OSError, ValueError):
+            old = None
+        if old and (old.get("sources") != names or old.get("merger") != merger):
+            old = None
+    prev = (old or {}).get("files", {})
+    files = {}
+
+    def fingerprint(origin, rel, path):
+        st = os.stat(path)
+        p = prev.get(f"{origin}|{rel}")
+        if p and p[0] == st.st_size and p[1] == st.st_mtime_ns:
+            fp = p
+        else:
+            with open(path, "rb") as f:
+                fp = [st.st_size, st.st_mtime_ns, hashlib.sha1(f.read()).hexdigest()]
+        files[f"{origin}|{rel}"] = fp
+        return fp[2]
+
+    inputs = {}   # rel -> [(origin, path)] in merge order (STAGE first)
+    for origin, root in [("", STAGE)] + list(zip(names, sources)):
+        for rel, path in MM._files(root):
+            inputs.setdefault(rel, []).append((origin, path))
+    sig = {rel: [[o, fingerprint(o, rel, p)] for o, p in ins] for rel, ins in inputs.items()}
+    if old is None:
+        if os.path.isdir(out):
+            shutil.rmtree(out)
+        shutil.copytree(STAGE, out)
+        rep = MM.merge(out, sources, log=log)
+        changed = set(inputs)
+    else:
+        old_sig = old.get("sig", {})
+        changed = {rel for rel in inputs if MM._is_keys(rel) or old_sig.get(rel) != sig[rel]
+                   or not os.path.exists(os.path.join(out, *rel.split("/")))}
+        for rel in set(old_sig) - set(inputs):   # an input gone: its output goes too
+            p = os.path.join(out, *rel.split("/"))
+            if os.path.exists(p):
+                os.remove(p)
+        tmp = out + ".tmp"
+        shutil.rmtree(tmp, ignore_errors=True)
+        keys_groups = {rel.split("/")[0] for rel in inputs if MM._is_keys(rel)}
+        for g in keys_groups:   # keys are rebuilt from STAGE's and merged again, as on a fresh copy
+            kdir = os.path.join(out, g, "keys")
+            if os.path.isdir(kdir):
+                for f in os.listdir(kdir):
+                    if f.endswith(".json"):
+                        os.remove(os.path.join(kdir, f))
+        tmp_sources = []
+        for name in names:
+            os.makedirs(os.path.join(tmp, name), exist_ok=True)
+            tmp_sources.append(os.path.join(tmp, name))
+        for rel in sorted(changed):
+            dst = os.path.join(out, *rel.split("/"))
+            for origin, path in inputs[rel]:
+                if origin == "":
+                    os.makedirs(os.path.dirname(dst), exist_ok=True)
+                    shutil.copy2(path, dst)
+                else:
+                    t = os.path.join(tmp, origin, *rel.split("/"))
+                    os.makedirs(os.path.dirname(t), exist_ok=True)
+                    shutil.copy2(path, t)
+            if not any(o == "" for o, _ in inputs[rel]) and os.path.exists(dst):
+                os.remove(dst)   # a workstream's file only: the merge copies it afresh
+        rep = MM.merge(out, tmp_sources, log=lambda *a: None)
+        shutil.rmtree(tmp, ignore_errors=True)
+        for rel, conflicts in old.get("conflicts", {}).items():   # unchanged paths keep their conflicts
+            if rel not in changed and rel in inputs:
+                rep.conflicts.extend((rel, who, what) for who, what in conflicts)
+        log(f"magicite merge (incremental) -> {out}: {len(changed)} of {len(inputs)} paths redone; {rep}")
+    conflicts = {}
+    for rel, who, what in rep.conflicts:
+        conflicts.setdefault(rel, []).append([who, what])
+    with open(manifest, "w", encoding="utf-8") as f:
+        json.dump({"sources": names, "merger": merger, "files": files, "sig": sig, "conflicts": conflicts}, f)
+    return rep
+
+
+def verify(log=print):
+    """The incremental merge against a full one: mods/TEdition vs a fresh merge in mods/TEdition.verify, file by file."""
+    import filecmp
+    sources = [os.path.join(P.ROOT, "mods", s) for s in SIBLINGS if os.path.isdir(os.path.join(P.ROOT, "mods", s))]
+    real_out, fresh = OUT, OUT + ".verify"
+    merge_into(fresh, sources, full=True, log=lambda *a: None, manifest=fresh + ".manifest.json")
+    import magicite_merge as MM
+    a = {rel for rel, _ in MM._files(real_out)}
+    b = {rel for rel, _ in MM._files(fresh)}
+    differ = sorted(rel for rel in a & b if not filecmp.cmp(os.path.join(real_out, rel), os.path.join(fresh, rel), shallow=False))
+    log(f"verify: {len(a)} files incremental, {len(b)} full; only incremental {sorted(a - b)[:10]}, "
+        f"only full {sorted(b - a)[:10]}, differing {differ[:10]}")
+    shutil.rmtree(fresh, ignore_errors=True)
+    if os.path.exists(fresh + ".manifest.json"):
+        os.remove(fresh + ".manifest.json")
+    return not (a - b or b - a or differ)
+
+
+def build(run_port=True, full=False, log=print, check=False):
+    """Port (unless run_port is False and a port exists), the data rules, art and music, then the merge into OUT and the
+    Magicite check, all under one lock (sessions build at once; the data rules write STAGE in place). check: also
+    verify() the merge before the lock is let go; a failed check counts as a problem."""
+    with _lock(log):
+        rep, problems = _build(run_port, full, log)
+        if check and not verify(log):
+            problems = list(problems) + ["the incremental merge differs from a full merge (verify)"]
+        return rep, problems
+
+
+def _build(run_port, full, log):
     from prkit import data, magicite
     if run_port or not os.path.isdir(STAGE):
         port()
@@ -396,11 +600,8 @@ def build(run_port=True, log=print):
     ted_art.apply(STAGE, log=log)
     import ted_music   # the song pack + bgm rules for BepInEx/TEdition/music (the TedPlugin session; not Magicite)
     ted_music.build(log=log)
-    if os.path.isdir(OUT):
-        shutil.rmtree(OUT)
-    shutil.copytree(STAGE, OUT)
     sources = [os.path.join(P.ROOT, "mods", s) for s in SIBLINGS if os.path.isdir(os.path.join(P.ROOT, "mods", s))]
-    rep = MM.merge(OUT, sources, log=log)
+    rep = merge_into(OUT, sources, full=full, log=log)
     for rel, who, what in rep.conflicts:
         log(f"  conflict: {rel} ({who}): {what}")
     problems, notes = magicite.validate(OUT, data.GameData("ff6"), ignore=())
@@ -412,7 +613,7 @@ def build(run_port=True, log=print):
 
 
 def main(argv):
-    rep, problems = build(run_port="--no-port" not in argv)
+    rep, problems = build(run_port="--no-port" not in argv, full="--full" in argv, check="--verify" in argv)
     ok = not rep.conflicts and not problems
     if "--test" in argv:
         env = dict(os.environ, PR_MOD="TEditionPort", PYTHONIOENCODING="utf-8")
