@@ -39,15 +39,15 @@ stalled ("the battle doesn't end") and ted-monsters hit `KeyNotFoundException` i
 | Maps | 9 | 2 | 5 | 2 | 0 | 0 |
 | Events/story scenes | 44 | 0 | 1 | 35 | 8 | 0 |
 | Pub quests | 20 | 0 | 2 | 18 | 0 | 0 |
-| NG+/post-game | 8 | 0 | 0 | 5 | 3 | 0 |
-| Costumes/dressing room | 10 | 0 | 4 | 3 | 2 | 1 |
+| NG+/post-game | 8 | 0 | 2 | 3 | 3 | 0 |
+| Costumes/dressing room | 10 | 0 | 5 | 2 | 2 | 1 |
 | Music | 8 | 0 | 4 | 3 | 1 | 0 |
 | Graphics | 14 | 1 | 4 | 4 | 5 | 0 |
 | Menus/UI/rooms (Collection, Achievements, Track Record) | 11 | 0 | 0 | 4 | 6 | 1 |
 | Text/translation | 10 | 1 | 4 | 1 | 2 | 2 |
 | EX | 13 | 0 | 8 | 2 | 0 | 3 |
 | Platform patches (outside the game) | 4 | 0 | 0 | 0 | 0 | 4 |
-| **All** | **256** | **12** | **99** | **97** | **36** | **12** |
+| **All** | **256** | **12** | **102** | **94** | **36** | **12** |
 
 ## 2. Weighted completion
 
@@ -63,15 +63,15 @@ as a battle rule), so this is a feature count, not the effort-weighted table in 
 | Maps | 9 | 8 | 89% |
 | Events/story scenes | 44 | 18.5 | 42% |
 | Pub quests | 20 | 11 | 55% |
-| NG+/post-game | 8 | 2.5 | 31% |
-| Costumes/dressing room | 9 | 5.5 | 61% |
+| NG+/post-game | 8 | 3.5 | 44% |
+| Costumes/dressing room | 9 | 6 | 67% |
 | Music | 8 | 5.5 | 69% |
 | Graphics | 14 | 7 | 50% |
 | Menus/UI/rooms (Collection, Achievements, Track Record) | 10 | 2 | 20% |
 | Text/translation | 8 | 5.5 | 69% |
 | EX | 10 | 9 | 90% |
 | Platform patches (outside the game) | 0 | 0 | (all LEFT OUT) |
-| **All** | **244** | **159.5** | **65%** |
+| **All** | **244** | **161** | **66%** |
 
 Read with care: only 12 of the 244 counted rows (5%) have been seen working in game; the 92 PORTED rows are code or data
 that has never run through its real trigger. PORTING.md's own estimate (~60%, effort-weighted) is close to this count,
@@ -308,14 +308,14 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | N4 | Holy Angel Ultima chain (page, sylph, Phantom Forest, Matoya's Crystal Eye, Goddess Bell, Labyrinth of the Ancients, Crystal Tower, Ultima) | Mato README "High Seraph Ultima" | PARTIAL | maps 447-458, 417-420, 497-505 built; their events 9-66% stubs (499: 57%, 504: 66%); the Goddess Bell airship landing not located | translate the rest; the landing [ted-maps] |
 | N5 | Forbidden Land Eureka (optional, gear) | same | PARTIAL | maps 421-428 built; events 9-71% stubs | [ted-maps] |
 | N6 | Soul Shrine (waves, re-fight chosen waves, shield on first clear, restart if left, save point, party change) | Mato README; soulshrine.txt | PARTIAL | maps 431-433; CD/12D0-CD/1340 scripted, 24-29% stubs | [ted-maps] |
-| N7 | Developer's Room (after Ultima; lead-dependent reactions) | Mato README "Developer's Room" | PARTIAL | maps 463/464 15%/26% stubs, 465 11%; script ids >= 10000 run (maps-2) and room 697's Namingway works (its script "never ended" only because the test answered Yes and the naming screen opened, which the harness can't leave: ted-maps, 2026-11-21) | finish stubs [ted-maps] |
-| N8 | Secret Present (Eureka gravestone unlocks every costume) | Mato README "Secret Present" | PARTIAL | map 494 "Secret Room" 36% stubs; Eureka events up to 71% stubs | [ted-maps] |
+| N7 | Developer's Room (after Ultima; lead-dependent reactions) | Mato README "Developer's Room" | PORTED | Developer's Room scripts at 0-2% stubs after ted-events' compares (ted-maps 2026-11-21); script ids >= 10000 run (maps-2) | test in game |
+| N8 | Secret Present (Eureka gravestone unlocks every costume) | Mato README "Secret Present" | PORTED | 0% stubs (ted-maps 2026-11-21) | test in game |
 
 ### Costumes/dressing room
 
 | ID | Feature | Source | Status | Evidence | Work needed [owner] |
 |---|---|---|---|---|---|
-| D1 | Dressing Room on the Falcon | change §3 "Dressing Room"; dressroom.html | PARTIAL | map 459 built (35% stubs); `TedSysCalls.cs:103-104` TED:costume -> `TedCostumes.Wear` | finish the room's scripts; play it [ted-maps] |
+| D1 | Dressing Room on the Falcon | change §3 "Dressing Room"; dressroom.html | PORTED | dressing room scripts at 1% stubs (ted-maps 2026-11-21); costume switch TED:costume live on ArtSwap layers | test in game |
 | D2 | 56 costumes: field, battle and portrait art | dressroom.html; 3.0.7 menu images | PORTED | `tools/ted_art.py` costumes, `data/ted_costume_art.json`; ArtSwap layers (`Plugin.cs:55-59`) | — |
 | D3 | Costume choice kept in the save | (system) | PORTED | `TedCostumes.cs:10-24` ("TEC1" block) | — |
 | D4 | Unlocks by treasures, events, achievements (in order) | dressroom.html; Quick Advice | PARTIAL | unlocks listed in `data/ted_costumes.json`; achievements are U2 | [ted-maps] |

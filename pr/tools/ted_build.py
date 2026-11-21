@@ -658,6 +658,10 @@ def main(argv):
         r = subprocess.run([sys.executable, "-m", "unittest", "discover", "-s", os.path.join(P.ROOT, "tests"),
                             "-p", "test_mod.py"], env=env, cwd=P.ROOT)
         ok = ok and r.returncode == 0
+        # the runner's pre-flight check on the merged folder (scripts a map doesn't list never run; QA's batches check it)
+        r = subprocess.run([sys.executable, os.path.join(P.ROOT, "tools", "magicite_check.py"), OUT],
+                           env=dict(os.environ, PYTHONIOENCODING="utf-8"), cwd=P.ROOT)
+        ok = ok and r.returncode == 0
     sys.exit(0 if ok else 1)
 
 
