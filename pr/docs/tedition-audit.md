@@ -32,22 +32,22 @@ stalled ("the battle doesn't end") and ted-monsters hit `KeyNotFoundException` i
 
 | Area | Rows | TESTED | PORTED | PARTIAL | MISSING | LEFT OUT |
 |---|---:|---:|---:|---:|---:|---:|
-| Mechanics/battle | 44 | 5 | 23 | 7 | 8 | 1 |
-| Items and equipment | 21 | 1 | 15 | 3 | 2 | 0 |
-| Characters/commands/espers/magic | 31 | 1 | 18 | 8 | 4 | 0 |
+| Mechanics/battle | 44 | 5 | 26 | 7 | 5 | 1 |
+| Items and equipment | 21 | 1 | 15 | 4 | 1 | 0 |
+| Characters/commands/espers/magic | 31 | 1 | 19 | 8 | 3 | 0 |
 | Monsters/formations/AI | 9 | 1 | 6 | 2 | 0 | 0 |
 | Maps | 9 | 2 | 5 | 2 | 0 | 0 |
-| Events/story scenes | 44 | 0 | 1 | 33 | 10 | 0 |
+| Events/story scenes | 44 | 0 | 1 | 35 | 8 | 0 |
 | Pub quests | 20 | 0 | 2 | 18 | 0 | 0 |
 | NG+/post-game | 8 | 0 | 0 | 5 | 3 | 0 |
 | Costumes/dressing room | 10 | 0 | 4 | 3 | 2 | 1 |
-| Music | 8 | 0 | 3 | 4 | 1 | 0 |
+| Music | 8 | 0 | 4 | 3 | 1 | 0 |
 | Graphics | 14 | 1 | 4 | 4 | 5 | 0 |
-| Menus/UI/rooms (Collection, Achievements, Track Record) | 11 | 0 | 0 | 3 | 7 | 1 |
-| Text/translation | 10 | 1 | 3 | 1 | 3 | 2 |
+| Menus/UI/rooms (Collection, Achievements, Track Record) | 11 | 0 | 0 | 4 | 6 | 1 |
+| Text/translation | 10 | 1 | 4 | 1 | 2 | 2 |
 | EX | 13 | 0 | 8 | 2 | 0 | 3 |
 | Platform patches (outside the game) | 4 | 0 | 0 | 0 | 0 | 4 |
-| **All** | **256** | **12** | **92** | **95** | **45** | **12** |
+| **All** | **256** | **12** | **98** | **98** | **36** | **12** |
 
 ## 2. Weighted completion
 
@@ -56,29 +56,29 @@ as a battle rule), so this is a feature count, not the effort-weighted table in 
 
 | Area | Counted rows | Done (T + P + PARTIAL/2) | Completion |
 |---|---:|---:|---:|
-| Mechanics/battle | 43 | 31.5 | 73% |
-| Items and equipment | 21 | 17.5 | 83% |
-| Characters/commands/espers/magic | 31 | 23 | 74% |
+| Mechanics/battle | 43 | 34.5 | 80% |
+| Items and equipment | 21 | 18 | 86% |
+| Characters/commands/espers/magic | 31 | 24 | 77% |
 | Monsters/formations/AI | 9 | 8 | 89% |
 | Maps | 9 | 8 | 89% |
-| Events/story scenes | 44 | 17.5 | 40% |
+| Events/story scenes | 44 | 18.5 | 42% |
 | Pub quests | 20 | 11 | 55% |
 | NG+/post-game | 8 | 2.5 | 31% |
 | Costumes/dressing room | 9 | 5.5 | 61% |
-| Music | 8 | 5 | 62% |
+| Music | 8 | 5.5 | 69% |
 | Graphics | 14 | 7 | 50% |
-| Menus/UI/rooms (Collection, Achievements, Track Record) | 10 | 1.5 | 15% |
-| Text/translation | 8 | 4.5 | 56% |
+| Menus/UI/rooms (Collection, Achievements, Track Record) | 10 | 2 | 20% |
+| Text/translation | 8 | 5.5 | 69% |
 | EX | 10 | 9 | 90% |
 | Platform patches (outside the game) | 0 | 0 | (all LEFT OUT) |
-| **All** | **244** | **151.5** | **62%** |
+| **All** | **244** | **159** | **65%** |
 
 Read with care: only 12 of the 244 counted rows (5%) have been seen working in game; the 92 PORTED rows are code or data
 that has never run through its real trigger. PORTING.md's own estimate (~60%, effort-weighted) is close to this count,
 but the two areas the player meets most outside battle, events (40%) and menus/rooms (15%), sit lowest. Open risks from
 ted-7 that may touch many rows at once: the stalled harness battle (rule 44's time freeze never logged in that run),
 `KeyNotFoundException` in `GetMagicStatus` during new-monster fights, the quest scripts the game refused, and room 697's
-Namingway script that never ended.
+Namingway script that seemed not to end (corrected: the test opened the naming screen by answering Yes; not a bug).
 
 ## 3. Checklist
 
@@ -97,8 +97,8 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | M6 | Vanish no longer lets every spell (X-Zone) land | readme.html §6 "Vanish Magic Bug" | PORTED | spec 23 "the PR already fixed Vanish + Doom (patch 1.0.5)" | — |
 | M7 | No hit-rate change from the target's statuses | spec 21 | PORTED | `Plugin.cs:163-180`; ted-7 log "rule 21: no hit-rate change ... (both lists emptied)" (installed) | — |
 | M8 | Drop odds 68/20/8/4 over four drop slots | change §2 "Item Drop Rate" | PARTIAL | `profile_tedition.py:608`; ted-7 tedcheck "MONSTER_DROP_RATE 68/19/8/5" but "FAILED (1): monsters with 3-4 drop slots: game 281, port 220"; the PR's own rows 385-611 keep 2 slots (`docs/tedition.md:127-133`) | carry the 61 missing 3rd/4th slots; check what the PR does on an empty slot [lead] |
-| M9 | Back/pincer/side attack odds fix; Back Guard (Alarm Earring) stronger | change §2 "Back Attack/Pincer..." | MISSING | spec 24 (Back Guard bit moved to $3A6D bit 6); `mods/TEditionPort/port_report.txt` "relic effect byte ... not portable as data (need plugin)" | encounter-type hook (kit SnesEncounterRules) reading T-Edition's relic bits [TedPlugin] |
-| M10 | Pre-emptive strike chance doubled, Gale Hairpin x4 | change §2 "Pre-emptive Strike Increase" | MISSING | spec 24 (relic bit 5 = x4); no code | same hook as M9 [TedPlugin] |
+| M9 | Back/pincer/side attack odds fix; Back Guard (Alarm Earring) stronger | change §2 "Back Attack/Pincer..." | PORTED | 2026-11-21 TedPlugin TedEncounters: back/pincer/side odds and Back Guard; builds, Ted.Tests 21 | test in game |
+| M10 | Pre-emptive strike chance doubled, Gale Hairpin x4 | change §2 "Pre-emptive Strike Increase" | PORTED | 2026-11-21 TedPlugin TedEncounters: Gale Hairpin pre-emptive 1 in 2 (x4), no enemy first strike | test in game |
 | M11 | Defense-ignoring attacks go through Def 0 (Safe/Defend/row apply) | change §2 "Defense-Ignoring Attacks" | TESTED | `TedRules/DamageSteps.cs:155-158`; ted-7 teddamage "Fight on a monster (Attack #1) ... ignores defense ... ok" | — |
 | M12 | Weakness quarters defense instead of x2 | change §2 "Weakness Attribute" | TESTED | spec 7, `TedDamage.cs:170-196`; teddamage "Fire on a monster ... rules' factor x1.038 [6,7] ok" | — |
 | M13 | Multi-element attacks: each element counted separately | change §2 "Multiple Attribute Attacks" | PORTED | spec 6, `TedDamage.cs:306-323` (Resist_Postfix); teddamage "a multi-element spell on a monster: skipped" | — |
@@ -119,7 +119,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | M28 | Absorb gives the full computed damage | change §2 "Absorbing Damage" | PORTED | `TedStatuses.cs:51, 143-165` (spec 54) | — |
 | M29 | Reflected magic not halved (3+ reflectors out-damage one hit) | change §2 "Reflect Status" | PARTIAL | spec 53; progress 11-20 "likely already the PR's: ... 53 (to confirm in a run)"; `TedSelfTest.cs:142` only logs it | probe a reflected spell in game; hook if the PR halves [TedPlugin] |
 | M30 | Damage/heal cap 32000, 5-digit display | change §2 "Damage/Recovery Limit Increase" | PARTIAL | `profile_tedition.py:609` MAX_HIT_VALUE 32000; spec Unknowns "Whether the PR draws 5-digit damage" | check a 5-digit hit on screen [TedPlugin] |
-| M31 | Desperation attacks: easier (code 1/32), unlimited, no 768 timer, new ones for Gau/Umaro, blocked by Offering | change §2 "Desperation Attacks" | MISSING | spec 39 deferred; no code (only `pr/ted/*.md` mention it) | trigger hook + Gau/Umaro/Gogo desperation abilities [TedPlugin] |
+| M31 | Desperation attacks: easier (code 1/32), unlimited, no 768 timer, new ones for Gau/Umaro, blocked by Offering | change §2 "Desperation Attacks" | PORTED | 2026-11-21 TedPlugin TedDesperation (1/32 per Fight at Near Fatal, no timer, all 14 incl. Gau/Gogo/Umaro, blocked by Elven Darts/Master's Scroll); ted_build desperation_rule makes 226/227 desperation rows | test in game |
 | M32 | Two-handed grip: double damage, lower evasion | change §4 "2 Hands" | PORTED | spec 13 "the PR's TwoHandedMagnification is already 2" | — |
 | M33 | Dual wield: 0.75 per hand | change §4 "Dual Wield" | PORTED | `Plugin.cs:150-160` (spec 14, SnesRelicPenalties) | — |
 | M34 | Master's Scroll/Offering: normal accuracy, no procs or desperation | change §4 "Barrage"; EX history | MISSING | spec 62 / Unknowns "Offering's 'normal accuracy, no procs': not located" | locate in C1/C2, then hook [TedPlugin] |
@@ -155,7 +155,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | I15 | Dice / Fixed Dice formula, accuracy, no Berserk boost | change §5 "Dice/Fixed Dice" | PORTED | `TedDamage.cs:151-169` (spec 41) | — |
 | I16 | Other new items (Experience Egg, Gold Hairpin as relic, Kenkonken throwable, Power Belt, ...) | history 3.0.0, 2.9.5 | PORTED | names in `ted_items.json`; port_report "rods and throwing" | — |
 | I17 | Shop stock, T-Edition's own shops included | shop.txt | PORTED | `ted_build.py:351-376`; port_report "79 SNES shops matched"; docs/tedition.md:11 "all 110 stocked shops mapped" | — |
-| I18 | WoR shop prices double until Humbaba falls | Mato README "Legendary Fiend Humbaba"; spoiler_free_new_quests | MISSING | no code or data found | price hook on a story flag [TedPlugin] |
+| I18 | WoR shop prices double until Humbaba falls | Mato README "Legendary Fiend Humbaba"; spoiler_free_new_quests | PARTIAL | 2026-11-21 TedPlugin: price hook in code, off until ted-events gives the WoR and Humbaba flags (ted_flags.json) | flags from ted-events [TedPlugin, ted-events] |
 | I19 | Treasure chest contents on vanilla maps | readme translation (chests) | PARTIAL | port_report "129 PR chests changed in 92 map files; skipped {'no PR chest (new in BNW or unmatched)': 25}" | place or reroute the 25 [ted-maps] |
 | I20 | Boss reward items on winning (42 fights) | spec (4B/4A00) | PORTED | `TedColiseum.cs:17-19`; ted-7 log "42 boss rewards" (loaded) | — |
 | I21 | Coliseum wagers, opponents, prizes (Tabs farming, Typhon) | coliseum.txt; history | PORTED | `TedColiseum.cs:12-40`; ted-7 "278 Coliseum wagers (3 of 3 lookups hooked)" (loaded, no wager played) | — |
@@ -192,7 +192,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | C26 | Gau equips weapons (Rages keep his weapon) | change §3 Gau; Readme A7 | PARTIAL | equip lists in job_group (port_report); Rage animations with his own weapon not handled | Rage weapon graphic [TedPlugin] |
 | C27 | Gogo and Umaro equip espers and learn magic | change §3; 3.0.0 | PORTED | `TedMagicite.cs:8-66`; ted-7 log "rule 35: ... 3 checks hooked" | — |
 | C28 | Umaro controllable, Snowstorm command, Berserker Ring / Power Belt procs on Fight | change §3 Umaro | PARTIAL | Snowstorm command (`ted_build.py:230`); procs as attack odds (`TedCommands.cs:48-83`); the PR's auto-act (ActSelectUmalo) is never dropped (spec 36/56) | Umaro's command menu [TedPlugin] |
-| C29 | Magitek: six options for every character | change §3 "Character Overview"; spec 61 | MISSING | no data or code; kit SnesMagitek not applied | per-character Magitek list [TedPlugin] |
+| C29 | Magitek: six options for every character | change §3 "Character Overview"; spec 61 | PORTED | 2026-11-21 TedPlugin: every character has T-Edition's six Magitek options (PR 220-225) | test in game |
 | C30 | Veldt holds formations up to 511 | change §2 "Registering Monster Formations to the Veldt" | PORTED | `profile_tedition.py:623`; port_report "veldt: 511 formations in 64 groups" | — |
 | C31 | Dispel and Vanish usable outside battle | history ("You can now use Dispel and Vanish in the field") | MISSING | the spell porter keeps the template's field use (`port_spells.py:236-237`) | menu use for the two spells [lead] |
 
@@ -260,9 +260,9 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | E30 | Father and Daughter (Shadow's dreams) / A Mother's Hope | same | PARTIAL | 7/7 scripted, 25% stubs; Shadow's dream inn scenes CA/788A, CA/F644, CC/6649, CA/8EDB (2,100+ commands each) not scripted | [ted-events] |
 | E31 | Mysterious Technique Inheritance (Sabin's last Blitz) | same | PARTIAL | 2/3 scripted, 9% stubs; CC/0BCE not | [ted-events] |
 | E32 | A Demon's Favorite Food / Gau's father opens every Veldt formation | same; change §7 "Gau's Make-over" | PARTIAL | 1/2 scripted, 29% stubs; CB/681E not; `TED:veldt_open` (`TedSysCalls.cs:75-82`) used by no script | [ted-events] |
-| E33 | Thoughts and Wishes (Cid, Celes) | same | MISSING | no catalog events identified | find and translate [ted-ex] |
+| E33 | Thoughts and Wishes (Cid, Celes) | same | PARTIAL | 2026-11-21 ted-ex: inside CA/5366 (Cid), CD/4130 branches on story bits to T-Edition's lines D56/D44/D45, then CD/4463 (the Tynar Rouge); ted-events took CA/5366 (an edit of PR sc_e_0616) | finish past CD/4130 [ted-events] |
 | E34 | Owzer's Collection | same | PARTIAL | 5/5 scripted, 28% stubs | [ted-ex] |
-| E35 | Unexpected Special Skill (Umaro's carving) | same | MISSING | no catalog events identified | [ted-ex] |
+| E35 | Unexpected Special Skill (Umaro's carving) | same | PARTIAL | 2026-11-21 ted-ex: CC/D6E1 on SNES map 283 (Umaro's Cave), the Bone Sculpture: Deathgaze's Claw + Umaro gives the Berserker Ring; in TEditionQuests as a new object in Map_30771_1, stand-in look 51, 47 stubs | stubs; test in game [ted-ex] |
 | E36 | The Last Dragon (Fanatics' Tower, Dried Meat) | same | PARTIAL | CD/46B0 (map 364) scripted, 21% stubs | [ted-ex] |
 | E37 | Molulu's Gift | same | PARTIAL | 3/3 scripted, 20% stubs | [ted-ex] |
 | E38 | A Priestess's Concern (Sabin costume) | same | MISSING | CA/6C7B (map 57) not scripted | build and wire CA/6C7B with the costume unlock [ted-events] |
@@ -308,7 +308,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | N4 | Holy Angel Ultima chain (page, sylph, Phantom Forest, Matoya's Crystal Eye, Goddess Bell, Labyrinth of the Ancients, Crystal Tower, Ultima) | Mato README "High Seraph Ultima" | PARTIAL | maps 447-458, 417-420, 497-505 built; their events 9-66% stubs (499: 57%, 504: 66%); the Goddess Bell airship landing not located | translate the rest; the landing [ted-maps] |
 | N5 | Forbidden Land Eureka (optional, gear) | same | PARTIAL | maps 421-428 built; events 9-71% stubs | [ted-maps] |
 | N6 | Soul Shrine (waves, re-fight chosen waves, shield on first clear, restart if left, save point, party change) | Mato README; soulshrine.txt | PARTIAL | maps 431-433; CD/12D0-CD/1340 scripted, 24-29% stubs | [ted-maps] |
-| N7 | Developer's Room (after Ultima; lead-dependent reactions) | Mato README "Developer's Room" | PARTIAL | maps 463/464 15%/26% stubs, 465 11%; script ids >= 10000 run (maps-2) but room 697's Namingway script never ended | fix the hang; finish stubs [ted-maps] |
+| N7 | Developer's Room (after Ultima; lead-dependent reactions) | Mato README "Developer's Room" | PARTIAL | maps 463/464 15%/26% stubs, 465 11%; script ids >= 10000 run (maps-2) and room 697's Namingway works (its script "never ended" only because the test answered Yes and the naming screen opened, which the harness can't leave: ted-maps, 2026-11-21) | finish stubs [ted-maps] |
 | N8 | Secret Present (Eureka gravestone unlocks every costume) | Mato README "Secret Present" | PARTIAL | map 494 "Secret Room" 36% stubs; Eureka events up to 71% stubs | [ted-maps] |
 
 ### Costumes/dressing room
@@ -335,7 +335,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | S3 | Battle music per formation | change §1 "Battle Music - Fanfare Change" | PORTED | `ted_music.formation_music` (478 parties) | — |
 | S4 | Victory fanfare per formation | same | PORTED | same (418 fanfares) | — |
 | S5 | Songs and jingles in events | bgm.html | PARTIAL | translator emits bgm 1000+n; stubs left in mods/TEdition: `SNES:song_ctrl` 19, `SNES:song` 9, `SNES:sound_wait` 20 | [ted-events] |
-| S6 | Music Player in Config > Sound (GBA-style), its 277 entries | change §1 "Music Player" | PARTIAL | `ted_music.player_rows` writes player.json; no sound_player_list.csv in mods/TEdition; PORTING.md "left: ... the music player's hookup" | install the rows (or a Config player) [TedPlugin] |
+| S6 | Music Player in Config > Sound (GBA-style), its 277 entries | change §1 "Music Player" | PORTED | 2026-11-21 ted_build calls ted_music.install_player: 175 Extras player rows (ids 159-333) and their names in 12 languages | test in game |
 | S7 | Developer's Room music room: extra songs, patrons who comment on the song playing | Mato README | PARTIAL | map 485 (38% stubs); Hummingway's offer ran in game (maps-2 shot `sc_tedm_03FAA5_1.png`); "what is playing" check not located | a SysCall for the current song [TedPlugin] |
 | S8 | Battle sound effects changed (FF5 Bio, whip, Time magic) | EX history | MISSING | no battle SE work found (`data/ted_se_ties.json` is field events only) | [TedPlugin] |
 
@@ -365,7 +365,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | U1 | Collection Room (key items on display, paintings per EX boss) | Mato README "Collection Room" | PARTIAL | maps 470, 486, 487-490 built; events 29-71% stubs (470: 71%); EX bits allocated (MEDIA_INVENTORY §4.4) | [ted-maps] |
 | U2 | Achievement Room: 2 rooms, hint books, 20 achievements, finale | Mato README "Achievement Room"; spoiler_free_new_quests | PARTIAL | maps 471/472 58%/60% stubs; 21 `SNES:word_cmp` stubs; no script uses `TED:counter` (`TedSysCalls.cs:83-91`) | counter/playtime/step compares as SysCalls [ted-maps] |
 | U3 | Track record: Steal, Twin Fang, Runic, Sketch, Slot, Snowstorm, Mimic counts | change §1 (NG+ list); spec 43 | PARTIAL | `TedCommands.cs:57-60, 168-178, 316-373`; Twin Fang is never bumped | bump on Interceptor's counter [TedPlugin] |
-| U4 | Status screen pages: attributes, conditions, abilities | change §2 "Information Display on the Status Screen" | MISSING | no code | [TedPlugin] |
+| U4 | Status screen pages: attributes, conditions, abilities | change §2 "Information Display on the Status Screen" | PARTIAL | 2026-11-21 TedPlugin: the status screen's free row shows elements and immunity count, harness tedstatus; the conditions and abilities pages not yet | the other pages [TedPlugin] |
 | U5 | Equipment details: MP Critical, absorb, Row OK, Throw OK, bonus vs flying/human/magic/dragon; Valiant Knife "???" | change §1 "Equipment Details Menu"; §5 | MISSING | no code | [TedPlugin] |
 | U6 | X button: equipped esper, learning progress, mastered-esper star | change §1 "Magic Acquisition Status" | MISSING | no code | [TedPlugin] |
 | U7 | Select in battle: icons for Reraise, Defend, Runic, Sky, Charm, Love Token, Cloudy Heaven | change §2 "Information Display of Status Ailments of Allies" | MISSING | no code | [TedPlugin] |
@@ -381,7 +381,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | T1 | Full English names (items, spells, monsters, attacks) | Mato README FAQ | PORTED | `docs/tedition.md:29-31`; port_report "item text: 223 names/descriptions" | — |
 | T2 | Descriptions for every item (GBA-style) | change §1 "Item Descriptions" | PORTED | progress 11-20 (Mato's descriptions); 327 MSG_*_INF rows in TEditionPort | — |
 | T3 | Spell and Lore descriptions (19 characters) | change §1 "Magic Skill Description" | PORTED | MSG_MAG_INF rows (63) | — |
-| T4 | Blitz, Bushido, esper and Rage descriptions (Rage menu shows the attack) | change §3 Gau; EX history | MISSING | PORTING.md Text row "Blitz, Bushido, espers and rages not yet" | read 40/0E00, CF/FF9E, CF/FFAE [lead] |
+| T4 | Blitz, Bushido, esper and Rage descriptions (Rage menu shows the attack) | change §3 Gau; EX history | PORTED | 2026-11-21 lead: profile_tedition DESC_TABLES espers CF/FE40, blitz CF/FF9E, bushido CF/FFAE -> extra_messages ("descriptions: Mato's on 27 espers, 8 bushido, 8 blitz"); rage_descriptions() -> port_dances names 252 Rages' attacks | test in game |
 | T5 | Mato's dialogue in new and changed scenes | Mato README FAQ | TESTED | maps-2: "Hummingway: Want to hear music not in the Music Player?" with Yes!/No! (`shots/maps2/sc_tedm_03FAA5_1.png`); Namingway (`sc_tedm_037370_1.png`) | coverage follows the event rows |
 | T6 | Element names Fire / Earth / Darkness / Light | change §1 "Attribute Names" | MISSING | no rename found in the port's text or tools | [lead] |
 | T7 | Job titles (Mog "Moogle Knight", others) | change §3 Mog; EX history | MISSING | not in the port's text | [lead] |

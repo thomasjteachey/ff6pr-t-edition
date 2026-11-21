@@ -24,7 +24,7 @@ TOOLS = ["profile_tedition.py", "ted_rooms.py", "ted_publish.py", "kitpath.py",
          "ted_events.py", "ted_dialog.py", "ted_battle.py", "ted_build.py", "ted_ex.py", "ted_testinstall.py", "ted_plugin_data.py", "ted_maps.py",
          "ted_ex_ai.py", "ted_ex_build.py", "ted_ex_events.py", "ted_songs.py",      # 2026-11-20: ted-events' first milestone, reviewed
          "ted_art.py", "ted_music.py", "ted_music_list.py", "ted_costumes.py", "ted_map_events.py", "ted_npc_looks.py",
-         "ted_quests.py"]
+         "ted_quests.py", "ted_audit.py"]
 # data held back from the public repository (none now: ted_monster_images.json's recolors became palette slots + T-Edition's
 # own colours, no PR colour values, accepted by the kit lead 2026-11-21; T-Edition's art may ship: every mod owner's permission)
 HELD_BACK = set()

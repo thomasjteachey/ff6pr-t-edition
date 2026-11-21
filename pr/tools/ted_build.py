@@ -83,7 +83,8 @@ def data_rules(folder, log=print):
         f.write(out.getvalue())
     _ensure_master_key(folder, "weapon")
     log(f"T-Edition data rules: weapon critical rate {rate} on {n} rows")
-    for rule in (growth_rule, relm_magic_rule, command_rule, dancing_dagger_rule, consumable_rule, shop_rule):
+    for rule in (growth_rule, relm_magic_rule, command_rule, dancing_dagger_rule, consumable_rule, shop_rule,
+                 desperation_rule):
         rule(folder, log)
     import ted_plugin_data   # the spec's rule 49: percent damage of current vs max HP (the TedPlugin session)
     ted_plugin_data.percent_damage(folder, log)
@@ -169,6 +170,21 @@ def growth_rule(folder, log=print):
     cs.save()
     log(f"T-Edition data rules: per-character growth: {rows} growth_curve rows in groups "
         f"{GROWTH_GROUP_BASE + 1}-{GROWTH_GROUP_BASE + 14}, {chars} character_status rows on them")
+
+
+DESPERATION_NEW = (226, 227)   # T-Edition's $FC Punish Meteor (Gogo) and $FD Aura Boost (Umaro): vanilla's ability type 621
+
+
+def desperation_rule(folder, log=print):
+    """Gogo's and Umaro's desperation attacks (T-Edition's $FC/$FD, PR abilities 226/227) as desperation rows like the
+    other 12 (228-239: type 620, condition group 414), so TedPlugin's TedDesperation picks them (the audit's M31). Their own
+    battle function groups (the attacks' effects) stay. Idempotent."""
+    ab = MasterRows(folder, "ability")
+    for a in DESPERATION_NEW:
+        row = ab.row(a)
+        row["type_id"], row["condition_group_id"] = "620", "414"
+    ab.save()
+    log(f"T-Edition data rules: desperation attacks {list(DESPERATION_NEW)} as type 620, condition group 414")
 
 
 def set_messages(folder, texts):
@@ -600,6 +616,7 @@ def _build(run_port, full, log):
     ted_art.apply(STAGE, log=log)
     import ted_music   # the song pack + bgm rules for BepInEx/TEdition/music (the TedPlugin session; not Magicite)
     ted_music.build(log=log)
+    ted_music.install_player(STAGE, log=log)   # the Extras music player's 175 rows and their names (audit: never installed)
     sources = [os.path.join(P.ROOT, "mods", s) for s in SIBLINGS if os.path.isdir(os.path.join(P.ROOT, "mods", s))]
     rep = merge_into(OUT, sources, full=full, log=log)
     for rel, who, what in rep.conflicts:
