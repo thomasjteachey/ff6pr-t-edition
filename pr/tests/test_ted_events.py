@@ -254,10 +254,12 @@ class WineOldMan(unittest.TestCase):
             del T.maps()["flags"][0x000]
 
     def test_flags_stay_off_treasure_flags(self):
-        # ted-maps gives T-Edition's 70 new chests treasure flags 300-369: the event flags are story flags
+        # ted-maps gives T-Edition's 70 new chests treasure flags 300-369 (vanilla's chests 0-272): the event flags
+        # are story flags, or treasure flags 512-767 (TreasureFlag3), which no chest or vanilla script uses
         with open(TE.ALLOC, encoding="utf-8") as f:
             alloc = json.load(f)
-        self.assertTrue(all(v[0].startswith("ScenarioFlag") for v in alloc.values()))
+        self.assertTrue(all(v[0].startswith("ScenarioFlag") or v[0] == "TreasureFlag3" for v in alloc.values()))
+        self.assertEqual(len(set(map(tuple, alloc.values()))), len(alloc))
 
     def test_battle_bits_are_flags(self):
         # the inn dreams' chapters (CD/CA60...) test T-Edition's own battle bits (B7 09, 3E, 2B): story flags ->
@@ -276,6 +278,17 @@ class WineOldMan(unittest.TestCase):
         lost = next(i for i in prog().code.values() if i.name == "if_battle_bit_clear" and i.args["bit"] == 0x40)
         ops, ok = t.instr(lost, False, None)
         self.assertFalse(any("battle bit" in (o.get("comment") or "") for o in ops or []))
+
+    def test_party_menu_and_walk_in_bits(self):
+        # vanilla's "change party members?" routine (CA/CB99: 99 81 00 00, bit 7 a mode bit) -> the PR's party menu
+        import event_translate as T
+        t = TE._translator_class()(prog().rom, "x", alloc=T.FlagAlloc(None), prog=prog())
+        ops, ok = t.instr(prog().code[(E.parse_addr("CA/CB99"), "field")], False, None)
+        self.assertEqual([(o["mnemonic"], o["operands"]["sValues"][0]) for o in ops], [("SysCall", T.PARTY_MENU.format("１"))])
+        # entrance tests of 1CC (an event's song carries over) and 1B6 (loaded by an event) are clear on a walk-in
+        self.assertEqual(t.cond(prog().code[(E.parse_addr("CD/3290"), "field")]), [])       # if 1CC set -> never
+        ops = t.cond(prog().code[(E.parse_addr("CD/4A90"), "field")])                       # if 1CC clear -> always
+        self.assertEqual([(o["mnemonic"], o["operands"]["iValues"][0]) for o in ops], [("Jump", "@L_034E00")])
 
     def test_tile_changes(self):
         # CA/13F4 draws a 3x4 picture over walls on map 126 (Map_20451_2): a passability change, its cells with a

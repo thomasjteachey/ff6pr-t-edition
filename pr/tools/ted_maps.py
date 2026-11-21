@@ -327,7 +327,11 @@ class Builder:
         """(PR map id, script id, name) for a room of map m: the last build's, else new ones."""
         if (m, key) in self.prev and (m, key) not in self.reused:
             self.reused.add((m, key))
-            return self.prev[(m, key)]
+            mid, name, sid = self.prev[(m, key)]
+            if name.rsplit("_", 1)[0] != folder:      # a convert whose look now comes from another group's rooms
+                name = self.new_name(group, folder)
+                self.notes["rooms that kept their ids under a new folder"] += 1
+            return mid, name, sid
         # a one-room map whose room changed source (a new snes_maps pair gave it a better PR room to copy):
         # it keeps its PR id and script id, and its name when the folder is the same (QA's batches, the
         # events and the merge hold the ids)
@@ -377,7 +381,30 @@ class Builder:
                      any(t.how != "layout" for t in pairs), -v)
             if best is None or score > best[0]:
                 best = (score, v, pairs)
-        return (best[1], best[2]) if best else (None, [])
+        return (best[1], self.by_world(m, best[2])) if best else (None, [])
+
+    _worlds = None
+
+    def by_world(self, m, pairs):
+        """`pairs` with the PR rooms of map m's own world first (each side's nearest world map by its doors:
+        T-Edition's exits, the PR's GotoMaps; snes_maps.world_labels): a World of Balance map copies the World
+        of Balance version of a room the PR keeps twice (Figaro Castle 20051 / 20441). Rooms of either world,
+        or of none known, count as agreeing; the table's order otherwise."""
+        if self._worlds is None:
+            import collections
+            g = collections.defaultdict(set)
+            for v in used_maps(self.data):
+                for e in SM.exits(self.data, v, TED):
+                    if e["dest"] < TED.maps and e["dest"] != v:
+                        g[v].add(e["dest"])
+                        g[e["dest"]].add(v)
+            self._worlds = (SM.world_labels(g, SM.WORLD_SOURCES),
+                            SM.world_labels(SM.PrDoors().graph(), SM.PR_WORLD_SOURCES))
+        ted_w, pr_w = self._worlds
+        mine = ted_w.get(m)
+        if not mine:
+            return pairs
+        return sorted(pairs, key=lambda t: 0 if not pr_w.get(t.pr) or pr_w[t.pr] & mine else 1)
 
     def spots(self, m):
         """Every SNES spot of map m something is placed at or arrives on."""

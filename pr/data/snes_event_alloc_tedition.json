@@ -199,6 +199,10 @@
 "ScenarioFlag4",
 100
 ],
+"0EA": [
+"ScenarioFlag4",
+243
+],
 "0EB": [
 "ScenarioFlag3",
 166
@@ -1143,235 +1147,375 @@
 "ScenarioFlag4",
 17
 ],
-"B01": [
-"ScenarioFlag3",
-238
-],
-"B02": [
-"ScenarioFlag4",
-215
-],
-"B03": [
-"ScenarioFlag4",
-213
-],
-"B04": [
-"ScenarioFlag4",
-211
-],
 "B05": [
-"ScenarioFlag4",
-209
+"ScenarioFlag3",
+31
 ],
 "B06": [
-"ScenarioFlag4",
-207
+"ScenarioFlag3",
+29
 ],
 "B07": [
 "ScenarioFlag3",
-254
-],
-"B08": [
-"ScenarioFlag3",
-237
-],
-"B09": [
-"ScenarioFlag3",
-234
-],
-"B0A": [
-"ScenarioFlag4",
-214
-],
-"B0B": [
-"ScenarioFlag4",
-216
-],
-"B0C": [
-"ScenarioFlag4",
-212
-],
-"B0D": [
-"ScenarioFlag4",
-217
-],
-"B0E": [
-"ScenarioFlag4",
-210
-],
-"B0F": [
-"ScenarioFlag4",
-218
+27
 ],
 "B10": [
-"ScenarioFlag4",
-208
-],
-"B11": [
-"ScenarioFlag4",
-219
+"ScenarioFlag3",
+30
 ],
 "B12": [
 "ScenarioFlag3",
-255
-],
-"B13": [
-"ScenarioFlag4",
-220
+28
 ],
 "B14": [
 "ScenarioFlag3",
-253
-],
-"B15": [
-"ScenarioFlag4",
-221
+26
 ],
 "B16": [
 "ScenarioFlag3",
-251
-],
-"B17": [
-"ScenarioFlag4",
-222
+24
 ],
 "B18": [
-"ScenarioFlag3",
-249
-],
-"B19": [
 "ScenarioFlag4",
-223
+255
 ],
 "B1A": [
-"ScenarioFlag3",
-247
-],
-"B1B": [
 "ScenarioFlag4",
-224
+253
 ],
 "B1C": [
-"ScenarioFlag3",
-245
-],
-"B1D": [
 "ScenarioFlag4",
-225
+251
 ],
 "B1E": [
-"ScenarioFlag3",
-243
-],
-"B1F": [
 "ScenarioFlag4",
-226
+249
 ],
 "B20": [
-"ScenarioFlag3",
-241
-],
-"B21": [
 "ScenarioFlag4",
-227
+247
 ],
 "B22": [
-"ScenarioFlag3",
-239
-],
-"B23": [
 "ScenarioFlag4",
-228
-],
-"B24": [
-"ScenarioFlag3",
-233
-],
-"B25": [
-"ScenarioFlag4",
-238
+245
 ],
 "B26": [
 "ScenarioFlag4",
-236
-],
-"B27": [
-"ScenarioFlag4",
-239
-],
-"B28": [
-"ScenarioFlag4",
-240
-],
-"B29": [
-"ScenarioFlag4",
-241
-],
-"B2A": [
-"ScenarioFlag4",
-237
-],
-"B2B": [
-"ScenarioFlag3",
-236
+244
 ],
 "B2C": [
 "ScenarioFlag3",
-252
+25
 ],
 "B2D": [
 "ScenarioFlag3",
-250
+23
 ],
 "B2E": [
+"ScenarioFlag4",
+254
+],
+"B2F": [
+"ScenarioFlag4",
+252
+],
+"B3B": [
+"ScenarioFlag4",
+250
+],
+"B3C": [
+"ScenarioFlag4",
+248
+],
+"B3D": [
+"ScenarioFlag4",
+246
+],
+"1000": [
+"TreasureFlag3",
+0
+],
+"1001": [
+"ScenarioFlag3",
+238
+],
+"1002": [
+"ScenarioFlag4",
+215
+],
+"1003": [
+"ScenarioFlag4",
+213
+],
+"1004": [
+"ScenarioFlag4",
+211
+],
+"1005": [
+"ScenarioFlag4",
+209
+],
+"1006": [
+"ScenarioFlag4",
+207
+],
+"1007": [
+"ScenarioFlag3",
+254
+],
+"1008": [
+"ScenarioFlag3",
+237
+],
+"1009": [
+"ScenarioFlag3",
+234
+],
+"100A": [
+"ScenarioFlag4",
+214
+],
+"100B": [
+"ScenarioFlag4",
+216
+],
+"100C": [
+"ScenarioFlag4",
+212
+],
+"100D": [
+"ScenarioFlag4",
+217
+],
+"100E": [
+"ScenarioFlag4",
+210
+],
+"100F": [
+"ScenarioFlag4",
+218
+],
+"1010": [
+"ScenarioFlag4",
+208
+],
+"1011": [
+"ScenarioFlag4",
+219
+],
+"1012": [
+"ScenarioFlag3",
+255
+],
+"1013": [
+"ScenarioFlag4",
+220
+],
+"1014": [
+"ScenarioFlag3",
+253
+],
+"1015": [
+"ScenarioFlag4",
+221
+],
+"1016": [
+"ScenarioFlag3",
+251
+],
+"1017": [
+"ScenarioFlag4",
+222
+],
+"1018": [
+"ScenarioFlag3",
+249
+],
+"1019": [
+"ScenarioFlag4",
+223
+],
+"101A": [
+"ScenarioFlag3",
+247
+],
+"101B": [
+"ScenarioFlag4",
+224
+],
+"101C": [
+"ScenarioFlag3",
+245
+],
+"101D": [
+"ScenarioFlag4",
+225
+],
+"101E": [
+"ScenarioFlag3",
+243
+],
+"101F": [
+"ScenarioFlag4",
+226
+],
+"1020": [
+"ScenarioFlag3",
+241
+],
+"1021": [
+"ScenarioFlag4",
+227
+],
+"1022": [
+"ScenarioFlag3",
+239
+],
+"1023": [
+"ScenarioFlag4",
+228
+],
+"1024": [
+"ScenarioFlag3",
+233
+],
+"1025": [
+"ScenarioFlag4",
+238
+],
+"1026": [
+"ScenarioFlag4",
+236
+],
+"1027": [
+"ScenarioFlag4",
+239
+],
+"1028": [
+"ScenarioFlag4",
+240
+],
+"1029": [
+"ScenarioFlag4",
+241
+],
+"102A": [
+"ScenarioFlag4",
+237
+],
+"102B": [
+"ScenarioFlag3",
+236
+],
+"102C": [
+"ScenarioFlag3",
+252
+],
+"102D": [
+"ScenarioFlag3",
+250
+],
+"102E": [
 "ScenarioFlag3",
 248
 ],
-"B2F": [
+"102F": [
 "ScenarioFlag3",
 246
 ],
-"B3B": [
+"103B": [
 "ScenarioFlag3",
 244
 ],
-"B3C": [
+"103C": [
 "ScenarioFlag3",
 242
 ],
-"B3D": [
+"103D": [
 "ScenarioFlag3",
 240
 ],
-"B3E": [
+"103E": [
 "ScenarioFlag3",
 235
 ],
-"B69": [
+"1041": [
+"TreasureFlag3",
+1
+],
+"1048": [
+"TreasureFlag3",
+2
+],
+"1049": [
+"TreasureFlag3",
+3
+],
+"104C": [
+"TreasureFlag3",
+4
+],
+"104D": [
+"TreasureFlag3",
+5
+],
+"1060": [
+"TreasureFlag3",
+6
+],
+"1061": [
+"TreasureFlag3",
+7
+],
+"1062": [
+"TreasureFlag3",
+8
+],
+"1063": [
+"TreasureFlag3",
+9
+],
+"1064": [
+"TreasureFlag3",
+10
+],
+"1065": [
+"TreasureFlag3",
+11
+],
+"1066": [
+"TreasureFlag3",
+12
+],
+"1067": [
+"TreasureFlag3",
+13
+],
+"1069": [
 "ScenarioFlag4",
 230
 ],
-"B6A": [
+"106A": [
 "ScenarioFlag4",
 232
 ],
-"B6B": [
+"106B": [
 "ScenarioFlag4",
 233
 ],
-"B6C": [
+"106C": [
 "ScenarioFlag4",
 234
 ],
-"B6D": [
+"106D": [
 "ScenarioFlag4",
 235
 ],
-"B6E": [
+"106E": [
 "ScenarioFlag4",
 229
 ],
-"B6F": [
+"106F": [
 "ScenarioFlag4",
 231
 ]

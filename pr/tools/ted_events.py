@@ -308,15 +308,7 @@ def _translator_class():
                     self.report[("map", "tiles redraw")] += 1
                     return [], True
                 a_ = ins.args
-                m, pr = self.snes_map, self.pr_map
-                if self.tile_map and self.tile_map[0] != self.snes_map:   # after a map load: that map's room
-                    import snes_maps as SM
-                    import ted_maps as TM
-                    m = self.tile_map[0]
-                    hit = (SM.to_pr if m < TM.VANILLA_MAPS else TM.to_pr)(m, *self.tile_map[1:])
-                    pr = hit[0] if hit else None
-                    if pr is None:
-                        return self.left(ins, "tiles on a map with no PR room")
+                m, pr = self.snes_map, self.pr_map      # after a map load: a child translator on that map
                 off = room_offset(m, pr) if m is not None else None
                 px, py = (a_["x"] + off[0], (a_["y"] & 0x3F) + off[1]) if off else (a_["x"], a_["y"] & 0x3F)
                 ents = tile_regions(pr, (px, py, max(1, a_["w"]), max(1, a_["h"])))
@@ -338,7 +330,7 @@ def _translator_class():
             if ins.name in ("battle_bit_set", "battle_bit_clear", "if_battle_bit_clear") and \
                     ins.args["bit"] not in VANILLA_BATTLE_BITS:
                 # T-Edition's own battle bits (B7-B9 on $1DC9+: 01-3E, 69-6F): story flags its events set and
-                # test (the inn dreams' chapters), saved like event bits -> its own PR flags (keys B00 + bit)
+                # test (the inn dreams' chapters), saved like event bits -> PR flags (allocator keys 1000 + bit, port_ai's)
                 import event_translate as T
                 cat, idx = self.flag(BATTLE_KEY + ins.args["bit"])
                 note = "SNES battle bit %02X" % ins.args["bit"]
@@ -497,9 +489,9 @@ def _translator_class():
                 else:
                     out.append(T.op("Jump", i=[target]))
                 return out + [T.lab(skip)]
+            bits = ins.args["bits"]
             # a test of an untied vanilla bit: dropped from the condition like the engine's bits (an "all"
             # takes it as met, an "any" as not met), noted as a stub
-            bits = ins.args["bits"]
             gone = [b for b, _ in bits if self.untied(b)]
             if not gone:
                 return super().cond(ins)
@@ -568,12 +560,7 @@ def _translator_class():
 
         vanilla_at = None    # {SNES address: PR script}: from there on the code is vanilla's, which that PR script does
 
-        tile_map = None      # (SNES map, x, y) of the scene's last map load: where its later tile changes draw
-
         def instr(self, ins, sub, last):
-            if ins.name in ("map", "map_fade") and ins.args.get("map", 0x1FF) < 0x1FF and \
-                    ins.args["map"] not in E.WORLD_MAPS:
-                self.tile_map = (ins.args["map"], ins.args.get("x", 0), ins.args.get("y", 0))
             if ins.name == "sound" and T_maps_se(ins.args["sound"]) is None and ted_se(ins.args["sound"]) is not None:
                 import event_translate as T
                 self.done[ins.cls] += 1
@@ -1050,22 +1037,6 @@ def _tile_model(m, pr_map, bg1, bg2):
     return _tile_models[(m, pr_map)]
 
 
-def _gids(pr_map, stack):
-    """A converter stack (atlas refs per layer) -> the PR map's gids (Bottom, Ground, Upper, Ceil; 0 = none),
-    or None when the map's tilemap lacks one of the atlases."""
-    import snes_rooms as R
-    first = {ts["name"]: ts["firstgid"] for ts in R._tilesets_of.get(pr_map, [])}
-    out = []
-    for r in stack:
-        if not r:
-            out.append(0)
-        elif r[0] in first:
-            out.append((first[r[0]] + (r[1] & ~R.FLIPS)) | (r[1] & R.FLIPS))
-        else:
-            return None
-    return tuple(out)
-
-
 _tile_writes = None
 
 
@@ -1104,93 +1075,58 @@ def tile_writes(prog=None):
 
 
 def tile_plan(m, pr_map, x, y, w, h, tiles, writes=None):
-    """T-Edition's tile change (73/74: x, y | layer << 6, w, h, tiles) on SNES map m, drawn on PR map pr_map
-    -> {"tag": "passability" | "cosmetic" | "none" | why not, "cells": [(px, py, source, attr)], "why": Counter}.
-    A changed cell's source: a cell (sx, sy) of the same PR map that shows the new look as the map loads (the
-    SNES layout's cells with the same new BG1/BG2 pair, and the same 4 neighbours if any; on a vanilla map
-    only where T-Edition's layout is vanilla's, which the PR drew; else a cell with the stack snes_rooms'
-    converter draws for it); else that stack as the map's gids (("gids", (Bottom, Ground, Upper, Ceil)));
-    else None. A cell the PR map already shows that way is left out, unless `writes` (tile_writes()) says
-    another event changes it: then it is put back (its own cell as the map loaded). Passability: a BG1
-    change between tiles with different SNES properties (walls, z-level, bridges, stairs, exits: the field
-    code's walking reads BG1's only); attr = the converter's PR collision value for the new tile (0
-    walkable, 1 blocked, 2-11 the PR's special cells), for a put-back cell the map's own."""
+    """T-Edition's tile change (73/74: x, y | layer << 6, w, h, tiles) on SNES map m, drawn on PR map pr_map (a vanilla
+    room or one of ted-maps' new ones): the kit's snes_rooms.tile_plan with T-Edition's layouts as its entrance event
+    leaves them, vanilla's layouts as what the PR drew (a vanilla map), its model and `writes` (tile_writes(): the cells
+    T-Edition's other changes write) -> {"tag", "cells": [(px, py, source, attr)], "why"}."""
     import snes_rooms as R
-    import ted_maps as TM
-    layer, y = y >> 6, y & 0x3F
-    if layer > 1:
-        return {"tag": "bg3", "cells": [], "why": collections.Counter()}
     off = room_offset(m, pr_map)
     cells = pr_cells(pr_map) if off else None
     if cells is None:
         return {"tag": "no PR tiles", "cells": [], "why": collections.Counter()}
-    dx, dy = off
     bg1, bg2, us, props = tile_layers(m)
-    if bg1 is None or (layer == 1 and bg2 is None):
-        return {"tag": "no layout", "cells": [], "why": collections.Counter()}
-    size = lambda L: (len(L[0]), len(L)) if L else (0, 0)
-    a1, a2, _ = TM.apply_tiles([bg1, bg2, None], (size(bg1), size(bg2), (0, 0)), [(x, y | layer << 6, w, h, tiles)])
-    at = lambda L, i, j: L[j][i] if L and 0 <= j < len(L) and 0 <= i < len(L[0]) else None
-    H, W = len(cells), len(cells[0])
-    L = a1 if layer == 0 else a2
-    writes = writes or {}
-    out, why, passab, mdl = [], collections.Counter(), False, None
-    for j in range(h):
-        for i in range(w):
-            cx, cy = (x + i) % len(L[0]), (y + j) % len(L)
-            old, new = (at(bg1, cx, cy), at(bg2, cx, cy)), (at(a1, cx, cy), at(a2, cx, cy))
-            px, py = cx + dx, cy + dy
-            if new[0] is None or not (0 <= px < W and 0 <= py < H):
-                why["off the PR map"] += 1
+    mine = {(k[1], k[2], k[3]): v for k, v in (writes or {}).items() if k[0] == m}
+    return R.tile_plan(cells, off, bg1, bg2, props, x, y, w, h, tiles, drawn=us,
+                       model=lambda: _tile_model(m, pr_map, bg1, bg2), tilesets=R._tilesets_of.get(pr_map), writes=mine)
+
+
+TILE_CELLS = os.path.join(E.P.ROOT, "data", "ted_tile_cells.json")
+
+
+def tile_cells(path=TILE_CELLS, log=print):
+    """TedPlugin's walkability table: {PR map: [[x, y, collision as the map loads], ...]} for every cell a T-Edition
+    tile change (any workstream's: the catalog's events) may make walkable or blocked, in every PR room of its SNES
+    map (vanilla rooms and ted-maps' new ones). The plugin keeps it per room and TED:tiles' ":attr" updates it.
+    Slow (every change planned in every room): `python tools/ted_events.py tilecells [path]`."""
+    import event_translate as T
+    import snes_maps as SM
+    import ted_maps as TM
+    prog = E.Program(load("ted")).walk_all()
+    writes = tile_writes(prog)
+    seen, out, n = set(), collections.defaultdict(dict), 0
+    for row in _json(CATALOG):
+        m = row["map"]
+        if m in E.WORLD_MAPS:
+            continue
+        rooms = ([mt.pr for mt in SM.pr_maps(m)] if m < TM.VANILLA_MAPS else []) + \
+                [r["pr_map"] for r in (TM.table()["maps"].get(str(m)) or {}).get("rooms", [])]
+        for ins in T.scene(prog, E.parse_addr(row["event"]), "field"):
+            if ins.op not in (0x73, 0x74) or (ins.off, m) in seen:
                 continue
-            back = writes.get((m, layer, cx, cy))
-            if old == new:
-                if back is None:
-                    why["unchanged"] += 1
-                else:
-                    why["put back"] += 1
-                    out.append((px, py, (px, py), cells[py][px][1] if back else None))
-                    passab |= bool(back)
-                continue
-            around = R._around(a1, cx, cy)
-            src, how = None, None
-            for rule in ("ctx", "pair"):
-                cand, pos = collections.Counter(), collections.defaultdict(list)
-                for sy in range(len(bg1)):
-                    for sx in range(len(bg1[0])):
-                        if (bg1[sy][sx], at(bg2, sx, sy)) != new or (rule == "ctx" and R._around(bg1, sx, sy) != around):
-                            continue
-                        if us is not None and us[0] is not None and (at(us[0], sx, sy), at(us[1], sx, sy)) != new:
-                            continue
-                        qx, qy = sx + dx, sy + dy
-                        if 0 <= qx < W and 0 <= qy < H and any(cells[qy][qx][0]):
-                            cand[cells[qy][qx][0]] += 1
-                            pos[cells[qy][qx][0]].append((qx, qy))
-                if cand:
-                    st = cand.most_common(1)[0][0]
-                    src, how = min(pos[st], key=lambda q: abs(q[0] - px) + abs(q[1] - py)), rule
-                    break
-            if src is None:
-                mdl = mdl or _tile_model(m, pr_map, bg1, bg2)
-                st, _ = mdl.stack(new[0], new[1], around, R._shape(a1, props, cx, cy))
-                st = tuple(st) if st else None
-                hits = [(qx, qy) for qy in range(H) for qx in range(W) if st and cells[qy][qx][0] == st]
-                if hits:
-                    src, how = min(hits, key=lambda q: abs(q[0] - px) + abs(q[1] - py)), "model"
-                elif st and _gids(pr_map, st):
-                    src, how = ("gids", _gids(pr_map, st)), "gids"
-            if src is not None and src[0] != "gids" and cells[src[1]][src[0]][0] == cells[py][px][0] and back is None:
-                why["PR already shows it"] += 1
-                continue
-            attr = None
-            if layer == 0 and props[old[0]] != props[new[0]]:
-                passab = True
-                mdl = mdl or _tile_model(m, pr_map, bg1, bg2)
-                attr = mdl.collision(new[0], new[1], props[new[0]])
-            why[how or "no source"] += 1
-            out.append((px, py, src, attr))
-    tag = "none" if not out else "passability" if passab else "cosmetic"
-    return {"tag": tag, "cells": out, "why": why}
+            seen.add((ins.off, m))
+            a = ins.args
+            for pr in dict.fromkeys(rooms):
+                p = tile_plan(m, pr, a["x"], a["y"], a["w"], a["h"], bytes(ins.raw[5:]), writes)
+                cells = pr_cells(pr) if p["cells"] else None
+                for px, py, _, attr in p["cells"]:
+                    if attr is not None:
+                        out[pr][(px, py)] = cells[py][px][1]
+                n += 1
+    doc = {pr: [[x, y, c] for (x, y), c in sorted(v.items(), key=lambda kv: (kv[0][1], kv[0][0]))]
+           for pr, v in sorted(out.items())}
+    T.write_json(path, doc, indent=0)
+    log("tile cells: %d plans, %d rooms, %d cells -> %s" % (n, len(doc), sum(len(v) for v in doc.values()), path))
+    return doc
 
 
 def tiles_syscall(cells):
@@ -1302,7 +1238,8 @@ def nop_stubs(sc):
     return out
 
 
-BATTLE_KEY = 0xB00                       # flag allocator key of battle bit b: B00 + b (event bits are 000-6FF)
+BATTLE_KEY = 0x1000     # flag allocator key of battle bit b: 1000 + b, the kit's (port_ai event_bits: SnesAiHost
+                        # loads/saves those flags around a fight, so fights and scenes share them)
 # the battle bits vanilla's events use (38-3A, 40 lost battle, 41-4D): left to event_translate; T-Edition's own
 # (01-3E, 69-6F) are story flags its events set and test
 VANILLA_BATTLE_BITS = frozenset(range(0x38, 0x3B)) | frozenset(range(0x40, 0x50))
@@ -1355,6 +1292,11 @@ def npc_object(px, py, eid, look, direction, script_id, name):
     return {"gid": 1024, "height": 16, "id": eid, "name": name, "rotation": 0, "type": "", "visible": True,
             "width": 16, "x": px * 16, "y": (py + 1) * 16,
             "properties": [{"name": n, "type": t, "value": vals.get(n, v)} for n, t, v in _NPC_PROPS]}
+
+
+# load scripts another T-Edition workstream ships (one owner per map script): ted-ex's TEditionQuests places vanilla
+# NPCs the PR dropped in these rooms (11-21)
+OTHERS_MAP_SCRIPTS = {"sc_map_20270", "sc_map_20460", "sc_map_30641_5", "sc_map_30811_5"}
 
 
 def map_script_name(pr_map):
@@ -1568,9 +1510,11 @@ class ScriptIds:
 
 # The PR's flags no vanilla script or master table uses (one 1024-flag array, ScenarioFlag1-4 x 256; the
 # minimap's map_flag uses SF4 132-206): T-Edition's own bits get these, in this order. 366 flags for the 262
-# bits only T-Edition uses (2026-11-20 count over every catalog event).
+# bits only T-Edition uses (2026-11-20 count over every catalog event); full on 11-21 with the battle bits, so
+# also TreasureFlag3 (the PR's 1024 treasure flags 512-767: chests use 0-272, ted-maps' new chests 300-369, no
+# vanilla script or map object touches 512+ but TreasureFlag4 135/136, the airship's): 256 more.
 FLAG_RANGES = (("ScenarioFlag4", 0, 131), ("ScenarioFlag3", 80, 255), ("ScenarioFlag4", 207, 255),
-               ("ScenarioFlag3", 23, 31))
+               ("ScenarioFlag3", 23, 31), ("TreasureFlag3", 0, 255))
 
 
 def flag_alloc(path=None, persist=True):
@@ -1990,11 +1934,14 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
                   json.dumps(doc, ensure_ascii=False, separators=(",", ":")), key="%s/%s" % (pr_map, lay))
     # the rooms' map scripts: hide each added NPC while its SNES show bit is clear (a vanilla show bit the
     # PR has no tie for: always shown), then the PR's own map script (grafted in)
-    hidden = []
+    hidden, left_owner = [], []
     for pr_map in sorted(set(prologue) | set(entrances)):
         items = prologue.get(pr_map, [])
         ms = map_script_name(pr_map)
         if ms is None:
+            continue
+        if ms in OTHERS_MAP_SCRIPTS:           # one owner per load script: another workstream ships it
+            left_owner.append(ms)
             continue
         t = Tr(rom, ms, snes_map=(items or entrances[pr_map])[0][0], alloc=alloc, prog=prog, pr_map=pr_map)
         ops = []
@@ -2023,11 +1970,17 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
         packages.setdefault((group, folder), {}).setdefault(pr_map, [])
     if report:
         report[0].setdefault("build", {}).update({"added_npcs": sum(len(v) for v in new_objs.values()),
-                                                 "hidden_by_map_script": len(hidden), "standins": standins})
+                                                 "hidden_by_map_script": len(hidden), "standins": standins,
+                                                 "map_scripts_left_to_owner": left_owner})
     mod.text("story_mes_en").update(texts.mes)
     mod.text("story_cha_en").update(texts.cha)
     if write:
         mod.write()
+        if owner == "ted-events" and os.path.exists(TILE_CELLS):
+            # TedPlugin's walkability table for TED:tiles (top level: ted_build merges it into mods/TEdition, the
+            # test install copies that folder's *.json to BepInEx/TEdition)
+            import shutil
+            shutil.copyfile(TILE_CELLS, os.path.join(out, os.path.basename(TILE_CELLS)))
         alloc.save()
         ids.save()
         T.write_json(report_file, report, ensure_ascii=False, indent=1)
@@ -2258,6 +2211,11 @@ def readme_table(write=True):
     if write:
         T.write_json(os.path.join(E.P.ROOT, "data", "snes_event_ted_readme.json"), out, ensure_ascii=False, indent=1)
     return out
+
+
+if __name__ == "__main__" and sys.argv[1:2] == ["tilecells"]:
+    tile_cells(sys.argv[2] if len(sys.argv) > 2 else TILE_CELLS)
+    sys.exit(0)
 
 
 if __name__ == "__main__" and sys.argv[1:2] == ["readme"]:

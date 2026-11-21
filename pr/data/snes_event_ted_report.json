@@ -63,7 +63,7 @@
    "wait ok": 3
   },
   "build": {
-   "added_npcs": 40,
+   "added_npcs": 48,
    "hidden_by_map_script": 18,
    "standins": [
     {
@@ -164,8 +164,36 @@
      "look": 51,
      "entity": 5037,
      "event": "CB/B7EE"
+    },
+    {
+     "sprite": 12,
+     "snes_map": 7,
+     "npc": 18,
+     "pr_map": "Map_20171_2",
+     "look": 51,
+     "entity": 5042,
+     "event": "CB/43CA"
+    },
+    {
+     "sprite": 13,
+     "snes_map": 7,
+     "npc": 19,
+     "pr_map": "Map_20171_2",
+     "look": 51,
+     "entity": 5043,
+     "event": "CB/43D2"
+    },
+    {
+     "sprite": 12,
+     "snes_map": 12,
+     "npc": 12,
+     "pr_map": "Map_20391_1",
+     "look": 51,
+     "entity": 5047,
+     "event": "CA/3F73"
     }
-   ]
+   ],
+   "map_scripts_left_to_owner": []
   }
  },
  {
@@ -3900,6 +3928,1456 @@
    "object ok": 20,
    "sound ok": 3,
    "wait ok": 8
+  }
+ },
+ {
+  "event": "CB/42AA",
+  "script": "sc_ted_cb42aa",
+  "pr_map": "Map_20171_2",
+  "translated": {
+   "flow": 91,
+   "dialog": 4,
+   "object": 68,
+   "party": 50,
+   "menu": 2,
+   "flag": 3,
+   "map": 4,
+   "sound": 4,
+   "screen": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0420",
+    "entity": 14,
+    "was": "sc_e_0420",
+    "now": "sc_ted_cb42aa_l0420",
+    "script_id": 11019,
+    "object_type": 6
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 3,
+   "flag NPC show bit, no NPC here": 2,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 61,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object NPC show bit -> Hide": 12,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4
+  }
+ },
+ {
+  "event": "CB/42C2",
+  "script": "sc_ted_cb42c2",
+  "pr_map": "Map_20171_2",
+  "translated": {
+   "flow": 91,
+   "dialog": 4,
+   "object": 68,
+   "party": 50,
+   "menu": 2,
+   "flag": 3,
+   "map": 4,
+   "sound": 4,
+   "screen": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0419",
+    "entity": 15,
+    "was": "sc_e_0419",
+    "now": "sc_ted_cb42c2_l0419",
+    "script_id": 11020,
+    "object_type": 6
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 3,
+   "flag NPC show bit, no NPC here": 2,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 61,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object NPC show bit -> Hide": 12,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4
+  }
+ },
+ {
+  "event": "CB/42DA",
+  "script": "sc_ted_cb42da",
+  "pr_map": "Map_20171_2",
+  "translated": {
+   "flow": 91,
+   "dialog": 4,
+   "object": 68,
+   "party": 50,
+   "menu": 2,
+   "flag": 3,
+   "map": 4,
+   "sound": 4,
+   "screen": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0415",
+    "entity": 19,
+    "was": "sc_e_0415",
+    "now": "sc_ted_cb42da_l0415",
+    "script_id": 11021,
+    "object_type": 6
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 3,
+   "flag NPC show bit, no NPC here": 2,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 61,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object NPC show bit -> Hide": 12,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4
+  }
+ },
+ {
+  "event": "CB/42F2",
+  "script": "sc_ted_cb42f2",
+  "pr_map": "Map_20171_2",
+  "translated": {
+   "flow": 91,
+   "dialog": 4,
+   "object": 69,
+   "party": 50,
+   "menu": 2,
+   "flag": 2,
+   "map": 4,
+   "sound": 4,
+   "screen": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 5040,
+    "was": null,
+    "now": "sc_ted_cb42f2_new",
+    "script_id": 11022,
+    "new": true
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 3,
+   "flag NPC show bit, no NPC here": 1,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 61,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object NPC show bit -> Hide": 13,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4
+  }
+ },
+ {
+  "event": "CB/430A",
+  "script": "sc_ted_cb430a",
+  "pr_map": "Map_20171_2",
+  "translated": {
+   "flow": 91,
+   "dialog": 4,
+   "object": 69,
+   "party": 50,
+   "menu": 2,
+   "flag": 2,
+   "map": 4,
+   "sound": 4,
+   "screen": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0416",
+    "entity": 18,
+    "was": "sc_e_0416",
+    "now": "sc_ted_cb430a_l0416",
+    "script_id": 11023,
+    "object_type": 6
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 3,
+   "flag NPC show bit, no NPC here": 1,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 61,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object NPC show bit -> Hide": 13,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4
+  }
+ },
+ {
+  "event": "CB/4322",
+  "script": "sc_ted_cb4322",
+  "pr_map": "Map_20171_2",
+  "translated": {
+   "flow": 91,
+   "dialog": 4,
+   "object": 69,
+   "party": 50,
+   "menu": 2,
+   "flag": 2,
+   "map": 4,
+   "sound": 4,
+   "screen": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0417",
+    "entity": 17,
+    "was": "sc_e_0417",
+    "now": "sc_ted_cb4322_l0417",
+    "script_id": 11024,
+    "object_type": 6
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 3,
+   "flag NPC show bit, no NPC here": 1,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 61,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object NPC show bit -> Hide": 13,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4
+  }
+ },
+ {
+  "event": "CB/433A",
+  "script": "sc_ted_cb433a",
+  "pr_map": "Map_20171_2",
+  "translated": {
+   "flow": 91,
+   "dialog": 4,
+   "object": 69,
+   "party": 50,
+   "menu": 2,
+   "flag": 2,
+   "map": 4,
+   "sound": 4,
+   "screen": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0561",
+    "entity": 13,
+    "was": "sc_e_0561",
+    "now": "sc_ted_cb433a_l0561",
+    "script_id": 11025,
+    "object_type": 6
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 3,
+   "flag NPC show bit, no NPC here": 1,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 61,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object NPC show bit -> Hide": 13,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4
+  }
+ },
+ {
+  "event": "CB/4352",
+  "script": "sc_ted_cb4352",
+  "pr_map": "Map_20171_2",
+  "translated": {
+   "flow": 91,
+   "dialog": 4,
+   "object": 69,
+   "party": 50,
+   "menu": 2,
+   "flag": 2,
+   "map": 4,
+   "sound": 4,
+   "screen": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0563",
+    "entity": 11,
+    "was": "sc_e_0563",
+    "now": "sc_ted_cb4352_l0563",
+    "script_id": 11026,
+    "object_type": 6
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 3,
+   "flag NPC show bit, no NPC here": 1,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 61,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object NPC show bit -> Hide": 13,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4
+  }
+ },
+ {
+  "event": "CB/436A",
+  "script": "sc_ted_cb436a",
+  "pr_map": "Map_20171_2",
+  "translated": {
+   "flow": 91,
+   "dialog": 4,
+   "object": 69,
+   "party": 50,
+   "menu": 2,
+   "flag": 2,
+   "map": 4,
+   "sound": 4,
+   "screen": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0562",
+    "entity": 12,
+    "was": "sc_e_0562",
+    "now": "sc_ted_cb436a_l0562",
+    "script_id": 11027,
+    "object_type": 6
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 3,
+   "flag NPC show bit, no NPC here": 1,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 61,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object NPC show bit -> Hide": 13,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4
+  }
+ },
+ {
+  "event": "CB/4382",
+  "script": "sc_ted_cb4382",
+  "pr_map": "Map_20171_2",
+  "translated": {
+   "flow": 91,
+   "dialog": 4,
+   "object": 69,
+   "party": 50,
+   "menu": 2,
+   "flag": 2,
+   "map": 4,
+   "sound": 4,
+   "screen": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0418",
+    "entity": 16,
+    "was": "sc_e_0418",
+    "now": "sc_ted_cb4382_l0418",
+    "script_id": 11028,
+    "object_type": 6
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 3,
+   "flag NPC show bit, no NPC here": 1,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 61,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object NPC show bit -> Hide": 13,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4
+  }
+ },
+ {
+  "event": "CB/439A",
+  "script": "sc_ted_cb439a",
+  "pr_map": "Map_20171_2",
+  "translated": {
+   "flow": 91,
+   "dialog": 4,
+   "object": 69,
+   "party": 50,
+   "menu": 2,
+   "flag": 2,
+   "map": 4,
+   "sound": 4,
+   "screen": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 5041,
+    "was": null,
+    "now": "sc_ted_cb439a_new",
+    "script_id": 11029,
+    "new": true
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 3,
+   "flag NPC show bit, no NPC here": 1,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 61,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object NPC show bit -> Hide": 13,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4
+  }
+ },
+ {
+  "event": "CB/43B2",
+  "script": "sc_ted_cb43b2",
+  "pr_map": "Map_20171_2",
+  "translated": {
+   "flow": 91,
+   "dialog": 4,
+   "object": 69,
+   "party": 50,
+   "menu": 2,
+   "flag": 2,
+   "map": 4,
+   "sound": 4,
+   "screen": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0414",
+    "entity": 20,
+    "was": "sc_e_0414",
+    "now": "sc_ted_cb43b2_l0414",
+    "script_id": 11030,
+    "object_type": 6
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 3,
+   "flag NPC show bit, no NPC here": 1,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 61,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object NPC show bit -> Hide": 13,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4
+  }
+ },
+ {
+  "event": "CB/43CA",
+  "script": "sc_ted_cb43ca",
+  "pr_map": "Map_20171_2",
+  "translated": {
+   "dialog": 3,
+   "flow": 88,
+   "object": 69,
+   "party": 50,
+   "menu": 2,
+   "flag": 2,
+   "map": 4,
+   "sound": 4,
+   "screen": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 5042,
+    "was": null,
+    "now": "sc_ted_cb43ca_new",
+    "script_id": 11031,
+    "new": true
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 2,
+   "flag NPC show bit, no NPC here": 1,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 58,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object NPC show bit -> Hide": 13,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4
+  }
+ },
+ {
+  "event": "CB/43D2",
+  "script": "sc_ted_cb43d2",
+  "pr_map": "Map_20171_2",
+  "translated": {
+   "dialog": 3,
+   "flow": 88,
+   "object": 70,
+   "party": 50,
+   "menu": 2,
+   "map": 4,
+   "sound": 4,
+   "screen": 4,
+   "flag": 1
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 5043,
+    "was": null,
+    "now": "sc_ted_cb43d2_new",
+    "script_id": 11032,
+    "new": true
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 2,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 58,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object NPC show bit -> Hide": 14,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4
+  }
+ },
+ {
+  "event": "CD/2CE0",
+  "script": "sc_ted_cd2ce0",
+  "pr_map": "Map_20391_1",
+  "translated": {
+   "flow": 96,
+   "dialog": 5,
+   "object": 56,
+   "party": 50,
+   "menu": 2,
+   "flag": 15,
+   "map": 4,
+   "sound": 4,
+   "screen": 4,
+   "wait": 1
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 5044,
+    "was": null,
+    "now": "sc_ted_cd2ce0_new",
+    "script_id": 11033,
+    "new": true
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 4,
+   "flag NPC show bit, no NPC here": 14,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 66,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4,
+   "wait ok": 1
+  }
+ },
+ {
+  "event": "CD/37B0",
+  "script": "sc_ted_cd37b0",
+  "pr_map": "Map_20391_1",
+  "translated": {
+   "flow": 96,
+   "dialog": 5,
+   "object": 56,
+   "party": 50,
+   "menu": 2,
+   "flag": 15,
+   "map": 4,
+   "sound": 4,
+   "screen": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0713",
+    "entity": 0,
+    "was": "sc_e_0713",
+    "now": "sc_ted_cd37b0_l0713",
+    "script_id": 11034,
+    "object_type": 6
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 4,
+   "flag NPC show bit, no NPC here": 14,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 66,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4
+  }
+ },
+ {
+  "event": "CA/3F2B",
+  "script": "sc_ted_ca3f2b",
+  "pr_map": "Map_20391_1",
+  "translated": {
+   "dialog": 3,
+   "flow": 88,
+   "object": 56,
+   "party": 50,
+   "menu": 2,
+   "flag": 15,
+   "map": 4,
+   "sound": 4,
+   "screen": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0716",
+    "entity": 0,
+    "was": "sc_e_0716",
+    "now": "sc_ted_ca3f2b_l0716",
+    "script_id": 11035,
+    "object_type": 6
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 2,
+   "flag NPC show bit, no NPC here": 14,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 58,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4
+  }
+ },
+ {
+  "event": "CA/3F3B",
+  "script": "sc_ted_ca3f3b",
+  "pr_map": "Map_20391_1",
+  "translated": {
+   "dialog": 3,
+   "flow": 88,
+   "object": 56,
+   "party": 50,
+   "menu": 2,
+   "flag": 15,
+   "map": 4,
+   "sound": 4,
+   "screen": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 5045,
+    "was": null,
+    "now": "sc_ted_ca3f3b_new",
+    "script_id": 11036,
+    "new": true
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 2,
+   "flag NPC show bit, no NPC here": 14,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 58,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4
+  }
+ },
+ {
+  "event": "CA/3F43",
+  "script": "sc_ted_ca3f43",
+  "pr_map": "Map_20391_1",
+  "translated": {
+   "dialog": 3,
+   "flow": 88,
+   "object": 56,
+   "party": 50,
+   "menu": 2,
+   "flag": 15,
+   "map": 4,
+   "sound": 4,
+   "screen": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0717",
+    "entity": 0,
+    "was": "sc_e_0717",
+    "now": "sc_ted_ca3f43_l0717",
+    "script_id": 11037,
+    "object_type": 6
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 2,
+   "flag NPC show bit, no NPC here": 14,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 58,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4
+  }
+ },
+ {
+  "event": "CD/2D00",
+  "script": "sc_ted_cd2d00",
+  "pr_map": "Map_20391_1",
+  "translated": {
+   "flow": 96,
+   "dialog": 5,
+   "object": 56,
+   "party": 50,
+   "menu": 2,
+   "flag": 15,
+   "map": 4,
+   "sound": 4,
+   "screen": 4,
+   "wait": 1
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 5046,
+    "was": null,
+    "now": "sc_ted_cd2d00_new",
+    "script_id": 11038,
+    "new": true
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 4,
+   "flag NPC show bit, no NPC here": 14,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 66,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4,
+   "wait ok": 1
+  }
+ },
+ {
+  "event": "CA/3F73",
+  "script": "sc_ted_ca3f73",
+  "pr_map": "Map_20391_1",
+  "translated": {
+   "dialog": 3,
+   "flow": 88,
+   "object": 56,
+   "party": 50,
+   "menu": 2,
+   "flag": 15,
+   "map": 4,
+   "sound": 4,
+   "screen": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 5047,
+    "was": null,
+    "now": "sc_ted_ca3f73_new",
+    "script_id": 11039,
+    "new": true
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 2,
+   "flag NPC show bit, no NPC here": 14,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 58,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4
+  }
+ },
+ {
+  "event": "CA/3F7B",
+  "script": "sc_ted_ca3f7b",
+  "pr_map": "Map_20391_1",
+  "translated": {
+   "dialog": 3,
+   "flow": 88,
+   "object": 56,
+   "party": 50,
+   "menu": 2,
+   "flag": 15,
+   "map": 4,
+   "sound": 4,
+   "screen": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0714",
+    "entity": 0,
+    "was": "sc_e_0714",
+    "now": "sc_ted_ca3f7b_l0714",
+    "script_id": 11040,
+    "object_type": 6
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 2,
+   "flag NPC show bit, no NPC here": 14,
+   "flag scratch": 1,
+   "flow case load": 2,
+   "flow ok": 58,
+   "flow party check": 28,
+   "map learned arrival": 4,
+   "menu ok": 2,
+   "object no-op": 8,
+   "object ok": 48,
+   "party guest out": 2,
+   "party no-op": 2,
+   "party ok": 28,
+   "party party slot": 2,
+   "party party switch": 2,
+   "party status cure": 14,
+   "screen ok": 4,
+   "sound ok": 4
+  }
+ },
+ {
+  "event": "CD/3290",
+  "script": "sc_ted_cd3290",
+  "pr_map": "Map_20011_6",
+  "translated": {
+   "flow": 5,
+   "sound": 2
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "sc_map_20011_6",
+    "entity": null,
+    "was": "sc_map_20011_6",
+    "now": "sc_ted_cd3290_m20011_6",
+    "script_id": null,
+    "entrance": true
+   },
+   {
+    "layer": "sc_map_20011_7",
+    "entity": null,
+    "was": "sc_map_20011_7",
+    "now": "sc_ted_cd3290_m20011_7",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20011_7"
+   },
+   {
+    "layer": "sc_map_20011_5",
+    "entity": null,
+    "was": "sc_map_20011_5",
+    "now": "sc_ted_cd3290_m20011_5",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20011_5"
+   },
+   {
+    "layer": "sc_map_20011_14",
+    "entity": null,
+    "was": "sc_map_20011_14",
+    "now": "sc_ted_cd3290_m20011_14",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20011_14"
+   },
+   {
+    "layer": "sc_map_20011_11",
+    "entity": null,
+    "was": "sc_map_20011_11",
+    "now": "sc_ted_cd3290_m20011_11",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20011_11"
+   },
+   {
+    "layer": "sc_map_20011_12",
+    "entity": null,
+    "was": "sc_map_20011_12",
+    "now": "sc_ted_cd3290_m20011_12",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20011_12"
+   },
+   {
+    "layer": "sc_map_20011_8",
+    "entity": null,
+    "was": "sc_map_20011_8",
+    "now": "sc_ted_cd3290_m20011_8",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20011_8"
+   },
+   {
+    "layer": "sc_map_20011_10",
+    "entity": null,
+    "was": "sc_map_20011_10",
+    "now": "sc_ted_cd3290_m20011_10",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20011_10"
+   }
+  ],
+  "detail": {
+   "flow engine bit (as on a walk-in)": 1,
+   "flow ok": 5,
+   "sound ok": 2
+  }
+ },
+ {
+  "event": "CC/3950",
+  "script": "sc_ted_cc3950",
+  "pr_map": "Map_20011_10",
+  "translated": {
+   "flow": 6,
+   "sound": 2,
+   "object": 1
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "sc_map_20011_10",
+    "entity": null,
+    "was": "sc_map_20011_10",
+    "now": "sc_ted_cc3950_m20011_10",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/3956"
+   },
+   {
+    "layer": "sc_map_20011_5",
+    "entity": null,
+    "was": "sc_map_20011_5",
+    "now": "sc_ted_cc3950_m20011_5",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/3956",
+    "room": "Map_20011_5"
+   },
+   {
+    "layer": "sc_map_20011_14",
+    "entity": null,
+    "was": "sc_map_20011_14",
+    "now": "sc_ted_cc3950_m20011_14",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/3956",
+    "room": "Map_20011_14"
+   },
+   {
+    "layer": "sc_map_20011_11",
+    "entity": null,
+    "was": "sc_map_20011_11",
+    "now": "sc_ted_cc3950_m20011_11",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/3956",
+    "room": "Map_20011_11"
+   },
+   {
+    "layer": "sc_map_20011_12",
+    "entity": null,
+    "was": "sc_map_20011_12",
+    "now": "sc_ted_cc3950_m20011_12",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/3956",
+    "room": "Map_20011_12"
+   },
+   {
+    "layer": "sc_map_20011_8",
+    "entity": null,
+    "was": "sc_map_20011_8",
+    "now": "sc_ted_cc3950_m20011_8",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/3956",
+    "room": "Map_20011_8"
+   },
+   {
+    "layer": "sc_map_20011_6",
+    "entity": null,
+    "was": "sc_map_20011_6",
+    "now": "sc_ted_cc3950_m20011_6",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/3956",
+    "room": "Map_20011_6"
+   },
+   {
+    "layer": "sc_map_20011_9",
+    "entity": null,
+    "was": "sc_map_20011_9",
+    "now": "sc_ted_cc3950_m20011_9",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/3956",
+    "room": "Map_20011_9"
+   }
+  ],
+  "detail": {
+   "flow engine bit (as on a walk-in)": 2,
+   "flow ok": 6,
+   "object camera": 1,
+   "object ok": 1,
+   "sound ok": 2
+  }
+ },
+ {
+  "event": "EA/0960",
+  "script": "sc_ted_ea0960",
+  "pr_map": "Map_20011_1",
+  "translated": {
+   "map": 3,
+   "flow": 5,
+   "sound": 2
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "sc_map_20011_1",
+    "entity": null,
+    "was": "sc_map_20011_1",
+    "now": "sc_ted_ea0960_m20011_1",
+    "script_id": null,
+    "entrance": true
+   }
+  ],
+  "detail": {
+   "flow engine bit (as on a walk-in)": 1,
+   "flow ok": 5,
+   "map tiles -> CueAnim": 1,
+   "map tiles: the PR map shows it": 2,
+   "sound ok": 2
+  }
+ },
+ {
+  "event": "CD/4A90",
+  "script": "sc_ted_cd4a90",
+  "pr_map": "Map_20011_4",
+  "translated": {
+   "flow": 5,
+   "sound": 2
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "sc_map_20011_4",
+    "entity": null,
+    "was": "sc_map_20011_4",
+    "now": "sc_ted_cd4a90_m20011_4",
+    "script_id": null,
+    "entrance": true
+   },
+   {
+    "layer": "sc_map_20131_3",
+    "entity": null,
+    "was": "sc_map_20131_3",
+    "now": "sc_ted_cd4a90_m20131_3",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20131_3"
+   },
+   {
+    "layer": "sc_map_20131_4",
+    "entity": null,
+    "was": "sc_map_20131_4",
+    "now": "sc_ted_cd4a90_m20131_4",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20131_4"
+   },
+   {
+    "layer": "sc_map_20381_1",
+    "entity": null,
+    "was": "sc_map_20381_1",
+    "now": "sc_ted_cd4a90_m20381_1",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20381_1"
+   },
+   {
+    "layer": "sc_map_20131_2",
+    "entity": null,
+    "was": "sc_map_20131_2",
+    "now": "sc_ted_cd4a90_m20131_2",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20131_2"
+   },
+   {
+    "layer": "sc_map_20381_4",
+    "entity": null,
+    "was": "sc_map_20381_4",
+    "now": "sc_ted_cd4a90_m20381_4",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20381_4"
+   }
+  ],
+  "detail": {
+   "flow engine bit (as on a walk-in)": 1,
+   "flow ok": 5,
+   "sound ok": 2
+  }
+ },
+ {
+  "event": "CE/76B0",
+  "script": "sc_ted_ce76b0",
+  "pr_map": "Map_20011_2",
+  "translated": {
+   "flow": 5,
+   "sound": 2
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "sc_map_20011_2",
+    "entity": null,
+    "was": "sc_map_20011_2",
+    "now": "sc_ted_ce76b0_m20011_2",
+    "script_id": null,
+    "entrance": true
+   },
+   {
+    "layer": "sc_map_20131_3",
+    "entity": null,
+    "was": "sc_map_20131_3",
+    "now": "sc_ted_ce76b0_m20131_3",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20131_3"
+   },
+   {
+    "layer": "sc_map_20131_4",
+    "entity": null,
+    "was": "sc_map_20131_4",
+    "now": "sc_ted_ce76b0_m20131_4",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20131_4"
+   },
+   {
+    "layer": "sc_map_20381_1",
+    "entity": null,
+    "was": "sc_map_20381_1",
+    "now": "sc_ted_ce76b0_m20381_1",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20381_1"
+   },
+   {
+    "layer": "sc_map_20131_2",
+    "entity": null,
+    "was": "sc_map_20131_2",
+    "now": "sc_ted_ce76b0_m20131_2",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20131_2"
+   },
+   {
+    "layer": "sc_map_20381_4",
+    "entity": null,
+    "was": "sc_map_20381_4",
+    "now": "sc_ted_ce76b0_m20381_4",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20381_4"
+   }
+  ],
+  "detail": {
+   "flow engine bit (as on a walk-in)": 1,
+   "flow ok": 5,
+   "sound ok": 2
   }
  }
 ]

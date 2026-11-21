@@ -1,16 +1,16 @@
 {
  "stats": {
   "npcs": 455,
-  "stubs as nops": 2061,
-  "entrances": 74,
+  "stubs as nops": 2054,
+  "entrances": 80,
   "scripts": 262,
   "tiles": 162,
   "npcs shown always (untied vanilla bit)": 48,
   "special-graphics npcs (decorations)": 19,
   "ted-ex tiles": 15,
-  "ted-ex entrances": 13,
+  "ted-ex entrances": 14,
   "ted-ex npcs": 61,
-  "scripts for vanilla maps (skipped)": 5
+  "scripts for vanilla maps (skipped)": 6
  },
  "events": [
   {
@@ -353,8 +353,7 @@
    "pr_map": "Map_30040_1",
    "stubs": {
     "screen": 1,
-    "map": 1,
-    "flow": 1
+    "map": 1
    },
    "translated": {
     "flow": 3,
@@ -389,11 +388,10 @@
    "event": "CD08A0",
    "kind": "npc",
    "map": 431,
-   "pr_map": "Map_30761_6",
+   "pr_map": "Map_30641_12",
    "script": "sc_tedm_0308A0",
    "script_id": 9611,
    "stubs": {
-    "menu": 1,
     "party": 2
    },
    "translated": {
@@ -401,6 +399,7 @@
     "dialog": 2,
     "object": 58,
     "party": 39,
+    "menu": 1,
     "camera": 2,
     "screen": 1
    }
@@ -409,7 +408,7 @@
    "event": "CC9AE1",
    "kind": "tile",
    "map": 431,
-   "pr_map": "Map_30761_6",
+   "pr_map": "Map_30641_12",
    "script": "sc_tedm_029AE1",
    "script_id": 9612,
    "stubs": {
@@ -429,7 +428,7 @@
    "event": "CD0890",
    "kind": "tile",
    "map": 431,
-   "pr_map": "Map_30761_6",
+   "pr_map": "Map_30641_12",
    "script": "sc_tedm_030890",
    "script_id": 9613,
    "stubs": {},
@@ -447,7 +446,6 @@
    "script": "sc_tedm_030980",
    "script_id": 9614,
    "stubs": {
-    "menu": 1,
     "party": 2
    },
    "translated": {
@@ -455,6 +453,7 @@
     "dialog": 2,
     "object": 58,
     "party": 39,
+    "menu": 1,
     "camera": 2,
     "screen": 1
    }
@@ -480,14 +479,13 @@
    "pr_map": "Map_20040_1",
    "script": "sc_tedm_037820",
    "script_id": 9616,
-   "stubs": {
-    "menu": 1
-   },
+   "stubs": {},
    "translated": {
     "dialog": 2,
     "flow": 65,
     "object": 48,
     "party": 30,
+    "menu": 1,
     "map": 1
    }
   },
@@ -630,8 +628,7 @@
    "map": 434,
    "pr_map": "Map_30040_2",
    "stubs": {
-    "screen": 1,
-    "flow": 1
+    "screen": 1
    },
    "translated": {
     "flag": 16,
@@ -794,7 +791,7 @@
    "event": "CD4D10",
    "kind": "npc",
    "map": 438,
-   "pr_map": "Map_20231_8",
+   "pr_map": "Map_20231_13",
    "script": "sc_tedm_034D10",
    "script_id": 9630,
    "stubs": {
@@ -818,7 +815,7 @@
    "event": "CD4D0C",
    "kind": "npc",
    "map": 438,
-   "pr_map": "Map_20231_8",
+   "pr_map": "Map_20231_13",
    "script": "sc_tedm_034D0C",
    "script_id": 9631,
    "stubs": {},
@@ -831,7 +828,7 @@
    "event": "CD4D84",
    "kind": "npc",
    "map": 438,
-   "pr_map": "Map_20231_8",
+   "pr_map": "Map_20231_14",
    "script": "sc_tedm_034D84",
    "script_id": 9632,
    "stubs": {},
@@ -845,7 +842,7 @@
    "event": "CD4DB0",
    "kind": "npc",
    "map": 438,
-   "pr_map": "Map_20231_8",
+   "pr_map": "Map_20231_13",
    "script": "sc_tedm_034DB0",
    "script_id": 9633,
    "stubs": {},
@@ -859,7 +856,7 @@
    "event": "CD4DB6",
    "kind": "npc",
    "map": 438,
-   "pr_map": "Map_20231_8",
+   "pr_map": "Map_20231_13",
    "script": "sc_tedm_034DB6",
    "script_id": 9634,
    "stubs": {},
@@ -886,7 +883,7 @@
    "event": "CD4D8A",
    "kind": "npc",
    "map": 438,
-   "pr_map": "Map_20231_8",
+   "pr_map": "Map_20231_14",
    "script": "sc_tedm_034D8A",
    "script_id": 9636,
    "stubs": {},
@@ -920,6 +917,19 @@
    "event": "CD4D8E",
    "kind": "entrance",
    "map": 438,
+   "pr_map": "Map_20231_13",
+   "stubs": {
+    "map": 3,
+    "object": 2
+   },
+   "translated": {
+    "flow": 3
+   }
+  },
+  {
+   "event": "CD4D8E",
+   "kind": "entrance",
+   "map": 438,
    "pr_map": "Map_20231_8",
    "stubs": {
     "map": 3,
@@ -940,6 +950,32 @@
    "translated": {
     "flow": 3,
     "object": 2
+   }
+  },
+  {
+   "event": "CD4D8E",
+   "kind": "entrance",
+   "map": 438,
+   "pr_map": "Map_20231_14",
+   "stubs": {
+    "map": 3,
+    "object": 2
+   },
+   "translated": {
+    "flow": 3
+   }
+  },
+  {
+   "event": "CD4D8E",
+   "kind": "entrance",
+   "map": 438,
+   "pr_map": "Map_20231_15",
+   "stubs": {
+    "map": 3,
+    "object": 2
+   },
+   "translated": {
+    "flow": 3
    }
   },
   {
@@ -1225,9 +1261,7 @@
    "kind": "entrance",
    "map": 441,
    "pr_map": "Map_30041_8",
-   "stubs": {
-    "flow": 1
-   },
+   "stubs": {},
    "translated": {
     "flow": 3,
     "screen": 1,
@@ -1239,9 +1273,7 @@
    "kind": "entrance",
    "map": 441,
    "pr_map": "Map_30041_9",
-   "stubs": {
-    "flow": 1
-   },
+   "stubs": {},
    "translated": {
     "flow": 3,
     "screen": 1,
@@ -1253,9 +1285,7 @@
    "kind": "entrance",
    "map": 441,
    "pr_map": "Map_30041_10",
-   "stubs": {
-    "flow": 1
-   },
+   "stubs": {},
    "translated": {
     "flow": 3,
     "screen": 1,
@@ -1637,7 +1667,6 @@
    "map": 455,
    "pr_map": "Map_30011_7",
    "stubs": {
-    "flow": 1,
     "object": 2
    },
    "translated": {
@@ -1650,9 +1679,7 @@
    "kind": "entrance",
    "map": 455,
    "pr_map": "Map_30011_8",
-   "stubs": {
-    "flow": 1
-   },
+   "stubs": {},
    "translated": {
     "flow": 6,
     "object": 6
@@ -1750,7 +1777,7 @@
    "stubs": {
     "flow": 8,
     "party": 14,
-    "map": 3,
+    "map": 2,
     "object": 11,
     "screen": 1
    },
@@ -1764,7 +1791,7 @@
     "camera": 2,
     "wait": 53,
     "screen": 229,
-    "map": 2
+    "map": 3
    }
   },
   {
@@ -1797,7 +1824,7 @@
    "event": "CD7200",
    "kind": "npc",
    "map": 463,
-   "pr_map": "Map_20371_20",
+   "pr_map": "Map_20051_26",
    "script": "sc_tedm_037200",
    "script_id": 9680,
    "stubs": {},
@@ -1811,7 +1838,7 @@
    "event": "CD7210",
    "kind": "npc",
    "map": 463,
-   "pr_map": "Map_20371_20",
+   "pr_map": "Map_20051_26",
    "script": "sc_tedm_037210",
    "script_id": 9681,
    "stubs": {},
@@ -1824,7 +1851,7 @@
    "event": "CD76B0",
    "kind": "npc",
    "map": 463,
-   "pr_map": "Map_20371_20",
+   "pr_map": "Map_20051_26",
    "script": "sc_tedm_0376B0",
    "script_id": 9682,
    "stubs": {
@@ -1844,7 +1871,7 @@
    "event": "CD76A0",
    "kind": "npc",
    "map": 463,
-   "pr_map": "Map_20371_20",
+   "pr_map": "Map_20051_26",
    "script": "sc_tedm_0376A0",
    "script_id": 9683,
    "stubs": {
@@ -1864,7 +1891,7 @@
    "event": "CD75EC",
    "kind": "npc",
    "map": 463,
-   "pr_map": "Map_20371_20",
+   "pr_map": "Map_20051_26",
    "script": "sc_tedm_0375EC",
    "script_id": 9684,
    "stubs": {},
@@ -1877,7 +1904,7 @@
    "event": "CD75E0",
    "kind": "npc",
    "map": 463,
-   "pr_map": "Map_20371_20",
+   "pr_map": "Map_20051_26",
    "script": "sc_tedm_0375E0",
    "script_id": 9685,
    "stubs": {},
@@ -1890,7 +1917,7 @@
    "event": "CD7350",
    "kind": "npc",
    "map": 463,
-   "pr_map": "Map_20371_20",
+   "pr_map": "Map_20051_26",
    "script": "sc_tedm_037350",
    "script_id": 9686,
    "stubs": {},
@@ -1903,7 +1930,7 @@
    "event": "CD75E8",
    "kind": "npc",
    "map": 463,
-   "pr_map": "Map_20371_20",
+   "pr_map": "Map_20051_26",
    "script": "sc_tedm_0375E8",
    "script_id": 9687,
    "stubs": {},
@@ -1916,7 +1943,7 @@
    "event": "CD75E4",
    "kind": "npc",
    "map": 463,
-   "pr_map": "Map_20371_20",
+   "pr_map": "Map_20051_26",
    "script": "sc_tedm_0375E4",
    "script_id": 9688,
    "stubs": {},
@@ -1929,7 +1956,7 @@
    "event": "CD7337",
    "kind": "npc",
    "map": 463,
-   "pr_map": "Map_20371_20",
+   "pr_map": "Map_20051_26",
    "script": "sc_tedm_037337",
    "script_id": 9689,
    "stubs": {},
@@ -1942,10 +1969,9 @@
    "event": "CE5600",
    "kind": "entrance",
    "map": 463,
-   "pr_map": "Map_20371_20",
+   "pr_map": "Map_20051_26",
    "stubs": {
-    "map": 2,
-    "flow": 1
+    "map": 2
    },
    "translated": {
     "flow": 3,
@@ -1995,14 +2021,13 @@
    "pr_map": "Map_20051_15",
    "script": "sc_tedm_037630",
    "script_id": 9692,
-   "stubs": {
-    "menu": 1
-   },
+   "stubs": {},
    "translated": {
     "dialog": 2,
     "flow": 65,
     "object": 48,
     "party": 30,
+    "menu": 1,
     "map": 1
    }
   },
@@ -2293,7 +2318,7 @@
    "event": "CD7774",
    "kind": "npc",
    "map": 468,
-   "pr_map": "Map_20231_11",
+   "pr_map": "Map_20231_16",
    "script": "sc_tedm_037774",
    "script_id": 10011,
    "stubs": {},
@@ -2306,7 +2331,7 @@
    "event": "CD7850",
    "kind": "npc",
    "map": 468,
-   "pr_map": "Map_20231_11",
+   "pr_map": "Map_20231_17",
    "script": "sc_tedm_037850",
    "script_id": 10012,
    "stubs": {},
@@ -2319,7 +2344,7 @@
    "event": "CD7D60",
    "kind": "npc",
    "map": 468,
-   "pr_map": "Map_20231_11",
+   "pr_map": "Map_20231_16",
    "script": "sc_tedm_037D60",
    "script_id": 10013,
    "stubs": {
@@ -2340,7 +2365,7 @@
    "event": "CD7DD0",
    "kind": "npc",
    "map": 468,
-   "pr_map": "Map_20231_11",
+   "pr_map": "Map_20231_16",
    "script": "sc_tedm_037DD0",
    "script_id": 10014,
    "stubs": {
@@ -2387,12 +2412,24 @@
    "event": "CD7D50",
    "kind": "npc",
    "map": 468,
-   "pr_map": "Map_20231_11",
+   "pr_map": "Map_20231_16",
    "script": "sc_tedm_037D50",
    "script_id": 10017,
    "stubs": {},
    "translated": {
     "dialog": 1,
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7D30",
+   "kind": "entrance",
+   "map": 468,
+   "pr_map": "Map_20231_16",
+   "stubs": {
+    "map": 4
+   },
+   "translated": {
     "flow": 1
    }
   },
@@ -2421,10 +2458,34 @@
    }
   },
   {
+   "event": "CD7D30",
+   "kind": "entrance",
+   "map": 468,
+   "pr_map": "Map_20231_17",
+   "stubs": {
+    "map": 4
+   },
+   "translated": {
+    "flow": 1
+   }
+  },
+  {
+   "event": "CD7D30",
+   "kind": "entrance",
+   "map": 468,
+   "pr_map": "Map_20231_18",
+   "stubs": {
+    "map": 4
+   },
+   "translated": {
+    "flow": 1
+   }
+  },
+  {
    "event": "CDAF30",
    "kind": "tile",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "script": "sc_tedm_03AF30",
    "script_id": 10018,
    "stubs": {
@@ -2440,7 +2501,7 @@
    "event": "CDAF50",
    "kind": "tile",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "script": "sc_tedm_03AF50",
    "script_id": 10019,
    "stubs": {
@@ -2456,7 +2517,7 @@
    "event": "CDAF70",
    "kind": "tile",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "script": "sc_tedm_03AF70",
    "script_id": 10020,
    "stubs": {
@@ -2472,7 +2533,7 @@
    "event": "CDAF90",
    "kind": "tile",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "script": "sc_tedm_03AF90",
    "script_id": 10021,
    "stubs": {
@@ -2488,7 +2549,7 @@
    "event": "CDAFB0",
    "kind": "tile",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "script": "sc_tedm_03AFB0",
    "script_id": 10022,
    "stubs": {
@@ -2504,7 +2565,7 @@
    "event": "CDAFD0",
    "kind": "tile",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "script": "sc_tedm_03AFD0",
    "script_id": 10023,
    "stubs": {
@@ -2520,7 +2581,7 @@
    "event": "CDAFF0",
    "kind": "tile",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "script": "sc_tedm_03AFF0",
    "script_id": 10024,
    "stubs": {
@@ -2536,7 +2597,7 @@
    "event": "CDB010",
    "kind": "tile",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "script": "sc_tedm_03B010",
    "script_id": 10025,
    "stubs": {
@@ -2552,7 +2613,7 @@
    "event": "CD1F50",
    "kind": "tile",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "script": "sc_tedm_031F50",
    "script_id": 10026,
    "stubs": {
@@ -2568,7 +2629,7 @@
    "event": "CD1F70",
    "kind": "tile",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "script": "sc_tedm_031F70",
    "script_id": 10027,
    "stubs": {
@@ -2584,7 +2645,7 @@
    "event": "CD7C00",
    "kind": "tile",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "script": "sc_tedm_037C00",
    "script_id": 10028,
    "stubs": {
@@ -2600,7 +2661,7 @@
    "event": "CD7C20",
    "kind": "tile",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "script": "sc_tedm_037C20",
    "script_id": 10029,
    "stubs": {
@@ -2616,7 +2677,7 @@
    "event": "CD7C40",
    "kind": "tile",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "script": "sc_tedm_037C40",
    "script_id": 10030,
    "stubs": {
@@ -2632,7 +2693,7 @@
    "event": "CD7C60",
    "kind": "tile",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "script": "sc_tedm_037C60",
    "script_id": 10031,
    "stubs": {
@@ -2648,7 +2709,7 @@
    "event": "CD7C80",
    "kind": "tile",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "script": "sc_tedm_037C80",
    "script_id": 10032,
    "stubs": {
@@ -2664,7 +2725,7 @@
    "event": "CD7CA0",
    "kind": "tile",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "script": "sc_tedm_037CA0",
    "script_id": 10033,
    "stubs": {
@@ -2680,7 +2741,7 @@
    "event": "CD7CC0",
    "kind": "tile",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "script": "sc_tedm_037CC0",
    "script_id": 10034,
    "stubs": {
@@ -2696,7 +2757,7 @@
    "event": "CD7CE0",
    "kind": "tile",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "script": "sc_tedm_037CE0",
    "script_id": 10035,
    "stubs": {
@@ -2712,7 +2773,7 @@
    "event": "CD1F90",
    "kind": "tile",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "script": "sc_tedm_031F90",
    "script_id": 10036,
    "stubs": {
@@ -2731,7 +2792,7 @@
    "event": "CD1FC0",
    "kind": "tile",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "script": "sc_tedm_031FC0",
    "script_id": 10037,
    "stubs": {
@@ -2750,7 +2811,7 @@
    "event": "CD2310",
    "kind": "tile",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "script": "sc_tedm_032310",
    "script_id": 10038,
    "stubs": {
@@ -2765,11 +2826,10 @@
    "event": "E9E700",
    "kind": "entrance",
    "map": 469,
-   "pr_map": "Map_20431_8",
+   "pr_map": "Map_20151_9",
    "stubs": {
     "map": 2,
-    "screen": 5,
-    "flow": 2
+    "screen": 5
    },
    "translated": {
     "flag": 1,
@@ -2823,7 +2883,7 @@
    "event": "CDA100",
    "kind": "tile",
    "map": 471,
-   "pr_map": "Map_20371_21",
+   "pr_map": "Map_20051_27",
    "script": "sc_tedm_03A100",
    "script_id": 10041,
    "stubs": {
@@ -2839,7 +2899,7 @@
    "event": "CDA120",
    "kind": "tile",
    "map": 471,
-   "pr_map": "Map_20371_21",
+   "pr_map": "Map_20051_27",
    "script": "sc_tedm_03A120",
    "script_id": 10042,
    "stubs": {
@@ -2855,7 +2915,7 @@
    "event": "CDA140",
    "kind": "tile",
    "map": 471,
-   "pr_map": "Map_20371_21",
+   "pr_map": "Map_20051_27",
    "script": "sc_tedm_03A140",
    "script_id": 10043,
    "stubs": {
@@ -2871,7 +2931,7 @@
    "event": "CDA160",
    "kind": "tile",
    "map": 471,
-   "pr_map": "Map_20371_21",
+   "pr_map": "Map_20051_27",
    "script": "sc_tedm_03A160",
    "script_id": 10044,
    "stubs": {
@@ -2887,7 +2947,7 @@
    "event": "CDA180",
    "kind": "tile",
    "map": 471,
-   "pr_map": "Map_20371_21",
+   "pr_map": "Map_20051_27",
    "script": "sc_tedm_03A180",
    "script_id": 10045,
    "stubs": {
@@ -2903,7 +2963,7 @@
    "event": "CDA1A0",
    "kind": "tile",
    "map": 471,
-   "pr_map": "Map_20371_21",
+   "pr_map": "Map_20051_27",
    "script": "sc_tedm_03A1A0",
    "script_id": 10046,
    "stubs": {
@@ -2919,7 +2979,7 @@
    "event": "CDA1C0",
    "kind": "tile",
    "map": 471,
-   "pr_map": "Map_20371_21",
+   "pr_map": "Map_20051_27",
    "script": "sc_tedm_03A1C0",
    "script_id": 10047,
    "stubs": {
@@ -2935,7 +2995,7 @@
    "event": "CDA1E0",
    "kind": "tile",
    "map": 471,
-   "pr_map": "Map_20371_21",
+   "pr_map": "Map_20051_27",
    "script": "sc_tedm_03A1E0",
    "script_id": 10048,
    "stubs": {
@@ -2951,7 +3011,7 @@
    "event": "CDA200",
    "kind": "tile",
    "map": 471,
-   "pr_map": "Map_20371_21",
+   "pr_map": "Map_20051_27",
    "script": "sc_tedm_03A200",
    "script_id": 10049,
    "stubs": {
@@ -2967,7 +3027,7 @@
    "event": "CDA220",
    "kind": "tile",
    "map": 471,
-   "pr_map": "Map_20371_21",
+   "pr_map": "Map_20051_27",
    "script": "sc_tedm_03A220",
    "script_id": 10050,
    "stubs": {
@@ -2983,7 +3043,7 @@
    "event": "CDA240",
    "kind": "tile",
    "map": 471,
-   "pr_map": "Map_20371_21",
+   "pr_map": "Map_20051_27",
    "script": "sc_tedm_03A240",
    "script_id": 10051,
    "stubs": {
@@ -2999,7 +3059,7 @@
    "event": "CDA260",
    "kind": "tile",
    "map": 471,
-   "pr_map": "Map_20371_21",
+   "pr_map": "Map_20051_27",
    "script": "sc_tedm_03A260",
    "script_id": 10052,
    "stubs": {
@@ -3015,7 +3075,7 @@
    "event": "CDA280",
    "kind": "tile",
    "map": 471,
-   "pr_map": "Map_20371_21",
+   "pr_map": "Map_20051_27",
    "script": "sc_tedm_03A280",
    "script_id": 10053,
    "stubs": {
@@ -3031,7 +3091,7 @@
    "event": "CDA2A0",
    "kind": "tile",
    "map": 471,
-   "pr_map": "Map_20371_21",
+   "pr_map": "Map_20051_27",
    "script": "sc_tedm_03A2A0",
    "script_id": 10054,
    "stubs": {
@@ -3047,7 +3107,7 @@
    "event": "CDC260",
    "kind": "tile",
    "map": 471,
-   "pr_map": "Map_20371_21",
+   "pr_map": "Map_20051_27",
    "script": "sc_tedm_03C260",
    "script_id": 10055,
    "stubs": {
@@ -3062,10 +3122,9 @@
    "event": "CD8200",
    "kind": "entrance",
    "map": 471,
-   "pr_map": "Map_20371_21",
+   "pr_map": "Map_20051_27",
    "stubs": {
-    "map": 17,
-    "flow": 1
+    "map": 17
    },
    "translated": {
     "flag": 127,
@@ -3078,7 +3137,7 @@
    "event": "CDA380",
    "kind": "tile",
    "map": 472,
-   "pr_map": "Map_20371_22",
+   "pr_map": "Map_20051_28",
    "script": "sc_tedm_03A380",
    "script_id": 10056,
    "stubs": {
@@ -3094,7 +3153,7 @@
    "event": "CDA2E0",
    "kind": "tile",
    "map": 472,
-   "pr_map": "Map_20371_22",
+   "pr_map": "Map_20051_28",
    "script": "sc_tedm_03A2E0",
    "script_id": 10057,
    "stubs": {
@@ -3110,7 +3169,7 @@
    "event": "CDA320",
    "kind": "tile",
    "map": 472,
-   "pr_map": "Map_20371_22",
+   "pr_map": "Map_20051_28",
    "script": "sc_tedm_03A320",
    "script_id": 10058,
    "stubs": {
@@ -3126,7 +3185,7 @@
    "event": "CDA340",
    "kind": "tile",
    "map": 472,
-   "pr_map": "Map_20371_22",
+   "pr_map": "Map_20051_28",
    "script": "sc_tedm_03A340",
    "script_id": 10059,
    "stubs": {
@@ -3142,7 +3201,7 @@
    "event": "CDA360",
    "kind": "tile",
    "map": 472,
-   "pr_map": "Map_20371_22",
+   "pr_map": "Map_20051_28",
    "script": "sc_tedm_03A360",
    "script_id": 10060,
    "stubs": {
@@ -3158,7 +3217,7 @@
    "event": "CDA2C0",
    "kind": "tile",
    "map": 472,
-   "pr_map": "Map_20371_22",
+   "pr_map": "Map_20051_28",
    "script": "sc_tedm_03A2C0",
    "script_id": 10061,
    "stubs": {
@@ -3174,7 +3233,7 @@
    "event": "CDA3A0",
    "kind": "tile",
    "map": 472,
-   "pr_map": "Map_20371_22",
+   "pr_map": "Map_20051_28",
    "script": "sc_tedm_03A3A0",
    "script_id": 10062,
    "stubs": {
@@ -3190,7 +3249,7 @@
    "event": "CDC270",
    "kind": "tile",
    "map": 472,
-   "pr_map": "Map_20371_22",
+   "pr_map": "Map_20051_28",
    "script": "sc_tedm_03C270",
    "script_id": 10063,
    "stubs": {
@@ -3205,7 +3264,7 @@
    "event": "CDA3C0",
    "kind": "tile",
    "map": 472,
-   "pr_map": "Map_20371_22",
+   "pr_map": "Map_20051_28",
    "script": "sc_tedm_03A3C0",
    "script_id": 10064,
    "stubs": {
@@ -3221,11 +3280,10 @@
    "event": "CD8550",
    "kind": "entrance",
    "map": 472,
-   "pr_map": "Map_20371_22",
+   "pr_map": "Map_20051_28",
    "stubs": {
     "map": 17,
-    "screen": 10,
-    "flow": 1
+    "screen": 10
    },
    "translated": {
     "flag": 67,
@@ -3429,7 +3487,7 @@
    "event": "CDF480",
    "kind": "npc",
    "map": 485,
-   "pr_map": "Map_20361_29",
+   "pr_map": "Map_20281_6",
    "script": "sc_tedm_03F480",
    "script_id": 10071,
    "stubs": {
@@ -3445,7 +3503,7 @@
    "event": "CDFAA0",
    "kind": "npc",
    "map": 485,
-   "pr_map": "Map_20361_29",
+   "pr_map": "Map_20281_6",
    "script": "sc_tedm_03FAA0",
    "script_id": 10072,
    "stubs": {
@@ -3461,7 +3519,7 @@
    "event": "CDFAA5",
    "kind": "npc",
    "map": 485,
-   "pr_map": "Map_20361_29",
+   "pr_map": "Map_20281_6",
    "script": "sc_tedm_03FAA5",
    "script_id": 10073,
    "stubs": {},
@@ -3476,7 +3534,7 @@
    "event": "CDFA80",
    "kind": "npc",
    "map": 485,
-   "pr_map": "Map_20361_29",
+   "pr_map": "Map_20281_6",
    "script": "sc_tedm_03FA80",
    "script_id": 10074,
    "stubs": {},
@@ -3489,7 +3547,7 @@
    "event": "CDFA84",
    "kind": "npc",
    "map": 485,
-   "pr_map": "Map_20361_29",
+   "pr_map": "Map_20281_6",
    "script": "sc_tedm_03FA84",
    "script_id": 10075,
    "stubs": {},
@@ -3502,7 +3560,7 @@
    "event": "CDFA88",
    "kind": "npc",
    "map": 485,
-   "pr_map": "Map_20361_29",
+   "pr_map": "Map_20281_6",
    "script": "sc_tedm_03FA88",
    "script_id": 10076,
    "stubs": {},
@@ -3515,7 +3573,7 @@
    "event": "CDFA90",
    "kind": "npc",
    "map": 485,
-   "pr_map": "Map_20361_29",
+   "pr_map": "Map_20281_6",
    "script": "sc_tedm_03FA90",
    "script_id": 10077,
    "stubs": {
@@ -3531,7 +3589,7 @@
    "event": "CDF490",
    "kind": "tile",
    "map": 485,
-   "pr_map": "Map_20361_29",
+   "pr_map": "Map_20281_6",
    "script": "sc_tedm_03F490",
    "script_id": 10078,
    "stubs": {
@@ -3547,10 +3605,9 @@
    "event": "CE6100",
    "kind": "entrance",
    "map": 485,
-   "pr_map": "Map_20361_29",
+   "pr_map": "Map_20281_6",
    "stubs": {
-    "map": 2,
-    "flow": 1
+    "map": 2
    },
    "translated": {
     "flow": 3,
@@ -3561,7 +3618,7 @@
    "event": "CDDA60",
    "kind": "npc",
    "map": 486,
-   "pr_map": "Map_20051_16",
+   "pr_map": "Map_20161_7",
    "script": "sc_tedm_03DA60",
    "script_id": 10079,
    "stubs": {},
@@ -3574,7 +3631,7 @@
    "event": "CDDA70",
    "kind": "npc",
    "map": 486,
-   "pr_map": "Map_20051_16",
+   "pr_map": "Map_20161_7",
    "script": "sc_tedm_03DA70",
    "script_id": 10080,
    "stubs": {},
@@ -3587,10 +3644,9 @@
    "event": "CE76E0",
    "kind": "entrance",
    "map": 486,
-   "pr_map": "Map_20051_16",
+   "pr_map": "Map_20161_7",
    "stubs": {
-    "map": 2,
-    "flow": 1
+    "map": 2
    },
    "translated": {
     "flow": 5,
@@ -3601,7 +3657,7 @@
    "event": "CE9400",
    "kind": "tile",
    "map": 487,
-   "pr_map": "Map_20051_17",
+   "pr_map": "Map_20161_8",
    "script": "sc_tedm_049400",
    "script_id": 10081,
    "stubs": {
@@ -3617,7 +3673,7 @@
    "event": "CE9420",
    "kind": "tile",
    "map": 487,
-   "pr_map": "Map_20051_17",
+   "pr_map": "Map_20161_8",
    "script": "sc_tedm_049420",
    "script_id": 10082,
    "stubs": {
@@ -3633,7 +3689,7 @@
    "event": "CE9440",
    "kind": "tile",
    "map": 487,
-   "pr_map": "Map_20051_17",
+   "pr_map": "Map_20161_8",
    "script": "sc_tedm_049440",
    "script_id": 10083,
    "stubs": {
@@ -3649,7 +3705,7 @@
    "event": "CE9460",
    "kind": "tile",
    "map": 487,
-   "pr_map": "Map_20051_17",
+   "pr_map": "Map_20161_8",
    "script": "sc_tedm_049460",
    "script_id": 10084,
    "stubs": {
@@ -3665,7 +3721,7 @@
    "event": "CE9480",
    "kind": "tile",
    "map": 487,
-   "pr_map": "Map_20051_17",
+   "pr_map": "Map_20161_8",
    "script": "sc_tedm_049480",
    "script_id": 10085,
    "stubs": {
@@ -3681,7 +3737,7 @@
    "event": "CE94A0",
    "kind": "tile",
    "map": 487,
-   "pr_map": "Map_20051_17",
+   "pr_map": "Map_20161_8",
    "script": "sc_tedm_0494A0",
    "script_id": 10086,
    "stubs": {
@@ -3697,7 +3753,7 @@
    "event": "CE94C0",
    "kind": "tile",
    "map": 487,
-   "pr_map": "Map_20051_17",
+   "pr_map": "Map_20161_8",
    "script": "sc_tedm_0494C0",
    "script_id": 10087,
    "stubs": {
@@ -3713,7 +3769,7 @@
    "event": "CE94E0",
    "kind": "tile",
    "map": 487,
-   "pr_map": "Map_20051_17",
+   "pr_map": "Map_20161_8",
    "script": "sc_tedm_0494E0",
    "script_id": 10088,
    "stubs": {
@@ -3729,7 +3785,7 @@
    "event": "CE9500",
    "kind": "tile",
    "map": 487,
-   "pr_map": "Map_20051_17",
+   "pr_map": "Map_20161_8",
    "script": "sc_tedm_049500",
    "script_id": 10089,
    "stubs": {
@@ -3745,7 +3801,7 @@
    "event": "CE9520",
    "kind": "tile",
    "map": 487,
-   "pr_map": "Map_20051_17",
+   "pr_map": "Map_20161_8",
    "script": "sc_tedm_049520",
    "script_id": 10090,
    "stubs": {
@@ -3761,7 +3817,7 @@
    "event": "CE9540",
    "kind": "tile",
    "map": 487,
-   "pr_map": "Map_20051_17",
+   "pr_map": "Map_20161_8",
    "script": "sc_tedm_049540",
    "script_id": 10091,
    "stubs": {
@@ -3777,7 +3833,7 @@
    "event": "CE9560",
    "kind": "tile",
    "map": 487,
-   "pr_map": "Map_20051_17",
+   "pr_map": "Map_20161_8",
    "script": "sc_tedm_049560",
    "script_id": 10092,
    "stubs": {
@@ -3793,10 +3849,10 @@
    "event": "CE7E60",
    "kind": "entrance",
    "map": 487,
-   "pr_map": "Map_20051_17",
+   "pr_map": "Map_20161_8",
    "stubs": {
     "map": 2,
-    "flow": 6
+    "flow": 4
    },
    "translated": {
     "flag": 1,
@@ -3809,7 +3865,7 @@
    "event": "CE9580",
    "kind": "tile",
    "map": 488,
-   "pr_map": "Map_20051_18",
+   "pr_map": "Map_20161_9",
    "script": "sc_tedm_049580",
    "script_id": 10093,
    "stubs": {
@@ -3825,7 +3881,7 @@
    "event": "CE95A0",
    "kind": "tile",
    "map": 488,
-   "pr_map": "Map_20051_18",
+   "pr_map": "Map_20161_9",
    "script": "sc_tedm_0495A0",
    "script_id": 10094,
    "stubs": {
@@ -3841,7 +3897,7 @@
    "event": "CE95C0",
    "kind": "tile",
    "map": 488,
-   "pr_map": "Map_20051_18",
+   "pr_map": "Map_20161_9",
    "script": "sc_tedm_0495C0",
    "script_id": 10095,
    "stubs": {
@@ -3857,7 +3913,7 @@
    "event": "CE95E0",
    "kind": "tile",
    "map": 488,
-   "pr_map": "Map_20051_18",
+   "pr_map": "Map_20161_9",
    "script": "sc_tedm_0495E0",
    "script_id": 10096,
    "stubs": {
@@ -3873,7 +3929,7 @@
    "event": "CE9600",
    "kind": "tile",
    "map": 488,
-   "pr_map": "Map_20051_18",
+   "pr_map": "Map_20161_9",
    "script": "sc_tedm_049600",
    "script_id": 10097,
    "stubs": {
@@ -3889,7 +3945,7 @@
    "event": "CE9620",
    "kind": "tile",
    "map": 488,
-   "pr_map": "Map_20051_18",
+   "pr_map": "Map_20161_9",
    "script": "sc_tedm_049620",
    "script_id": 10098,
    "stubs": {
@@ -3905,7 +3961,7 @@
    "event": "CE9640",
    "kind": "tile",
    "map": 488,
-   "pr_map": "Map_20051_18",
+   "pr_map": "Map_20161_9",
    "script": "sc_tedm_049640",
    "script_id": 10099,
    "stubs": {
@@ -3921,7 +3977,7 @@
    "event": "CE9660",
    "kind": "tile",
    "map": 488,
-   "pr_map": "Map_20051_18",
+   "pr_map": "Map_20161_9",
    "script": "sc_tedm_049660",
    "script_id": 10100,
    "stubs": {
@@ -3937,7 +3993,7 @@
    "event": "CE9680",
    "kind": "tile",
    "map": 488,
-   "pr_map": "Map_20051_18",
+   "pr_map": "Map_20161_9",
    "script": "sc_tedm_049680",
    "script_id": 10101,
    "stubs": {
@@ -3953,7 +4009,7 @@
    "event": "CE96A0",
    "kind": "tile",
    "map": 488,
-   "pr_map": "Map_20051_18",
+   "pr_map": "Map_20161_9",
    "script": "sc_tedm_0496A0",
    "script_id": 10102,
    "stubs": {
@@ -3969,7 +4025,7 @@
    "event": "CE96C0",
    "kind": "tile",
    "map": 488,
-   "pr_map": "Map_20051_18",
+   "pr_map": "Map_20161_9",
    "script": "sc_tedm_0496C0",
    "script_id": 10103,
    "stubs": {
@@ -3985,7 +4041,7 @@
    "event": "CE96E0",
    "kind": "tile",
    "map": 488,
-   "pr_map": "Map_20051_18",
+   "pr_map": "Map_20161_9",
    "script": "sc_tedm_0496E0",
    "script_id": 10104,
    "stubs": {
@@ -4001,10 +4057,9 @@
    "event": "CE8580",
    "kind": "entrance",
    "map": 488,
-   "pr_map": "Map_20051_18",
+   "pr_map": "Map_20161_9",
    "stubs": {
-    "map": 2,
-    "flow": 2
+    "map": 2
    },
    "translated": {
     "flag": 1,
@@ -4212,7 +4267,6 @@
    "pr_map": "Map_30811_9",
    "stubs": {
     "map": 2,
-    "flow": 2,
     "object": 44
    },
    "translated": {
@@ -4229,7 +4283,6 @@
    "pr_map": "Map_30811_11",
    "stubs": {
     "map": 2,
-    "flow": 2,
     "object": 4
    },
    "translated": {
@@ -4243,7 +4296,7 @@
    "event": "CEA140",
    "kind": "tile",
    "map": 490,
-   "pr_map": "Map_20051_19",
+   "pr_map": "Map_20161_10",
    "script": "sc_tedm_04A140",
    "script_id": 10117,
    "stubs": {
@@ -4260,7 +4313,7 @@
    "event": "CEA160",
    "kind": "tile",
    "map": 490,
-   "pr_map": "Map_20051_19",
+   "pr_map": "Map_20161_10",
    "script": "sc_tedm_04A160",
    "script_id": 10118,
    "stubs": {
@@ -4276,7 +4329,7 @@
    "event": "CEA180",
    "kind": "tile",
    "map": 490,
-   "pr_map": "Map_20051_19",
+   "pr_map": "Map_20161_10",
    "script": "sc_tedm_04A180",
    "script_id": 10119,
    "stubs": {
@@ -4292,7 +4345,7 @@
    "event": "CEA1A0",
    "kind": "tile",
    "map": 490,
-   "pr_map": "Map_20051_19",
+   "pr_map": "Map_20161_10",
    "script": "sc_tedm_04A1A0",
    "script_id": 10120,
    "stubs": {
@@ -4308,7 +4361,7 @@
    "event": "CEA1C0",
    "kind": "tile",
    "map": 490,
-   "pr_map": "Map_20051_19",
+   "pr_map": "Map_20161_10",
    "script": "sc_tedm_04A1C0",
    "script_id": 10121,
    "stubs": {
@@ -4324,7 +4377,7 @@
    "event": "CEA1E0",
    "kind": "tile",
    "map": 490,
-   "pr_map": "Map_20051_19",
+   "pr_map": "Map_20161_10",
    "script": "sc_tedm_04A1E0",
    "script_id": 10122,
    "stubs": {
@@ -4340,10 +4393,9 @@
    "event": "CE9B70",
    "kind": "entrance",
    "map": 490,
-   "pr_map": "Map_20051_19",
+   "pr_map": "Map_20161_10",
    "stubs": {
-    "map": 2,
-    "flow": 2
+    "map": 2
    },
    "translated": {
     "flag": 1,
@@ -4356,7 +4408,7 @@
    "event": "CDFA95",
    "kind": "npc",
    "map": 491,
-   "pr_map": "Map_20431_10",
+   "pr_map": "Map_20151_10",
    "script": "sc_tedm_03FA95",
    "script_id": 10123,
    "stubs": {
@@ -4379,7 +4431,7 @@
    "event": "E9FE40",
    "kind": "tile",
    "map": 491,
-   "pr_map": "Map_20431_10",
+   "pr_map": "Map_20151_10",
    "script": "sc_tedm_1FFE40",
    "script_id": 10124,
    "stubs": {
@@ -4394,7 +4446,7 @@
    "event": "E9F7D0",
    "kind": "entrance",
    "map": 491,
-   "pr_map": "Map_20431_10",
+   "pr_map": "Map_20151_10",
    "stubs": {
     "map": 2,
     "screen": 11,
@@ -4510,8 +4562,7 @@
    "map": 494,
    "pr_map": "Map_20011_16",
    "stubs": {
-    "map": 2,
-    "flow": 1
+    "map": 2
    },
    "translated": {
     "flow": 6,
@@ -4568,14 +4619,13 @@
    "pr_map": "Map_20451_14",
    "script": "sc_tedm_03FBB0",
    "script_id": 10131,
-   "stubs": {
-    "menu": 1
-   },
+   "stubs": {},
    "translated": {
     "dialog": 2,
     "flow": 65,
     "object": 48,
     "party": 30,
+    "menu": 1,
     "map": 1
    }
   },
@@ -4844,7 +4894,7 @@
    "stubs": {
     "sound": 3,
     "screen": 3,
-    "flow": 3,
+    "flow": 1,
     "map": 60,
     "flag": 1
    },
@@ -5283,8 +5333,7 @@
    "pr_map": "Map_30600_1",
    "stubs": {
     "map": 30,
-    "screen": 1,
-    "flow": 1
+    "screen": 1
    },
    "translated": {
     "flow": 70,

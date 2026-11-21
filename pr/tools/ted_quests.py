@@ -153,6 +153,47 @@ def _place_vanilla_npc(rom, prog, Tr, texts, alloc, ids, mod, m, det, addr, name
     return rows
 
 
+def _entrance(rom, prog, Tr, texts, alloc, m, addr, name, entrances, taken_ms):
+    """A T-Edition entrance event on a vanilla map, as ted-events' TE.build does them: in every PR room of
+    the map's world with a load script (sc_map_<room>), T-Edition's part (from where its code leaves the JP
+    ROM's: TE.ted_part; a call to vanilla's own entrance does nothing, the PR's load script does it) runs
+    after the room's own load script (written with the NPC prologues, from `entrances`). Rooms whose map
+    script another folder ships are left out. -> [{"pr_map", ...} or {"pr_map", "blocked"}]"""
+    import event_translate as T
+    import snes_events as E
+    import snes_maps as SM
+    import ted_events as TE
+    off = E.parse_addr(addr)
+    jp_entry = next((e[0] for e in E.entry_points(E.load("jp")) if e[2] == m and e[1] == "entrance"), None)
+    start = TE.ted_part(off, prog) if off == jp_entry else off
+    if start is None:
+        return [{"pr_map": None, "blocked": "the same as vanilla's"}]
+    world = TE.snes_world(m)
+    tm = SM.pr_tilemaps()
+    rooms = list(dict.fromkeys(mt.pr for mt in SM.pr_maps(m) if mt.pr in tm and TE.map_script_name(mt.pr)
+                               and (world is None or TE.pr_world(mt.pr) in (None, world))))
+    rows = []
+    for pr in rooms:
+        ms = TE.map_script_name(pr)
+        if ms in taken_ms:
+            rows.append({"pr_map": pr, "blocked": ms + " is another folder's"})
+            continue
+        group, folder = _room_of(pr)
+        if any(a_ == addr for _, _, a_ in entrances.get((group, folder, pr), [])):
+            rows.append({"pr_map": pr, "script": ms, "shared": True})    # the same event from another SNES map
+            continue
+        t = Tr(rom, "%s_%s" % (name, pr[4:].lower()), snes_map=m, alloc=alloc, prog=prog, pr_map=pr)
+        t.texts = texts
+        if jp_entry is not None and jp_entry != off:
+            t.fallbacks[jp_entry] = Tr(rom, "empty", snes_map=m, alloc=alloc, prog=prog).assemble(
+                "empty", [T.lab("Main"), T.op("Exit")], [])
+        sc = t.translate(start)
+        entrances.setdefault((group, folder, pr), []).append((m, sc, addr))
+        rows.append({"pr_map": pr, "script": ms, "from": E.fmt(start), "translated": sum(t.done.values()),
+                     "stubs": dict(t.stubs)})
+    return rows
+
+
 def trigger_entities(snes_map, x, y):
     """[(PR map, room dir, group, folder, layer, Tiled object id, its script id)] for the PR's scripted
     triggers (the PR's form of an event tile: action_id 2, object_type 2/5/30) at SNES (x, y) in every PR
@@ -446,6 +487,7 @@ def build(out=OUT, events=None, write=True, log=print):
     sprite_matched, unmatched = [], []          # vanilla NPCs wired by look anywhere in the room / still unmatched
     fixed = collections.defaultdict(list)       # (room, group, folder, PR map) -> [new vanilla NPC objects, ids kept]
     hidden, standins, blocked = {}, [], []      # (group, folder, PR map) -> [(SNES map, NPC, show bit, entity)]
+    entrances = {}                              # (group, folder, PR map) -> [(SNES map, T-Edition's entrance script)]
     import glob
     taken_ms = {os.path.basename(f)[:-5] for d in ("TEditionEvents", "TEditionMaps")
                 for f in glob.glob(os.path.join(P.ROOT, "mods", d, "map_*", "**", "sc_map_*.json"), recursive=True)}
@@ -459,6 +501,13 @@ def build(out=OUT, events=None, write=True, log=print):
                 if kind == "npc_object":    # a decoration (special-graphics NPC, snes_events since 11-21): no event
                     report.append({"event": addr, "name": name, "quest": quest, "kind": kind, "map": m,
                                    "npc": det["npc"], "status": "skipped: a decoration (special-graphics NPC), no event"})
+                    continue
+                if kind == "entrance" and m < TE.NEW_MAPS:
+                    rows = _entrance(rom, prog, Tr, texts, alloc, m, addr, name, entrances, taken_ms)
+                    report.append({"event": addr, "name": name, "quest": quest, "kind": kind, "map": m,
+                                   "status": "wired: after the room's load script" if any("blocked" not in r for r in rows)
+                                   else "pending: entrance (%s)" % ("; ".join(r["blocked"] for r in rows) or "no PR room"),
+                                   "wired": [], "entrance": rows})
                     continue
                 if kind not in ("npc", "tile") or m >= TE.NEW_MAPS:
                     report.append({"event": addr, "name": name, "quest": quest, "kind": kind, "map": m,
@@ -607,10 +656,11 @@ def build(out=OUT, events=None, write=True, log=print):
                   key="package")
     # the rooms' map scripts for the vanilla NPCs placed anew: hide each while its SNES show bit is clear
     # (a bit with no PR tie: always shown), then the PR's own map script (as TE.build's prologue)
-    for (group, folder, pr), items in hidden.items():
+    for (group, folder, pr) in sorted(set(hidden) | set(entrances)):
         import event_translate as T
+        items = hidden.get((group, folder, pr), [])
         ms = TE.map_script_name(pr)
-        t = Tr(rom, ms, snes_map=items[0][0], alloc=alloc, prog=prog, pr_map=pr)
+        t = Tr(rom, ms, snes_map=(items or entrances[(group, folder, pr)])[0][0], alloc=alloc, prog=prog, pr_map=pr)
         t.texts = texts
         ops = []
         for m_, n, bit, eid in items:
@@ -622,9 +672,13 @@ def build(out=OUT, events=None, write=True, log=print):
                          comment="SNES map %d NPC %d: shown while bit %03X is set" % (m_, n, bit))]
             ops += t.puppet_ops([eid], [[T.op("Hide", kind=2)]])
             ops += [T.lab(skip)]
+        tail = [T.op("Call", i=["@" + t.graft(sc_, callable_=True)], comment="T-Edition's entrance (SNES map %d)" % m_)
+                for m_, sc_, _ in entrances.get((group, folder, pr), [])]
+        if not ops and not tail:         # every one always shown: the room's own map script stays the PR's
+            continue
         label = t.graft(Sc.load(ms), callable_=True)
-        sc = t.assemble(ms, [T.lab("Main")] + ops + [T.op("Call", i=["@" + label], comment="the PR's own " + ms),
-                                                     T.op("Exit")], t.blocks)
+        sc = t.assemble(ms, [T.lab("Main")] + ops + [T.op("Call", i=["@" + label], comment="the PR's own " + ms)]
+                        + tail + [T.op("Exit")], t.blocks)
         nop_stubs(sc)                    # (in place; it returns a count)
         mod.asset(group, f"{RES}/{folder}/{pr}/{ms}.json", json.dumps(sc, ensure_ascii=False, separators=(",", ":")),
                   key=f"{pr}/{ms}")

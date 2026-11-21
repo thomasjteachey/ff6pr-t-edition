@@ -663,6 +663,168 @@
     4,
     34
    ]
+  },
+  {
+   "event": "CB/42AA",
+   "map": 7,
+   "first_line": "Change party members? > No > Yes",
+   "npc": 6
+  },
+  {
+   "event": "CB/42C2",
+   "map": 7,
+   "first_line": "Change party members? > No > Yes",
+   "npc": 7
+  },
+  {
+   "event": "CB/42DA",
+   "map": 7,
+   "first_line": "Change party members? > No > Yes",
+   "npc": 8
+  },
+  {
+   "event": "CB/42F2",
+   "map": 7,
+   "first_line": "Change party members? > No > Yes",
+   "npc": 9
+  },
+  {
+   "event": "CB/430A",
+   "map": 7,
+   "first_line": "Change party members? > No > Yes",
+   "npc": 10
+  },
+  {
+   "event": "CB/4322",
+   "map": 7,
+   "first_line": "Change party members? > No > Yes",
+   "npc": 11
+  },
+  {
+   "event": "CB/433A",
+   "map": 7,
+   "first_line": "Change party members? > No > Yes",
+   "npc": 12
+  },
+  {
+   "event": "CB/4352",
+   "map": 7,
+   "first_line": "Change party members? > No > Yes",
+   "npc": 13
+  },
+  {
+   "event": "CB/436A",
+   "map": 7,
+   "first_line": "Change party members? > No > Yes",
+   "npc": 14
+  },
+  {
+   "event": "CB/4382",
+   "map": 7,
+   "first_line": "Change party members? > No > Yes",
+   "npc": 15
+  },
+  {
+   "event": "CB/439A",
+   "map": 7,
+   "first_line": "Change party members? > No > Yes",
+   "npc": 16
+  },
+  {
+   "event": "CB/43B2",
+   "map": 7,
+   "first_line": "Change party members? > No > Yes",
+   "npc": 17
+  },
+  {
+   "event": "CB/43CA",
+   "map": 7,
+   "first_line": "Change party members? > No > Yes",
+   "npc": 18
+  },
+  {
+   "event": "CB/43D2",
+   "map": 7,
+   "first_line": "Change party members? > No > Yes",
+   "npc": 19
+  },
+  {
+   "event": "CD/2CE0",
+   "map": 12,
+   "first_line": "Locke: As long as there are people who need to be protected, I'll keep on fighting!",
+   "npc": 1
+  },
+  {
+   "event": "CD/37B0",
+   "map": 12,
+   "first_line": "Cyan: With faith in the dawn, I can do naught but swing my sword.",
+   "npc": 2
+  },
+  {
+   "event": "CA/3F2B",
+   "map": 12,
+   "first_line": "Shadow: Hmm... A reason for living...",
+   "npc": 3
+  },
+  {
+   "event": "CA/3F3B",
+   "map": 12,
+   "first_line": "Sabin: I'm gonna use everything my master taught me to take Kefka down!",
+   "npc": 5
+  },
+  {
+   "event": "CA/3F43",
+   "map": 12,
+   "first_line": "Celes: As long as we don't give up hope, there's still a chance for the future!",
+   "npc": 6
+  },
+  {
+   "event": "CD/2D00",
+   "map": 12,
+   "first_line": "Gau: Gau get stronger! Uwaaoh!",
+   "npc": 11
+  },
+  {
+   "event": "CA/3F73",
+   "map": 12,
+   "first_line": "Gogo: ...Please. Let me mimic you someday.",
+   "npc": 12
+  },
+  {
+   "event": "CA/3F7B",
+   "map": 12,
+   "first_line": "Umaro: Oo... Me, hurt nature killer!",
+   "npc": 13
+  },
+  {
+   "event": "CD/3290",
+   "map": 24,
+   "first_line": "",
+   "entrance": true
+  },
+  {
+   "event": "CC/3950",
+   "map": 25,
+   "first_line": "",
+   "entrance": true
+  },
+  {
+   "event": "EA/0960",
+   "map": 104,
+   "first_line": "",
+   "entrance": true
+  },
+  {
+   "event": "CD/4A90",
+   "map": 105,
+   "first_line": "",
+   "entrance": true
+  },
+  {
+   "event": "CE/76B0",
+   "map": 107,
+   "first_line": "",
+   "entrance": true
   }
  ]
 }

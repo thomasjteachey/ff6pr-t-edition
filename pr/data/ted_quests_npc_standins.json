@@ -23,18 +23,18 @@
    "sprite": 138,
    "snes_map": 408,
    "npc": 1,
-   "pr_map": "Map_30811_2",
+   "pr_map": "Map_30811_5",
    "look": 51,
-   "entity": 5900,
+   "entity": 5902,
    "event": "CC/1F3F"
   },
   {
    "sprite": 233,
    "snes_map": 408,
    "npc": 3,
-   "pr_map": "Map_30811_2",
+   "pr_map": "Map_30811_5",
    "look": 51,
-   "entity": 5901,
+   "entity": 5903,
    "event": "CC/2051"
   }
  ]

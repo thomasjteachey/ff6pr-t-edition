@@ -614,6 +614,13 @@ class TEdition(Profile):
     snes_ai = True
     snes_ai_rules = "vanilla"
     snes_ai_status = False
+    # the battle bits T-Edition's monster scripts read (FC 0C/0D/14/15) or write (F8/F9), from a scan of all 512 scripts
+    # (ted-ex, 2026-11-21): port_ai gives them PR flags from the event sessions' shared allocator, so scenes and fights
+    # see the same bit
+    snes_ai_event_bits = [*range(0x00, 0x08), 0x29, 0x41, 0x48, 0x49, 0x4C, 0x4D, *range(0x60, 0x68)]
+    snes_event_alloc = os.path.join(P.ROOT, "data", "snes_event_alloc_tedition.json")
+    # T-Edition's Veldt records every won formation up to $1FF (C2/49D4: the "not on the Veldt" check is gone; the spec's rule 58)
+    veldt_all_formations = True
     # every weapon's critical hit rate: T-Edition rolls random(256) < 20 (vanilla < 8; C2/33FE): the spec's rule 18
     weapon_critical_rate = 8
     # relic command swaps (the spec's rule 31): T-Edition's 8 swaps (CE/01E8 -> CE/01F8, C2/5390) are item byte 10

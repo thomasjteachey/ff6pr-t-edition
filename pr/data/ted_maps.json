@@ -9,11 +9,11 @@
  ],
  "map_ids": [
   644,
-  752
+  759
  ],
  "script_ids": [
   629,
-  737
+  744
  ],
  "maps": {
   "415": {
@@ -124,9 +124,9 @@
    "how": "convert",
    "group": "map_20371",
    "like": "Map_20371_2",
-   "cells": 4035,
+   "cells": 4042,
    "no_pr_tile": 0,
-   "guessed": 107,
+   "guessed": 163,
    "look": {
     "sets": [
      15,
@@ -498,7 +498,7 @@
    "like": "Map_20371_2",
    "cells": 4096,
    "no_pr_tile": 1,
-   "guessed": 121,
+   "guessed": 132,
    "look": {
     "sets": [
      15,
@@ -702,7 +702,7 @@
    "like": "Map_20371_2",
    "cells": 4096,
    "no_pr_tile": 3,
-   "guessed": 104,
+   "guessed": 160,
    "look": {
     "sets": [
      15,
@@ -955,7 +955,7 @@
    "like": "Map_20371_2",
    "cells": 4091,
    "no_pr_tile": 3,
-   "guessed": 177,
+   "guessed": 217,
    "look": {
     "sets": [
      15,
@@ -1166,7 +1166,7 @@
    "group": "map_30651",
    "like": "Map_30651_1",
    "cells": 1473,
-   "no_pr_tile": 4,
+   "no_pr_tile": 0,
    "guessed": 12,
    "look": {
     "sets": [
@@ -1344,7 +1344,7 @@
    "group": "map_30651",
    "like": "Map_30651_1",
    "cells": 1733,
-   "no_pr_tile": 2,
+   "no_pr_tile": 0,
    "guessed": 34,
    "look": {
     "sets": [
@@ -1613,7 +1613,7 @@
    "group": "map_30651",
    "like": "Map_30651_1",
    "cells": 1264,
-   "no_pr_tile": 4,
+   "no_pr_tile": 0,
    "guessed": 9,
    "look": {
     "sets": [
@@ -1892,7 +1892,7 @@
    "group": "map_30651",
    "like": "Map_30651_1",
    "cells": 1230,
-   "no_pr_tile": 4,
+   "no_pr_tile": 0,
    "guessed": 11,
    "look": {
     "sets": [
@@ -2035,7 +2035,7 @@
    "like": "Map_30651_1",
    "cells": 1100,
    "no_pr_tile": 0,
-   "guessed": 76,
+   "guessed": 65,
    "look": {
     "sets": [
      25,
@@ -2305,8 +2305,8 @@
    "group": "map_30651",
    "like": "Map_30651_1",
    "cells": 1176,
-   "no_pr_tile": 2,
-   "guessed": 62,
+   "no_pr_tile": 0,
+   "guessed": 53,
    "look": {
     "sets": [
      25,
@@ -2601,8 +2601,8 @@
    "group": "map_30651",
    "like": "Map_30651_1",
    "cells": 1054,
-   "no_pr_tile": 2,
-   "guessed": 189,
+   "no_pr_tile": 0,
+   "guessed": 164,
    "look": {
     "sets": [
      25,
@@ -5345,7 +5345,7 @@
      "group": "map_20390",
      "kind": "clone",
      "source": "Map_20390",
-     "dx": -1,
+     "dx": 0,
      "dy": 0,
      "script": "sc_map_20390_1",
      "script_id": 643
@@ -5362,7 +5362,7 @@
      "event": "CD06D0",
      "pr_map": "Map_20390_1",
      "pr_id": 658,
-     "pr_x": 14,
+     "pr_x": 15,
      "pr_y": 8
     }
    ],
@@ -5381,7 +5381,7 @@
      "pr_y": 8,
      "point_id": 1,
      "snes": [
-      20,
+      19,
       8
      ]
     }
@@ -5393,8 +5393,8 @@
    "tile_commands": 0,
    "properties": "57028a000600008e98c341245c7f010600000000000000000f0500806b00000f01",
    "how": "convert",
-   "group": "map_30761",
-   "like": "Map_30761_3",
+   "group": "map_30641",
+   "like": "Map_30641_5",
    "cells": 256,
    "no_pr_tile": 0,
    "guessed": 2,
@@ -5418,14 +5418,14 @@
    ],
    "rooms": [
     {
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
-     "group": "map_30761",
+     "group": "map_30641",
      "kind": "convert",
-     "source": "Map_30761_3",
+     "source": "Map_30641_5",
      "dx": 0,
      "dy": 0,
-     "script": "sc_map_30761_6",
+     "script": "sc_map_30641_12",
      "script_id": 644
     }
    ],
@@ -5444,7 +5444,7 @@
      "flags": 20,
      "pr": [
       [
-       "Map_30761_6",
+       "Map_30641_12",
        8,
        13
       ]
@@ -5475,7 +5475,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5498,7 +5498,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5521,7 +5521,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5544,7 +5544,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5567,7 +5567,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5590,7 +5590,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5613,7 +5613,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5636,7 +5636,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5659,7 +5659,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5682,7 +5682,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5705,7 +5705,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5728,7 +5728,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5751,7 +5751,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5774,7 +5774,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5797,7 +5797,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5820,7 +5820,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5843,7 +5843,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5866,7 +5866,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5889,7 +5889,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5912,7 +5912,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5935,7 +5935,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5958,7 +5958,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -5981,7 +5981,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6004,7 +6004,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6027,7 +6027,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6050,7 +6050,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6073,7 +6073,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6096,7 +6096,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6119,7 +6119,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6142,7 +6142,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6165,7 +6165,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6188,7 +6188,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6211,7 +6211,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6234,7 +6234,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6257,7 +6257,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6280,7 +6280,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6303,7 +6303,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6326,7 +6326,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6349,7 +6349,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6372,7 +6372,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6395,7 +6395,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6418,7 +6418,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6441,7 +6441,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6464,7 +6464,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6487,7 +6487,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6510,7 +6510,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6533,7 +6533,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6556,7 +6556,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6579,7 +6579,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6602,7 +6602,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6625,7 +6625,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6648,7 +6648,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6671,7 +6671,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 0,
      "pr_y": 0
@@ -6694,7 +6694,7 @@
      "const_sprite": 0,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 7,
      "pr_y": 0
@@ -6717,7 +6717,7 @@
      "const_sprite": 0,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 8,
      "pr_y": 17
@@ -6740,7 +6740,7 @@
      "const_sprite": 0,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 8,
      "pr_y": 18
@@ -6763,7 +6763,7 @@
      "const_sprite": 0,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 8,
      "pr_y": 19
@@ -6786,7 +6786,7 @@
      "const_sprite": 0,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 8,
      "pr_y": 20
@@ -6809,7 +6809,7 @@
      "const_sprite": 1,
      "bg_layer": 0,
      "split_sprite": 1,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 8,
      "pr_y": 8
@@ -6832,7 +6832,7 @@
      "const_sprite": 1,
      "bg_layer": 0,
      "split_sprite": 1,
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 8,
      "pr_y": 6
@@ -6844,7 +6844,7 @@
      "x": 8,
      "y": 8,
      "event": "CC9AE1",
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 8,
      "pr_y": 8
@@ -6854,7 +6854,7 @@
      "x": 8,
      "y": 10,
      "event": "CD0890",
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 8,
      "pr_y": 10
@@ -6869,7 +6869,7 @@
    "bgm_id": null,
    "points": [
     {
-     "pr_map": "Map_30761_6",
+     "pr_map": "Map_30641_12",
      "pr_id": 659,
      "pr_x": 8,
      "pr_y": 12,
@@ -6890,8 +6890,8 @@
    "group": "map_30651",
    "like": "Map_30651_1",
    "cells": 196,
-   "no_pr_tile": 1,
-   "guessed": 0,
+   "no_pr_tile": 0,
+   "guessed": 1,
    "look": {
     "sets": [
      25,
@@ -7965,7 +7965,7 @@
       ]
      ],
      "to": [
-      664,
+      755,
       1
      ]
     },
@@ -8049,8 +8049,8 @@
       ]
      ],
      "to": [
-      664,
-      2
+      754,
+      1
      ]
     },
     {
@@ -8133,8 +8133,8 @@
       ]
      ],
      "to": [
-      664,
-      4
+      753,
+      1
      ]
     },
     {
@@ -8467,12 +8467,26 @@
    "source": {
     "snes_map": 219,
     "pr_maps": [
+     "Map_20231_5",
      "Map_20231_4",
-     "Map_20231_1"
+     "Map_20231_1",
+     "Map_20231_2",
+     "Map_20231_3"
     ]
    },
-   "patched_cells": 8,
+   "patched_cells": 20,
    "rooms": [
+    {
+     "pr_map": "Map_20231_13",
+     "pr_id": 753,
+     "group": "map_20231",
+     "kind": "clone",
+     "source": "Map_20231_5",
+     "dx": 0,
+     "dy": 0,
+     "script": "sc_map_20231_13",
+     "script_id": 738
+    },
     {
      "pr_map": "Map_20231_8",
      "pr_id": 664,
@@ -8494,6 +8508,28 @@
      "dy": 3,
      "script": "sc_map_20231_9",
      "script_id": 650
+    },
+    {
+     "pr_map": "Map_20231_14",
+     "pr_id": 754,
+     "group": "map_20231",
+     "kind": "clone",
+     "source": "Map_20231_2",
+     "dx": 4,
+     "dy": 3,
+     "script": "sc_map_20231_14",
+     "script_id": 739
+    },
+    {
+     "pr_map": "Map_20231_15",
+     "pr_id": 755,
+     "group": "map_20231",
+     "kind": "clone",
+     "source": "Map_20231_3",
+     "dx": 0,
+     "dy": 0,
+     "script": "sc_map_20231_15",
+     "script_id": 740
     }
    ],
    "exits": [
@@ -8535,8 +8571,8 @@
      "flags": 16,
      "pr": [
       [
-       "Map_20231_8",
-       44,
+       "Map_20231_13",
+       41,
        56
       ]
      ],
@@ -8559,8 +8595,8 @@
      "flags": 16,
      "pr": [
       [
-       "Map_20231_8",
-       21,
+       "Map_20231_15",
+       18,
        33
       ]
      ],
@@ -8607,9 +8643,9 @@
      "flags": 16,
      "pr": [
       [
-       "Map_20231_8",
-       8,
-       16
+       "Map_20231_14",
+       9,
+       19
       ]
      ],
      "to": [
@@ -8638,9 +8674,9 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20231_8",
-     "pr_id": 664,
-     "pr_x": 45,
+     "pr_map": "Map_20231_13",
+     "pr_id": 753,
+     "pr_x": 42,
      "pr_y": 50
     },
     {
@@ -8661,9 +8697,9 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20231_8",
-     "pr_id": 664,
-     "pr_x": 51,
+     "pr_map": "Map_20231_13",
+     "pr_id": 753,
+     "pr_x": 48,
      "pr_y": 40
     },
     {
@@ -8684,10 +8720,10 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20231_8",
-     "pr_id": 664,
-     "pr_x": 8,
-     "pr_y": 10
+     "pr_map": "Map_20231_14",
+     "pr_id": 754,
+     "pr_x": 9,
+     "pr_y": 13
     },
     {
      "index": 3,
@@ -8707,9 +8743,9 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20231_8",
-     "pr_id": 664,
-     "pr_x": 14,
+     "pr_map": "Map_20231_13",
+     "pr_id": 753,
+     "pr_x": 11,
      "pr_y": 47
     },
     {
@@ -8730,9 +8766,9 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20231_8",
-     "pr_id": 664,
-     "pr_x": 15,
+     "pr_map": "Map_20231_13",
+     "pr_id": 753,
+     "pr_x": 12,
      "pr_y": 47
     },
     {
@@ -8776,10 +8812,10 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20231_8",
-     "pr_id": 664,
-     "pr_x": 11,
-     "pr_y": 10
+     "pr_map": "Map_20231_14",
+     "pr_id": 754,
+     "pr_x": 12,
+     "pr_y": 13
     },
     {
      "index": 7,
@@ -8811,9 +8847,9 @@
      "x": 46,
      "y": 42,
      "event": "CACD0D",
-     "pr_map": "Map_20231_8",
-     "pr_id": 664,
-     "pr_x": 49,
+     "pr_map": "Map_20231_13",
+     "pr_id": 753,
+     "pr_x": 46,
      "pr_y": 42
     },
     {
@@ -8836,25 +8872,14 @@
    "bgm_id": null,
    "points": [
     {
-     "pr_map": "Map_20231_8",
-     "pr_id": 664,
-     "pr_x": 21,
-     "pr_y": 32,
+     "pr_map": "Map_20231_13",
+     "pr_id": 753,
+     "pr_x": 41,
+     "pr_y": 55,
      "point_id": 1,
      "snes": [
-      18,
-      32
-     ]
-    },
-    {
-     "pr_map": "Map_20231_8",
-     "pr_id": 664,
-     "pr_x": 8,
-     "pr_y": 15,
-     "point_id": 2,
-     "snes": [
-      5,
-      15
+      41,
+      55
      ]
     },
     {
@@ -8869,17 +8894,6 @@
      ]
     },
     {
-     "pr_map": "Map_20231_8",
-     "pr_id": 664,
-     "pr_x": 44,
-     "pr_y": 55,
-     "point_id": 4,
-     "snes": [
-      41,
-      55
-     ]
-    },
-    {
      "pr_map": "Map_20231_9",
      "pr_id": 665,
      "pr_x": 36,
@@ -8888,6 +8902,28 @@
      "snes": [
       36,
       14
+     ]
+    },
+    {
+     "pr_map": "Map_20231_14",
+     "pr_id": 754,
+     "pr_x": 9,
+     "pr_y": 18,
+     "point_id": 1,
+     "snes": [
+      5,
+      15
+     ]
+    },
+    {
+     "pr_map": "Map_20231_15",
+     "pr_id": 755,
+     "pr_x": 18,
+     "pr_y": 32,
+     "point_id": 1,
+     "snes": [
+      18,
+      32
      ]
     }
    ]
@@ -9105,7 +9141,7 @@
    "source": {
     "snes_map": 68,
     "pr_maps": [
-     "Map_30641_5"
+     "Map_30641_2"
     ]
    },
    "patched_cells": 0,
@@ -9115,7 +9151,7 @@
      "pr_id": 667,
      "group": "map_30641",
      "kind": "clone",
-     "source": "Map_30641_5",
+     "source": "Map_30641_2",
      "dx": 0,
      "dy": 0,
      "script": "sc_map_30641_8",
@@ -9853,7 +9889,7 @@
    "source": {
     "snes_map": 68,
     "pr_maps": [
-     "Map_30641_5"
+     "Map_30641_2"
     ]
    },
    "patched_cells": 0,
@@ -9863,7 +9899,7 @@
      "pr_id": 671,
      "group": "map_30641",
      "kind": "clone",
-     "source": "Map_30641_5",
+     "source": "Map_30641_2",
      "dx": 0,
      "dy": 0,
      "script": "sc_map_30641_9",
@@ -10295,20 +10331,20 @@
    "source": {
     "snes_map": 70,
     "pr_maps": [
-     "Map_30641_5"
+     "Map_30031_1"
     ]
    },
    "patched_cells": 0,
    "rooms": [
     {
-     "pr_map": "Map_30641_10",
+     "pr_map": "Map_30031_6",
      "pr_id": 672,
-     "group": "map_30641",
+     "group": "map_30031",
      "kind": "clone",
-     "source": "Map_30641_5",
+     "source": "Map_30031_1",
      "dx": 0,
      "dy": 0,
-     "script": "sc_map_30641_10",
+     "script": "sc_map_30031_6",
      "script_id": 657
     }
    ],
@@ -10327,7 +10363,7 @@
      "flags": 16,
      "pr": [
       [
-       "Map_30641_10",
+       "Map_30031_6",
        55,
        32
       ]
@@ -10358,7 +10394,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_30641_10",
+     "pr_map": "Map_30031_6",
      "pr_id": 672,
      "pr_x": 47,
      "pr_y": 29
@@ -10374,7 +10410,7 @@
    "bgm_id": null,
    "points": [
     {
-     "pr_map": "Map_30641_10",
+     "pr_map": "Map_30031_6",
      "pr_id": 672,
      "pr_x": 55,
      "pr_y": 31,
@@ -10395,20 +10431,20 @@
    "source": {
     "snes_map": 15,
     "pr_maps": [
-     "Map_20361_3"
+     "Map_20281_2"
     ]
    },
    "patched_cells": 0,
    "rooms": [
     {
-     "pr_map": "Map_20361_28",
+     "pr_map": "Map_20281_5",
      "pr_id": 673,
-     "group": "map_20361",
+     "group": "map_20281",
      "kind": "clone",
-     "source": "Map_20361_3",
-     "dx": -60,
-     "dy": 2,
-     "script": "sc_map_20361_28",
+     "source": "Map_20281_2",
+     "dx": 0,
+     "dy": 0,
+     "script": "sc_map_20281_5",
      "script_id": 658
     }
    ],
@@ -10427,9 +10463,9 @@
      "flags": 24,
      "pr": [
       [
-       "Map_20361_28",
-       -12,
-       34
+       "Map_20281_5",
+       48,
+       32
       ]
      ],
      "to": [
@@ -10451,9 +10487,9 @@
      "flags": 0,
      "pr": [
       [
-       "Map_20361_28",
-       -8,
-       29
+       "Map_20281_5",
+       52,
+       27
       ]
      ],
      "to": [
@@ -10474,22 +10510,22 @@
    "bgm_id": 21,
    "points": [
     {
-     "pr_map": "Map_20361_28",
+     "pr_map": "Map_20281_5",
      "pr_id": 673,
-     "pr_x": -11,
-     "pr_y": 33,
-     "point_id": 1,
+     "pr_x": 49,
+     "pr_y": 31,
+     "point_id": 3,
      "snes": [
       49,
       31
      ]
     },
     {
-     "pr_map": "Map_20361_28",
+     "pr_map": "Map_20281_5",
      "pr_id": 673,
-     "pr_x": -8,
-     "pr_y": 31,
-     "point_id": 2,
+     "pr_x": 52,
+     "pr_y": 29,
+     "point_id": 4,
      "snes": [
       52,
       29
@@ -10569,7 +10605,7 @@
      ],
      "to": [
       673,
-      1
+      3
      ]
     },
     {
@@ -10878,20 +10914,20 @@
    "source": {
     "snes_map": 61,
     "pr_maps": [
-     "Map_20371_2"
+     "Map_20051_2"
     ]
    },
    "patched_cells": 0,
    "rooms": [
     {
-     "pr_map": "Map_20371_19",
+     "pr_map": "Map_20051_25",
      "pr_id": 675,
-     "group": "map_20371",
+     "group": "map_20051",
      "kind": "clone",
-     "source": "Map_20371_2",
+     "source": "Map_20051_2",
      "dx": 3,
      "dy": 0,
-     "script": "sc_map_20371_19",
+     "script": "sc_map_20051_25",
      "script_id": 660
     }
    ],
@@ -10910,7 +10946,7 @@
      "flags": 8,
      "pr": [
       [
-       "Map_20371_19",
+       "Map_20051_25",
        100,
        41
       ]
@@ -10929,7 +10965,7 @@
      "type": "item",
      "contents": 221,
      "bit": 253,
-     "pr_map": "Map_20371_19",
+     "pr_map": "Map_20051_25",
      "pr_x": 104,
      "pr_y": 39,
      "flag_id": 340,
@@ -10943,7 +10979,7 @@
      "type": "item",
      "contents": 150,
      "bit": 254,
-     "pr_map": "Map_20371_19",
+     "pr_map": "Map_20051_25",
      "pr_x": 104,
      "pr_y": 43,
      "flag_id": 341,
@@ -10957,7 +10993,7 @@
      "type": "item",
      "contents": 236,
      "bit": 255,
-     "pr_map": "Map_20371_19",
+     "pr_map": "Map_20051_25",
      "pr_x": 95,
      "pr_y": 53,
      "flag_id": 342,
@@ -10984,7 +11020,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_19",
+     "pr_map": "Map_20051_25",
      "pr_id": 675,
      "pr_x": 3,
      "pr_y": 0
@@ -11000,7 +11036,7 @@
    "bgm_id": null,
    "points": [
     {
-     "pr_map": "Map_20371_19",
+     "pr_map": "Map_20051_25",
      "pr_id": 675,
      "pr_x": 99,
      "pr_y": 42,
@@ -12435,7 +12471,7 @@
    "source": {
     "snes_map": 68,
     "pr_maps": [
-     "Map_30641_5"
+     "Map_30641_4"
     ]
    },
    "patched_cells": 0,
@@ -12445,7 +12481,7 @@
      "pr_id": 685,
      "group": "map_30641",
      "kind": "clone",
-     "source": "Map_30641_5",
+     "source": "Map_30641_4",
      "dx": 0,
      "dy": 0,
      "script": "sc_map_30641_11",
@@ -12795,7 +12831,7 @@
      ],
      "to": [
       691,
-      1
+      2
      ]
     }
    ],
@@ -13411,7 +13447,7 @@
    "source": {
     "snes_map": 219,
     "pr_maps": [
-     "Map_20231_4"
+     "Map_20231_5"
     ]
    },
    "patched_cells": 9,
@@ -13421,8 +13457,8 @@
      "pr_id": 691,
      "group": "map_20231",
      "kind": "clone",
-     "source": "Map_20231_4",
-     "dx": 3,
+     "source": "Map_20231_5",
+     "dx": 0,
      "dy": 0,
      "script": "sc_map_20231_10",
      "script_id": 676
@@ -13444,7 +13480,7 @@
      "pr": [
       [
        "Map_20231_10",
-       44,
+       41,
        56
       ]
      ],
@@ -13463,7 +13499,7 @@
      "contents": 277,
      "bit": 312,
      "pr_map": "Map_20231_10",
-     "pr_x": 43,
+     "pr_x": 40,
      "pr_y": 46,
      "flag_id": 344,
      "content_id": 259,
@@ -13491,7 +13527,7 @@
      "split_sprite": 0,
      "pr_map": "Map_20231_10",
      "pr_id": 691,
-     "pr_x": 42,
+     "pr_x": 39,
      "pr_y": 49
     },
     {
@@ -13514,7 +13550,7 @@
      "split_sprite": 0,
      "pr_map": "Map_20231_10",
      "pr_id": 691,
-     "pr_x": 50,
+     "pr_x": 47,
      "pr_y": 40
     }
    ],
@@ -13530,9 +13566,9 @@
     {
      "pr_map": "Map_20231_10",
      "pr_id": 691,
-     "pr_x": 44,
+     "pr_x": 41,
      "pr_y": 55,
-     "point_id": 1,
+     "point_id": 2,
      "snes": [
       41,
       55
@@ -14181,20 +14217,20 @@
    "source": {
     "snes_map": 57,
     "pr_maps": [
-     "Map_20371_9"
+     "Map_20051_6"
     ]
    },
    "patched_cells": 745,
    "rooms": [
     {
-     "pr_map": "Map_20371_20",
+     "pr_map": "Map_20051_26",
      "pr_id": 696,
-     "group": "map_20371",
+     "group": "map_20051",
      "kind": "clone",
-     "source": "Map_20371_9",
+     "source": "Map_20051_6",
      "dx": 0,
      "dy": 0,
-     "script": "sc_map_20371_20",
+     "script": "sc_map_20051_26",
      "script_id": 681
     }
    ],
@@ -14213,7 +14249,7 @@
      "flags": 16,
      "pr": [
       [
-       "Map_20371_20",
+       "Map_20051_26",
        19,
        31
       ]
@@ -14237,14 +14273,14 @@
      "flags": 4,
      "pr": [
       [
-       "Map_20371_20",
+       "Map_20051_26",
        40,
        19
       ]
      ],
      "to": [
       724,
-      1
+      2
      ]
     },
     {
@@ -14261,7 +14297,7 @@
      "flags": 16,
      "pr": [
       [
-       "Map_20371_20",
+       "Map_20051_26",
        42,
        45
       ]
@@ -14285,7 +14321,7 @@
      "flags": 16,
      "pr": [
       [
-       "Map_20371_20",
+       "Map_20051_26",
        26,
        25
       ]
@@ -14309,7 +14345,7 @@
      "flags": 0,
      "pr": [
       [
-       "Map_20371_20",
+       "Map_20051_26",
        19,
        12
       ]
@@ -14333,7 +14369,7 @@
      "flags": 16,
      "pr": [
       [
-       "Map_20371_20",
+       "Map_20051_26",
        35,
        25
       ]
@@ -14357,7 +14393,7 @@
      "flags": 4,
      "pr": [
       [
-       "Map_20371_20",
+       "Map_20051_26",
        11,
        12
       ]
@@ -14381,7 +14417,7 @@
      "flags": 0,
      "pr": [
       [
-       "Map_20371_20",
+       "Map_20051_26",
        0,
        0
       ]
@@ -14400,7 +14436,7 @@
      "type": "item",
      "contents": 244,
      "bit": 309,
-     "pr_map": "Map_20371_20",
+     "pr_map": "Map_20051_26",
      "pr_x": 55,
      "pr_y": 48,
      "flag_id": 346,
@@ -14427,7 +14463,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20371_20",
+     "pr_map": "Map_20051_26",
      "pr_id": 696,
      "pr_x": 14,
      "pr_y": 18
@@ -14450,7 +14486,7 @@
      "const_sprite": 0,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_20",
+     "pr_map": "Map_20051_26",
      "pr_id": 696,
      "pr_x": 20,
      "pr_y": 19
@@ -14473,7 +14509,7 @@
      "const_sprite": 0,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_20",
+     "pr_map": "Map_20051_26",
      "pr_id": 696,
      "pr_x": 18,
      "pr_y": 20
@@ -14496,7 +14532,7 @@
      "const_sprite": 0,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_20",
+     "pr_map": "Map_20051_26",
      "pr_id": 696,
      "pr_x": 12,
      "pr_y": 19
@@ -14519,7 +14555,7 @@
      "const_sprite": 0,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_20",
+     "pr_map": "Map_20051_26",
      "pr_id": 696,
      "pr_x": 8,
      "pr_y": 17
@@ -14542,7 +14578,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20371_20",
+     "pr_map": "Map_20051_26",
      "pr_id": 696,
      "pr_x": 33,
      "pr_y": 14
@@ -14565,7 +14601,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20371_20",
+     "pr_map": "Map_20051_26",
      "pr_id": 696,
      "pr_x": 22,
      "pr_y": 15
@@ -14588,7 +14624,7 @@
      "const_sprite": 0,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_20",
+     "pr_map": "Map_20051_26",
      "pr_id": 696,
      "pr_x": 10,
      "pr_y": 17
@@ -14611,7 +14647,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20371_20",
+     "pr_map": "Map_20051_26",
      "pr_id": 696,
      "pr_x": 27,
      "pr_y": 14
@@ -14634,7 +14670,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20371_20",
+     "pr_map": "Map_20051_26",
      "pr_id": 696,
      "pr_x": 40,
      "pr_y": 22
@@ -14650,7 +14686,7 @@
    "bgm_id": null,
    "points": [
     {
-     "pr_map": "Map_20371_20",
+     "pr_map": "Map_20051_26",
      "pr_id": 696,
      "pr_x": 11,
      "pr_y": 14,
@@ -14661,7 +14697,7 @@
      ]
     },
     {
-     "pr_map": "Map_20371_20",
+     "pr_map": "Map_20051_26",
      "pr_id": 696,
      "pr_x": 19,
      "pr_y": 14,
@@ -14672,7 +14708,7 @@
      ]
     },
     {
-     "pr_map": "Map_20371_20",
+     "pr_map": "Map_20051_26",
      "pr_id": 696,
      "pr_x": 19,
      "pr_y": 30,
@@ -14683,7 +14719,7 @@
      ]
     },
     {
-     "pr_map": "Map_20371_20",
+     "pr_map": "Map_20051_26",
      "pr_id": 696,
      "pr_x": 25,
      "pr_y": 16,
@@ -14694,7 +14730,7 @@
      ]
     },
     {
-     "pr_map": "Map_20371_20",
+     "pr_map": "Map_20051_26",
      "pr_id": 696,
      "pr_x": 26,
      "pr_y": 24,
@@ -14705,7 +14741,7 @@
      ]
     },
     {
-     "pr_map": "Map_20371_20",
+     "pr_map": "Map_20051_26",
      "pr_id": 696,
      "pr_x": 35,
      "pr_y": 24,
@@ -14716,7 +14752,7 @@
      ]
     },
     {
-     "pr_map": "Map_20371_20",
+     "pr_map": "Map_20051_26",
      "pr_id": 696,
      "pr_x": 40,
      "pr_y": 21,
@@ -15247,7 +15283,7 @@
       ]
      ],
      "to": [
-      701,
+      758,
       1
      ]
     },
@@ -15331,8 +15367,8 @@
       ]
      ],
      "to": [
-      701,
-      2
+      757,
+      1
      ]
     },
     {
@@ -15415,8 +15451,8 @@
       ]
      ],
      "to": [
-      701,
-      4
+      756,
+      1
      ]
     },
     {
@@ -15973,12 +16009,26 @@
    "source": {
     "snes_map": 219,
     "pr_maps": [
+     "Map_20231_5",
      "Map_20231_4",
-     "Map_20231_1"
+     "Map_20231_1",
+     "Map_20231_2",
+     "Map_20231_3"
     ]
    },
-   "patched_cells": 14,
+   "patched_cells": 35,
    "rooms": [
+    {
+     "pr_map": "Map_20231_16",
+     "pr_id": 756,
+     "group": "map_20231",
+     "kind": "clone",
+     "source": "Map_20231_5",
+     "dx": 0,
+     "dy": 0,
+     "script": "sc_map_20231_16",
+     "script_id": 741
+    },
     {
      "pr_map": "Map_20231_11",
      "pr_id": 701,
@@ -16000,6 +16050,28 @@
      "dy": 3,
      "script": "sc_map_20231_12",
      "script_id": 687
+    },
+    {
+     "pr_map": "Map_20231_17",
+     "pr_id": 757,
+     "group": "map_20231",
+     "kind": "clone",
+     "source": "Map_20231_2",
+     "dx": 4,
+     "dy": 3,
+     "script": "sc_map_20231_17",
+     "script_id": 742
+    },
+    {
+     "pr_map": "Map_20231_18",
+     "pr_id": 758,
+     "group": "map_20231",
+     "kind": "clone",
+     "source": "Map_20231_3",
+     "dx": 0,
+     "dy": 0,
+     "script": "sc_map_20231_18",
+     "script_id": 743
     }
    ],
    "exits": [
@@ -16041,8 +16113,8 @@
      "flags": 16,
      "pr": [
       [
-       "Map_20231_11",
-       44,
+       "Map_20231_16",
+       41,
        56
       ]
      ],
@@ -16065,8 +16137,8 @@
      "flags": 16,
      "pr": [
       [
-       "Map_20231_11",
-       21,
+       "Map_20231_18",
+       18,
        33
       ]
      ],
@@ -16113,9 +16185,9 @@
      "flags": 16,
      "pr": [
       [
-       "Map_20231_11",
-       8,
-       16
+       "Map_20231_17",
+       9,
+       19
       ]
      ],
      "to": [
@@ -16182,9 +16254,9 @@
      "const_sprite": 1,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20231_11",
-     "pr_id": 701,
-     "pr_x": 8,
+     "pr_map": "Map_20231_16",
+     "pr_id": 756,
+     "pr_x": 5,
      "pr_y": 10
     },
     {
@@ -16205,10 +16277,10 @@
      "const_sprite": 1,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20231_11",
-     "pr_id": 701,
-     "pr_x": 10,
-     "pr_y": 9
+     "pr_map": "Map_20231_17",
+     "pr_id": 757,
+     "pr_x": 11,
+     "pr_y": 12
     },
     {
      "index": 3,
@@ -16228,9 +16300,9 @@
      "const_sprite": 0,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20231_11",
-     "pr_id": 701,
-     "pr_x": 41,
+     "pr_map": "Map_20231_16",
+     "pr_id": 756,
+     "pr_x": 38,
      "pr_y": 50
     },
     {
@@ -16251,9 +16323,9 @@
      "const_sprite": 0,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20231_11",
-     "pr_id": 701,
-     "pr_x": 43,
+     "pr_map": "Map_20231_16",
+     "pr_id": 756,
+     "pr_x": 40,
      "pr_y": 50
     },
     {
@@ -16320,9 +16392,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20231_11",
-     "pr_id": 701,
-     "pr_x": 7,
+     "pr_map": "Map_20231_16",
+     "pr_id": 756,
+     "pr_x": 4,
      "pr_y": 11
     },
     {
@@ -16343,9 +16415,9 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20231_11",
-     "pr_id": 701,
-     "pr_x": 3,
+     "pr_map": "Map_20231_16",
+     "pr_id": 756,
+     "pr_x": 0,
      "pr_y": 0
     },
     {
@@ -16366,9 +16438,9 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20231_11",
-     "pr_id": 701,
-     "pr_x": 3,
+     "pr_map": "Map_20231_16",
+     "pr_id": 756,
+     "pr_x": 0,
      "pr_y": 0
     }
    ],
@@ -16382,25 +16454,14 @@
    "bgm_id": null,
    "points": [
     {
-     "pr_map": "Map_20231_11",
-     "pr_id": 701,
-     "pr_x": 21,
-     "pr_y": 32,
+     "pr_map": "Map_20231_16",
+     "pr_id": 756,
+     "pr_x": 41,
+     "pr_y": 55,
      "point_id": 1,
      "snes": [
-      18,
-      32
-     ]
-    },
-    {
-     "pr_map": "Map_20231_11",
-     "pr_id": 701,
-     "pr_x": 8,
-     "pr_y": 15,
-     "point_id": 2,
-     "snes": [
-      5,
-      15
+      41,
+      55
      ]
     },
     {
@@ -16415,17 +16476,6 @@
      ]
     },
     {
-     "pr_map": "Map_20231_11",
-     "pr_id": 701,
-     "pr_x": 44,
-     "pr_y": 55,
-     "point_id": 4,
-     "snes": [
-      41,
-      55
-     ]
-    },
-    {
      "pr_map": "Map_20231_12",
      "pr_id": 702,
      "pr_x": 36,
@@ -16434,6 +16484,28 @@
      "snes": [
       36,
       14
+     ]
+    },
+    {
+     "pr_map": "Map_20231_17",
+     "pr_id": 757,
+     "pr_x": 9,
+     "pr_y": 18,
+     "point_id": 1,
+     "snes": [
+      5,
+      15
+     ]
+    },
+    {
+     "pr_map": "Map_20231_18",
+     "pr_id": 758,
+     "pr_x": 18,
+     "pr_y": 32,
+     "point_id": 1,
+     "snes": [
+      18,
+      32
      ]
     }
    ]
@@ -16447,20 +16519,20 @@
    "source": {
     "snes_map": 200,
     "pr_maps": [
-     "Map_20431_6"
+     "Map_20151_6"
     ]
    },
    "patched_cells": 611,
    "rooms": [
     {
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
-     "group": "map_20431",
+     "group": "map_20151",
      "kind": "clone",
-     "source": "Map_20431_6",
+     "source": "Map_20151_6",
      "dx": -3,
      "dy": -2,
-     "script": "sc_map_20431_8",
+     "script": "sc_map_20151_9",
      "script_id": 688
     }
    ],
@@ -16479,14 +16551,14 @@
      "flags": 16,
      "pr": [
       [
-       "Map_20431_8",
+       "Map_20151_9",
        29,
        26
       ]
      ],
      "to": [
       725,
-      1
+      5
      ]
     },
     {
@@ -16503,7 +16575,7 @@
      "flags": 0,
      "pr": [
       [
-       "Map_20431_8",
+       "Map_20151_9",
        29,
        7
       ]
@@ -16527,7 +16599,7 @@
      "flags": 0,
      "pr": [
       [
-       "Map_20431_8",
+       "Map_20151_9",
        11,
        13
       ]
@@ -16558,7 +16630,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 5,
      "pr_y": 5
@@ -16581,7 +16653,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 8,
      "pr_y": 5
@@ -16604,7 +16676,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 14,
      "pr_y": 5
@@ -16627,7 +16699,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 17,
      "pr_y": 5
@@ -16650,7 +16722,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 41,
      "pr_y": 5
@@ -16673,7 +16745,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 44,
      "pr_y": 5
@@ -16696,7 +16768,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 50,
      "pr_y": 5
@@ -16719,7 +16791,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 53,
      "pr_y": 5
@@ -16742,7 +16814,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 5,
      "pr_y": 17
@@ -16765,7 +16837,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 8,
      "pr_y": 17
@@ -16788,7 +16860,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 27,
      "pr_y": 5
@@ -16811,7 +16883,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 31,
      "pr_y": 5
@@ -16834,7 +16906,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 14,
      "pr_y": 17
@@ -16857,7 +16929,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 17,
      "pr_y": 17
@@ -16880,7 +16952,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 41,
      "pr_y": 17
@@ -16903,7 +16975,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 44,
      "pr_y": 17
@@ -16926,7 +16998,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 50,
      "pr_y": 17
@@ -16949,7 +17021,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 53,
      "pr_y": 17
@@ -16972,7 +17044,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 1,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 33,
      "pr_y": 11
@@ -16995,7 +17067,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": -3,
      "pr_y": -2
@@ -17018,7 +17090,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": -3,
      "pr_y": -2
@@ -17041,7 +17113,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": -3,
      "pr_y": -2
@@ -17064,7 +17136,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": -3,
      "pr_y": -2
@@ -17087,7 +17159,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": -3,
      "pr_y": -2
@@ -17110,7 +17182,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": -3,
      "pr_y": -2
@@ -17122,7 +17194,7 @@
      "x": 8,
      "y": 10,
      "event": "CDAF30",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 5,
      "pr_y": 8
@@ -17132,7 +17204,7 @@
      "x": 11,
      "y": 10,
      "event": "CDAF50",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 8,
      "pr_y": 8
@@ -17142,7 +17214,7 @@
      "x": 17,
      "y": 10,
      "event": "CDAF70",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 14,
      "pr_y": 8
@@ -17152,7 +17224,7 @@
      "x": 20,
      "y": 10,
      "event": "CDAF90",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 17,
      "pr_y": 8
@@ -17162,7 +17234,7 @@
      "x": 44,
      "y": 10,
      "event": "CDAFB0",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 41,
      "pr_y": 8
@@ -17172,7 +17244,7 @@
      "x": 47,
      "y": 10,
      "event": "CDAFD0",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 44,
      "pr_y": 8
@@ -17182,7 +17254,7 @@
      "x": 53,
      "y": 10,
      "event": "CDAFF0",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 50,
      "pr_y": 8
@@ -17192,7 +17264,7 @@
      "x": 56,
      "y": 10,
      "event": "CDB010",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 53,
      "pr_y": 8
@@ -17202,7 +17274,7 @@
      "x": 30,
      "y": 10,
      "event": "CD1F50",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 27,
      "pr_y": 8
@@ -17212,7 +17284,7 @@
      "x": 34,
      "y": 10,
      "event": "CD1F70",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 31,
      "pr_y": 8
@@ -17222,7 +17294,7 @@
      "x": 8,
      "y": 22,
      "event": "CD7C00",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 5,
      "pr_y": 20
@@ -17232,7 +17304,7 @@
      "x": 11,
      "y": 22,
      "event": "CD7C20",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 8,
      "pr_y": 20
@@ -17242,7 +17314,7 @@
      "x": 17,
      "y": 22,
      "event": "CD7C40",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 14,
      "pr_y": 20
@@ -17252,7 +17324,7 @@
      "x": 20,
      "y": 22,
      "event": "CD7C60",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 17,
      "pr_y": 20
@@ -17262,7 +17334,7 @@
      "x": 44,
      "y": 22,
      "event": "CD7C80",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 41,
      "pr_y": 20
@@ -17272,7 +17344,7 @@
      "x": 47,
      "y": 22,
      "event": "CD7CA0",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 44,
      "pr_y": 20
@@ -17282,7 +17354,7 @@
      "x": 53,
      "y": 22,
      "event": "CD7CC0",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 50,
      "pr_y": 20
@@ -17292,7 +17364,7 @@
      "x": 56,
      "y": 22,
      "event": "CD7CE0",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 53,
      "pr_y": 20
@@ -17302,7 +17374,7 @@
      "x": 30,
      "y": 25,
      "event": "CD1F90",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 27,
      "pr_y": 23
@@ -17312,7 +17384,7 @@
      "x": 34,
      "y": 25,
      "event": "CD1FC0",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 31,
      "pr_y": 23
@@ -17322,7 +17394,7 @@
      "x": 36,
      "y": 15,
      "event": "CD2310",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 33,
      "pr_y": 13
@@ -17332,7 +17404,7 @@
      "x": 0,
      "y": 0,
      "event": "CA0000",
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": -3,
      "pr_y": -2
@@ -17347,7 +17419,7 @@
    "bgm_id": 0,
    "points": [
     {
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 29,
      "pr_y": 8,
@@ -17358,7 +17430,7 @@
      ]
     },
     {
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 29,
      "pr_y": 25,
@@ -17369,7 +17441,7 @@
      ]
     },
     {
-     "pr_map": "Map_20431_8",
+     "pr_map": "Map_20151_9",
      "pr_id": 703,
      "pr_x": 102,
      "pr_y": 29,
@@ -17856,20 +17928,20 @@
    "source": {
     "snes_map": 57,
     "pr_maps": [
-     "Map_20371_9"
+     "Map_20051_6"
     ]
    },
    "patched_cells": 410,
    "rooms": [
     {
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
-     "group": "map_20371",
+     "group": "map_20051",
      "kind": "clone",
-     "source": "Map_20371_9",
+     "source": "Map_20051_6",
      "dx": 0,
      "dy": 0,
-     "script": "sc_map_20371_21",
+     "script": "sc_map_20051_27",
      "script_id": 690
     }
    ],
@@ -17888,7 +17960,7 @@
      "flags": 16,
      "pr": [
       [
-       "Map_20371_21",
+       "Map_20051_27",
        103,
        30
       ]
@@ -17912,7 +17984,7 @@
      "flags": 0,
      "pr": [
       [
-       "Map_20371_21",
+       "Map_20051_27",
        103,
        9
       ]
@@ -17943,7 +18015,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 101,
      "pr_y": 12
@@ -17966,7 +18038,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 105,
      "pr_y": 12
@@ -17989,7 +18061,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 97,
      "pr_y": 14
@@ -18012,7 +18084,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 99,
      "pr_y": 14
@@ -18035,7 +18107,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 107,
      "pr_y": 14
@@ -18058,7 +18130,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 109,
      "pr_y": 14
@@ -18081,7 +18153,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 100,
      "pr_y": 16
@@ -18104,7 +18176,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 106,
      "pr_y": 16
@@ -18127,7 +18199,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 96,
      "pr_y": 18
@@ -18150,7 +18222,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 98,
      "pr_y": 18
@@ -18173,7 +18245,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 102,
      "pr_y": 18
@@ -18196,7 +18268,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 104,
      "pr_y": 18
@@ -18219,7 +18291,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 108,
      "pr_y": 18
@@ -18242,7 +18314,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 110,
      "pr_y": 18
@@ -18265,7 +18337,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 1,
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 103,
      "pr_y": 15
@@ -18277,7 +18349,7 @@
      "x": 101,
      "y": 14,
      "event": "CDA100",
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 101,
      "pr_y": 14
@@ -18287,7 +18359,7 @@
      "x": 105,
      "y": 14,
      "event": "CDA120",
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 105,
      "pr_y": 14
@@ -18297,7 +18369,7 @@
      "x": 97,
      "y": 16,
      "event": "CDA140",
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 97,
      "pr_y": 16
@@ -18307,7 +18379,7 @@
      "x": 99,
      "y": 16,
      "event": "CDA160",
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 99,
      "pr_y": 16
@@ -18317,7 +18389,7 @@
      "x": 107,
      "y": 16,
      "event": "CDA180",
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 107,
      "pr_y": 16
@@ -18327,7 +18399,7 @@
      "x": 109,
      "y": 16,
      "event": "CDA1A0",
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 109,
      "pr_y": 16
@@ -18337,7 +18409,7 @@
      "x": 100,
      "y": 18,
      "event": "CDA1C0",
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 100,
      "pr_y": 18
@@ -18347,7 +18419,7 @@
      "x": 106,
      "y": 18,
      "event": "CDA1E0",
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 106,
      "pr_y": 18
@@ -18357,7 +18429,7 @@
      "x": 96,
      "y": 20,
      "event": "CDA200",
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 96,
      "pr_y": 20
@@ -18367,7 +18439,7 @@
      "x": 98,
      "y": 20,
      "event": "CDA220",
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 98,
      "pr_y": 20
@@ -18377,7 +18449,7 @@
      "x": 102,
      "y": 20,
      "event": "CDA240",
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 102,
      "pr_y": 20
@@ -18387,7 +18459,7 @@
      "x": 104,
      "y": 20,
      "event": "CDA260",
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 104,
      "pr_y": 20
@@ -18397,7 +18469,7 @@
      "x": 108,
      "y": 20,
      "event": "CDA280",
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 108,
      "pr_y": 20
@@ -18407,7 +18479,7 @@
      "x": 110,
      "y": 20,
      "event": "CDA2A0",
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 110,
      "pr_y": 20
@@ -18417,7 +18489,7 @@
      "x": 103,
      "y": 17,
      "event": "CDC260",
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 103,
      "pr_y": 17
@@ -18432,7 +18504,7 @@
    "bgm_id": 0,
    "points": [
     {
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 103,
      "pr_y": 11,
@@ -18443,7 +18515,7 @@
      ]
     },
     {
-     "pr_map": "Map_20371_21",
+     "pr_map": "Map_20051_27",
      "pr_id": 705,
      "pr_x": 103,
      "pr_y": 29,
@@ -18464,20 +18536,20 @@
    "source": {
     "snes_map": 57,
     "pr_maps": [
-     "Map_20371_9"
+     "Map_20051_6"
     ]
    },
    "patched_cells": 410,
    "rooms": [
     {
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
-     "group": "map_20371",
+     "group": "map_20051",
      "kind": "clone",
-     "source": "Map_20371_9",
+     "source": "Map_20051_6",
      "dx": 0,
      "dy": 0,
-     "script": "sc_map_20371_22",
+     "script": "sc_map_20051_28",
      "script_id": 691
     }
    ],
@@ -18496,7 +18568,7 @@
      "flags": 16,
      "pr": [
       [
-       "Map_20371_22",
+       "Map_20051_28",
        103,
        29
       ]
@@ -18527,7 +18599,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 104,
      "pr_y": 15
@@ -18550,7 +18622,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 101,
      "pr_y": 13
@@ -18573,7 +18645,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 105,
      "pr_y": 13
@@ -18596,7 +18668,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 99,
      "pr_y": 14
@@ -18619,7 +18691,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 107,
      "pr_y": 14
@@ -18642,7 +18714,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 97,
      "pr_y": 15
@@ -18665,7 +18737,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 103,
      "pr_y": 12
@@ -18688,7 +18760,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 109,
      "pr_y": 15
@@ -18711,7 +18783,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 1,
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 103,
      "pr_y": 18
@@ -18734,7 +18806,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 102,
      "pr_y": 15
@@ -18746,7 +18818,7 @@
      "x": 103,
      "y": 14,
      "event": "CDA380",
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 103,
      "pr_y": 14
@@ -18756,7 +18828,7 @@
      "x": 101,
      "y": 15,
      "event": "CDA2E0",
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 101,
      "pr_y": 15
@@ -18766,7 +18838,7 @@
      "x": 105,
      "y": 15,
      "event": "CDA300",
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 105,
      "pr_y": 15
@@ -18776,7 +18848,7 @@
      "x": 99,
      "y": 16,
      "event": "CDA320",
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 99,
      "pr_y": 16
@@ -18786,7 +18858,7 @@
      "x": 107,
      "y": 16,
      "event": "CDA340",
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 107,
      "pr_y": 16
@@ -18796,7 +18868,7 @@
      "x": 97,
      "y": 17,
      "event": "CDA360",
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 97,
      "pr_y": 17
@@ -18806,7 +18878,7 @@
      "x": 104,
      "y": 17,
      "event": "CDA2C0",
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 104,
      "pr_y": 17
@@ -18816,7 +18888,7 @@
      "x": 109,
      "y": 17,
      "event": "CDA3A0",
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 109,
      "pr_y": 17
@@ -18826,7 +18898,7 @@
      "x": 103,
      "y": 20,
      "event": "CDC270",
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 103,
      "pr_y": 20
@@ -18836,7 +18908,7 @@
      "x": 102,
      "y": 17,
      "event": "CDA3C0",
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 102,
      "pr_y": 17
@@ -18846,7 +18918,7 @@
      "x": 0,
      "y": 0,
      "event": "CA0000",
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 0,
      "pr_y": 0
@@ -18856,7 +18928,7 @@
      "x": 0,
      "y": 0,
      "event": "CA0000",
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 0,
      "pr_y": 0
@@ -18866,7 +18938,7 @@
      "x": 0,
      "y": 0,
      "event": "CA0000",
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 0,
      "pr_y": 0
@@ -18876,7 +18948,7 @@
      "x": 0,
      "y": 0,
      "event": "CA0000",
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 0,
      "pr_y": 0
@@ -18886,7 +18958,7 @@
      "x": 0,
      "y": 0,
      "event": "CA0000",
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 0,
      "pr_y": 0
@@ -18901,7 +18973,7 @@
    "bgm_id": 0,
    "points": [
     {
-     "pr_map": "Map_20371_22",
+     "pr_map": "Map_20051_28",
      "pr_id": 706,
      "pr_x": 103,
      "pr_y": 28,
@@ -19985,7 +20057,8 @@
      "Map_30021_3",
      "Map_30021_5",
      "Map_30021_4",
-     "Map_30021_1"
+     "Map_30021_1",
+     "Map_30021_2"
     ]
    },
    "patched_cells": 0,
@@ -20033,6 +20106,17 @@
      "dy": -22,
      "script": "sc_map_30021_9",
      "script_id": 697
+    },
+    {
+     "pr_map": "Map_30021_10",
+     "pr_id": 759,
+     "group": "map_30021",
+     "kind": "clone",
+     "source": "Map_30021_2",
+     "dx": 13,
+     "dy": -30,
+     "script": "sc_map_30021_10",
+     "script_id": 744
     }
    ],
    "exits": [
@@ -20242,9 +20326,9 @@
      "flags": 16,
      "pr": [
       [
-       "Map_30021_6",
-       73,
-       61
+       "Map_30021_10",
+       86,
+       31
       ]
      ],
      "to": [
@@ -20290,8 +20374,8 @@
       ]
      ],
      "to": [
-      709,
-      3
+      759,
+      1
      ]
     }
    ],
@@ -20384,10 +20468,10 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 1,
-     "pr_map": "Map_30021_6",
-     "pr_id": 709,
-     "pr_x": 73,
-     "pr_y": 52
+     "pr_map": "Map_30021_10",
+     "pr_id": 759,
+     "pr_x": 86,
+     "pr_y": 22
     },
     {
      "index": 4,
@@ -20407,10 +20491,10 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 1,
-     "pr_map": "Map_30021_6",
-     "pr_id": 709,
-     "pr_x": 76,
-     "pr_y": 46
+     "pr_map": "Map_30021_10",
+     "pr_id": 759,
+     "pr_x": 89,
+     "pr_y": 16
     },
     {
      "index": 5,
@@ -20606,17 +20690,6 @@
      ]
     },
     {
-     "pr_map": "Map_30021_6",
-     "pr_id": 709,
-     "pr_x": 73,
-     "pr_y": 60,
-     "point_id": 3,
-     "snes": [
-      73,
-      60
-     ]
-    },
-    {
      "pr_map": "Map_30021_7",
      "pr_id": 710,
      "pr_x": 108,
@@ -20691,6 +20764,17 @@
      "snes": [
       112,
       45
+     ]
+    },
+    {
+     "pr_map": "Map_30021_10",
+     "pr_id": 759,
+     "pr_x": 86,
+     "pr_y": 30,
+     "point_id": 1,
+     "snes": [
+      73,
+      60
      ]
     }
    ]
@@ -23004,20 +23088,20 @@
    "source": {
     "snes_map": 15,
     "pr_maps": [
-     "Map_20361_3"
+     "Map_20281_2"
     ]
    },
-   "patched_cells": 0,
+   "patched_cells": 285,
    "rooms": [
     {
-     "pr_map": "Map_20361_29",
+     "pr_map": "Map_20281_6",
      "pr_id": 724,
-     "group": "map_20361",
+     "group": "map_20281",
      "kind": "clone",
-     "source": "Map_20361_3",
-     "dx": -60,
-     "dy": 2,
-     "script": "sc_map_20361_29",
+     "source": "Map_20281_2",
+     "dx": 0,
+     "dy": 0,
+     "script": "sc_map_20281_6",
      "script_id": 709
     }
    ],
@@ -23036,9 +23120,9 @@
      "flags": 16,
      "pr": [
       [
-       "Map_20361_29",
-       42,
-       38
+       "Map_20281_6",
+       102,
+       36
       ]
      ],
      "to": [
@@ -23067,10 +23151,10 @@
      "const_sprite": 0,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20361_29",
+     "pr_map": "Map_20281_6",
      "pr_id": 724,
-     "pr_x": 50,
-     "pr_y": 35
+     "pr_x": 110,
+     "pr_y": 33
     },
     {
      "index": 1,
@@ -23090,10 +23174,10 @@
      "const_sprite": 0,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20361_29",
+     "pr_map": "Map_20281_6",
      "pr_id": 724,
-     "pr_x": 48,
-     "pr_y": 35
+     "pr_x": 108,
+     "pr_y": 33
     },
     {
      "index": 2,
@@ -23113,10 +23197,10 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20361_29",
+     "pr_map": "Map_20281_6",
      "pr_id": 724,
-     "pr_x": 41,
-     "pr_y": 34
+     "pr_x": 101,
+     "pr_y": 32
     },
     {
      "index": 3,
@@ -23136,10 +23220,10 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20361_29",
+     "pr_map": "Map_20281_6",
      "pr_id": 724,
-     "pr_x": 53,
-     "pr_y": 32
+     "pr_x": 113,
+     "pr_y": 30
     },
     {
      "index": 4,
@@ -23159,10 +23243,10 @@
      "const_sprite": 0,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20361_29",
+     "pr_map": "Map_20281_6",
      "pr_id": 724,
-     "pr_x": 46,
-     "pr_y": 35
+     "pr_x": 106,
+     "pr_y": 33
     },
     {
      "index": 5,
@@ -23182,10 +23266,10 @@
      "const_sprite": 0,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20361_29",
+     "pr_map": "Map_20281_6",
      "pr_id": 724,
-     "pr_x": 44,
-     "pr_y": 35
+     "pr_x": 104,
+     "pr_y": 33
     },
     {
      "index": 6,
@@ -23205,10 +23289,10 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20361_29",
+     "pr_map": "Map_20281_6",
      "pr_id": 724,
-     "pr_x": 49,
-     "pr_y": 32
+     "pr_x": 109,
+     "pr_y": 30
     },
     {
      "index": 7,
@@ -23228,10 +23312,10 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 1,
-     "pr_map": "Map_20361_29",
+     "pr_map": "Map_20281_6",
      "pr_id": 724,
-     "pr_x": 50,
-     "pr_y": 31
+     "pr_x": 110,
+     "pr_y": 29
     }
    ],
    "events": [
@@ -23240,20 +23324,20 @@
      "x": 0,
      "y": 0,
      "event": "CA0000",
-     "pr_map": "Map_20361_29",
+     "pr_map": "Map_20281_6",
      "pr_id": 724,
-     "pr_x": -60,
-     "pr_y": 2
+     "pr_x": 0,
+     "pr_y": 0
     },
     {
      "index": 1,
      "x": 110,
      "y": 30,
      "event": "CDF490",
-     "pr_map": "Map_20361_29",
+     "pr_map": "Map_20281_6",
      "pr_id": 724,
-     "pr_x": 50,
-     "pr_y": 32
+     "pr_x": 110,
+     "pr_y": 30
     }
    ],
    "song": 0,
@@ -23265,11 +23349,11 @@
    "bgm_id": 0,
    "points": [
     {
-     "pr_map": "Map_20361_29",
+     "pr_map": "Map_20281_6",
      "pr_id": 724,
-     "pr_x": 42,
-     "pr_y": 37,
-     "point_id": 1,
+     "pr_x": 102,
+     "pr_y": 35,
+     "point_id": 2,
      "snes": [
       102,
       35
@@ -23286,20 +23370,20 @@
    "source": {
     "snes_map": 232,
     "pr_maps": [
-     "Map_20051_2"
+     "Map_20161_3"
     ]
    },
-   "patched_cells": 540,
+   "patched_cells": 522,
    "rooms": [
     {
-     "pr_map": "Map_20051_16",
+     "pr_map": "Map_20161_7",
      "pr_id": 725,
-     "group": "map_20051",
+     "group": "map_20161",
      "kind": "clone",
-     "source": "Map_20051_2",
-     "dx": 3,
+     "source": "Map_20161_3",
+     "dx": 0,
      "dy": 0,
-     "script": "sc_map_20051_16",
+     "script": "sc_map_20161_7",
      "script_id": 710
     }
    ],
@@ -23318,8 +23402,8 @@
      "flags": 16,
      "pr": [
       [
-       "Map_20051_16",
-       63,
+       "Map_20161_7",
+       60,
        52
       ]
      ],
@@ -23342,14 +23426,14 @@
      "flags": 0,
      "pr": [
       [
-       "Map_20051_16",
-       57,
+       "Map_20161_7",
+       54,
        38
       ]
      ],
      "to": [
       726,
-      1
+      3
      ]
     },
     {
@@ -23366,8 +23450,8 @@
      "flags": 0,
      "pr": [
       [
-       "Map_20051_16",
-       63,
+       "Map_20161_7",
+       60,
        38
       ]
      ],
@@ -23390,8 +23474,8 @@
      "flags": 0,
      "pr": [
       [
-       "Map_20051_16",
-       69,
+       "Map_20161_7",
+       66,
        38
       ]
      ],
@@ -23421,9 +23505,9 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20051_16",
+     "pr_map": "Map_20161_7",
      "pr_id": 725,
-     "pr_x": 60,
+     "pr_x": 57,
      "pr_y": 49
     },
     {
@@ -23444,9 +23528,9 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20051_16",
+     "pr_map": "Map_20161_7",
      "pr_id": 725,
-     "pr_x": 66,
+     "pr_x": 63,
      "pr_y": 49
     },
     {
@@ -23467,9 +23551,9 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20051_16",
+     "pr_map": "Map_20161_7",
      "pr_id": 725,
-     "pr_x": 3,
+     "pr_x": 0,
      "pr_y": 0
     },
     {
@@ -23490,9 +23574,9 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20051_16",
+     "pr_map": "Map_20161_7",
      "pr_id": 725,
-     "pr_x": 3,
+     "pr_x": 0,
      "pr_y": 0
     },
     {
@@ -23513,9 +23597,9 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20051_16",
+     "pr_map": "Map_20161_7",
      "pr_id": 725,
-     "pr_x": 3,
+     "pr_x": 0,
      "pr_y": 0
     }
    ],
@@ -23529,44 +23613,44 @@
    "bgm_id": 0,
    "points": [
     {
-     "pr_map": "Map_20051_16",
+     "pr_map": "Map_20161_7",
      "pr_id": 725,
-     "pr_x": 63,
+     "pr_x": 60,
      "pr_y": 40,
-     "point_id": 1,
+     "point_id": 5,
      "snes": [
       60,
       40
      ]
     },
     {
-     "pr_map": "Map_20051_16",
+     "pr_map": "Map_20161_7",
      "pr_id": 725,
-     "pr_x": 57,
+     "pr_x": 54,
      "pr_y": 40,
-     "point_id": 2,
+     "point_id": 6,
      "snes": [
       54,
       40
      ]
     },
     {
-     "pr_map": "Map_20051_16",
+     "pr_map": "Map_20161_7",
      "pr_id": 725,
-     "pr_x": 63,
+     "pr_x": 60,
      "pr_y": 51,
-     "point_id": 3,
+     "point_id": 7,
      "snes": [
       60,
       51
      ]
     },
     {
-     "pr_map": "Map_20051_16",
+     "pr_map": "Map_20161_7",
      "pr_id": 725,
-     "pr_x": 69,
+     "pr_x": 66,
      "pr_y": 40,
-     "point_id": 4,
+     "point_id": 8,
      "snes": [
       66,
       40
@@ -23583,20 +23667,20 @@
    "source": {
     "snes_map": 232,
     "pr_maps": [
-     "Map_20051_2"
+     "Map_20161_3"
     ]
    },
-   "patched_cells": 476,
+   "patched_cells": 478,
    "rooms": [
     {
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "group": "map_20051",
+     "group": "map_20161",
      "kind": "clone",
-     "source": "Map_20051_2",
-     "dx": 3,
+     "source": "Map_20161_3",
+     "dx": 0,
      "dy": 0,
-     "script": "sc_map_20051_17",
+     "script": "sc_map_20161_8",
      "script_id": 711
     }
    ],
@@ -23615,13 +23699,37 @@
      "flags": 16,
      "pr": [
       [
-       "Map_20051_17",
-       59,
+       "Map_20161_8",
+       56,
        16
       ]
      ],
      "to": [
       725,
+      6
+     ]
+    },
+    {
+     "kind": "short",
+     "tiles": [
+      [
+       40,
+       10
+      ]
+     ],
+     "dest": 488,
+     "dest_x": 61,
+     "dest_y": 10,
+     "flags": 24,
+     "pr": [
+      [
+       "Map_20161_8",
+       40,
+       10
+      ]
+     ],
+     "to": [
+      727,
       2
      ]
     },
@@ -23630,7 +23738,7 @@
      "tiles": [
       [
        40,
-       10
+       11
       ]
      ],
      "dest": 488,
@@ -23639,38 +23747,14 @@
      "flags": 24,
      "pr": [
       [
-       "Map_20051_17",
-       43,
-       10
-      ]
-     ],
-     "to": [
-      727,
-      1
-     ]
-    },
-    {
-     "kind": "short",
-     "tiles": [
-      [
+       "Map_20161_8",
        40,
        11
       ]
      ],
-     "dest": 488,
-     "dest_x": 61,
-     "dest_y": 10,
-     "flags": 24,
-     "pr": [
-      [
-       "Map_20051_17",
-       43,
-       11
-      ]
-     ],
      "to": [
       727,
-      1
+      2
      ]
     }
    ],
@@ -23694,9 +23778,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 48,
+     "pr_x": 45,
      "pr_y": 8
     },
     {
@@ -23717,9 +23801,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 50,
+     "pr_x": 47,
      "pr_y": 8
     },
     {
@@ -23740,9 +23824,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 52,
+     "pr_x": 49,
      "pr_y": 8
     },
     {
@@ -23763,9 +23847,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 56,
+     "pr_x": 53,
      "pr_y": 8
     },
     {
@@ -23786,9 +23870,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 58,
+     "pr_x": 55,
      "pr_y": 8
     },
     {
@@ -23809,9 +23893,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 60,
+     "pr_x": 57,
      "pr_y": 8
     },
     {
@@ -23832,9 +23916,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 1,
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 48,
+     "pr_x": 45,
      "pr_y": 12
     },
     {
@@ -23855,9 +23939,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 50,
+     "pr_x": 47,
      "pr_y": 12
     },
     {
@@ -23878,9 +23962,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 52,
+     "pr_x": 49,
      "pr_y": 12
     },
     {
@@ -23901,9 +23985,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 1,
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 56,
+     "pr_x": 53,
      "pr_y": 12
     },
     {
@@ -23924,9 +24008,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 58,
+     "pr_x": 55,
      "pr_y": 12
     },
     {
@@ -23947,9 +24031,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 1,
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 60,
+     "pr_x": 57,
      "pr_y": 12
     }
    ],
@@ -23959,9 +24043,9 @@
      "x": 45,
      "y": 10,
      "event": "CE9400",
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 48,
+     "pr_x": 45,
      "pr_y": 10
     },
     {
@@ -23969,9 +24053,9 @@
      "x": 47,
      "y": 10,
      "event": "CE9420",
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 50,
+     "pr_x": 47,
      "pr_y": 10
     },
     {
@@ -23979,9 +24063,9 @@
      "x": 49,
      "y": 10,
      "event": "CE9440",
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 52,
+     "pr_x": 49,
      "pr_y": 10
     },
     {
@@ -23989,9 +24073,9 @@
      "x": 53,
      "y": 10,
      "event": "CE9460",
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 56,
+     "pr_x": 53,
      "pr_y": 10
     },
     {
@@ -23999,9 +24083,9 @@
      "x": 55,
      "y": 10,
      "event": "CE9480",
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 58,
+     "pr_x": 55,
      "pr_y": 10
     },
     {
@@ -24009,9 +24093,9 @@
      "x": 57,
      "y": 10,
      "event": "CE94A0",
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 60,
+     "pr_x": 57,
      "pr_y": 10
     },
     {
@@ -24019,9 +24103,9 @@
      "x": 45,
      "y": 14,
      "event": "CE94C0",
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 48,
+     "pr_x": 45,
      "pr_y": 14
     },
     {
@@ -24029,9 +24113,9 @@
      "x": 47,
      "y": 14,
      "event": "CE94E0",
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 50,
+     "pr_x": 47,
      "pr_y": 14
     },
     {
@@ -24039,9 +24123,9 @@
      "x": 49,
      "y": 14,
      "event": "CE9500",
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 52,
+     "pr_x": 49,
      "pr_y": 14
     },
     {
@@ -24049,9 +24133,9 @@
      "x": 53,
      "y": 14,
      "event": "CE9520",
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 56,
+     "pr_x": 53,
      "pr_y": 14
     },
     {
@@ -24059,9 +24143,9 @@
      "x": 55,
      "y": 14,
      "event": "CE9540",
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 58,
+     "pr_x": 55,
      "pr_y": 14
     },
     {
@@ -24069,9 +24153,9 @@
      "x": 57,
      "y": 14,
      "event": "CE9560",
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 60,
+     "pr_x": 57,
      "pr_y": 14
     }
    ],
@@ -24084,22 +24168,22 @@
    "bgm_id": 0,
    "points": [
     {
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 59,
+     "pr_x": 56,
      "pr_y": 15,
-     "point_id": 1,
+     "point_id": 3,
      "snes": [
       56,
       15
      ]
     },
     {
-     "pr_map": "Map_20051_17",
+     "pr_map": "Map_20161_8",
      "pr_id": 726,
-     "pr_x": 44,
+     "pr_x": 41,
      "pr_y": 10,
-     "point_id": 2,
+     "point_id": 4,
      "snes": [
       41,
       10
@@ -24116,20 +24200,20 @@
    "source": {
     "snes_map": 232,
     "pr_maps": [
-     "Map_20051_2"
+     "Map_20161_3"
     ]
    },
-   "patched_cells": 475,
+   "patched_cells": 477,
    "rooms": [
     {
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "group": "map_20051",
+     "group": "map_20161",
      "kind": "clone",
-     "source": "Map_20051_2",
-     "dx": 3,
+     "source": "Map_20161_3",
+     "dx": 0,
      "dy": 0,
-     "script": "sc_map_20051_18",
+     "script": "sc_map_20161_9",
      "script_id": 712
     }
    ],
@@ -24148,14 +24232,14 @@
      "flags": 8,
      "pr": [
       [
-       "Map_20051_18",
-       65,
+       "Map_20161_9",
+       62,
        10
       ]
      ],
      "to": [
       726,
-      2
+      4
      ]
     },
     {
@@ -24172,14 +24256,14 @@
      "flags": 8,
      "pr": [
       [
-       "Map_20051_18",
-       65,
+       "Map_20161_9",
+       62,
        11
       ]
      ],
      "to": [
       726,
-      2
+      4
      ]
     }
    ],
@@ -24203,9 +24287,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 48,
+     "pr_x": 45,
      "pr_y": 8
     },
     {
@@ -24226,9 +24310,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 50,
+     "pr_x": 47,
      "pr_y": 8
     },
     {
@@ -24249,9 +24333,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 52,
+     "pr_x": 49,
      "pr_y": 8
     },
     {
@@ -24272,9 +24356,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 56,
+     "pr_x": 53,
      "pr_y": 8
     },
     {
@@ -24295,9 +24379,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 58,
+     "pr_x": 55,
      "pr_y": 8
     },
     {
@@ -24318,9 +24402,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 60,
+     "pr_x": 57,
      "pr_y": 8
     },
     {
@@ -24341,9 +24425,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 48,
+     "pr_x": 45,
      "pr_y": 12
     },
     {
@@ -24364,9 +24448,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 50,
+     "pr_x": 47,
      "pr_y": 12
     },
     {
@@ -24387,9 +24471,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 52,
+     "pr_x": 49,
      "pr_y": 12
     },
     {
@@ -24410,9 +24494,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 56,
+     "pr_x": 53,
      "pr_y": 12
     },
     {
@@ -24433,9 +24517,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 58,
+     "pr_x": 55,
      "pr_y": 12
     },
     {
@@ -24456,9 +24540,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 60,
+     "pr_x": 57,
      "pr_y": 12
     }
    ],
@@ -24468,9 +24552,9 @@
      "x": 45,
      "y": 10,
      "event": "CE9580",
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 48,
+     "pr_x": 45,
      "pr_y": 10
     },
     {
@@ -24478,9 +24562,9 @@
      "x": 47,
      "y": 10,
      "event": "CE95A0",
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 50,
+     "pr_x": 47,
      "pr_y": 10
     },
     {
@@ -24488,9 +24572,9 @@
      "x": 49,
      "y": 10,
      "event": "CE95C0",
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 52,
+     "pr_x": 49,
      "pr_y": 10
     },
     {
@@ -24498,9 +24582,9 @@
      "x": 53,
      "y": 10,
      "event": "CE95E0",
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 56,
+     "pr_x": 53,
      "pr_y": 10
     },
     {
@@ -24508,9 +24592,9 @@
      "x": 55,
      "y": 10,
      "event": "CE9600",
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 58,
+     "pr_x": 55,
      "pr_y": 10
     },
     {
@@ -24518,9 +24602,9 @@
      "x": 57,
      "y": 10,
      "event": "CE9620",
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 60,
+     "pr_x": 57,
      "pr_y": 10
     },
     {
@@ -24528,9 +24612,9 @@
      "x": 45,
      "y": 14,
      "event": "CE9640",
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 48,
+     "pr_x": 45,
      "pr_y": 14
     },
     {
@@ -24538,9 +24622,9 @@
      "x": 47,
      "y": 14,
      "event": "CE9660",
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 50,
+     "pr_x": 47,
      "pr_y": 14
     },
     {
@@ -24548,9 +24632,9 @@
      "x": 49,
      "y": 14,
      "event": "CE9680",
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 52,
+     "pr_x": 49,
      "pr_y": 14
     },
     {
@@ -24558,9 +24642,9 @@
      "x": 53,
      "y": 14,
      "event": "CE96A0",
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 56,
+     "pr_x": 53,
      "pr_y": 14
     },
     {
@@ -24568,9 +24652,9 @@
      "x": 55,
      "y": 14,
      "event": "CE96C0",
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 58,
+     "pr_x": 55,
      "pr_y": 14
     },
     {
@@ -24578,9 +24662,9 @@
      "x": 57,
      "y": 14,
      "event": "CE96E0",
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 60,
+     "pr_x": 57,
      "pr_y": 14
     }
    ],
@@ -24593,11 +24677,11 @@
    "bgm_id": 0,
    "points": [
     {
-     "pr_map": "Map_20051_18",
+     "pr_map": "Map_20161_9",
      "pr_id": 727,
-     "pr_x": 64,
+     "pr_x": 61,
      "pr_y": 10,
-     "point_id": 1,
+     "point_id": 2,
      "snes": [
       61,
       10
@@ -24665,7 +24749,7 @@
      ],
      "to": [
       725,
-      4
+      8
      ]
     },
     {
@@ -24689,7 +24773,7 @@
      ],
      "to": [
       729,
-      1
+      2
      ]
     },
     {
@@ -24713,7 +24797,7 @@
      ],
      "to": [
       729,
-      1
+      2
      ]
     }
    ],
@@ -25159,20 +25243,20 @@
    "source": {
     "snes_map": 232,
     "pr_maps": [
-     "Map_20051_2"
+     "Map_20161_3"
     ]
    },
-   "patched_cells": 491,
+   "patched_cells": 492,
    "rooms": [
     {
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "group": "map_20051",
+     "group": "map_20161",
      "kind": "clone",
-     "source": "Map_20051_2",
-     "dx": 3,
+     "source": "Map_20161_3",
+     "dx": 0,
      "dy": 0,
-     "script": "sc_map_20051_19",
+     "script": "sc_map_20161_10",
      "script_id": 714
     }
    ],
@@ -25191,8 +25275,8 @@
      "flags": 24,
      "pr": [
       [
-       "Map_20051_19",
-       5,
+       "Map_20161_10",
+       2,
        11
       ]
      ],
@@ -25215,8 +25299,8 @@
      "flags": 24,
      "pr": [
       [
-       "Map_20051_19",
-       5,
+       "Map_20161_10",
+       2,
        12
       ]
      ],
@@ -25246,9 +25330,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 1,
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "pr_x": 22,
+     "pr_x": 19,
      "pr_y": 11
     },
     {
@@ -25269,9 +25353,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "pr_x": 19,
+     "pr_x": 16,
      "pr_y": 9
     },
     {
@@ -25292,9 +25376,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 1,
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "pr_x": 13,
+     "pr_x": 10,
      "pr_y": 9
     },
     {
@@ -25315,9 +25399,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "pr_x": 10,
+     "pr_x": 7,
      "pr_y": 11
     },
     {
@@ -25338,9 +25422,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 1,
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "pr_x": 11,
+     "pr_x": 8,
      "pr_y": 8
     },
     {
@@ -25361,9 +25445,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "pr_x": 21,
+     "pr_x": 18,
      "pr_y": 8
     },
     {
@@ -25384,9 +25468,9 @@
      "const_sprite": 1,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "pr_x": 20,
+     "pr_x": 17,
      "pr_y": 6
     },
     {
@@ -25407,9 +25491,9 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "pr_x": 12,
+     "pr_x": 9,
      "pr_y": 6
     },
     {
@@ -25430,9 +25514,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "pr_x": 15,
+     "pr_x": 12,
      "pr_y": 8
     },
     {
@@ -25453,9 +25537,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "pr_x": 16,
+     "pr_x": 13,
      "pr_y": 8
     },
     {
@@ -25476,9 +25560,9 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "pr_x": 17,
+     "pr_x": 14,
      "pr_y": 8
     },
     {
@@ -25499,9 +25583,9 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 1,
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "pr_x": 23,
+     "pr_x": 20,
      "pr_y": 5
     }
    ],
@@ -25511,9 +25595,9 @@
      "x": 19,
      "y": 13,
      "event": "CEA120",
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "pr_x": 22,
+     "pr_x": 19,
      "pr_y": 13
     },
     {
@@ -25521,9 +25605,9 @@
      "x": 16,
      "y": 11,
      "event": "CEA140",
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "pr_x": 19,
+     "pr_x": 16,
      "pr_y": 11
     },
     {
@@ -25531,9 +25615,9 @@
      "x": 10,
      "y": 11,
      "event": "CEA160",
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "pr_x": 13,
+     "pr_x": 10,
      "pr_y": 11
     },
     {
@@ -25541,9 +25625,9 @@
      "x": 7,
      "y": 13,
      "event": "CEA180",
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "pr_x": 10,
+     "pr_x": 7,
      "pr_y": 13
     },
     {
@@ -25551,9 +25635,9 @@
      "x": 8,
      "y": 10,
      "event": "CEA1A0",
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "pr_x": 11,
+     "pr_x": 8,
      "pr_y": 10
     },
     {
@@ -25561,9 +25645,9 @@
      "x": 18,
      "y": 10,
      "event": "CEA1C0",
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "pr_x": 21,
+     "pr_x": 18,
      "pr_y": 10
     },
     {
@@ -25571,9 +25655,9 @@
      "x": 13,
      "y": 10,
      "event": "CEA1E0",
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "pr_x": 16,
+     "pr_x": 13,
      "pr_y": 10
     },
     {
@@ -25581,9 +25665,9 @@
      "x": 0,
      "y": 0,
      "event": "CA0000",
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "pr_x": 3,
+     "pr_x": 0,
      "pr_y": 0
     }
    ],
@@ -25596,11 +25680,11 @@
    "bgm_id": 0,
    "points": [
     {
-     "pr_map": "Map_20051_19",
+     "pr_map": "Map_20161_10",
      "pr_id": 729,
-     "pr_x": 6,
+     "pr_x": 3,
      "pr_y": 11,
-     "point_id": 1,
+     "point_id": 2,
      "snes": [
       3,
       11
@@ -25617,20 +25701,20 @@
    "source": {
     "snes_map": 200,
     "pr_maps": [
-     "Map_20431_6"
+     "Map_20151_6"
     ]
    },
    "patched_cells": 0,
    "rooms": [
     {
-     "pr_map": "Map_20431_10",
+     "pr_map": "Map_20151_10",
      "pr_id": 730,
-     "group": "map_20431",
+     "group": "map_20151",
      "kind": "clone",
-     "source": "Map_20431_6",
+     "source": "Map_20151_6",
      "dx": -3,
      "dy": -2,
-     "script": "sc_map_20431_10",
+     "script": "sc_map_20151_10",
      "script_id": 715
     }
    ],
@@ -25649,7 +25733,7 @@
      "flags": 16,
      "pr": [
       [
-       "Map_20431_10",
+       "Map_20151_10",
        106,
        54
       ]
@@ -25680,7 +25764,7 @@
      "const_sprite": 1,
      "bg_layer": 2,
      "split_sprite": 0,
-     "pr_map": "Map_20431_10",
+     "pr_map": "Map_20151_10",
      "pr_id": 730,
      "pr_x": -3,
      "pr_y": -2
@@ -25703,7 +25787,7 @@
      "const_sprite": 0,
      "bg_layer": 0,
      "split_sprite": 0,
-     "pr_map": "Map_20431_10",
+     "pr_map": "Map_20151_10",
      "pr_id": 730,
      "pr_x": 108,
      "pr_y": 48
@@ -25715,7 +25799,7 @@
      "x": 109,
      "y": 49,
      "event": "E9FE40",
-     "pr_map": "Map_20431_10",
+     "pr_map": "Map_20151_10",
      "pr_id": 730,
      "pr_x": 106,
      "pr_y": 47
@@ -25730,7 +25814,7 @@
    "bgm_id": null,
    "points": [
     {
-     "pr_map": "Map_20431_10",
+     "pr_map": "Map_20151_10",
      "pr_id": 730,
      "pr_x": 106,
      "pr_y": 53,
@@ -26111,7 +26195,7 @@
      ],
      "to": [
       725,
-      3
+      7
      ]
     }
    ],
@@ -26383,7 +26467,7 @@
    "properties": "760241000580005348440228162a010000120000000000aae73a000b3f00000000",
    "how": "convert",
    "group": "map_20051",
-   "like": "Map_20051_1",
+   "like": "Map_20051_6",
    "cells": 4084,
    "no_pr_tile": 19,
    "guessed": 118,
@@ -26409,7 +26493,7 @@
      "pr_id": 735,
      "group": "map_20051",
      "kind": "convert",
-     "source": "Map_20051_1",
+     "source": "Map_20051_6",
      "dx": 0,
      "dy": 0,
      "script": "sc_map_20051_20",
@@ -27936,10 +28020,10 @@
    "properties": "760241000580005348440228162a010000120000000000aae73a000b3f00000000",
    "how": "convert",
    "group": "map_20051",
-   "like": "Map_20051_1",
+   "like": "Map_20051_6",
    "cells": 4050,
    "no_pr_tile": 2,
-   "guessed": 195,
+   "guessed": 183,
    "look": {
     "sets": [
      83,
@@ -27962,7 +28046,7 @@
      "pr_id": 739,
      "group": "map_20051",
      "kind": "convert",
-     "source": "Map_20051_1",
+     "source": "Map_20051_6",
      "dx": 0,
      "dy": 0,
      "script": "sc_map_20051_21",
@@ -29265,7 +29349,7 @@
    "properties": "760241000580005348440228162a010000120000000000aae73a000b3f00000000",
    "how": "convert",
    "group": "map_20051",
-   "like": "Map_20051_1",
+   "like": "Map_20051_6",
    "cells": 4095,
    "no_pr_tile": 4,
    "guessed": 353,
@@ -29291,7 +29375,7 @@
      "pr_id": 740,
      "group": "map_20051",
      "kind": "convert",
-     "source": "Map_20051_1",
+     "source": "Map_20051_6",
      "dx": 0,
      "dy": 0,
      "script": "sc_map_20051_22",
@@ -29495,7 +29579,7 @@
    "properties": "760241000580005348440228162a010000120000000000aae73a000b3f00000000",
    "how": "convert",
    "group": "map_20051",
-   "like": "Map_20051_1",
+   "like": "Map_20051_6",
    "cells": 4075,
    "no_pr_tile": 1,
    "guessed": 243,
@@ -29521,7 +29605,7 @@
      "pr_id": 741,
      "group": "map_20051",
      "kind": "convert",
-     "source": "Map_20051_1",
+     "source": "Map_20051_6",
      "dx": 0,
      "dy": 0,
      "script": "sc_map_20051_23",
@@ -29774,7 +29858,7 @@
    "properties": "760241000580005348440228162a010000120000000000aae73b000b3f00000000",
    "how": "convert",
    "group": "map_20051",
-   "like": "Map_20051_1",
+   "like": "Map_20051_6",
    "cells": 4096,
    "no_pr_tile": 7,
    "guessed": 298,
@@ -29800,7 +29884,7 @@
      "pr_id": 742,
      "group": "map_20051",
      "kind": "convert",
-     "source": "Map_20051_1",
+     "source": "Map_20051_6",
      "dx": 0,
      "dy": 0,
      "script": "sc_map_20051_24",
@@ -31758,7 +31842,7 @@
    "dest": 444,
    "to": [
     673,
-    2
+    4
    ],
    "pr": [
     [
@@ -31800,7 +31884,7 @@
    "dest": 486,
    "to": [
     725,
-    3
+    7
    ],
    "pr": [
     [
@@ -32516,7 +32600,7 @@
      "map_id": 725,
      "object_id": 0,
      "object_type": 3,
-     "point_id": 3,
+     "point_id": 7,
      "script_id": 0
     }
    }
@@ -32535,7 +32619,7 @@
      "map_id": 673,
      "object_id": 0,
      "object_type": 3,
-     "point_id": 2,
+     "point_id": 4,
      "script_id": 0
     }
    }
