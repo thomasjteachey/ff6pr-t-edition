@@ -70,6 +70,51 @@ def mato_text(raw):
     return " ".join("".join(out).split())
 
 
+# Mato's descriptions: the menu's pointer tables (2-byte offsets from a text base, each text ends at 00, 01
+# breaks the line), found from the code that sets $E7 (table) and $EB/$ED (text): items C3/8A89, spells
+# C3/623B, Lores C3/5D48. (table, text base, count). T-Edition has 280 items: 256-279 are its second item
+# bank (relics: Black Belt, Dragon Horn, the Fiends' relics...; an inventory slot's quantity bit 7, 4E/0750)
+DESC_TABLES = {"items": (0x041000, 0x5C0000, 280),   # C4/1000 -> 5C/xxxx
+               "spells": (0x26F690, 0x180000, 54),   # E6/F690 -> D8/xxxx
+               "lores": (0x0FFF3E, 0x550000, 24)}    # CF/FF3E -> 55/xxxx (Blitz CF/FF9E, Bushido CF/FFAE: 8 each)
+SPELL_RECORDS = 0x046AC0, 14   # the US layout's spell records (Lores from spell 139)
+LORE_FIRST = 139
+# the small font's punctuation (the US font's order, 0x60 below it), and Mato's own brackets B3/B4 and quotes 73/AA
+DESC_CHARS = {0x01: "\n", 0x5E: "!", 0x5F: "?", 0x60: "/", 0x61: ":", 0x62: '"', 0x63: "'", 0x64: "-", 0x65: ".",
+              0x66: ",", 0x67: "...", 0x68: ";", 0x69: "#", 0x6A: "+", 0x6B: "(", 0x6C: ")", 0x6D: "%", 0x6E: "~",
+              0x73: '"', 0xAA: '"', 0xA0: "&", 0xB3: "(", 0xB4: ")"}
+
+
+def mato_desc(raw):
+    """One of Mato's description texts (ends at 00): lines kept ("\\n"), spaces tidied."""
+    out = []
+    for b in raw[:raw.index(0)] if 0 in raw else raw:
+        if 0x20 <= b <= 0x39:
+            out.append(chr(65 + b - 0x20))
+        elif 0x3A <= b <= 0x53:
+            out.append(chr(97 + b - 0x3A))
+        elif 0x54 <= b <= 0x5D:
+            out.append(chr(48 + b - 0x54))
+        elif b in (0x7F, 0xFF):
+            out.append(" ")
+        else:
+            out.append(DESC_CHARS.get(b, ""))
+    return "\n".join(t for t in (" ".join(line.split()) for line in "".join(out).split("\n")) if t)
+
+
+def mato_descriptions():
+    """{"items": [280], "spells": [54], "lores": [24]} of Mato's descriptions (his build's menu tables)."""
+    if getattr(_Image, "descs", None) is None:
+        build()
+        rom = _Image.mod
+        out = {}
+        for name, (table, text, count) in DESC_TABLES.items():
+            ptrs = [int.from_bytes(rom[table + 2 * i:table + 2 * i + 2], "little") for i in range(count)]
+            out[name] = [mato_desc(rom[text + p:text + p + 256]) for p in ptrs]
+        _Image.descs = out
+    return _Image.descs
+
+
 def monster_items(raw):
     """T-Edition's 8-byte steals/drops -> the SNES's 4 (rare steal, common steal, rare drop, common
     drop): the likeliest filled drop slot is the common drop, the next one the rare drop."""
@@ -410,7 +455,35 @@ class TEdition(Profile):
         return MATO
 
     def descriptions(self):
-        return None   # the PR's own descriptions (Mato's are pointer tables in his build: later)
+        """Mato's descriptions by slot: items 0-255 (the porter's slots; T-Edition's second bank 256-279
+        is mato_descriptions()["items"][256:]), spells 0-53, Lores."""
+        d = mato_descriptions()
+        return {"items": d["items"][:256], "spells": d["spells"], "lores": d["lores"]}
+
+    def vanilla_descriptions(self):
+        """What the porter compares Mato's descriptions with (it writes a slot's text where the two differ):
+        a slot T-Edition left as FF6 had it keeps the PR's own text, every other slot gets Mato's. Left as
+        it was: the item record of the vanilla item whose PR row the slot has (item_identity's baseline)
+        the same but for who equips it and its price; a spell's record the same but for its MP cost.
+        That keeps 12 of 255 items and 4 of 78 spells and Lores in the PR's words."""
+        d = mato_descriptions()
+        img, van = _Image.data, S.Rom(P.VANILLA_ROM).data
+        base = S.MEMORY.get(os.path.abspath(P.VANILLA_ROM) + "#item-identity", van)   # the porter's (item_identity.prepare)
+        at, size = S.ITEMS[0], S.ITEMS[1]
+
+        def same(a, b, skip):
+            return all(a[k] == b[k] for k in range(len(a)) if k not in skip)
+        items = [text if i < 255 and same(img[at + size * i:at + size * (i + 1)], base[at + size * i:at + size * (i + 1)],
+                                          (1, 2, 28, 29)) else None
+                 for i, text in enumerate(d["items"][:256])]
+        sp, n = SPELL_RECORDS
+
+        def spell(i):
+            return same(img[sp + n * i:sp + n * (i + 1)], van[sp + n * i:sp + n * (i + 1)], (5,))
+        return {"items": items,
+                "spells": [t if spell(i) else None for i, t in enumerate(d["spells"])],
+                "lores": [t if spell(LORE_FIRST + i) else None for i, t in enumerate(d["lores"])]}
+
 
     def extra_messages(self, rom):
         """The final name of every slot T-Edition names: the PR's own text where Mato's name is the
@@ -464,6 +537,17 @@ class TEdition(Profile):
                     renamed += 1
             counts[kind] = f"{same} as the PR's, {moved} moved from another slot, {renamed} new or renamed"
         line = "names (Mato's full names vs the PR's, by slot): " + "; ".join(f"{k}: {v}" for k, v in counts.items())
+        print(line)
+        _Image.report.append("  " + line)
+        # the rows item_identity made start with their template's description: Mato's instead
+        descs, made = mato_descriptions()["items"], 0
+        for i in range(255):
+            m = M.item(i)
+            row = content.rows.get(M.content_id(*m)) if m else None
+            if row and row["mes_id_description"].startswith("MSG_PORT_") and descs[i]:
+                out[row["mes_id_description"]] = " ".join(descs[i].split("\n"))
+                made += 1
+        line = f"descriptions: Mato's on {made} new item rows (the PR's slots: port_item_text)"
         print(line)
         _Image.report.append("  " + line)
         with open(REPORT, "w", encoding="utf-8") as f:
