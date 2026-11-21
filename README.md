@@ -9,7 +9,9 @@ development: there is no release yet.**
 
 - `kit/`: the [modding kit](https://github.com/thomasjteachey/ff6pr-kit) (a submodule). Its porter
   turns a modded FF6 ROM into Pixel Remaster data; `kit/pr/tools/jp_layout.py` reads a mod on the
-  Japanese ROM, and `kit/pr/PORTING.md` is the project's development log ("T-Edition" sections).
+  Japanese ROM.
+- `pr/docs/tedition.md`: T-Edition's development log (its plan, decisions and "Live progress"); the
+  project-wide status table is the kit's `kit/pr/PORTING.md`.
 - `pr/tools/profile_tedition.py`: where T-Edition keeps its tables in its 6 MB ROM, its records in the
   US layout the porter reads, Mato's full names, its item list and drop slots.
 - `pr/tools/ted_*.py`: T-Edition's maps, events and battle rules (in progress).

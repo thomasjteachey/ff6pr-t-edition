@@ -32,7 +32,8 @@ HELD_BACK = {"ted_monster_images.json"}
 
 def parts():
     out = [("pr/tools", TOOLS), ("pr/ted", ["**"]),   # pr/ted: T-Edition's own docs (the battle spec)
-           ("pr/data", ["ted_*.json", "snes_event_*tedition*.json", "snes_event_ted_*.json"])]   # its own data
+           ("pr/data", ["ted_*.json", "snes_event_*tedition*.json", "snes_event_ted_*.json"]),   # its own data
+           ("pr/docs", ["tedition.md"])]   # its development log (split out of PORTING.md, 2026-11-20)
     for folder in ("pr/plugin/TedPlugin", "pr/plugin/TedRules", "pr/plugin/Ted.Tests"):
         if os.path.isdir(os.path.join(R.PROJECT, *folder.split("/"))):
             out.append((folder, ["**"]))
@@ -53,7 +54,9 @@ development: there is no release yet.**
 
 - `kit/`: the [modding kit](https://github.com/thomasjteachey/ff6pr-kit) (a submodule). Its porter
   turns a modded FF6 ROM into Pixel Remaster data; `kit/pr/tools/jp_layout.py` reads a mod on the
-  Japanese ROM, and `kit/pr/PORTING.md` is the project's development log ("T-Edition" sections).
+  Japanese ROM.
+- `pr/docs/tedition.md`: T-Edition's development log (its plan, decisions and "Live progress"); the
+  project-wide status table is the kit's `kit/pr/PORTING.md`.
 - `pr/tools/profile_tedition.py`: where T-Edition keeps its tables in its 6 MB ROM, its records in the
   US layout the porter reads, Mato's full names, its item list and drop slots.
 - `pr/tools/ted_*.py`: T-Edition's maps, events and battle rules (in progress).
