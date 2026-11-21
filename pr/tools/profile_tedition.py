@@ -79,7 +79,12 @@ def mato_text(raw):
 # bank (relics: Black Belt, Dragon Horn, the Fiends' relics...; an inventory slot's quantity bit 7, 4E/0750)
 DESC_TABLES = {"items": (0x041000, 0x5C0000, 280),   # C4/1000 -> 5C/xxxx
                "spells": (0x26F690, 0x180000, 54),   # E6/F690 -> D8/xxxx
-               "lores": (0x0FFF3E, 0x550000, 24)}    # CF/FF3E -> 55/xxxx (Blitz CF/FF9E, Bushido CF/FFAE: 8 each)
+               "lores": (0x0FFF3E, 0x550000, 24),    # CF/FF3E -> 55/xxxx
+               "espers": (0x0FFE40, 0x550000, 27),   # CF/FE40 -> 55/xxxx ("ESPER ATTK DESCS"): each esper's summon
+               "blitz": (0x0FFF9E, 0x550000, 8),     # CF/FF9E -> 55/xxxx
+               "bushido": (0x0FFFAE, 0x550000, 8)}   # CF/FFAE -> 55/xxxx
+# the SNES spell slots of those three (port_spells: espers' summons 54-80, Bushido 85-92, Blitz 93-100)
+DESC_SLOTS = {"espers": 54, "bushido": 85, "blitz": 93}
 SPELL_RECORDS = 0x046AC0, 14   # the US layout's spell records (Lores from spell 139)
 LORE_FIRST = 139
 # the small font's punctuation (the US font's order, 0x60 below it), and Mato's own brackets B3/B4 and quotes 73/AA
@@ -679,6 +684,11 @@ class TEdition(Profile):
         build()
         return MATO
 
+    def rage_descriptions(self):
+        """No texts of T-Edition's own: port_dances.describe_rages then names each Rage's attacks from its ported
+        abilities (what the Rage menu shows in T-Edition: the attack)."""
+        return {}
+
     def descriptions(self):
         """Mato's descriptions by slot: items 0-255 (the porter's slots; T-Edition's second bank 256-279
         is mato_descriptions()["items"][256:]), spells 0-53, Lores."""
@@ -773,6 +783,19 @@ class TEdition(Profile):
                 out[row["mes_id_description"]] = " ".join(descs[i].split("\n"))
                 made += 1
         line = f"descriptions: Mato's on {made} new item rows (the PR's slots: port_item_text)"
+        print(line)
+        _Image.report.append("  " + line)
+        # Mato's descriptions of the espers' summons, Bushido and Blitz (T-Edition changed all of them; port_spells
+        # describes only spells and Lores for a mod that isn't rename_all): onto each slot's ability description key
+        md, by_kind = mato_descriptions(), {}
+        for kind, first in DESC_SLOTS.items():
+            for k, text in enumerate(md[kind]):
+                row = content4.get(M.spell(first + k))
+                key = row["mes_id_description"] if row else ""
+                if text and key not in ("", "None") and key in vmsg:
+                    out[key] = " ".join(text.split("\n"))
+                    by_kind[kind] = by_kind.get(kind, 0) + 1
+        line = "descriptions: Mato's on " + ", ".join(f"{n} {k}" for k, n in by_kind.items())
         print(line)
         _Image.report.append("  " + line)
         with open(REPORT, "w", encoding="utf-8") as f:
