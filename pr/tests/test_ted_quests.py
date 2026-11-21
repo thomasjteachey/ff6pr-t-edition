@@ -70,6 +70,32 @@ class Folder(unittest.TestCase):
                       if m["name"] == w["pr_map"] for s in m["script"]}
             self.assertIn(w["now"], listed, w)
 
+    def test_every_script_is_listed(self):
+        """Every script file the folder ships is in a room package (the game loads nothing else): this
+        folder's own package for vanilla rooms; on ted-maps' new rooms, their package (main scripts) or
+        data/ted_quests_maps.json "_list" (after-battle / after-warp scripts, which ted-maps lists); an
+        entrance script is grafted into ted-maps' map script instead."""
+        import glob
+        root = os.path.join(HERE, "..", "mods", "TEditionQuests")
+        maps_json = os.path.join(HERE, "..", "data", "ted_quests_maps.json")
+        if not os.path.isdir(root) or not os.path.exists(maps_json):
+            self.skipTest("no quests build yet")
+        listed = set()
+        for p in glob.glob(os.path.join(root, "map_*", "**", "package.json"), recursive=True):
+            with open(p, encoding="utf-8") as f:
+                listed |= {(m["name"], s["name"]) for m in json.load(f)["map"] for s in m.get("script", [])}
+        with open(maps_json, encoding="utf-8") as f:
+            qm = json.load(f)
+        for_maps = {(r, n) for r, ns in qm.get("_list", {}).items() for n in ns}
+        mains = {x["script"] for k, v in qm.items() if k.isdigit() for x in v.get("npcs", []) + v.get("tiles", [])}
+        entrances = {v["entrance"]["script"] for k, v in qm.items() if k.isdigit() and v.get("entrance")}
+        missing = []
+        for f in glob.glob(os.path.join(root, "map_*", "**", "sc_*.json"), recursive=True):
+            room, sn = os.path.basename(os.path.dirname(f)), os.path.basename(f)[:-5]
+            if not ((room, sn) in listed or (room, sn) in for_maps or sn in mains or sn in entrances):
+                missing.append((room, sn))
+        self.assertEqual(missing, [])
+
 
 if __name__ == "__main__":
     unittest.main()

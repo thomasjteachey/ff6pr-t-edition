@@ -282,9 +282,8 @@ BUILT_ELSEWHERE = {"CD/5850"}   # South Figaro's wine old man: ted-events built 
 
 
 # PR rooms snes_maps.pr_maps doesn't pair with an event's SNES map yet: {event: [(PR map, dx, dy)]}
-# (ted-maps, 2026-11-20: the WoR South Figaro pub is its own room, Map_20361_4, owner at PR (38,41); can move
-# to data/snes_pr_maps_overrides.json, ted-maps' file, once they add the pair there)
-EXTRA_ROOMS = {"CA/7D09": [("Map_20361_4", 0, 1)]}
+# (empty: the WoR South Figaro pub, map 78 -> Map_20361_4, is in data/snes_pr_maps_overrides.json since 11-21)
+EXTRA_ROOMS = {}
 
 
 def npc_entities(snes_map, x, y, near=0, looks=None, skip=(), extra=()):
@@ -401,6 +400,10 @@ def build(out=OUT, events=None, write=True, log=print):
         for addr, name, quest in events:
             ids = ids_q if quest else ids_e
             for kind, m, det in ents.get(addr, []):
+                if kind == "npc_object":    # a decoration (special-graphics NPC, snes_events since 11-21): no event
+                    report.append({"event": addr, "name": name, "quest": quest, "kind": kind, "map": m,
+                                   "npc": det["npc"], "status": "skipped: a decoration (special-graphics NPC), no event"})
+                    continue
                 if kind not in ("npc", "tile") or m >= TE.NEW_MAPS:
                     report.append({"event": addr, "name": name, "quest": quest, "kind": kind, "map": m,
                                    "status": "pending: " + ("new map (ted-maps' room)" if m and m >= TE.NEW_MAPS else kind)})
@@ -505,8 +508,11 @@ def build(out=OUT, events=None, write=True, log=print):
         M.ITEM_OVERRIDES.update(saved)
     # T-Edition's new maps (ted-maps' rooms): the scripts and data/ted_quests_maps.json, which ted-maps'
     # build reads to place/wire them and list them in its packages (so no package entries here)
-    _, new_scripts, (nmes, ncha), nsids = new_map_events(out, write=write, log=lambda *a: None, prog=prog,
-                                                         ids_q=ids_q, ids_e=ids_e)
+    _, new_scripts, (nmes, ncha), nsids, vanilla_after = new_map_events(out, write=write, log=lambda *a: None,
+                                                                        prog=prog, ids_q=ids_q, ids_e=ids_e)
+    for (g, f), pr, a, s2 in vanilla_after:      # into a vanilla room: listed in its package here
+        scripts[(g, f, pr)].append((a, s2))
+        mod.table("script").add({"script_name": a}, id=nsids.get(a))
     for (group, folder, pr), items in new_scripts.items():
         for sn, sc in items:
             mod.asset(group, f"{RES}/{folder}/{pr}/{sn}.json", json.dumps(sc, ensure_ascii=False, separators=(",", ":")),
@@ -576,7 +582,7 @@ def build(out=OUT, events=None, write=True, log=print):
     n = sum(len(r.get("wired", [])) for r in report)
     log(f"TEditionQuests -> {out}: {len(report)} events, {n} PR NPCs wired, "
         f"{sum(len(v) for v in scripts.values())} scripts, {len(texts.mes)} lines; pending "
-        f"{[r.get('event') for r in report if not r['status'].startswith(('wired', 'placed', 'merged', 'new maps'))]}")
+        f"{[r.get('event') for r in report if not r['status'].startswith(('wired', 'placed', 'merged', 'new maps', 'skipped'))]}")
     return report
 
 
@@ -599,6 +605,8 @@ def new_map_events(out=OUT, write=True, log=print, prog=None, ids_q=None, ids_e=
     ids_q = ids_q or TE.ScriptIds(IDS_FILE, ids=SCRIPT_IDS)
     ids_e = ids_e or TE.ScriptIds(EVENTS_IDS_FILE, ids=EVENTS_SCRIPT_IDS)
     plan, scripts, sids = {}, collections.defaultdict(list), {}
+    new_groups = {r["pr_map"]: r["group"] for rec in rooms.values() for r in rec.get("rooms", [])}
+    to_list, vanilla_after = {}, []         # new PR room -> after-scripts for its package; [(room, PR map, name, sc)]
     with TE.Session(prog=prog, persist=write) as s:
         assets = T.sprite_assets(s.rom)
         ents = {}
@@ -606,8 +614,8 @@ def new_map_events(out=OUT, write=True, log=print, prog=None, ids_q=None, ids_e=
             ents.setdefault(E.fmt(off), []).append((kind, m, det))
         for addr, name, _ in events:
             for kind, m, det in ents.get(addr, []):
-                if m is None or m < TE.NEW_MAPS or str(m) not in rooms:
-                    continue
+                if m is None or m < TE.NEW_MAPS or str(m) not in rooms or kind not in ("npc", "tile", "entrance"):
+                    continue          # (npc_object: a decoration, no event)
                 rec = rooms[str(m)]
                 code = addr.replace("/", "")
                 if kind == "npc":
@@ -631,8 +639,17 @@ def new_map_events(out=OUT, write=True, log=print, prog=None, ids_q=None, ids_e=
                 key = (room["group"], room["group"].replace("map_", "Map_"), where[0])
                 scripts[key].append((sn, sc))
                 for a, s2, w in after:
+                    # an after-battle / after-warp script runs in its destination room (w): a vanilla room's
+                    # package is this folder's (build() lists it); a new room's is ted-maps' ("_list" below)
                     nop_stubs(s2)
-                    scripts[key].append((a, s2))
+                    dest = w or where[0]
+                    if dest in new_groups:
+                        scripts[(new_groups[dest], new_groups[dest].replace("map_", "Map_"), dest)].append((a, s2))
+                        to_list.setdefault(dest, []).append(a)
+                    elif _room_of(dest):
+                        vanilla_after.append((_room_of(dest), dest, a, s2))
+                    else:
+                        log(f"{addr}: {a} goes to {dest}, a room with no folder: left out")
                 ids = ids_q if name.startswith("q_") else ids_e
                 sid = sids[sn] = ids.get(sn)
                 for a, _, _ in after:
@@ -655,13 +672,15 @@ def new_map_events(out=OUT, write=True, log=print, prog=None, ids_q=None, ids_e=
         for p in plan.values():           # no entrance: the key left out (ted-maps' format)
             if not p["entrance"]:
                 del p["entrance"]
-        text = json.dumps({"_about": "tools/ted_quests.py: pub-quest scripts on T-Edition's new maps, for ted-maps' build",
-                           **plan}, indent=1)
+        text = json.dumps({"_about": "tools/ted_quests.py: pub-quest scripts on T-Edition's new maps, for ted-maps' build. "
+                                     "_list: {PR room: [after-battle / after-warp script names]} to list in that room's "
+                                     "package entry too (shipped in mods/TEditionQuests like the others)",
+                           "_list": to_list, **plan}, indent=1)
         old = open(NEW_MAPS_JSON, encoding="utf-8").read() if os.path.exists(NEW_MAPS_JSON) else None
         if text != old:
             with open(NEW_MAPS_JSON, "w", encoding="utf-8") as f:
                 f.write(text)
-    return plan, scripts, texts, sids
+    return plan, scripts, texts, sids, vanilla_after
 
 
 if __name__ == "__main__":

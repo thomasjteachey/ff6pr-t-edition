@@ -176,6 +176,11 @@ class Events:
         mine = {(E.parse_addr(e["event"]), e["kind"], e["map"]) for e in entries}
         qs = quests()
         self.listed = collections.defaultdict(list)     # PR room -> other folders' scripts its package lists
+        # ted-ex's after-battle / after-warp scripts, by the PR room they run in ("_list"): listed too
+        if os.path.exists(QUESTS_JSON):
+            with open(QUESTS_JSON, encoding="utf-8") as f:
+                for room, names in json.load(f).get("_list", {}).items():
+                    self.listed[room] += list(names)
         self.standins = []
         self.prog = E.Program(self.rom).walk_all()
         Tr = _translator(b)
@@ -377,7 +382,10 @@ class Events:
                 json.dump(pkg, f, ensure_ascii=False)
             R.add_keys(out, group, "new_maps", assets)
         for room, names in self.listed.items():   # ted-ex's scripts (its files, in its folder)
-            r = room_of[room]
+            r = room_of.get(room)
+            if r is None:
+                self.log(f"  ted-ex scripts for {room}: not a room of this build")
+                continue
             folder = r.name.rsplit("_", 1)[0]
             path = os.path.join(out, r.group, *R.RES.split("/"), folder, "package.json")
             with open(path, encoding="utf-8") as f:

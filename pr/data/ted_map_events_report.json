@@ -1,7 +1,7 @@
 {
  "stats": {
   "npcs": 455,
-  "stubs as nops": 3335,
+  "stubs as nops": 3326,
   "entrances": 73,
   "scripts": 262,
   "tiles": 162,
@@ -266,10 +266,9 @@
    "pr_map": "Map_30651_21",
    "script": "sc_tedm_03FC64",
    "script_id": 9605,
-   "stubs": {
-    "menu": 1
-   },
+   "stubs": {},
    "translated": {
+    "menu": 1,
     "flow": 1
    }
   },
@@ -280,10 +279,9 @@
    "pr_map": "Map_30651_21",
    "script": "sc_tedm_03FC6A",
    "script_id": 9606,
-   "stubs": {
-    "menu": 1
-   },
+   "stubs": {},
    "translated": {
+    "menu": 1,
     "flow": 1
    }
   },
@@ -294,10 +292,9 @@
    "pr_map": "Map_30651_21",
    "script": "sc_tedm_03FC67",
    "script_id": 9607,
-   "stubs": {
-    "menu": 1
-   },
+   "stubs": {},
    "translated": {
+    "menu": 1,
     "flow": 1
    }
   },
@@ -841,11 +838,10 @@
    "pr_map": "Map_20231_8",
    "script": "sc_tedm_034D84",
    "script_id": 9632,
-   "stubs": {
-    "menu": 1
-   },
+   "stubs": {},
    "translated": {
     "dialog": 1,
+    "menu": 1,
     "flow": 1
    }
   },
@@ -856,11 +852,10 @@
    "pr_map": "Map_20231_8",
    "script": "sc_tedm_034DB0",
    "script_id": 9633,
-   "stubs": {
-    "menu": 1
-   },
+   "stubs": {},
    "translated": {
     "dialog": 1,
+    "menu": 1,
     "flow": 1
    }
   },
@@ -871,11 +866,10 @@
    "pr_map": "Map_20231_8",
    "script": "sc_tedm_034DB6",
    "script_id": 9634,
-   "stubs": {
-    "menu": 1
-   },
+   "stubs": {},
    "translated": {
     "dialog": 1,
+    "menu": 1,
     "flow": 1
    }
   },
@@ -1718,11 +1712,10 @@
    "pr_map": "Map_20391_4",
    "script": "sc_tedm_036EB0",
    "script_id": 9675,
-   "stubs": {
-    "menu": 2
-   },
+   "stubs": {},
    "translated": {
-    "flow": 3
+    "flow": 3,
+    "menu": 2
    }
   },
   {
@@ -1811,11 +1804,10 @@
    "pr_map": "Map_20371_20",
    "script": "sc_tedm_037200",
    "script_id": 9680,
-   "stubs": {
-    "menu": 1
-   },
+   "stubs": {},
    "translated": {
     "dialog": 1,
+    "menu": 1,
     "flow": 1
    }
   },
