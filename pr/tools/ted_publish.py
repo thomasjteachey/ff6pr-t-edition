@@ -22,7 +22,11 @@ DEFAULT_OUT = os.path.join(os.path.dirname(R.PROJECT), "ff6pr-t-edition")
 # T-Edition's tools that are published: listed one by one, so a workstream's files join once reviewed
 TOOLS = ["profile_tedition.py", "ted_rooms.py", "ted_publish.py", "kitpath.py",
          "ted_events.py", "ted_dialog.py", "ted_battle.py", "ted_build.py", "ted_ex.py", "ted_testinstall.py", "ted_plugin_data.py", "ted_maps.py",
-         "ted_ex_ai.py", "ted_ex_build.py", "ted_ex_events.py"]      # 2026-11-20: ted-events' first milestone, reviewed
+         "ted_ex_ai.py", "ted_ex_build.py", "ted_ex_events.py", "ted_songs.py",      # 2026-11-20: ted-events' first milestone, reviewed
+         "ted_art.py"]
+# data held back from the public repository: T-Edition's own art (Tsushiy's pixels; the user, 2026-11-20: it ships
+# once Tsushiy agrees) with the recolors' PR colour values (no PR colours in public repos)
+HELD_BACK = {"ted_monster_images.json"}
 
 
 def parts():
@@ -74,7 +78,7 @@ Silvris. FINAL FANTASY VI is Square Enix's; this is an unofficial fan mod.
 
 def main():
     out = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else DEFAULT_OUT)
-    entries = list(R.collect(parts()))
+    entries = list(R.collect(parts(), exclude=lambda name: name in HELD_BACK))
     texts = {"README.md": README, ".gitignore": R.GITIGNORE_COMMON + "mods/\n",
              "pr/requirements.txt": R.REQUIREMENTS, "pr/modkit.json": R.manifest(keep=("tedition",))}
     done = R.write(out, entries, texts, submodules=[("kit", R.KIT_URL, R.head(R.KIT_REPO))])

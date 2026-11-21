@@ -153,16 +153,18 @@ TABLES = [
 IMAGE_SIZE = 0x400000
 IMG_AI_PTRS, IMG_AI_DATA = 0x300000, 0x300400   # past the US ROM's 3 MB: T-Edition's AI (30 KB)
 # T-Edition's grown tables, whole, past the AI (0x300000-0x3103FF) in the image (ff6snes.extended;
-# port_monster_ext): (name, image offset, T-Edition's file offset, record size, count)
+# port_monster_ext), each with room for EXT_ROOM records (EX's bosses go on past T-Edition's: ted_ex.ex_records):
+# (name, T-Edition's file offset, record size, count)
+EXT_BASE, EXT_ROOM = 0x320000, 1024
 EXT_TABLES = [
-    ("formations", 0x320000, FORMATIONS, 15, 768),
-    ("formation_flags", 0x323000, FORMATION_FLAGS, 4, 768),
-    ("formation_ap", 0x323C00, AP, 1, 768),
-    ("monsters", 0x324000, MONSTERS, 32, 512),
-    ("monster_items", 0x328000, MONSTER_ITEMS, 8, 512),   # written as the US layout's 4 bytes
-    ("sketches", 0x328800, SKETCHES, 2, 512),
-    ("monster_graphics", 0x328C00, 0x0F1A00, 5, 512),     # CF/1A00 (C1/2064, C1/24E6, C3/B8CC; vanilla D2/7000)
-    ("map_properties", 0x329600, MAP_PROPS, 33, 512),
+    ("formations", FORMATIONS, 15, 768),
+    ("formation_flags", FORMATION_FLAGS, 4, 768),
+    ("formation_ap", AP, 1, 768),
+    ("monsters", MONSTERS, 32, 512),
+    ("monster_items", MONSTER_ITEMS, 8, 512),   # written as the US layout's 4 bytes
+    ("sketches", SKETCHES, 2, 512),
+    ("monster_graphics", 0x0F1A00, 5, 512),     # CF/1A00 (C1/2064, C1/24E6, C3/B8CC; vanilla D2/7000)
+    ("map_properties", MAP_PROPS, 33, 512),
 ]
 ENEMY_NAMES_512 = 0x55D650, 20, 512   # "ENEMY NAMES LONG": all 512
 SPECIAL_NAMES = 0x54D730, 20, 512     # "ENEMY MOVES BEGN": each monster's special attack name
@@ -208,13 +210,21 @@ def build():
     new_monsters = sorted({e for f in range(768) for e in formation_monsters(mod, FORMATIONS, f) if e >= 384})
     under = [f for f in range(576) if any(e >= 384 for e in formation_monsters(mod, FORMATIONS, f))]
     new_forms = {f for f in range(576, 768) if any(mod[FORMATIONS + 15 * f:FORMATIONS + 15 * f + 15])}
-    ext = {}
-    for name, at, src, size, count in EXT_TABLES:
+    ext, at = {}, EXT_BASE
+    ex, ex_note = ex_records()
+    for name, src, size, count in EXT_TABLES:
         raw = mod[src:src + size * count]
         if name == "monster_items":   # T-Edition's 8 bytes -> the US layout's 4
             size, raw = 4, b"".join(monster_items(raw[8 * e:8 * e + 8]) for e in range(count))
         img[at:at + len(raw)] = raw
+        for i, rec in sorted((ex.get(name) or {}).items()):   # EX's records past T-Edition's (ids it renumbered)
+            rec = monster_items(rec) if name == "monster_items" else bytes([rec]) if isinstance(rec, int) else rec
+            assert len(rec) == size and i < EXT_ROOM, (name, i)
+            img[at + size * i:at + size * (i + 1)] = rec
+            count = max(count, i + 1)
         ext[name] = (at, size, count)
+        at += (size * EXT_ROOM + 0xFF) & ~0xFF
+    assert at <= IMAGE_SIZE
     refs = sum(1 for p in range(256) for k in range(4) if (word(img, 0x0F4800 + 8 * p + 2 * k) & 0x3FF) >= 576)
     erefs = sum(1 for p in range(256) for k in range(2) if (word(img, 0x0F5000 + 4 * p + 2 * k) & 0x3FF) >= 576)
     rep.append(f"  new monsters (384-511) in T-Edition's formations: {len(new_monsters)}; formations "
@@ -262,9 +272,18 @@ def build():
     S.MEMORY[os.path.abspath(MATO)] = data
     _Image.data, _Image.mod, _Image.report = data, mod, rep
     import port_monster_ext as X
-    X.register(data, ext, monster_base=1000, monster_names=long_names(mod, ENEMY_NAMES_512),
-               special_names=long_names(mod, SPECIAL_NAMES), sprites=MonsterSprites(mod),
-               event_maps=event_maps())
+    names, specials = long_names(mod, ENEMY_NAMES_512), long_names(mod, SPECIAL_NAMES)
+    for lst, key in ((names, "monster_names"), (specials, "special_names")):
+        for i, n in sorted((ex.get(key) or {}).items()):
+            lst += [""] * (i + 1 - len(lst))
+            lst[i] = n
+    X.register(data, ext, monster_base=1000, monster_names=names, special_names=specials,
+               sprites=MonsterSprites(mod, ex_sprites() if ex else None), event_maps=event_maps(),
+               formation_monsters=ex.get("formation_monsters") or {},
+               event_backgrounds={**event_backgrounds(mod), **(ex.get("event_backgrounds") or {})},
+               drop_slots={i: list(rec[4:8]) for i, rec in (ex.get("monster_items") or {}).items()},   # EX's 4 slots
+               map_packs=new_map_packs(), map_sets_file="ted_map_sets.json")   # PR sets for the new maps' packs
+    rep.append(f"  EX (tools/ted_ex.py ex_records): {ex_note}")
     hook_readers(mato_names(mod))
     os.makedirs(os.path.dirname(REPORT), exist_ok=True)
     with open(REPORT, "w", encoding="utf-8") as f:
@@ -273,9 +292,47 @@ def build():
     return data
 
 
+def ex_records():
+    """(EX's records for the grown tables, a note): tools/ted_ex.py's ex_records() (the ted-ex workstream: EX's
+    bosses as monsters 512-539, formations 768-792), or nothing when it can't give them (logged, the build goes on)."""
+    try:
+        import ted_ex
+        ex = ted_ex.ex_records()
+    except Exception as err:   # the EX workstream's module: its trouble mustn't stop T-Edition's builds
+        return {}, f"not added ({type(err).__name__}: {err})"
+    return ex, (f"monsters {min(ex['monsters'])}-{max(ex['monsters'])}, formations {min(ex['formations'])}-"
+                f"{max(ex['formations'])}" if ex.get("monsters") and ex.get("formations") else "none")
+
+
+def ex_sprites():
+    """EX's monster sprites (ted_ex.ExSprites: 512-539), or None when the EX workstream can't give them."""
+    try:
+        import ted_ex
+        return ted_ex.ExSprites()
+    except Exception:
+        return None
+
+
 def long_names(mod, table):
     a, w, n = table
     return [mato_text(mod[a + w * i:a + w * (i + 1)]) for i in range(n)]
+
+
+def new_map_packs():
+    """{SNES map: (pack, battle background)} of T-Edition's new maps with random battles (ted-maps' data/ted_maps.json:
+    maps.<m>.pack, properties byte 2): port_monster_ext makes PR monster sets for them, written to ted_map_sets.json
+    beside the port, which ted-maps' build reads for the new maps' monster_set_id."""
+    import json
+    path = os.path.join(P.ROOT, "data", "ted_maps.json")
+    try:
+        maps = json.load(open(path, encoding="utf-8"))["maps"]
+    except (OSError, ValueError, KeyError):
+        return {}
+    out = {}
+    for m, v in maps.items():
+        if v.get("random_battles") in (True, "True") and v.get("properties"):
+            out[int(m)] = (int(v["pack"]), bytes.fromhex(v["properties"])[2])
+    return out
 
 
 def event_maps():
@@ -292,12 +349,32 @@ def event_maps():
     return {f: sorted(m) for f, m in out.items()}
 
 
+def event_backgrounds(mod):
+    """{formation: SNES battle background} that T-Edition's event battles ask for (the battle command 4C/4D's
+    second byte at each battle of ted-events' catalog; low 6 bits 0x3F = the map's own, left to event_maps):
+    the commonest where one formation is fought on several."""
+    import collections
+    import json
+    path = os.path.join(P.ROOT, "data", "snes_event_ted_catalog.json")
+    if not os.path.exists(path):
+        return {}
+    votes = collections.defaultdict(collections.Counter)
+    for ev in json.load(open(path, encoding="utf-8")):
+        for b in ev.get("battles") or []:
+            bank, off = b["at"].split("/")
+            a = ((int(bank, 16) - 0xC0) << 16) | int(off, 16)
+            if mod[a] in (0x4C, 0x4D) and mod[a + 1] == b["pack"] and mod[a + 2] & 0x3F != 0x3F:
+                votes[b["formation"]][mod[a + 2] & 0x3F] += 1
+    return {f: c.most_common(1)[0][0] for f, c in votes.items()}
+
+
 class MonsterSprites:
     """T-Edition's monster sprites as snes_sprites.Sprites reads vanilla's (entries CF/1A00, tiles by
     monster id, palettes 41/6200): port_monster_ext matches each new monster with vanilla's art."""
 
-    def __init__(self, mod):
+    def __init__(self, mod, past=None):
         import snes_sprites as SS
+        self.past = past   # a reader for monsters 512+ (EX's: ted_ex.ExSprites)
 
         class _Rom:
             data = mod
@@ -323,7 +400,9 @@ class MonsterSprites:
         self._s = _Sprites(_Rom())
 
     def sprite(self, e):
-        return self._s.sprite(e)
+        if e < 512:
+            return self._s.sprite(e)
+        return self.past.sprite(e) if self.past is not None else None   # EX's (512+) are in EX's ROM
 
 
 class Names:
@@ -422,6 +501,18 @@ class TEdition(Profile):
     snes_ai_status = False
     # every weapon's critical hit rate: T-Edition rolls random(256) < 20 (vanilla < 8; C2/33FE): the spec's rule 18
     weapon_critical_rate = 8
+    # relic command swaps (the spec's rule 31): T-Edition's 8 swaps (CE/01E8 -> CE/01F8, C2/5390) are item byte 10
+    # bit 7 - k for entry k, not vanilla's bits 2-6 (its Gem Box has bit 4, vanilla's Fake Mustache's): every bit by
+    # hand, PR command ids by port.SNES_CMD (function 61: from, to). Pray, Spirit and Animal are the vanilla command
+    # rows 27, 29 and 24 that ted_build.command_rule turns into them
+    relic_bit_funcs = {(10, 7): {(61, 10, 11, 0)},   # Steal -> Capture (Thief Gloves)
+                       (10, 6): {(61, 20, 21, 0)},   # Slot -> GP Rain (Heiji's Jitte)
+                       (10, 5): {(61, 9, 28, 0)},    # Morph -> Shock (Zeidrich)
+                       (10, 4): {(61, 7, 31, 0)},    # Magic -> X-Magic (Gem Box)
+                       (10, 3): {(61, 1, 30, 0)},    # Fight -> Jump (Dragoon Boots, Dragon Horn)
+                       (10, 2): {(61, 16, 27, 0)},   # Runic -> Pray (Maiden's Prayer)
+                       (10, 1): {(61, 18, 29, 0)},   # Sketch -> Spirit (Embroidered Tippet)
+                       (10, 0): {(61, 22, 24, 0)}}   # Dance -> Animal (Pheasant Strap)
 
     def extra_data(self, rom):
         """Data beside the Magicite groups for T-Edition's other tools and its plugin.
@@ -438,6 +529,8 @@ class TEdition(Profile):
         import port_ai
         sa = getattr(port_ai.port, "snes_ai", None)
         if sa is not None and self.snes_ai:
+            import port_monster_ext
+            port_monster_ext.snes_ai_extend(sa)   # T-Edition's monsters 384-511 and formations 576-767 (ted-monsters)
             out["ted_ai.json"] = {"snes_ai": sa}
         return out
 
@@ -483,7 +576,6 @@ class TEdition(Profile):
         return {"items": items,
                 "spells": [t if spell(i) else None for i, t in enumerate(d["spells"])],
                 "lores": [t if spell(LORE_FIRST + i) else None for i, t in enumerate(d["lores"])]}
-
 
     def extra_messages(self, rom):
         """The final name of every slot T-Edition names: the PR's own text where Mato's name is the
