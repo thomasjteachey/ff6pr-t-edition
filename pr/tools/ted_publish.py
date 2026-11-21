@@ -33,7 +33,7 @@ HELD_BACK = set()
 def parts():
     out = [("pr/tools", TOOLS), ("pr/ted", ["**"]),   # pr/ted: T-Edition's own docs (the battle spec)
            ("pr/data", ["ted_*.json", "snes_event_*tedition*.json", "snes_event_ted_*.json"]),   # its own data
-           ("pr/docs", ["tedition.md"])]   # its development log (split out of PORTING.md, 2026-11-20)
+           ("pr/docs", ["tedition.md", "tedition-audit.md"])]   # its development log, its feature audit (2026-11-21)
     for folder in ("pr/plugin/TedPlugin", "pr/plugin/TedRules", "pr/plugin/Ted.Tests"):
         if os.path.isdir(os.path.join(R.PROJECT, *folder.split("/"))):
             out.append((folder, ["**"]))
