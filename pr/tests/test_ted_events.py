@@ -128,8 +128,10 @@ class WineOldMan(unittest.TestCase):
         self.assertTrue(mes["TED_E0320_a_01"].endswith("Hermes Shoes!"))
         # wired: the old man in each of his three entity layers runs T-Edition's event, which falls
         # back on that layer's own PR script (grafted in)
-        wired = {w["layer"]: w for w in rep["wired"]}
+        wired = {w["layer"]: w for w in rep["wired"] if "room" not in w}
         self.assertEqual(sorted(wired), ["ev_e_0038", "ev_e_0063", "ev_e_0075"])
+        # and his World of Ruin copy (South Figaro WoR, Map_20361_23: his pub quest is a WoR one)
+        self.assertIn("Map_20361_23", {w.get("room") for w in rep["wired"]})
         self.assertEqual(wired["ev_e_0038"]["was"], "sc_npc_20071_23_1")
         w = TE._json(os.path.join(room, "sc_ted_cd5850_l0038.json"))
         self.assertEqual(T.check(w), [])
@@ -192,6 +194,51 @@ class WineOldMan(unittest.TestCase):
         new = [o for o in objs if o.get("entity_id") == w["entity"]]
         self.assertEqual([(o["script_id"], o["action_id"], o["object_type"], o["asset_id"]) for o in new],
                          [(w["script_id"], 2, 6, TE.STANDIN_LOOK)])
+
+    def test_party_checks(self):
+        # DE (the active party) then "if any of bits 1A0+c": character c here -> the PR's BranchByCharacter
+        # (its ids: SNES + 1; operand 2: 0 = here, 1 = not here; operand 3: 0 = the active party)
+        import event_translate as T
+        t = TE._translator_class()(prog().rom, "x", prog=prog())
+        load = E.Instr.__new__(E.Instr)
+        load.op, load.off, load.name, load.cls, load.args = 0xDE, 0, "case_party", "flow", {}
+        self.assertEqual(t.instr(load, False, None), ([], True))
+        ins = E.Instr.__new__(E.Instr)
+        ins.op, ins.off, ins.args = 0xC8, 0x10, {"bits": [(0x1A3, True), (0x1A0, False)], "event": 0x20}
+        ops = [(o["mnemonic"], o["operands"]["iValues"][:4]) for o in t.cond(ins)]
+        self.assertEqual(ops, [("BranchByCharacter", [4, 0, 0, "@L_000020"]), ("BranchByCharacter", [1, 1, 0, "@L_000020"])])
+        ins.op = 0xC0                                            # all of them: a failing test skips the jump
+        ops = [(o["mnemonic"], o["operands"]["iValues"][:4]) for o in t.cond(ins)]
+        self.assertEqual(ops, [("BranchByCharacter", [4, 1, 0, "@skip_000010"]), ("BranchByCharacter", [1, 0, 0, "@skip_000010"]),
+                               ("Jump", ["@L_000020", 0, 0, 0][:len(ops[2][1])]), ("Nop", ops[3][1])])
+
+    def test_changed_in_place(self):
+        # Figaro's priestess (CA/6C7B): T-Edition only redirected her first test (bit 049 -> its costume
+        # scene) and reworded a line; from the next instruction on the PR's own script does vanilla's part
+        self.assertEqual(TE.vanilla_resume(E.parse_addr("CA/6C7B"), prog()), E.parse_addr("CA/6C81"))
+        self.assertIsNone(TE.vanilla_resume(E.parse_addr("CD/5850"), prog()))       # new code, not in place
+        out = os.path.join(tempfile.mkdtemp(), "TEditionEvents")
+        report, mod = TE.build(out=out, events=[dict(event=E.parse_addr("CA/6C7B"), map=57, npc=1)], write=False, prog=prog())
+        w = next(w for w in report[0]["wired"] if w["was"] == "sc_e_0028")
+        mod.write()
+        path = next(os.path.join(r, w["now"] + ".json") for r, ds, fs in os.walk(out) if w["now"] + ".json" in fs)
+        ops = TE._json(path)["Mnemonics"]
+        self.assertTrue(any(m["mnemonic"] == "Jump" and "the PR's own script" in (m.get("comment") or "") for m in ops))
+
+    def test_leader_and_party_switch(self):
+        # E2 (the leader) then "if 1A0+c": BranchByLeader [c+1, target]; 46 n: ChangePartySlot [n, 1, 0]
+        t = TE._translator_class()(prog().rom, "x", prog=prog())
+        load = E.Instr.__new__(E.Instr)
+        load.op, load.off, load.name, load.cls, load.args = 0xE2, 0, "case_leader", "flow", {}
+        t.instr(load, False, None)
+        ins = E.Instr.__new__(E.Instr)
+        ins.op, ins.off, ins.args = 0xC8, 0x10, {"bits": [(0x1A2, True)], "event": 0x20}
+        self.assertEqual([(o["mnemonic"], o["operands"]["iValues"][:2]) for o in t.cond(ins)],
+                         [("BranchByLeader", [3, "@L_000020"])])
+        sw = E.Instr.__new__(E.Instr)
+        sw.op, sw.off, sw.name, sw.cls, sw.args = 0x46, 0, "party_active", "party", {"party": 2}
+        ops, cont = t.instr(sw, False, None)
+        self.assertEqual([(o["mnemonic"], o["operands"]["iValues"][:3]) for o in ops], [("ChangePartySlot", [2, 1, 0])])
 
     def test_ex_boss_bits_have_fixed_flags(self):
         # EX's boss fights (ted-ex) and the Collection Room (here) read the same flags: reserved in the

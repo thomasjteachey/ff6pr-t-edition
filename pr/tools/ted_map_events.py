@@ -212,28 +212,34 @@ class Events:
                         sid = self.translate(Tr, m, n["_room"].name, name, addr, "npc")
                     r, eid, (px, py) = n["_room"], n["_eid"], n["_at"]
                     asset = (looks.get(n["sprite"]) or (DEFAULT_ASSET,))[0]
-                    if not looks.get(n["sprite"]):
+                    # bit 7 of the record's x byte (snes_maps' "no_face"): a special-graphics NPC, a decoration
+                    # whose event bytes are graphics (ted-ex, 2026-11-21): no talk, no turning
+                    special = n["no_face"]
+                    if special:
+                        sid = 0
+                        self.stats["special-graphics npcs (decorations)"] += 1
+                    if not looks.get(n["sprite"]) or special:
                         self.standins.append({"sprite": n["sprite"], "snes_map": m, "npc": n["index"], "pr_map": r.name,
-                                              "look": DEFAULT_ASSET, "entity": eid,
+                                              "look": DEFAULT_ASSET, "entity": eid, "special_graphics": bool(special),
                                               "event": "%02X/%04X" % (n["event"] >> 16, n["event"] & 0xFFFF),
                                               "by": OWNER})
-                    if q and not sid:                    # ted-ex's pub quest NPC
+                    if q and not sid and not special:    # ted-ex's pub quest NPC
                         sid, asset = q["script_id"], q.get("asset_id") or asset
                         n["direction"] = q.get("direction", n["direction"])
                         self.listed[n["_room"].name].append(q["script"])
                         self.stats["ted-ex npcs"] += 1
                     r.objects.append({"name": "TEditionNPC%d" % n["index"], "x": px, "y": py, "gid": NPC_GID,
                                       "properties": {
-                                          "accept_action_direction": 15, "action_id": 2, "affected": False,
+                                          "accept_action_direction": 15, "action_id": 0 if special else 2, "affected": False,
                                           "all_layers": False, "asset_id": asset, "birdview_puppet": False,
                                           "direction": DIRECTION.get(n["direction"], 4), "entity_id": eid,
-                                          "eye_contact": not n["no_face"], "first_interval": True,
+                                          "eye_contact": False if special else True, "first_interval": True,
                                           "flight_altitude_ratio": 1, "idling": True, "interactive_icon_v_offset": 12,
                                           "link_object_id": 0, "message_key": "", "move_interval_id": 0,
                                           "move_speed_id": 0, "move_step": 0, "move_type": 0,
                                           "move_while_display_message": False, "object_id": 0, "object_type": 6,
                                           "pushed": True, "script_id": sid, "talk_target_transportation_ids": "",
-                                          "target_character_status_id": 0, "turn_around": not n["const_sprite"],
+                                          "target_character_status_id": 0, "turn_around": not (special or n["const_sprite"]),
                                           "visible_minimap": False}})
                     self.stats["npcs"] += 1
                 # event tiles: step triggers

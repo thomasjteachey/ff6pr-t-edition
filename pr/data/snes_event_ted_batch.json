@@ -1,419 +1,659 @@
 {
- "about": "ted-events' NPC events built in bulk (tools/ted_events.py all_events): T-Edition's NPC and tile events on vanilla maps that translate with no stub, are not a shopkeeper's, and are wired to the PR's NPC or get a new one. Hand-checked events are ted_events.EVENTS.",
+ "about": "ted-events' NPC events built in bulk (tools/ted_events.py all_events): T-Edition's NPC, tile and entrance events on vanilla maps that translate with no stub, are not a shopkeeper's, and are wired to the PR's NPC or get a new one. Hand-checked events are ted_events.EVENTS.",
  "events": [
   {
    "event": "CA/5EA9",
    "map": 17,
-   "npc": 13,
-   "first_line": ""
+   "first_line": "",
+   "npc": 13
   },
   {
    "event": "CD/49D0",
    "map": 20,
-   "npc": 4,
-   "first_line": "Magic's real, I tell ya!"
+   "first_line": "Magic's real, I tell ya!",
+   "npc": 4
   },
   {
    "event": "CD/4A10",
    "map": 20,
-   "npc": 5,
-   "first_line": "Magic? I don't believe in that nonsense!"
+   "first_line": "Magic? I don't believe in that nonsense!",
+   "npc": 5
   },
   {
    "event": "CD/1E20",
    "map": 27,
-   "npc": 1,
-   "first_line": "I've heard there are four crystals somewhere in the world. I've also heard that "
+   "first_line": "I've heard there are four crystals somewhere in the world. I've also heard that ",
+   "npc": 1
   },
   {
    "event": "CD/1C94",
    "map": 28,
-   "npc": 1,
-   "first_line": "I met a soldier from Doma the other day. He said he was headed back to his homel"
+   "first_line": "I met a soldier from Doma the other day. He said he was headed back to his homel",
+   "npc": 1
   },
   {
    "event": "CD/1D00",
    "map": 28,
-   "npc": 2,
-   "first_line": "You know those moogles who live in the caves? I never paid attention with everyt"
+   "first_line": "You know those moogles who live in the caves? I never paid attention with everyt",
+   "npc": 2
   },
   {
    "event": "CD/1D54",
    "map": 28,
-   "npc": 3,
-   "first_line": "I'm not from here originally, but it's a very nice and quiet place to live."
+   "first_line": "I'm not from here originally, but it's a very nice and quiet place to live.",
+   "npc": 3
   },
   {
    "event": "CC/0B66",
    "map": 30,
-   "npc": 25,
-   "first_line": "cough Here... Take it..."
+   "first_line": "cough Here... Take it...",
+   "npc": 25
   },
   {
    "event": "CD/1540",
    "map": 30,
-   "npc": 24,
-   "first_line": "Arvis: If all the espers are that kindhearted, maybe we could get even more to h"
+   "first_line": "Arvis: If all the espers are that kindhearted, maybe we could get even more to h",
+   "npc": 24
   },
   {
    "event": "CD/1580",
    "map": 30,
-   "npc": 22,
-   "first_line": "Elder: What incredible power. If we could somehow harness it... Elder: But now w"
+   "first_line": "Elder: What incredible power. If we could somehow harness it... Elder: But now w",
+   "npc": 22
   },
   {
    "event": "CD/1650",
    "map": 30,
-   "npc": 26,
-   "first_line": "Arvis: Oh! You're alive! Yes, but what's happened to Narshe...?\" Arvis: After th"
+   "first_line": "Arvis: Oh! You're alive! Yes, but what's happened to Narshe...?\" Arvis: After th",
+   "npc": 26
   },
   {
    "event": "CD/19F0",
    "map": 30,
-   "npc": 27,
-   "first_line": "Banon! You're alive!\" Banon: Oh! You're alive too! I never lost hope for you! Th"
-  },
-  {
-   "event": "CD/1C50",
-   "map": 32,
-   "npc": 7,
-   "first_line": "Returner Soldier: Okay! We have houses to repair and the town to guard... Things"
-  },
-  {
-   "event": "CD/1C90",
-   "map": 32,
-   "npc": 8,
-   "first_line": "Returner Soldier: It's slow, and only little by little, but people are starting "
-  },
-  {
-   "event": "CD/1CD0",
-   "map": 32,
-   "npc": 9,
-   "first_line": "Narshe Guard: On my honor, I won't let a single monster step foot into this town"
-  },
-  {
-   "event": "CD/1CD4",
-   "map": 32,
-   "npc": 10,
-   "first_line": "Narshe Guard: Monsters roam the northern part of town. Be careful."
-  },
-  {
-   "event": "CD/1CD8",
-   "map": 32,
-   "npc": 11,
-   "first_line": "I hope peace comes back soon..."
-  },
-  {
-   "event": "CD/1D50",
-   "map": 32,
-   "npc": 12,
-   "first_line": "Magic... Indeed, it is a marvelous ability. But it also carries the potential to"
-  },
-  {
-   "event": "CD/1D90",
-   "map": 32,
-   "npc": 13,
-   "first_line": "Brrr! It's so cold! We're liable to freeze unless we warm the town up soon...!"
-  },
-  {
-   "event": "CD/1D94",
-   "map": 32,
-   "npc": 14,
-   "first_line": "When I grow up, I'm gonna be a city guard too!"
-  },
-  {
-   "event": "CD/32B0",
-   "map": 36,
-   "npc": 0,
-   "first_line": "What the...? Magicite? Esper: I am Titan... I will now test your strength..."
-  },
-  {
-   "event": "CC/5BC0",
-   "map": 44,
-   "npc": 9,
-   "first_line": ""
-  },
-  {
-   "event": "CD/19A0",
-   "map": 44,
-   "npc": 8,
-   "first_line": "The esper seems to be saying something. I can't understand them...\" They don't s"
-  },
-  {
-   "event": "CD/19C0",
-   "map": 44,
-   "npc": 7,
-   "first_line": "The esper seems to be saying something. I can't understand them...\" They don't s"
-  },
-  {
-   "event": "CD/19D0",
-   "map": 44,
-   "npc": 2,
-   "first_line": "Moglin: When that incredible destruction happened, the sylphs here saved us. We'"
-  },
-  {
-   "event": "CD/19DE",
-   "map": 44,
-   "npc": 4,
-   "first_line": "Mogret: I used to think espers were way meaner, kupo. Mogret: But the sylphs are"
-  },
-  {
-   "event": "CD/19E2",
-   "map": 44,
-   "npc": 5,
-   "first_line": "Cosmog: The fire is nice and warm, kupo."
-  },
-  {
-   "event": "CA/6C3C",
-   "map": 60,
-   "npc": 0,
-   "first_line": "The ancients once wielded a force known as magic\". Those who mastered the art we"
-  },
-  {
-   "event": "CA/7D21",
-   "map": 78,
-   "npc": 3,
-   "first_line": "You look just like that student of Duncan's."
-  },
-  {
-   "event": "CA/7D43",
-   "map": 78,
-   "npc": 4,
-   "first_line": "Duncan's been training his boy, Vargas, along with his other students. He's alwa"
-  },
-  {
-   "event": "CA/7D5B",
-   "map": 78,
-   "npc": 5,
-   "first_line": "I hear the Empire's been invading one town after another. I wonder how safe we a"
-  },
-  {
-   "event": "CD/5840",
-   "map": 78,
-   "npc": 8,
-   "first_line": "Huh? Kids aren't allowed in here? Okay, okay, fine..."
-  },
-  {
-   "event": "CD/5803",
-   "map": 86,
-   "npc": 2,
-   "first_line": "My grandpa used to be a servant for the richest family in town."
-  },
-  {
-   "event": "CD/5850",
-   "map": 86,
-   "npc": 1,
-   "first_line": "I don't like strangers. Bring me some wine and maybe I'll talk to you."
-  },
-  {
-   "event": "CD/4B30",
-   "map": 104,
-   "npc": 4,
-   "first_line": "It seems you have some magicite... Want to learn more about espers? > Yes > No"
-  },
-  {
-   "event": "CD/4BCF",
-   "map": 105,
-   "npc": 2,
-   "first_line": "(Poison) HP gradually decreases. (Regen) HP gradually recovers. (Disease) MP gra"
-  },
-  {
-   "event": "CD/4BE4",
-   "map": 105,
-   "npc": 3,
-   "first_line": "Fire, ice, and lightning are the three principle elements. They are represented "
-  },
-  {
-   "event": "CD/4BF9",
-   "map": 105,
-   "npc": 4,
-   "first_line": "The Reflect spell remains active for only a short time and will not reflect blue"
-  },
-  {
-   "event": "CD/4C0E",
-   "map": 105,
-   "npc": 5,
-   "first_line": "(Runic) Absorbs magic and converts it into MP. Runic remains active until a spel"
-  },
-  {
-   "event": "CD/4C23",
-   "map": 105,
-   "npc": 6,
-   "first_line": "(Mirage) Creates illusionary images of a character, making it difficult for enem"
-  },
-  {
-   "event": "CD/54A0",
-   "map": 105,
-   "npc": 9,
-   "first_line": "Something to note about the Reflect spell... Reflect doesn't block spells that h"
-  },
-  {
-   "event": "CC/3415",
-   "map": 106,
-   "npc": 6,
-   "first_line": "Characters in the back row take 1/3 less damage than normal, but their attack po"
-  },
-  {
-   "event": "CD/4B80",
-   "map": 106,
-   "npc": 0,
-   "first_line": "You can run from most battles by holding down both the L and R Buttons."
-  },
-  {
-   "event": "CD/4B9C",
-   "map": 106,
-   "npc": 1,
-   "first_line": "Turn meters are located in the lower right-hand corner of the battle screen. Whe"
-  },
-  {
-   "event": "CD/4BB1",
-   "map": 106,
-   "npc": 2,
-   "first_line": "When selecting the target for a spell, press the L or R Button to target all ene"
-  },
-  {
-   "event": "CD/4BBB",
-   "map": 106,
-   "npc": 3,
-   "first_line": "If you press Left and Right while the battle menu is open, you can choose to cha"
-  },
-  {
-   "event": "CD/4BC5",
-   "map": 106,
-   "npc": 4,
-   "first_line": "Damage is more severe when enemies have you surrounded, especially if your back "
-  },
-  {
-   "event": "CD/4C79",
-   "map": 106,
-   "npc": 5,
-   "first_line": "Numbers are displayed in different colors, depending on what is being impacted. "
-  },
-  {
-   "event": "CD/5010",
-   "map": 106,
-   "npc": 7,
-   "first_line": "Status effects are represented by different colors."
-  },
-  {
-   "event": "CD/4B3A",
-   "map": 107,
-   "npc": 2,
-   "first_line": "Valuables are sometimes hidden in pots such as this one."
-  },
-  {
-   "event": "CD/4B44",
-   "map": 107,
-   "npc": 3,
-   "first_line": "Potions may taste funny, but they also heal injury. If you are hurt, drink one t"
-  },
-  {
-   "event": "CD/4B4E",
-   "map": 107,
-   "npc": 5,
-   "first_line": "Have you heard about relics?"
-  },
-  {
-   "event": "CD/4B58",
-   "map": 107,
-   "npc": 6,
-   "first_line": "Make selections using the A Button. Cancel them with the B Button. Press the X B"
-  },
-  {
-   "event": "CD/4B62",
-   "map": 107,
-   "npc": 7,
-   "first_line": "When selecting armor or weapons in a shop, symbols will appear next to character"
-  },
-  {
-   "event": "CD/4B6C",
-   "map": 107,
-   "npc": 8,
-   "first_line": "Let me teach you how to ride a chocobo!"
-  },
-  {
-   "event": "CD/4B76",
-   "map": 107,
-   "npc": 4,
-   "first_line": "Be careful! Sometimes monsters lurk inside of treasure chests!"
-  },
-  {
-   "event": "CB/A378",
-   "map": 121,
-   "npc": 0,
-   "first_line": "Doman Sentry: To the king, with all haste!"
-  },
-  {
-   "event": "CD/3860",
-   "map": 123,
-   "npc": 8,
-   "first_line": "Esper: I thank you for defeating Wrexsoul... Esper: I am known as Diabolos. As a"
-  },
-  {
-   "event": "CD/37A1",
-   "map": 128,
-   "npc": 2,
-   "first_line": "Vargas: I'm going to stay here and keep training with the old man, just like in "
-  },
-  {
-   "event": "CD/1CA0",
-   "map": 189,
-   "npc": 1,
-   "first_line": "I overheard you talking. And you know what? You're right. It's too early to give"
-  },
-  {
-   "event": "CC/9CE0",
-   "map": 305,
-   "npc": 0,
-   "first_line": "...You don't have enough money."
-  },
-  {
-   "event": "CC/5DD3",
-   "map": 306,
-   "npc": 6,
-   "first_line": "...You don't have enough money."
-  },
-  {
-   "event": "CD/4E20",
-   "map": 413,
-   "npc": 6,
-   "first_line": "Gilgamesh: Oh, it's you! I'm looking for a legendary sword. If you find it, I'll"
+   "first_line": "Banon! You're alive!\" Banon: Oh! You're alive too! I never lost hope for you! Th",
+   "npc": 27
   },
   {
    "event": "CD/40D0",
    "map": 30,
+   "first_line": "",
    "tile": [
     110,
     25
-   ],
-   "first_line": ""
+   ]
   },
   {
    "event": "CC/36E8",
    "map": 32,
+   "first_line": "Lone Wolf: Hmm? Haven't I seen you somewhere before? Oh, well. There's nothin' l",
    "tile": [
     37,
     50
-   ],
-   "first_line": "Lone Wolf: Hmm? Haven't I seen you somewhere before? Oh, well. There's nothin' l"
+   ]
+  },
+  {
+   "event": "CD/1C50",
+   "map": 32,
+   "first_line": "Returner Soldier: Okay! We have houses to repair and the town to guard... Things",
+   "npc": 7
+  },
+  {
+   "event": "CD/1C90",
+   "map": 32,
+   "first_line": "Returner Soldier: It's slow, and only little by little, but people are starting ",
+   "npc": 8
+  },
+  {
+   "event": "CD/1CD0",
+   "map": 32,
+   "first_line": "Narshe Guard: On my honor, I won't let a single monster step foot into this town",
+   "npc": 9
+  },
+  {
+   "event": "CD/1CD4",
+   "map": 32,
+   "first_line": "Narshe Guard: Monsters roam the northern part of town. Be careful.",
+   "npc": 10
+  },
+  {
+   "event": "CD/1CD8",
+   "map": 32,
+   "first_line": "I hope peace comes back soon...",
+   "npc": 11
+  },
+  {
+   "event": "CD/1D50",
+   "map": 32,
+   "first_line": "Magic... Indeed, it is a marvelous ability. But it also carries the potential to",
+   "npc": 12
+  },
+  {
+   "event": "CD/1D90",
+   "map": 32,
+   "first_line": "Brrr! It's so cold! We're liable to freeze unless we warm the town up soon...!",
+   "npc": 13
+  },
+  {
+   "event": "CD/1D94",
+   "map": 32,
+   "first_line": "When I grow up, I'm gonna be a city guard too!",
+   "npc": 14
+  },
+  {
+   "event": "CD/32B0",
+   "map": 36,
+   "first_line": "What the...? Magicite? Esper: I am Titan... I will now test your strength...",
+   "npc": 0
+  },
+  {
+   "event": "CC/5BC0",
+   "map": 44,
+   "first_line": "",
+   "npc": 9
+  },
+  {
+   "event": "CD/19A0",
+   "map": 44,
+   "first_line": "The esper seems to be saying something. I can't understand them...\" They don't s",
+   "npc": 8
+  },
+  {
+   "event": "CD/19C0",
+   "map": 44,
+   "first_line": "The esper seems to be saying something. I can't understand them...\" They don't s",
+   "npc": 7
+  },
+  {
+   "event": "CD/19D0",
+   "map": 44,
+   "first_line": "Moglin: When that incredible destruction happened, the sylphs here saved us. We'",
+   "npc": 2
+  },
+  {
+   "event": "CD/19DE",
+   "map": 44,
+   "first_line": "Mogret: I used to think espers were way meaner, kupo. Mogret: But the sylphs are",
+   "npc": 4
+  },
+  {
+   "event": "CD/19E2",
+   "map": 44,
+   "first_line": "Cosmog: The fire is nice and warm, kupo.",
+   "npc": 5
+  },
+  {
+   "event": "CD/1A80",
+   "map": 44,
+   "first_line": "Molulu: Take good care of Mog, kupo!",
+   "npc": 3
+  },
+  {
+   "event": "CA/6C3C",
+   "map": 60,
+   "first_line": "The ancients once wielded a force known as magic\". Those who mastered the art we",
+   "npc": 0
   },
   {
    "event": "CA/5F1B",
    "map": 61,
+   "first_line": "",
    "tile": [
     35,
     35
-   ],
-   "first_line": ""
+   ]
+  },
+  {
+   "event": "CA/7D21",
+   "map": 78,
+   "first_line": "You look just like that student of Duncan's.",
+   "npc": 3
+  },
+  {
+   "event": "CA/7D43",
+   "map": 78,
+   "first_line": "Duncan's been training his boy, Vargas, along with his other students. He's alwa",
+   "npc": 4
+  },
+  {
+   "event": "CA/7D5B",
+   "map": 78,
+   "first_line": "I hear the Empire's been invading one town after another. I wonder how safe we a",
+   "npc": 5
+  },
+  {
+   "event": "CD/5840",
+   "map": 78,
+   "first_line": "Huh? Kids aren't allowed in here? Okay, okay, fine...",
+   "npc": 8
+  },
+  {
+   "event": "CD/5803",
+   "map": 86,
+   "first_line": "My grandpa used to be a servant for the richest family in town.",
+   "npc": 2
+  },
+  {
+   "event": "CD/5850",
+   "map": 86,
+   "first_line": "I don't like strangers. Bring me some wine and maybe I'll talk to you.",
+   "npc": 1
+  },
+  {
+   "event": "CD/4B30",
+   "map": 104,
+   "first_line": "It seems you have some magicite... Want to learn more about espers? > Yes > No",
+   "npc": 4
+  },
+  {
+   "event": "CD/4BCF",
+   "map": 105,
+   "first_line": "(Poison) HP gradually decreases. (Regen) HP gradually recovers. (Disease) MP gra",
+   "npc": 2
+  },
+  {
+   "event": "CD/4BE4",
+   "map": 105,
+   "first_line": "Fire, ice, and lightning are the three principle elements. They are represented ",
+   "npc": 3
+  },
+  {
+   "event": "CD/4BF9",
+   "map": 105,
+   "first_line": "The Reflect spell remains active for only a short time and will not reflect blue",
+   "npc": 4
+  },
+  {
+   "event": "CD/4C0E",
+   "map": 105,
+   "first_line": "(Runic) Absorbs magic and converts it into MP. Runic remains active until a spel",
+   "npc": 5
+  },
+  {
+   "event": "CD/4C23",
+   "map": 105,
+   "first_line": "(Mirage) Creates illusionary images of a character, making it difficult for enem",
+   "npc": 6
+  },
+  {
+   "event": "CD/54A0",
+   "map": 105,
+   "first_line": "Something to note about the Reflect spell... Reflect doesn't block spells that h",
+   "npc": 9
+  },
+  {
+   "event": "CC/3415",
+   "map": 106,
+   "first_line": "Characters in the back row take 1/3 less damage than normal, but their attack po",
+   "npc": 6
+  },
+  {
+   "event": "CD/4B80",
+   "map": 106,
+   "first_line": "You can run from most battles by holding down both the L and R Buttons.",
+   "npc": 0
+  },
+  {
+   "event": "CD/4B9C",
+   "map": 106,
+   "first_line": "Turn meters are located in the lower right-hand corner of the battle screen. Whe",
+   "npc": 1
+  },
+  {
+   "event": "CD/4BB1",
+   "map": 106,
+   "first_line": "When selecting the target for a spell, press the L or R Button to target all ene",
+   "npc": 2
+  },
+  {
+   "event": "CD/4BBB",
+   "map": 106,
+   "first_line": "If you press Left and Right while the battle menu is open, you can choose to cha",
+   "npc": 3
+  },
+  {
+   "event": "CD/4BC5",
+   "map": 106,
+   "first_line": "Damage is more severe when enemies have you surrounded, especially if your back ",
+   "npc": 4
+  },
+  {
+   "event": "CD/4C79",
+   "map": 106,
+   "first_line": "Numbers are displayed in different colors, depending on what is being impacted. ",
+   "npc": 5
+  },
+  {
+   "event": "CD/5010",
+   "map": 106,
+   "first_line": "Status effects are represented by different colors.",
+   "npc": 7
+  },
+  {
+   "event": "CD/4B3A",
+   "map": 107,
+   "first_line": "Valuables are sometimes hidden in pots such as this one.",
+   "npc": 2
+  },
+  {
+   "event": "CD/4B44",
+   "map": 107,
+   "first_line": "Potions may taste funny, but they also heal injury. If you are hurt, drink one t",
+   "npc": 3
+  },
+  {
+   "event": "CD/4B4E",
+   "map": 107,
+   "first_line": "Have you heard about relics?",
+   "npc": 5
+  },
+  {
+   "event": "CD/4B58",
+   "map": 107,
+   "first_line": "Make selections using the A Button. Cancel them with the B Button. Press the X B",
+   "npc": 6
+  },
+  {
+   "event": "CD/4B62",
+   "map": 107,
+   "first_line": "When selecting armor or weapons in a shop, symbols will appear next to character",
+   "npc": 7
+  },
+  {
+   "event": "CD/4B6C",
+   "map": 107,
+   "first_line": "Let me teach you how to ride a chocobo!",
+   "npc": 8
+  },
+  {
+   "event": "CD/4B76",
+   "map": 107,
+   "first_line": "Be careful! Sometimes monsters lurk inside of treasure chests!",
+   "npc": 4
+  },
+  {
+   "event": "CB/A378",
+   "map": 121,
+   "first_line": "Doman Sentry: To the king, with all haste!",
+   "npc": 0
+  },
+  {
+   "event": "CD/3860",
+   "map": 123,
+   "first_line": "Esper: I thank you for defeating Wrexsoul... Esper: I am known as Diabolos. As a",
+   "npc": 8
   },
   {
    "event": "CD/3840",
    "map": 126,
+   "first_line": "",
    "tile": [
     10,
     36
-   ],
+   ]
+  },
+  {
+   "event": "CD/37A1",
+   "map": 128,
+   "first_line": "Vargas: I'm going to stay here and keep training with the old man, just like in ",
+   "npc": 2
+  },
+  {
+   "event": "CD/1CA0",
+   "map": 189,
+   "first_line": "I overheard you talking. And you know what? You're right. It's too early to give",
+   "npc": 1
+  },
+  {
+   "event": "CD/33C0",
+   "map": 221,
+   "first_line": "Gilgamesh: You guys wanna get to the top of this building? Yes.\" We're looking f",
+   "tile": [
+    38,
+    51
+   ]
+  },
+  {
+   "event": "CC/9CE0",
+   "map": 305,
+   "first_line": "...You don't have enough money.",
+   "npc": 0
+  },
+  {
+   "event": "CC/5DD3",
+   "map": 306,
+   "first_line": "...You don't have enough money.",
+   "npc": 6
+  },
+  {
+   "event": "CD/4E20",
+   "map": 413,
+   "first_line": "Gilgamesh: Oh, it's you! I'm looking for a legendary sword. If you find it, I'll",
+   "npc": 6
+  },
+  {
+   "event": "CB/9797",
+   "map": 126,
+   "entrance": true,
    "first_line": ""
+  },
+  {
+   "event": "CD/3BBE",
+   "map": 171,
+   "entrance": true,
+   "first_line": ""
+  },
+  {
+   "event": "CC/3AF2",
+   "map": 189,
+   "entrance": true,
+   "first_line": ""
+  },
+  {
+   "event": "CC/6F5C",
+   "map": 192,
+   "entrance": true,
+   "first_line": ""
+  },
+  {
+   "event": "CD/1750",
+   "map": 44,
+   "first_line": "The esper seems to be saying something. I can't understand them...\" They don't s",
+   "cosmetic_stubs": [
+    "sound stub:sound"
+   ],
+   "npc": 6
+  },
+  {
+   "event": "CD/D640",
+   "map": 181,
+   "first_line": "Faint light shines halfway down the cliff... Jump down to it? > Yes > No",
+   "cosmetic_stubs": [
+    "sound stub:sound"
+   ],
+   "npc": 4
+  },
+  {
+   "event": "CB/AD3A",
+   "map": 151,
+   "first_line": "Howdy, folks! I've got top-quality items at rock-bottom prices! No reason to be ",
+   "npc": 3
+  },
+  {
+   "event": "CE/A710",
+   "map": 44,
+   "first_line": "",
+   "entrance": true
+  },
+  {
+   "event": "CD/36AA",
+   "map": 62,
+   "first_line": "T-take this...",
+   "npc": 0
+  },
+  {
+   "event": "CA/ED73",
+   "map": 91,
+   "first_line": "",
+   "entrance": true
+  },
+  {
+   "event": "CA/ED77",
+   "map": 96,
+   "first_line": "",
+   "entrance": true
+  },
+  {
+   "event": "CA/ED7C",
+   "map": 97,
+   "first_line": "",
+   "entrance": true
+  },
+  {
+   "event": "CD/81A0",
+   "map": 106,
+   "first_line": "",
+   "entrance": true
+  },
+  {
+   "event": "CD/CEF0",
+   "map": 117,
+   "first_line": "An Imperial camp... There are an awful lot of soldiers here...",
+   "tile": [
+    36,
+    3
+   ]
+  },
+  {
+   "event": "CD/CF00",
+   "map": 117,
+   "first_line": "An Imperial camp... There are an awful lot of soldiers here...",
+   "tile": [
+    37,
+    2
+   ]
+  },
+  {
+   "event": "CD/CF10",
+   "map": 117,
+   "first_line": "An Imperial camp... There are an awful lot of soldiers here...",
+   "tile": [
+    34,
+    2
+   ]
+  },
+  {
+   "event": "CD/1DF0",
+   "map": 30,
+   "first_line": "Elder: I thought I'd never see Narshe again... You've done so much for us. I'm t",
+   "npc": 28
+  },
+  {
+   "event": "CC/0AC4",
+   "map": 32,
+   "first_line": "It's locked.",
+   "npc": 4
+  },
+  {
+   "event": "CD/1DC0",
+   "map": 78,
+   "first_line": "Monsters attacked us in Narshe, so I fled here.",
+   "npc": 14
+  },
+  {
+   "event": "CA/8681",
+   "map": 83,
+   "first_line": "Locke: I know I've seen her before... Wait a second... She's one of the Empire's",
+   "tile": [
+    35,
+    15
+   ]
+  },
+  {
+   "event": "CB/C21E",
+   "map": 167,
+   "first_line": "Sabin: Cyan! That shiny, shiny\" thing of Gau's is in here.",
+   "tile": [
+    12,
+    22
+   ]
+  },
+  {
+   "event": "CD/D290",
+   "map": 180,
+   "first_line": "Memories of the world before the fall remain... But the light of dawn doth never",
+   "tile": [
+    44,
+    55
+   ]
+  },
+  {
+   "event": "CC/6D87",
+   "map": 195,
+   "first_line": "It's a good thing I'd just happened to have finished this herbal concoction back",
+   "npc": 3
+  },
+  {
+   "event": "CB/B7EE",
+   "map": 153,
+   "first_line": "????: Hold it right there!",
+   "tile": [
+    5,
+    25
+   ]
+  },
+  {
+   "event": "CD/1C54",
+   "map": 24,
+   "first_line": "",
+   "npc": 3
+  },
+  {
+   "event": "CD/1D10",
+   "map": 25,
+   "first_line": "",
+   "npc": 0
+  },
+  {
+   "event": "CD/1DA0",
+   "map": 26,
+   "first_line": "",
+   "npc": 0
+  },
+  {
+   "event": "CD/1E24",
+   "map": 27,
+   "first_line": "",
+   "npc": 0
+  },
+  {
+   "event": "CD/19D8",
+   "map": 44,
+   "first_line": "Moghan: We worked with the sylphs to make medicine! You should buy some, kupo!",
+   "npc": 1
+  },
+  {
+   "event": "CA/787A",
+   "map": 85,
+   "first_line": "With the monsters running amok, I don't have much merchandise in stock...",
+   "npc": 2
+  },
+  {
+   "event": "CD/4DF0",
+   "map": 123,
+   "first_line": "Many citizens of Doma lost their lives at the hands of the Empire. But there are",
+   "npc": 11
+  },
+  {
+   "event": "CC/451F",
+   "map": 154,
+   "first_line": "Duane and Katarin are the oldest ones here. Terra's our mama and they're our big",
+   "npc": 9
+  },
+  {
+   "event": "CC/69B4",
+   "map": 194,
+   "first_line": "With the monsters running amok, I don't have much merchandise in stock...",
+   "npc": 2
   }
  ]
 }

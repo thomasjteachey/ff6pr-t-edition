@@ -41,7 +41,10 @@ AP = 0x33F000             # F3/F000 (C2/5D84), 1 byte x 768
 AI_PTRS, AI_DATA = 0x3FF300, 0x5F58F0   # FF/F300 (C2/2D73), 5F/58F0 (C2/1A3F)
 CHAR_NAMES = 0x0478C0     # Mato's English, 6 bytes (C4/78C0, as the JP ROM)
 # Mato's full-length name tables (each between "****LABEL****" markers in ASCII in his build)
-LONG_ITEMS = 0x59A560, 20, 256       # "LONG ITEMS BEGIN": icon + 19
+LONG_ITEMS = 0x59A560, 20, 256       # "LONG ITEMS BEGIN": icon + 19 (280 there: the second bank's too)
+ITEM_COUNT = 280                     # T-Edition's items: 256-279 a second bank of 24 relics (records ITEMS + 30 x 256)
+ITEM_SNES_NAMES = {"Experience Egg": "Exp. Egg"}   # second-bank names no PR/SNES name matches (item identity)
+CHEST_ITEM_BANK = 0x10, 256          # a chest's type bit 4: its content byte names item 256 + n (C0/4CA3 -> 4E/0C50)
 LONG_MONSTERS = 0x55D650, 20, 384    # "ENEMY NAMES LONG" (512 there)
 LONG_MAGIC = 0x557890, 8, 54         # "LONG MAGIC NAMES": spells 0-53
 LONG_ATTACKS = 0x557C80, 20, 202     # "LONG ATTK NAMES": spells 54-255 (espers, then skills)
@@ -165,6 +168,7 @@ EXT_TABLES = [
     ("sketches", SKETCHES, 2, 512),
     ("monster_graphics", 0x0F1A00, 5, 512),     # CF/1A00 (C1/2064, C1/24E6, C3/B8CC; vanilla D2/7000)
     ("map_properties", MAP_PROPS, 33, 512),
+    ("items", ITEMS, 30, ITEM_COUNT),          # all 280: 256-279 are its second bank of relics (ff6snes.items)
 ]
 ENEMY_NAMES_512 = 0x55D650, 20, 512   # "ENEMY NAMES LONG": all 512
 SPECIAL_NAMES = 0x54D730, 20, 512     # "ENEMY MOVES BEGN": each monster's special attack name
@@ -224,6 +228,12 @@ def build():
             count = max(count, i + 1)
         ext[name] = (at, size, count)
         at += (size * EXT_ROOM + 0xFF) & ~0xFF
+    # the second bank's menu names (US font, 13 bytes; Mato's full names come through hook_readers)
+    long = mato_names(mod)
+    ext["item_names"] = (at, 13, ITEM_COUNT)
+    for i in range(256, ITEM_COUNT):
+        img[at + 13 * i:at + 13 * (i + 1)] = J.encode_us_name(long.items[i][:12], 13, 0xFF)
+    at += (13 * EXT_ROOM + 0xFF) & ~0xFF
     assert at <= IMAGE_SIZE
     refs = sum(1 for p in range(256) for k in range(4) if (word(img, 0x0F4800 + 8 * p + 2 * k) & 0x3FF) >= 576)
     erefs = sum(1 for p in range(256) for k in range(2) if (word(img, 0x0F5000 + 4 * p + 2 * k) & 0x3FF) >= 576)
@@ -282,7 +292,8 @@ def build():
                formation_monsters=ex.get("formation_monsters") or {},
                event_backgrounds={**event_backgrounds(mod), **(ex.get("event_backgrounds") or {})},
                drop_slots={i: list(rec[4:8]) for i, rec in (ex.get("monster_items") or {}).items()},   # EX's 4 slots
-               map_packs=new_map_packs(), map_sets_file="ted_map_sets.json")   # PR sets for the new maps' packs
+               map_packs=new_map_packs(), map_sets_file="ted_map_sets.json",   # PR sets for the new maps' packs
+               chest_item_bank=CHEST_ITEM_BANK)
     rep.append(f"  EX (tools/ted_ex.py ex_records): {ex_note}")
     hook_readers(mato_names(mod))
     os.makedirs(os.path.dirname(REPORT), exist_ok=True)
@@ -405,6 +416,26 @@ class MonsterSprites:
         return self.past.sprite(e) if self.past is not None else None   # EX's (512+) are in EX's ROM
 
 
+def shops_data(rom):
+    """{"pairs": {SNES shop: PR product group the porter matched (port_shops.pairs)}, "unmatched": {SNES shop:
+    [content ids]}} for T-Edition's 128 shops (the US-layout image's table: shop type byte, 8 item slots): a shop with
+    stock the porter paired with no PR group (T-Edition's own shops: repopulated Narshe, Kohlingen WoB...) gets a group of
+    its own from ted_build.shop_rule, which completes "shops" {SNES shop: group} for ted-events' TED:shop."""
+    import sys
+    port_mod = next((m for m in (sys.modules.get("port"), sys.modules.get("__main__"))
+                     if m is not None and hasattr(getattr(m, "port_shops", None), "pairs")), None)
+    pairs = {}
+    for shop, g in (port_mod.port_shops.pairs if port_mod else []):
+        pairs.setdefault(str(shop), g)
+    unmatched = {}
+    for shop in range(128):
+        raw = rom.data[0x047AC0 + 9 * shop:0x047AC0 + 9 * shop + 9]
+        stock = [M.item_content(x) for x in raw[1:] if x != 0xFF]
+        if stock and str(shop) not in pairs:
+            unmatched[str(shop)] = {"type": raw[0], "stock": [c for c in stock if c]}
+    return {"pairs": pairs, "unmatched": unmatched}
+
+
 FORMATION_REWARDS = 0x4B4A00   # 4B/4A00: one byte per formation, FF none, else second-bank item 256 + n (C2/FC40 -> 4E/0D30)
 COLISEUM = 0x10F140, 4, 280   # D0/F140: per wagered item (id + 256 x bank flag): opponent, ?, reward, hidden (C3/BB99)
 
@@ -500,8 +531,8 @@ def mato_names(mod):
     def text(tab, i):
         a, w, _ = tab
         return mato_text(mod[a + w * i:a + w * (i + 1)])
-    items = [text(LONG_ITEMS, i) for i in range(256)]
-    item_icons = [mod[LONG_ITEMS[0] + LONG_ITEMS[1] * i] for i in range(256)]
+    items = [text(LONG_ITEMS, i) for i in range(ITEM_COUNT)]
+    item_icons = [mod[LONG_ITEMS[0] + LONG_ITEMS[1] * i] for i in range(ITEM_COUNT)]
     spells = [text(LONG_MAGIC, i) for i in range(54)] + [text(LONG_ATTACKS, i) for i in range(202)]
     spell_icons = [mod[0x55C730 + 9 * i] for i in range(54)] + [None] * 202   # "LARG MAG W ICONS"
     monsters = [text(LONG_MONSTERS, e) for e in range(384)]
@@ -612,6 +643,8 @@ class TEdition(Profile):
         out = {"ted_items.json": {"items": items}}
         # ted_rewards.json: T-Edition's boss rewards and Coliseum for TedPlugin (ted-monsters; rewards_data)
         out["ted_rewards.json"] = rewards_data()
+        # ted_shops.json: every SNES shop's PR product group (ted_build.shop_rule makes groups for the unmatched ones)
+        out["ted_shops.json"] = shops_data(rom)
         # ted_ai.json: the monsters' SNES scripts for the plugin's SnesAiHost (TedEnemyAi reads it from BepInEx/TEdition)
         import port_ai
         sa = getattr(port_ai.port, "snes_ai", None)
@@ -623,7 +656,12 @@ class TEdition(Profile):
 
     def item_mod_items(self, rom):
         import item_identity as I
-        return I.mod_items_from(rom, _Image.names.items, _Image.names.item_icons)
+        items = I.mod_items_from(rom, _Image.names.items, _Image.names.item_icons)
+        for mi in items:   # a second name where Mato's matches no PR/SNES name (Experience Egg: the SNES's Exp. Egg)
+            alias = ITEM_SNES_NAMES.get(mi.names[0]) if mi.names else None
+            if alias:
+                mi.names.append(alias)
+        return items
 
     def monster_drop_slots(self, e):
         """T-Edition's four drop slots of monster e (SNES item ids, 0xFF empty), in DROP_ODDS order."""
@@ -680,7 +718,7 @@ class TEdition(Profile):
 
         def slots(kind):
             if kind == "items":
-                for i in range(256):
+                for i in range(len(names.items)):   # 256-279: the second bank (its rows keep their old names otherwise)
                     m = M.item(i)
                     cid = M.content_id(*m) if m else None
                     if cid in content.rows:   # a new row (item_identity) was named when it was made
@@ -720,10 +758,11 @@ class TEdition(Profile):
         _Image.report.append("  " + line)
         # the rows item_identity made start with their template's description: Mato's instead
         descs, made = mato_descriptions()["items"], 0
-        for i in range(255):
+        for i in [i for i in range(len(descs)) if i != 255]:
             m = M.item(i)
             row = content.rows.get(M.content_id(*m)) if m else None
-            if row and row["mes_id_description"].startswith("MSG_PORT_") and descs[i]:
+            # (256-279, the second bank: every row, as port_item_text describes slots 0-255 only)
+            if row and (row["mes_id_description"].startswith("MSG_PORT_") or i >= 256) and descs[i]:
                 out[row["mes_id_description"]] = " ".join(descs[i].split("\n"))
                 made += 1
         line = f"descriptions: Mato's on {made} new item rows (the PR's slots: port_item_text)"

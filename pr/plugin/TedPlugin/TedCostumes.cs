@@ -13,8 +13,8 @@ namespace TEdition.PR
     //    it), kept in T-Edition's save (a "TEC1" marker block in OwnedKeyWaordList, ModSaves "TEdition"), put on as
     //    the ArtSwap layer "costume:<Name>" = costumes/<Name>_<k> (none for 0) and again whenever a save is loaded;
     //  * battle only: Gogo in the Chameleon Robe (his costume 1) takes one of 10 forms each battle
-    //    ("costume:Gogo-battle" = costumes/Gogo_chameleon_<0-9>); a wearer of Kappa's Favor (item $115) or Piggy's
-    //    Badge ($116) is drawn as a kappa / pig ("relic:<Name>" = costumes/<Name>_kappa / _pig); cleared at the end.
+    //    ("costume:Gogo-battle" = costumes/Gogo_chameleon_<0-9>); a wearer of Imp Token (slot 277, the kappa amulet) or
+    //    Piggy Patch (278) is drawn as a kappa / pig ("relic:<Name>" = costumes/<Name>_kappa / _pig); cleared at the end.
     // The layers need the kit's ArtSwap.SetLayer (staged as PrKit/ArtSwap.layers.cs.wip until WC's kit freeze ends):
     // SetLayer stays null until then and the choices are only stored and logged. Characters already on the map keep
     // their frames until the map reloads (the SNES dressing room reloads it).
@@ -23,7 +23,9 @@ namespace TEdition.PR
         public static readonly string[] Names = { "Terra", "Locke", "Cyan", "Shadow", "Edgar", "Sabin", "Celes", "Strago",
                                                   "Relm", "Setzer", "Mog", "Gau", "Gogo", "Umaro" };
         public const int Count = 14, GogoIndex = 12, ChameleonCostume = 1, ChameleonForms = 10;
-        public const int KappaSlot = 0x115, PigSlot = 0x116;
+        // the costume relics, by T-Edition item slot (ted_items.json / ted_data "items"; the second bank: armor.html's
+        // relics 115 / 116, Mato's "Imp Token" and "Piggy Patch"): rows and names may move, slots don't
+        public const int KappaSlot = 277, PigSlot = 278;
         const int Marker = 0x54454331;   // "TEC1"
         public static Func<string, string, string> SetLayer;   // = ArtSwap.SetLayer once the kit has layers (returns a log line)
         public static string Dir, State = "nothing applied yet";

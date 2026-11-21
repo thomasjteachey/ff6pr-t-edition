@@ -52,7 +52,11 @@ namespace TEdition.PR
             if (TedMode) ModSaves.Apply(H, ModFolder);
             if (TedMode) TedArt.MonsterImagesAtLoad(DataDir);   // before Magicite's first Update scans its folder
             if (TedMode) TedArt.BaseLooks(H, DataDir);
-            if (TedMode) TedCostumes.Init(DataDir);
+            if (TedMode)
+            {
+                TedCostumes.Init(DataDir);
+                TedCostumes.SetLayer = (n, f) => ArtSwap.SetLayer(n, f);   // the kit's ArtSwap layers
+            }
             Features = new FeatureHost(Config, H);
             Features.Add(new SingleGamepad());   // one controller, one input on the Steam Deck
             Features.Add(new TedDamage());
@@ -218,6 +222,7 @@ namespace TEdition.PR
                 TedEnemyAi.Update();
                 TedMusic.Update();
                 TedCostumes.Update();
+                TedSosReflect.Update();
                 TedHarness.Update();
             }
             catch (Exception e) { Hooks.WarnOnce("ted-update", e); }

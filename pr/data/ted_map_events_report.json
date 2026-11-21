@@ -1,11 +1,15 @@
 {
  "stats": {
   "npcs": 455,
-  "stubs as nops": 4374,
+  "stubs as nops": 3335,
   "entrances": 73,
   "scripts": 262,
   "tiles": 162,
   "npcs shown always (untied vanilla bit)": 48,
+  "special-graphics npcs (decorations)": 19,
+  "ted-ex tiles": 15,
+  "ted-ex entrances": 13,
+  "ted-ex npcs": 61,
   "scripts for vanilla maps (skipped)": 5
  },
  "events": [
@@ -370,7 +374,7 @@
    "stubs": {
     "party": 1,
     "sound": 1,
-    "flag": 2
+    "flag": 1
    },
    "translated": {
     "object": 6,
@@ -381,7 +385,7 @@
     "camera": 2,
     "screen": 2,
     "sound": 1,
-    "flag": 24
+    "flag": 25
    }
   },
   {
@@ -392,15 +396,14 @@
    "script": "sc_tedm_0308A0",
    "script_id": 9611,
    "stubs": {
-    "flow": 30,
-    "party": 20,
-    "menu": 1
+    "menu": 1,
+    "party": 2
    },
    "translated": {
-    "flow": 35,
+    "flow": 65,
     "dialog": 2,
     "object": 58,
-    "party": 21,
+    "party": 39,
     "camera": 2,
     "screen": 1
    }
@@ -413,16 +416,15 @@
    "script": "sc_tedm_029AE1",
    "script_id": 9612,
    "stubs": {
-    "flow": 1,
-    "flag": 4
+    "flow": 1
    },
    "translated": {
     "flow": 5,
     "sound": 2,
     "screen": 2,
+    "flag": 5,
     "object": 2,
     "wait": 1,
-    "flag": 1,
     "dialog": 3
    }
   },
@@ -448,15 +450,14 @@
    "script": "sc_tedm_030980",
    "script_id": 9614,
    "stubs": {
-    "flow": 30,
-    "party": 20,
-    "menu": 1
+    "menu": 1,
+    "party": 2
    },
    "translated": {
-    "flow": 35,
+    "flow": 65,
     "dialog": 2,
     "object": 58,
-    "party": 21,
+    "party": 39,
     "camera": 2,
     "screen": 1
    }
@@ -483,15 +484,13 @@
    "script": "sc_tedm_037820",
    "script_id": 9616,
    "stubs": {
-    "flow": 30,
-    "party": 15,
     "menu": 1
    },
    "translated": {
     "dialog": 2,
-    "flow": 35,
+    "flow": 65,
     "object": 48,
-    "party": 15,
+    "party": 30,
     "map": 1
    }
   },
@@ -505,7 +504,7 @@
    "stubs": {
     "flow": 2,
     "sound": 1,
-    "flag": 34,
+    "flag": 17,
     "map": 16
    },
    "translated": {
@@ -513,7 +512,7 @@
     "object": 82,
     "wait": 13,
     "dialog": 21,
-    "flag": 23,
+    "flag": 40,
     "sound": 38,
     "item": 2,
     "screen": 17,
@@ -531,7 +530,7 @@
    "stubs": {
     "flow": 2,
     "sound": 1,
-    "flag": 34,
+    "flag": 17,
     "map": 16
    },
    "translated": {
@@ -539,7 +538,7 @@
     "object": 82,
     "wait": 13,
     "dialog": 21,
-    "flag": 23,
+    "flag": 40,
     "sound": 38,
     "item": 2,
     "screen": 17,
@@ -557,14 +556,14 @@
    "stubs": {
     "flow": 2,
     "sound": 1,
-    "flag": 34,
+    "flag": 17,
     "map": 16
    },
    "translated": {
     "flow": 344,
     "wait": 13,
     "dialog": 21,
-    "flag": 23,
+    "flag": 40,
     "sound": 38,
     "item": 2,
     "object": 81,
@@ -583,7 +582,7 @@
    "stubs": {
     "flow": 2,
     "sound": 1,
-    "flag": 34,
+    "flag": 17,
     "map": 16
    },
    "translated": {
@@ -591,7 +590,7 @@
     "object": 82,
     "wait": 13,
     "dialog": 21,
-    "flag": 23,
+    "flag": 40,
     "sound": 38,
     "item": 2,
     "screen": 17,
@@ -618,18 +617,18 @@
    "script": "sc_tedm_030B48",
    "script_id": 9621,
    "stubs": {
-    "flow": 40,
-    "party": 5,
-    "flag": 22
+    "flow": 10,
+    "flag": 21
    },
    "translated": {
-    "flow": 86,
+    "flow": 116,
     "camera": 2,
     "object": 23,
     "wait": 1,
     "screen": 4,
-    "party": 38,
-    "map": 1
+    "party": 43,
+    "map": 1,
+    "flag": 1
    }
   },
   {
@@ -806,13 +805,13 @@
    "script": "sc_tedm_034D10",
    "script_id": 9630,
    "stubs": {
-    "flow": 7,
     "flag": 8,
+    "flow": 6,
     "party": 15,
     "item": 1
    },
    "translated": {
-    "flow": 54,
+    "flow": 55,
     "sound": 5,
     "wait": 7,
     "dialog": 6,
@@ -914,11 +913,11 @@
    "script": "sc_tedm_035CD0",
    "script_id": 9637,
    "stubs": {
-    "flow": 4,
+    "flow": 3,
     "party": 15
    },
    "translated": {
-    "flow": 44,
+    "flow": 45,
     "party": 2,
     "object": 27,
     "wait": 3,
@@ -1734,21 +1733,20 @@
    "script": "sc_tedm_03ACB0",
    "script_id": 9676,
    "stubs": {
-    "flow": 788,
+    "flow": 407,
     "map": 2,
     "object": 34,
-    "flag": 268,
-    "party": 5
+    "flag": 217
    },
    "translated": {
-    "flow": 2939,
+    "flow": 3320,
     "dialog": 488,
     "object": 1193,
     "screen": 20,
     "wait": 18,
     "map": 3,
-    "flag": 190,
-    "party": 413,
+    "flag": 241,
+    "party": 418,
     "sound": 70,
     "camera": 1
    }
@@ -1761,21 +1759,19 @@
    "script": "sc_tedm_036180",
    "script_id": 9677,
    "stubs": {
-    "flow": 352,
-    "party": 18,
-    "flag": 2,
+    "flow": 246,
+    "party": 14,
     "map": 3,
     "object": 11,
-    "sound": 10,
     "screen": 1
    },
    "translated": {
-    "flow": 855,
-    "flag": 5,
+    "flow": 961,
+    "flag": 7,
     "dialog": 17,
     "object": 73,
-    "sound": 78,
-    "party": 10,
+    "sound": 88,
+    "party": 14,
     "camera": 2,
     "wait": 53,
     "screen": 229,
@@ -1830,11 +1826,9 @@
    "pr_map": "Map_20371_20",
    "script": "sc_tedm_037210",
    "script_id": 9681,
-   "stubs": {
-    "flow": 1
-   },
+   "stubs": {},
    "translated": {
-    "flow": 4,
+    "flow": 5,
     "dialog": 2
    }
   },
@@ -1846,11 +1840,11 @@
    "script": "sc_tedm_0376B0",
    "script_id": 9682,
    "stubs": {
-    "flow": 4,
+    "flow": 3,
     "party": 16
    },
    "translated": {
-    "flow": 53,
+    "flow": 54,
     "dialog": 6,
     "object": 41,
     "party": 2,
@@ -1866,11 +1860,11 @@
    "script": "sc_tedm_0376A0",
    "script_id": 9683,
    "stubs": {
-    "flow": 4,
+    "flow": 3,
     "party": 16
    },
    "translated": {
-    "flow": 53,
+    "flow": 54,
     "dialog": 6,
     "object": 41,
     "party": 2,
@@ -1978,11 +1972,11 @@
    "script": "sc_tedm_0376C0",
    "script_id": 9690,
    "stubs": {
-    "flow": 2,
+    "flow": 1,
     "party": 15
    },
    "translated": {
-    "flow": 43,
+    "flow": 44,
     "dialog": 3,
     "screen": 4,
     "map": 1,
@@ -1999,11 +1993,9 @@
    "pr_map": "Map_20051_15",
    "script": "sc_tedm_037670",
    "script_id": 9691,
-   "stubs": {
-    "flow": 1
-   },
+   "stubs": {},
    "translated": {
-    "flow": 6,
+    "flow": 7,
     "dialog": 3,
     "flag": 1
    }
@@ -2016,15 +2008,13 @@
    "script": "sc_tedm_037630",
    "script_id": 9692,
    "stubs": {
-    "flow": 30,
-    "party": 15,
     "menu": 1
    },
    "translated": {
     "dialog": 2,
-    "flow": 35,
+    "flow": 65,
     "object": 48,
-    "party": 15,
+    "party": 30,
     "map": 1
    }
   },
@@ -2051,10 +2041,10 @@
    "script": "sc_tedm_1FFEE0",
    "script_id": 9694,
    "stubs": {
-    "flow": 317
+    "flow": 212
    },
    "translated": {
-    "flow": 545,
+    "flow": 650,
     "object": 399,
     "sound": 252,
     "dialog": 189,
@@ -2095,11 +2085,11 @@
    "script": "sc_tedm_037440",
    "script_id": 9696,
    "stubs": {
-    "flow": 4,
+    "flow": 3,
     "party": 16
    },
    "translated": {
-    "flow": 53,
+    "flow": 54,
     "dialog": 12,
     "object": 47,
     "party": 2,
@@ -2115,11 +2105,9 @@
    "pr_map": "Map_20221_6",
    "script": "sc_tedm_037520",
    "script_id": 9697,
-   "stubs": {
-    "flow": 1
-   },
+   "stubs": {},
    "translated": {
-    "flow": 6,
+    "flow": 7,
     "dialog": 5,
     "object": 4,
     "wait": 3,
@@ -2146,11 +2134,9 @@
    "pr_map": "Map_20221_6",
    "script": "sc_tedm_037580",
    "script_id": 9699,
-   "stubs": {
-    "sound": 3
-   },
+   "stubs": {},
    "translated": {
-    "sound": 2,
+    "sound": 5,
     "wait": 5,
     "dialog": 3,
     "object": 41,
@@ -2202,11 +2188,9 @@
    "pr_map": "Map_20140_2",
    "script": "sc_tedm_037D00",
    "script_id": 10002,
-   "stubs": {
-    "flow": 1
-   },
+   "stubs": {},
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "dialog": 2,
     "flag": 1
    }
@@ -2218,12 +2202,10 @@
    "pr_map": "Map_20140_2",
    "script": "sc_tedm_037E60",
    "script_id": 10003,
-   "stubs": {
-    "flow": 1
-   },
+   "stubs": {},
    "translated": {
     "dialog": 2,
-    "flow": 4
+    "flow": 5
    }
   },
   {
@@ -2246,11 +2228,9 @@
    "pr_map": "Map_20140_2",
    "script": "sc_tedm_0380D0",
    "script_id": 10005,
-   "stubs": {
-    "flow": 1
-   },
+   "stubs": {},
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "dialog": 2,
     "flag": 1
    }
@@ -2275,11 +2255,9 @@
    "pr_map": "Map_20140_2",
    "script": "sc_tedm_037354",
    "script_id": 10007,
-   "stubs": {
-    "flow": 1
-   },
+   "stubs": {},
    "translated": {
-    "flow": 5,
+    "flow": 6,
     "dialog": 2,
     "flag": 1
    }
@@ -2357,12 +2335,12 @@
    "script": "sc_tedm_037D60",
    "script_id": 10013,
    "stubs": {
-    "flow": 7,
     "flag": 8,
+    "flow": 6,
     "party": 15
    },
    "translated": {
-    "flow": 54,
+    "flow": 55,
     "dialog": 2,
     "object": 29,
     "wait": 3,
@@ -2378,12 +2356,12 @@
    "script": "sc_tedm_037DD0",
    "script_id": 10014,
    "stubs": {
-    "flow": 7,
     "flag": 8,
+    "flow": 6,
     "party": 15
    },
    "translated": {
-    "flow": 54,
+    "flow": 55,
     "dialog": 2,
     "object": 29,
     "wait": 3,
@@ -3246,8 +3224,7 @@
    "script": "sc_tedm_032AC0",
    "script_id": 10065,
    "stubs": {
-    "flag": 1,
-    "party": 4
+    "flag": 1
    },
    "translated": {
     "flow": 6,
@@ -3257,7 +3234,7 @@
     "dialog": 3,
     "battle": 1,
     "flag": 2,
-    "party": 8
+    "party": 12
    }
   },
   {
@@ -3268,8 +3245,7 @@
    "script": "sc_tedm_032990",
    "script_id": 10066,
    "stubs": {
-    "flag": 1,
-    "party": 4
+    "flag": 1
    },
    "translated": {
     "flow": 6,
@@ -3279,7 +3255,7 @@
     "dialog": 3,
     "battle": 1,
     "flag": 2,
-    "party": 8
+    "party": 12
    }
   },
   {
@@ -4498,15 +4474,13 @@
    "script": "sc_tedm_03FBB0",
    "script_id": 10131,
    "stubs": {
-    "flow": 30,
-    "party": 15,
     "menu": 1
    },
    "translated": {
     "dialog": 2,
-    "flow": 35,
+    "flow": 65,
     "object": 48,
-    "party": 15,
+    "party": 30,
     "map": 1
    }
   },
@@ -4668,12 +4642,11 @@
    "script": "sc_tedm_030200",
    "script_id": 10136,
    "stubs": {
-    "party": 4,
     "sound": 3
    },
    "translated": {
     "dialog": 3,
-    "party": 8,
+    "party": 12,
     "flow": 6,
     "sound": 2,
     "screen": 3,
@@ -4717,11 +4690,11 @@
    "script": "sc_tedm_0318B0",
    "script_id": 10137,
    "stubs": {
-    "sound": 5
+    "sound": 4
    },
    "translated": {
     "flow": 6,
-    "sound": 12,
+    "sound": 13,
     "screen": 23,
     "dialog": 5,
     "wait": 27,
@@ -4774,7 +4747,7 @@
    "script": "sc_tedm_2122A0",
    "script_id": 10138,
    "stubs": {
-    "sound": 4,
+    "sound": 3,
     "screen": 3,
     "flow": 3,
     "map": 60,
@@ -4782,7 +4755,7 @@
    },
    "translated": {
     "wait": 10,
-    "sound": 4,
+    "sound": 5,
     "screen": 10,
     "flow": 147,
     "map": 44,
@@ -4811,15 +4784,14 @@
    "pr_map": "Map_30600_1",
    "script": "sc_tedm_0218AA",
    "script_id": 10139,
-   "stubs": {
-    "flag": 2
-   },
+   "stubs": {},
    "translated": {
     "battle": 1,
     "flow": 8,
-    "object": 7,
+    "object": 8,
     "screen": 42,
-    "wait": 2
+    "wait": 2,
+    "flag": 1
    }
   },
   {
@@ -5153,13 +5125,14 @@
    "script_id": 10158,
    "stubs": {
     "map": 5,
-    "sound": 3,
+    "sound": 2,
     "screen": 1
    },
    "translated": {
     "wait": 2,
     "object": 5,
     "flow": 15,
+    "sound": 1,
     "screen": 46,
     "map": 1
    }

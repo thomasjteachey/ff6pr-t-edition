@@ -1,4 +1,4 @@
-"""T-Edition's art (tools/ted_art.py, tools/snes_sprites_at.py): the decoder at moved tables, the monster recipe and
+"""T-Edition's art (tools/ted_art.py, tools/snes_sprites.py TEDITION): the decoder at moved tables, the monster recipe and
 its rows, the looks table. Skips what needs the developer's ROMs."""
 import json
 import os
@@ -53,10 +53,17 @@ class Rom(unittest.TestCase):
 
     def test_vanilla_layout_is_snes_sprites(self):
         import snes_sprites as SS
-        import snes_sprites_at as SA
-        a, b = SS.Sprites(type("R", (), {"data": self.rom, "b": lambda s, x, n: self.rom[x:x + n]})()), SA.Sprites(self.rom)
+        a = SS.Sprites(type("R", (), {"data": self.rom, "b": lambda s, x, n: self.rom[x:x + n]})())
+        b = SS.Sprites(self.rom, SS.VANILLA)            # raw bytes, the layout spelt out: the same reads
         for i in (0, 5, 200, 383):
             self.assertEqual(a.sprite(i).px, b.sprite(i).px)
+
+    def test_tedition_layout(self):
+        import snes_sprites as SS
+        s = SS.Sprites(self.rom, SS.TEDITION)
+        for i in (400, 420, 500):                        # one monster in each of T-Edition's tile banks
+            sp = s.sprite(i)
+            self.assertIsNotNone(SS.cropped(sp), i)
 
     def test_look_sizes(self):
         for s in (0, 27, 84):

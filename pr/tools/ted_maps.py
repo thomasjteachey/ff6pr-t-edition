@@ -100,7 +100,8 @@ SHOTS = os.path.join(BUILD, "maps")
 
 TED = SM.Tables(name="T-Edition 3.0.7", maps=511, props=0x4D0000, layout_ptrs=0x410000,
                 exit_data=0x4B9BFE, npc_data=0x4D7CC0, event_data=0x4B0000,
-                chest_ptrs=0x2D8584, chest_data=0x4B4000, palettes=0x4B6000, gfx_ptrs=0x400B00)
+                chest_ptrs=0x2D8584, chest_data=0x4B4000, palettes=0x4B6000, gfx_ptrs=0x400B00,
+                chest_item_bank=(0x10, 256))   # type bit 4: item 256 + content, the 24 relics 256-279 (C0/4CA3)
 VANILLA_MAPS = 416
 ENTRANCE = 0x11FA00          # D1/FA00: entrance event addresses, 3 bytes per map
 FIRST_MAP_ID, FIRST_SCRIPT_ID = 644, 629

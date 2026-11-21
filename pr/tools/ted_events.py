@@ -24,6 +24,7 @@ The dialogue command 4B reads T-Edition's own pointer table (5C/9CE0, 3 bytes pe
 Its maps (512): event tiles' offsets at C4/0000 with the entries at 4B/0000; NPCs' offsets at
 C4/1A10 with the entries at 4D/7CC0; entrance events at D1/FA00 as vanilla (512 x 3 bytes).
 """
+import collections
 import os
 import sys
 
@@ -161,6 +162,8 @@ EVENTS = [
     # 221, 38,51: a new step-on trigger). The Phantom Train's (CB/B7EE, map 153) has no PR room yet.
     dict(event=0x1316C, map=384, tile=(71, 15)),
     dict(event=0x333C0, map=221, tile=(38, 51)),
+    # Kohlingen's pub-quest entrance (ted-ex's catalog, taken here: one owner per room load script)
+    dict(event=0x26F41, map=191, entrance=True),
 ]
 SCRIPTS = os.path.join(E.P.ROOT, "data", "snes_event_scripts_tedition.json")
 # bits T-Edition (and EX) use for their own meaning, whatever vanilla used them for: they always get a
@@ -186,6 +189,9 @@ EX_SCRIPT_IDS = range(9700, 9800)
 
 
 _overrides = None
+
+
+GEM_BOX = 270            # T-Edition: field command 80 with item FF gives this (ted-monsters)
 
 
 def item_overrides():
@@ -282,13 +288,73 @@ def _translator_class():
         CASE_SCOPE = {"case_party": 0, "case_created": 1, "case_recruited": 1, "case_available": 1, "case_parties": 1}
 
         def _instr_bits(self, ins, sub, last):
-            if ins.name in self.CASE_SCOPE:
+            if ins.name == "party_active" and 1 <= ins.args["party"] <= 3:
+                # 46 n: party n takes over (multi-party scenes) -> the PR's ChangePartySlot [n, 1, 0] (its form where
+                # paired vanilla scenes keep the switch)
+                import event_translate as T
+                self.done["party"] += 1
+                self.report[("party", "party switch")] += 1
+                return [T.op("ChangePartySlot", i=[ins.args["party"], 1, 0, 0], comment="SNES 46 %02X" % ins.args["party"])], True
+            if ins.name == "if_bit1850_clear" and ins.args["bit"] & 7 == 6 and ins.args["bit"] >> 3 < 14:
+                # T-Edition's A5: "if bit k of $1850 + c is clear". Bit 6 = character c is in a party (FF6's
+                # $1850: party 0-2, battle order 3-4, row 5, in a party 6) -> the PR's BranchByCharacter (not here,
+                # any party). The order bits have no PR form: stubs.
+                import event_translate as T
+                c = ins.args["bit"] >> 3
+                tgt = next(t for k, t in ins.targets if k == "cond")
+                self.done["flow"] += 1
+                self.report[("flow", "A5 in a party")] += 1
+                return [T.op("BranchByCharacter", i=[c + 1, 1, 1, "@L_%06X" % tgt],
+                             comment="SNES A5 %02X: character %d in no party" % (ins.args["bit"], c))], True
+            if ins.name == "item_add" and ins.args["item"] == 0xFF:
+                # T-Edition's 80 FF gives the Gem Box (item 270, its second item bank: 4E/0C70), not nothing
+                import idmap
+                import event_translate as T
+                try:
+                    cid = idmap.item_content(GEM_BOX)
+                except KeyError:
+                    cid = 0
+                if not cid:
+                    return self.left(ins, "Gem Box (item 270) has no PR row yet")
+                self.done[ins.cls] += 1
+                self.report[(ins.cls, "Gem Box")] += 1
+                return [T.op("GetItem", i=[cid, 1], comment="SNES 80 FF: T-Edition's Gem Box (item 270)")], True
+            if ins.name == "status_remove":
+                # 88 <char> <statuses>: the PR's own cure, RemoveCondition [0, 0, 0, 0] (its form in 223 vanilla
+                # scripts, next to RecoveryHP/MP: the whole party's statuses)
+                import event_translate as T
+                self.done[ins.cls] += 1
+                self.report[(ins.cls, "status cure")] += 1
+                return [T.op("RemoveCondition", i=[0, 0, 0, 0],
+                             comment="SNES 88 %s" % ins.raw[1:].hex(" ").upper())], True
+            if ins.name in self.CASE_SCOPE or ins.name == "case_leader":
                 self.case_kind = ins.name
                 self.done[ins.cls] += 1
                 self.report[(ins.cls, "case load")] += 1
                 return [], True
             # setting a vanilla bit the PR has no flag for: left as a stub (a made-up flag would be read
             # by nothing of the PR's), counted, until event_translate learns its tie
+            if ins.name in ("bit_set", "bit_clear") and self.untied(ins.args["bit"][0])                     and NPC_BITS <= ins.args["bit"][0] < 0x700 and self.snes_map is not None:
+                # a vanilla NPC's show bit with no PR flag: what the scene means is "this NPC appears /
+                # goes": Show / Hide its PR entity in this room (the PR keeps NPC visibility in entity layers)
+                import event_translate as T
+                bit, on = ins.args["bit"]
+                ents = [e for n, rec in sorted(npc_records(self.snes_map).items())
+                        if NPC_BITS + rec["show_bit"] == bit for e in [self.npc_entity(n)] if e is not None]
+                if ents:
+                    self.done["object"] += 1
+                    self.report[("object", "NPC show bit -> %s" % ("Show" if on else "Hide"))] += 1
+                    return self.puppet_ops(ents, [[T.op("Show" if on else "Hide", kind=2)] for _ in ents]), True
+                # no NPC of this room shows by it (a scene's placeholder bit, 3FE): nothing to do in the PR
+                self.done["flag"] += 1
+                self.report[("flag", "NPC show bit, no NPC here")] += 1
+                return [], True
+            if ins.name in ("bit_set", "bit_clear") and 0x1B0 <= ins.args["bit"][0] < 0x1D0                     and ins.args["bit"][0] != 0x1BE:
+                # the field engine's own state (1CC: temporary song override, 1CE: party switching, 1C1/1C2:
+                # sprint / menu off...): the PR keeps none of it; nothing to do
+                self.done["flag"] += 1
+                self.report[("flag", "engine bit, nothing in the PR")] += 1
+                return [], True
             if ins.name in ("bit_set", "bit_clear") and self.untied(ins.args["bit"][0]):
                 return self.left(ins, "vanilla bit %03X, no PR tie" % ins.args["bit"][0])
             return super().instr(ins, sub, last)
@@ -297,6 +363,42 @@ def _translator_class():
             # case-word bits (1A0 + c after a party load): "character c is here" -> the PR's BranchByCharacter
             import copy
             import event_translate as T
+            if self.case_kind == "case_leader" and any(0x1A0 <= b < 0x1AE for b, _ in ins.args["bits"]):
+                # after E2 (the party's leader): "the leader is c" -> the PR's BranchByLeader [c+1, target]
+                lead = [(b, w) for b, w in ins.args["bits"] if 0x1A0 <= b < 0x1AE]
+                rest = [(b, w) for b, w in ins.args["bits"] if (b, w) not in lead]
+                target = "@L_%06X" % ins.args["event"]
+                self.done["flow"] += 1
+                self.report[("flow", "leader check")] += 1
+                out = []
+                if ins.op >= 0xC8:                      # any
+                    for k, (b, w) in enumerate(lead):
+                        if w:
+                            out.append(T.op("BranchByLeader", i=[b - 0x1A0 + 1, target]))
+                        else:
+                            other = "lead_%06X_%d" % (ins.off, k)
+                            out += [T.op("BranchByLeader", i=[b - 0x1A0 + 1, "@" + other]), T.op("Jump", i=[target]),
+                                    T.lab(other)]
+                    if rest:
+                        ins2 = copy.copy(ins)
+                        ins2.args = dict(ins.args, bits=rest)
+                        out += self.cond(ins2)
+                    return out
+                skip = "skip_%06X" % ins.off             # all
+                for k, (b, w) in enumerate(lead):
+                    if w:
+                        ok_ = "lead_%06X_%d" % (ins.off, k)
+                        out += [T.op("BranchByLeader", i=[b - 0x1A0 + 1, "@" + ok_]), T.op("Jump", i=["@" + skip]),
+                                T.lab(ok_)]
+                    else:
+                        out.append(T.op("BranchByLeader", i=[b - 0x1A0 + 1, "@" + skip]))
+                if rest:
+                    ins2 = copy.copy(ins)
+                    ins2.args = dict(ins.args, bits=rest)
+                    out += self.cond(ins2)
+                else:
+                    out.append(T.op("Jump", i=[target]))
+                return out + [T.lab(skip)]
             case = [(b, w) for b, w in ins.args["bits"]
                     if 0x1A0 <= b < 0x1AE and self.case_kind in self.CASE_SCOPE]
             if case:
@@ -348,6 +450,14 @@ def _translator_class():
 
         created = None       # {(PR map, SNES map, NPC): entity id} of NPC entities a build added
 
+        def shop_ops(self, shop):
+            # 9B <shop>: the PR's product group for that shop (the porter's match), opened by TedPlugin
+            groups = shop_groups().get(shop)
+            if not groups:
+                return None
+            import event_translate as T
+            return [T.op("SysCall", s=["TED:shop %d" % groups[0]], comment="SNES shop %d" % shop)]
+
         def place(self, m, x, y):
             # T-Edition's own maps (415+): ted-maps' rooms and arrival points (data/ted_maps.json)
             if m >= NEW_MAPS - 1:
@@ -355,7 +465,11 @@ def _translator_class():
                 r = ted_maps.arrival(m, x, y)
                 if r:
                     return tuple(r)
-            return super().place(m, x, y)
+            r = super().place(m, x, y)
+            import event_translate as T
+            if r and r[1] not in T.map_ids()[0]:       # a PR map that doesn't exist (a guessed room name)
+                return None
+            return r
 
         def npc_entity(self, n):
             e = self.created.get((self.pr_map, self.snes_map, n)) if self.created else None
@@ -381,7 +495,25 @@ def _translator_class():
                 return (1256 if second else 1000) + song
             return None
 
+        vanilla_at = None    # {SNES address: PR script}: from there on the code is vanilla's, which that PR script does
+
         def instr(self, ins, sub, last):
+            if ins.name == "sound" and T_maps_se(ins.args["sound"]) is None and ted_se(ins.args["sound"]) is not None:
+                import event_translate as T
+                self.done[ins.cls] += 1
+                self.report[(ins.cls, "sound (ted_se_ties)")] += 1
+                return [T.op("PlaySE", i=[ted_se(ins.args["sound"]), 1],
+                             comment="SNES sound %02X (data/ted_se_ties.json)" % ins.args["sound"])], True
+            if self.vanilla_at and ins.off in self.vanilla_at:
+                import event_translate as T
+                if not hasattr(self, "_vanilla_labels"):
+                    self._vanilla_labels = {}
+                if ins.off not in self._vanilla_labels:
+                    self._vanilla_labels[ins.off] = self.graft(self.vanilla_at[ins.off])
+                self.done["flow"] += 1
+                self.report[("flow", "vanilla code: the PR's script")] += 1
+                return [T.op("Jump", i=["@" + self._vanilla_labels[ins.off]],
+                             comment="vanilla's code from %s: the PR's own script" % E.fmt(ins.off))], False
             if ins.name in ("obj_graphics", "obj_palette") and ins.args["obj"] < 14:
                 # a character's look: T-Edition's costumes (the dressing room's 4 per character) are a
                 # TedPlugin call, TED:costume <char> <k> (bc-sprites' data/ted_costume_art.json); the
@@ -646,7 +778,7 @@ def npc_rooms(snes_map, xy, primary=None, looks=()):
     world = snes_world(snes_map)
     ok_world = lambda room: world is None or pr_world(room) in (None, world)
     out = []
-    for mt in snes_maps.pr_maps(snes_map):
+    for mt in [mt for mt in snes_maps.pr_maps(snes_map) if mt.pr in snes_maps.pr_tilemaps()]:
         spot = (xy[0] + mt.dx, xy[1] + mt.dy)
         if mt.pr == primary:
             out.append((mt.pr, spot))
@@ -668,7 +800,7 @@ def npc_rooms(snes_map, xy, primary=None, looks=()):
     if not out:
         # no PR NPC at the spot in any room of this world (T-Edition added the NPC, or the PR left it
         # out of this world's copy: Tzen's World of Balance bandit): the room it would stand in
-        for mt in snes_maps.pr_maps(snes_map):
+        for mt in [mt for mt in snes_maps.pr_maps(snes_map) if mt.pr in snes_maps.pr_tilemaps()]:
             spot = (xy[0] + mt.dx, xy[1] + mt.dy)
             wk = snes_maps.pr_walkable(mt.pr)
             if ok_world(mt.pr) and any((spot[0] + a, spot[1] + b) in wk for a in (-1, 0, 1) for b in (-1, 0, 1)):
@@ -706,6 +838,54 @@ def ted_part(off, prog=None, mode="field"):
             return None
         a, mode = a + t.size, t.next_mode
     return None
+
+
+def vanilla_resume(off, prog):
+    """For a vanilla event T-Edition changed in place: when only its first instruction differs from the
+    JP ROM's (the same command, another target: the Figaro priestess's "if bit 049" now leads to T-Edition's
+    costume scene) and the code after it is the JP ROM's, the address after that instruction (the PR's own
+    script does the rest); else None."""
+    global _jp_prog
+    if _jp_prog is None:
+        _jp_prog = E.Program(E.load("jp")).walk_all()
+    t, j = prog.code.get((off, "field")), _jp_prog.code.get((off, "field"))
+    if t is None or j is None or t.raw[:1] != j.raw[:1] or t.size != j.size or t.raw == j.raw:
+        return None
+    nxt = off + t.size
+    if (nxt, "field") not in prog.code:
+        return None
+    # the rest: the JP ROM's code, but for sounds and lines (a song's mode bit; T-Edition's reworded line:
+    # the PR's own line is shown instead)
+    a, seen = nxt, set()
+    while (a, "field") not in seen:
+        seen.add((a, "field"))
+        ti, ji = prog.code.get((a, "field")), _jp_prog.code.get((a, "field"))
+        if ti is None or ji is None or ti.size != ji.size:
+            return None
+        if ti.raw != ji.raw and not (ti.cls == ji.cls and ti.cls in ("sound", "dialog")):
+            return None
+        if ti.flow in ("end", "choice"):
+            return nxt
+        a += ti.size
+    return nxt
+
+
+_ted_se = None
+TED_SE_TIES = os.path.join(E.P.ROOT, "data", "ted_se_ties.json")
+
+
+def ted_se(sound):
+    """A PR SE for an SNES sound the kit's learned ties lack (data/ted_se_ties.json: dialogue-anchored), or None."""
+    global _ted_se
+    if _ted_se is None:
+        import event_translate as T
+        _ted_se = {int(k): v for k, v in (T.read_json(TED_SE_TIES)["se"].items() if os.path.exists(TED_SE_TIES) else [])}
+    return _ted_se.get(sound)
+
+
+def T_maps_se(sound):
+    import event_translate as T
+    return T.maps()["se"].get(sound)
 
 
 def nop_stubs(sc):
@@ -844,7 +1024,7 @@ def tile_rooms(snes_map, xy, primary=None):
     import snes_maps
     world = snes_world(snes_map)
     out = []
-    for mt in snes_maps.pr_maps(snes_map):
+    for mt in [mt for mt in snes_maps.pr_maps(snes_map) if mt.pr in snes_maps.pr_tilemaps()]:
         spot = (xy[0] + mt.dx, xy[1] + mt.dy)
         if mt.pr != primary:
             if world is not None and pr_world(mt.pr) not in (None, world):
@@ -873,6 +1053,38 @@ def trigger_object(px, py, eid, script_id, name):
     return {"gid": 998, "height": 16, "id": eid, "name": name, "rotation": 0, "type": "", "visible": True,
             "width": 16, "x": px * 16, "y": (py + 1) * 16,
             "properties": [{"name": k, "type": types[type(v)], "value": v} for k, v in vals.items()]}
+
+
+_shop_groups = None
+TED_SHOPS = os.path.join(E.P.ROOT, "mods", "TEditionPort", "ted_shops.json")
+
+
+def shop_groups():
+    """{SNES shop: [PR product groups]}: the porter's own match of vanilla's shops to the PR's groups by
+    stock (port.port_shops, run read-only on the US ROM: the PR keeps a town's WoB and WoR shops as two
+    groups). T-Edition's shops keep vanilla's numbers; the porter writes their stock into these groups."""
+    global _shop_groups
+    if _shop_groups is None and os.path.exists(TED_SHOPS):
+        # ted-monsters' map (mods/TEditionPort/ted_shops.json): every stocked T-Edition shop -> its PR product
+        # group, the porter's matched ones and the new groups 900 + shop that ted_build's shop rule makes
+        import event_translate as T
+        d = T.read_json(TED_SHOPS)
+        shops = d.get("shops") or {**d.get("pairs", {}), **{k: 900 + int(k) for k in d.get("unmatched", {})}}
+        _shop_groups = {int(k): [int(v)] for k, v in shops.items()}
+    if _shop_groups is None:
+        import idmap
+        import port
+        van = E.load("us")
+        saved = dict(idmap.ITEM_OVERRIDES)        # vanilla's items for vanilla's stock (a build has T-Edition's in)
+        idmap.ITEM_OVERRIDES.clear()
+        try:
+            port.port_shops(van, van, {})
+        finally:
+            idmap.ITEM_OVERRIDES.update(saved)
+        _shop_groups = {}
+        for shop, group in port.port_shops.pairs:
+            _shop_groups.setdefault(shop, []).append(group)
+    return _shop_groups
 
 
 def npc_objects(pr_map, spot, looks=(), near=2):
@@ -1044,8 +1256,11 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
     prologue = {}                       # PR map -> [(SNES map, NPC, show bit, entity id)] hidden until shown
     standins = []                       # NPCs on a stand-in look (bc-sprites converts their sprites later)
     added_ids = set()                   # entity ids of the triggers added
+    entrances = {}                      # PR map -> [(SNES map, T-Edition's entrance script)] run after its load script
     mod = MG.MagiciteMod(out, PD.GameData("ff6"), keys_name=keys_name)
-    tilemaps = snes_maps.pr_tilemaps()
+    tilemaps = dict(snes_maps.pr_map_dirs())        # every PR map's folder (with entities) ...
+    tilemaps = {k: os.path.join(v, "tilemap.json") for k, v in tilemaps.items()}
+    tilemaps.update(snes_maps.pr_tilemaps())        # ... the drawn ones' tilemaps (the folder is what's used)
     packages = {}
     layer_edits = {}                    # (PR map, entity layer) -> {entity id: new script id}
     firsts = {}                         # (PR map, entity layer, entity id) -> (script name, script, SNES map)
@@ -1083,7 +1298,38 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
         off, snes_map, test_bits = ev["event"], ev["map"], ev.get("test_bits", ())
         name = ev.get("name") or "sc_ted_%s" % E.fmt(off).replace("/", "").lower()
         scripts = []
-        if "tile" in ev:
+        if ev.get("entrance"):
+            # an entrance event: the PR room's own load script (sc_map_<room>) does vanilla's entrance; after it
+            # runs T-Edition's part (from where its code leaves vanilla's: ted_part; a call to vanilla's
+            # entrance does nothing), in every room of the map's world that has a load script
+            jp_entry = next((e[0] for e in E.entry_points(E.load("jp")) if e[2] == snes_map and e[1] == "entrance"), None)
+            start = ted_part(off, prog) if off == jp_entry else off
+            world = snes_world(snes_map)
+            rooms = [mt.pr for mt in snes_maps.pr_maps(snes_map) if mt.pr in tilemaps and map_script_name(mt.pr)
+                     and (world is None or pr_world(mt.pr) in (None, world))]
+            rooms = list(dict.fromkeys(rooms))
+            if start is None or not rooms:
+                report.append({"event": E.fmt(off), "script": None, "pr_map": None, "translated": {}, "stubs": {},
+                               "wired": [], "skipped": "the same as vanilla's" if start is None else
+                               "no PR room with a load script for SNES map %d" % snes_map})
+                continue
+            pr_map, layer, wired = rooms[0], "entity_default", []
+            empty = Tr(rom, "empty", snes_map=snes_map, alloc=alloc, prog=prog).assemble(
+                "empty", [T.lab("Main"), T.op("Exit")], [])
+            for room in rooms:
+                nm = "%s_%s" % (name, room.replace("Map_", "m"))
+                t = Tr(rom, nm, snes_map=snes_map, alloc=alloc, prog=prog, pr_map=room)
+                t.texts, t.layers = texts, layer
+                if jp_entry is not None and jp_entry != off:
+                    t.fallbacks[jp_entry] = empty
+                sc = t.translate(start)
+                scripts.extend((a_, s2, w or room) for a_, s2, w in t.after)
+                entrances.setdefault(room, []).append((snes_map, sc))
+                wired.append({"layer": map_script_name(room), "entity": None, "was": map_script_name(room), "now": nm,
+                              "script_id": None, "entrance": True,
+                              **({"from": E.fmt(start)} if start != off else {}),
+                              **({} if room == pr_map else {"room": room})})
+        elif "tile" in ev:
             # an event tile: the PR room's trigger at that spot runs T-Edition's event (in every room of the
             # map's world); a vanilla tile event T-Edition changed in place keeps the PR's own script for the
             # part that is still vanilla's (ted_part) and goes on with T-Edition's; a tile T-Edition added
@@ -1106,7 +1352,7 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
                         continue
                     edits = layer_edits.setdefault((room, lay), {})
                     eid = props.get("entity_id")
-                    if eid in edits:
+                    if obj["id"] in edits:
                         continue
                     nm = "%s_%s" % (name, lay.replace("ev_e_", "l")) if room == pr_map else \
                         "%s_%s_%s" % (name, room.replace("Map_", "m"), lay.replace("ev_e_", "l"))
@@ -1126,7 +1372,7 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
                     scripts.extend((a_, s2, w or room) for a_, s2, w in t.after)
                     sid = ids.get(nm)
                     mod.table("script").add({"script_name": nm}, id=sid)
-                    edits[eid] = sid
+                    edits[obj["id"]] = sid
                     wired.append({"layer": lay, "entity": eid, "was": orig, "now": nm, "script_id": sid,
                                   "object_type": props.get("object_type"), **extra,
                                   **({} if room == pr_map else {"room": room})})
@@ -1154,6 +1400,12 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
                       if e[2] == snes_map and e[1] == "npc" and e[3]["npc"] == ev["npc"])
             # every PR room of the event's world where the NPC stands (the PR often has a World of Balance
             # and a World of Ruin copy of one SNES map: Kohlingen, Tzen, South Figaro), the main one first
+            rec_ = npc_records(snes_map).get(ev["npc"])
+            if rec_ is not None and rec_.get("no_face"):
+                # bit 7 of the x byte: a special-graphics decoration (an actor column); its "event" is graphics
+                report.append({"event": E.fmt(off), "script": None, "pr_map": None, "translated": {}, "stubs": {},
+                               "wired": [], "skipped": "a decoration NPC (special graphics), no event"})
+                continue
             looks = npc_looks(snes_map, ev["npc"])
             rooms = npc_rooms(snes_map, xy, ev.get("pr_map"), looks)
             if not rooms:                       # a SNES map the PR has no room for (a scene-only map)
@@ -1188,17 +1440,20 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
                 t.texts, t.layers = texts, lay
                 if vanilla is not None and orig:     # no PR script (a walk-on): vanilla's SNES talk, translated
                     t.fallbacks[vanilla] = Sc.load(orig)
+                    resume = vanilla_resume(off, prog) if vanilla == off else None
+                    if resume is not None:           # changed in place: only its first test differs
+                        t.vanilla_at = {resume: Sc.load(orig)}
                 sc = t.translate(off)
                 scripts.extend((a, s2, w or room) for a, s2, w in t.after)
-                if eid in edits:
+                if obj["id"] in edits:
                     # two SNES NPCs on one PR entity: the PR merged a World of Balance room and its World of
                     # Ruin twin (Tzen: maps 306 / 305). One script under the first event's name and id runs
                     # either scene by the PR's "after the collapse" flag (ScenarioFlag2 41, SNES bit 0A4).
-                    nm1, sc1, map1 = firsts[(room, lay, eid)]
+                    nm1, sc1, map1 = firsts[(room, lay, obj["id"])]
                     worlds = {snes_world(map1), snes_world(snes_map)}
                     if worlds != {0, 1}:
                         wired.append({"layer": lay, "entity": eid, "was": orig,    # the earlier event keeps it
-                                      "conflict": "entity runs script %d (an earlier event)" % edits[eid]})
+                                      "conflict": "entity runs script %d (an earlier event)" % edits[obj["id"]]})
                         continue
                     tw = Tr(rom, nm1, snes_map=map1, alloc=alloc, prog=prog, pr_map=room)
                     la, lb = tw.graft(sc1), tw.graft(sc)
@@ -1209,18 +1464,18 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
                             T.op("Jump", i=["@" + wob]), T.op("Exit")]
                     merged = tw.assemble(nm1, main, tw.blocks)
                     scripts.append((nm1, merged, room))
-                    firsts[(room, lay, eid)] = (nm1, merged, None)
-                    wired.append({"layer": lay, "entity": eid, "was": orig, "now": nm1, "script_id": edits[eid],
+                    firsts[(room, lay, obj["id"])] = (nm1, merged, None)
+                    wired.append({"layer": lay, "entity": eid, "was": orig, "now": nm1, "script_id": edits[obj["id"]],
                                   "merged": "%s: World of Ruin -> map %d's scene, else map %d's" % (
                                       nm1, map1 if wor == la else snes_map, snes_map if wor == la else map1)})
                     continue
                 scripts.append((nm, sc, room))
-                firsts[(room, lay, eid)] = (nm, sc, snes_map)
+                firsts[(room, lay, obj["id"])] = (nm, sc, snes_map)
                 sid = ids.get(nm)
                 mod.table("script").add({"script_name": nm}, id=sid)
                 wired.append({"layer": lay, "entity": eid, "was": orig, "now": nm, "script_id": sid,
                               "object_type": props.get("object_type"), **({} if room == pr_map else {"room": room})})
-                edits[eid] = sid
+                edits[obj["id"]] = sid
             if own_missing and (pr_map, snes_map, ev["npc"]) in created:
                 eid = created[(pr_map, snes_map, ev["npc"])]
                 nm = "%s_new" % name
@@ -1253,11 +1508,23 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
             scripts.append((nm, sc, pr_map))
             scripts.extend((a, s, w or pr_map) for a, s, w in t.after)
             if not test:
+                # what runs in game: the wired scripts (with their after-battle / after-warp scripts), whose
+                # stubs can be fewer than the event's own (the PR's script doing vanilla's part)
+                wired_names = {w["now"] for w in wired if w.get("now")}
+                ws = collections.Counter()
+                for nm_, sc_, _ in scripts:
+                    if nm_ in wired_names or any(nm_.startswith(x + "_b") for x in wired_names):
+                        for m_ in sc_["Mnemonics"]:
+                            if m_["mnemonic"] == "SysCall" and str(m_["operands"]["sValues"][0]).startswith("SNES:"):
+                                ws[m_["operands"]["sValues"][0][5:]] += 1
                 report.append({"event": E.fmt(off), "script": nm, "pr_map": pr_map, "translated": dict(t.done),
                                "stubs": dict(t.stubs), "wired": wired,
+                               **({"wired_stubs": dict(ws)} if wired_names and not ev.get("entrance") else {}),
                                "detail": {"%s %s" % ch: v for ch, v in sorted(t.report.items())}})
         for nm, sc, where in scripts:
             sc = nop_stubs(sc)
+            if where not in tilemaps:          # a room the PR doesn't have: keep the script with the event's
+                where = pr_map
             room = os.path.dirname(tilemaps[where])
             folder = os.path.basename(os.path.dirname(room))
             group = os.path.relpath(room, E.P.VANILLA).replace(os.sep, "/").split("/")[0]
@@ -1290,9 +1557,8 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
         for layer_ in doc.get("layers", []):
             for o in layer_.get("objects") or []:
                 props = {q["name"]: q for q in o.get("properties", [])}
-                eid = props.get("entity_id", {}).get("value")
-                if eid in edits and "script_id" in props:
-                    props["script_id"]["value"] = edits[eid]
+                if o.get("id") in edits and "script_id" in props:      # keyed by the Tiled object id
+                    props["script_id"]["value"] = edits[o["id"]]
                     # an NPC that only showed a line (action_id 4: its message_key) or did nothing (0)
                     # runs the script now (action_id 2, as the PR's 570 talking NPCs with scripts)
                     if "action_id" in props and props["action_id"]["value"] in (0, 4):
@@ -1312,11 +1578,12 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
     # the rooms' map scripts: hide each added NPC while its SNES show bit is clear (a vanilla show bit the
     # PR has no tie for: always shown), then the PR's own map script (grafted in)
     hidden = []
-    for pr_map, items in sorted(prologue.items()):
+    for pr_map in sorted(set(prologue) | set(entrances)):
+        items = prologue.get(pr_map, [])
         ms = map_script_name(pr_map)
         if ms is None:
             continue
-        t = Tr(rom, ms, snes_map=items[0][0], alloc=alloc, prog=prog, pr_map=pr_map)
+        t = Tr(rom, ms, snes_map=(items or entrances[pr_map])[0][0], alloc=alloc, prog=prog, pr_map=pr_map)
         ops = []
         for snes_map_, n, bit, eid in items:
             if t.untied(bit):
@@ -1328,10 +1595,13 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
             ops += t.puppet_ops([eid], [[T.op("Hide", kind=2)]])
             ops += [T.lab(skip)]
             hidden.append((pr_map, eid, bit))
-        if not ops:
+        tail = [T.op("Call", i=["@" + t.graft(sc_, callable_=True)], comment="T-Edition's entrance (SNES map %d)" % m_)
+                for m_, sc_ in entrances.get(pr_map, [])]
+        if not ops and not tail:
             continue
-        label = t.graft(Sc.load(ms))
-        sc = t.assemble(ms, [T.lab("Main")] + ops + [T.op("Jump", i=["@" + label]), T.op("Exit")], t.blocks)
+        label = t.graft(Sc.load(ms), callable_=True)
+        sc = t.assemble(ms, [T.lab("Main")] + ops + [T.op("Call", i=["@" + label], comment="the PR's own " + ms)]
+                        + tail + [T.op("Exit")], t.blocks)
         room = os.path.dirname(tilemaps[pr_map])
         folder = os.path.basename(os.path.dirname(room))
         group = os.path.relpath(room, E.P.VANILLA).replace(os.sep, "/").split("/")[0]
@@ -1362,7 +1632,7 @@ PUB_QUESTS = os.path.join(E.P.ROOT, "data", "snes_event_ted_pub_quests.json")
 # events kept here whatever the rule says: built or started before the splits (the wine old man, South
 # Figaro's pub quest; Ruby's Shine's Tzen bandit on 305/306; the Gilgamesh chain across maps 153-413)
 BUILT_HERE = {"CD/5850", "CC/9CE0", "CC/5DD3", "CB/B7EE", "CD/33C0", "CB/316C", "CD/4E20",
-              "CD/3BD0"}       # + Nikeah's entrance (a pub quest; one folder per map script)
+              "CD/3BD0", "CC/6F41"}   # + Nikeah's and Kohlingen's entrances (pub quests; one folder per map script)
 EX_VANILLA_MAPS = range(200, 416)      # vanilla maps whose events ted-ex translates (mods/TEditionQuests)
 
 
@@ -1596,7 +1866,8 @@ def all_events():
     """EVENTS (hand-checked) + the bulk batch (data/snes_event_ted_batch.json): what mods/TEditionEvents holds."""
     import event_translate as T
     have = {e["event"] for e in EVENTS}
-    bulk = [dict(event=E.parse_addr(r["event"]), map=r["map"], **({"tile": tuple(r["tile"])} if "tile" in r else {"npc": r["npc"]}))
+    bulk = [dict(event=E.parse_addr(r["event"]), map=r["map"],
+                 **({"tile": tuple(r["tile"])} if "tile" in r else {"entrance": True} if r.get("entrance") else {"npc": r["npc"]}))
             for r in (T.read_json(BATCH)["events"] if os.path.exists(BATCH) else [])]
     return EVENTS + [e for e in bulk if e["event"] not in have]
 

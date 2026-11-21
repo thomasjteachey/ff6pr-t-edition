@@ -30,7 +30,7 @@ with the songs using each).
 Shipping (the user's decision, 11-20; every mod owner's permission): the pack is mod data made from T-Edition's ROM
 on the developer's PC and ships in the zip (BepInEx/TEdition/music), every sample included; it is not rebuilt on
 the player's machine. FF6's own driver data and instrument samples may ship too: the pack carries FF6's 8 resident
-waveforms (snes_songs_at.add_resident: "resident" rows, the player's real programs $00-$07 instead of its
+waveforms (snes_songs.add_resident: "resident" rows, the player's real programs $00-$07 instead of its
 synthesized stand-ins). The SNES ROM itself, other SNES data and the PR's files never ship.
 """
 import argparse
@@ -398,8 +398,7 @@ def build(out=OUT, every=False, log=print):
             "about": "T-Edition's own songs (tools/ted_music.py): C5 songs at their number, bank-43 songs at $100 + n; "
                      "PR bgm id 1000 + slot. Made from T-Edition's ROM on the developer's PC; ships in the zip."}
     SS.write_pack(out, songs, samples, meta)
-    import snes_songs_at as AT          # FF6's 8 resident waveforms (T-Edition's copies are vanilla's), bc-music's
-    AT.add_resident(out, AT.read_resident(rom))
+    SS.add_resident(out, SS.read_resident(rom))   # FF6's 8 resident waveforms (T-Edition's copies are vanilla's)
     rules["about"] = ("What plays where (PrKit/Snes BgmRules): a new song's PR bgm id 1000 + its pack slot (map.csv bgm_id, "
                       "PlayBGM, battle_bgm_asset_id name it); vanilla's songs stay the game's own tracks.")
     with open(os.path.join(out, "ted_music.json"), "w", encoding="utf-8") as f:

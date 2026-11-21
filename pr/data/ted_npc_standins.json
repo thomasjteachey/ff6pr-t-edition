@@ -52,7 +52,7 @@
    "npc": 8,
    "pr_map": "Map_30011_3",
    "look": 51,
-   "entity": 5021,
+   "entity": 5022,
    "event": "CD/19A0"
   },
   {
@@ -61,7 +61,7 @@
    "npc": 7,
    "pr_map": "Map_30011_3",
    "look": 51,
-   "entity": 5022,
+   "entity": 5023,
    "event": "CD/19C0"
   },
   {
@@ -70,8 +70,35 @@
    "npc": 2,
    "pr_map": "Map_20061_1",
    "look": 51,
-   "entity": 5024,
+   "entity": 5027,
    "event": "CD/37A1"
+  },
+  {
+   "sprite": 231,
+   "snes_map": 44,
+   "npc": 6,
+   "pr_map": "Map_30011_3",
+   "look": 51,
+   "entity": 5028,
+   "event": "CD/1750"
+  },
+  {
+   "sprite": 106,
+   "snes_map": 181,
+   "npc": 4,
+   "pr_map": "Map_30690",
+   "look": 51,
+   "entity": 5029,
+   "event": "CD/D640"
+  },
+  {
+   "sprite": 221,
+   "snes_map": 153,
+   "npc": 0,
+   "pr_map": "Map_30441_9",
+   "look": 51,
+   "entity": 5037,
+   "event": "CB/B7EE"
   }
  ]
 }

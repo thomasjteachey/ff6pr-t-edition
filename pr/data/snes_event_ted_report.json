@@ -39,8 +39,18 @@
     "now": "sc_ted_cd5850_l0075",
     "script_id": 9502,
     "object_type": 6
+   },
+   {
+    "layer": "entity_default",
+    "entity": 0,
+    "was": null,
+    "now": "sc_ted_cd5850_m20361_23_entity_default",
+    "script_id": 9585,
+    "object_type": 6,
+    "room": "Map_20361_23"
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 11,
    "flag ok": 4,
@@ -53,8 +63,8 @@
    "wait ok": 3
   },
   "build": {
-   "added_npcs": 28,
-   "hidden_by_map_script": 12,
+   "added_npcs": 39,
+   "hidden_by_map_script": 18,
    "standins": [
     {
      "sprite": 221,
@@ -107,7 +117,7 @@
      "npc": 8,
      "pr_map": "Map_30011_3",
      "look": 51,
-     "entity": 5021,
+     "entity": 5022,
      "event": "CD/19A0"
     },
     {
@@ -116,7 +126,7 @@
      "npc": 7,
      "pr_map": "Map_30011_3",
      "look": 51,
-     "entity": 5022,
+     "entity": 5023,
      "event": "CD/19C0"
     },
     {
@@ -125,8 +135,35 @@
      "npc": 2,
      "pr_map": "Map_20061_1",
      "look": 51,
-     "entity": 5024,
+     "entity": 5027,
      "event": "CD/37A1"
+    },
+    {
+     "sprite": 231,
+     "snes_map": 44,
+     "npc": 6,
+     "pr_map": "Map_30011_3",
+     "look": 51,
+     "entity": 5028,
+     "event": "CD/1750"
+    },
+    {
+     "sprite": 106,
+     "snes_map": 181,
+     "npc": 4,
+     "pr_map": "Map_30690",
+     "look": 51,
+     "entity": 5029,
+     "event": "CD/D640"
+    },
+    {
+     "sprite": 221,
+     "snes_map": 153,
+     "npc": 0,
+     "pr_map": "Map_30441_9",
+     "look": 51,
+     "entity": 5037,
+     "event": "CB/B7EE"
     }
    ]
   }
@@ -157,6 +194,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "battle ok": 1,
    "dialog ok": 4,
@@ -198,6 +236,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "battle ok": 1,
    "dialog ok": 4,
@@ -255,6 +294,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "battle ok": 1,
    "dialog choice": 1,
@@ -297,6 +337,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "battle ok": 1,
    "dialog choice": 1,
@@ -339,6 +380,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "battle ok": 4,
    "dialog choice": 4,
@@ -381,6 +423,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "battle ok": 4,
    "dialog choice": 4,
@@ -422,6 +465,7 @@
     "new": true
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "battle ok": 1,
    "dialog choice": 1,
@@ -467,6 +511,12 @@
     "vanilla_part": "sc_e_0449"
    }
   ],
+  "wired_stubs": {
+   "sound": 1,
+   "tiles_set": 4,
+   "tiles_set_later": 2,
+   "bit_set": 1
+  },
   "detail": {
    "battle ok": 1,
    "dialog ok": 1,
@@ -489,7 +539,7 @@
   "script": "sc_ted_cd33c0",
   "pr_map": "Map_30510",
   "translated": {
-   "flow": 11,
+   "flow": 12,
    "object": 11,
    "wait": 5,
    "dialog": 3,
@@ -497,9 +547,7 @@
    "screen": 4,
    "flag": 2
   },
-  "stubs": {
-   "flow": 2
-  },
+  "stubs": {},
   "wired": [
    {
     "layer": "entity_default",
@@ -511,17 +559,78 @@
     "new": true
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "battle ok": 2,
    "dialog ok": 3,
    "flag ok": 2,
+   "flow case load": 1,
    "flow game over check": 2,
-   "flow no-op": 1,
    "flow ok": 8,
-   "flow stub:case_bit": 2,
+   "flow party check": 1,
    "object ok": 11,
    "screen ok": 4,
    "wait ok": 5
+  }
+ },
+ {
+  "event": "CC/6F41",
+  "script": "sc_ted_cc6f41",
+  "pr_map": "Map_20131_1",
+  "translated": {
+   "flow": 14,
+   "sound": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "sc_map_20131_1",
+    "entity": null,
+    "was": "sc_map_20131_1",
+    "now": "sc_ted_cc6f41_m20131_1",
+    "script_id": null,
+    "entrance": true
+   },
+   {
+    "layer": "sc_map_20381_1",
+    "entity": null,
+    "was": "sc_map_20381_1",
+    "now": "sc_ted_cc6f41_m20381_1",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20381_1"
+   },
+   {
+    "layer": "sc_map_20131_3",
+    "entity": null,
+    "was": "sc_map_20131_3",
+    "now": "sc_ted_cc6f41_m20131_3",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20131_3"
+   },
+   {
+    "layer": "sc_map_20131_4",
+    "entity": null,
+    "was": "sc_map_20131_4",
+    "now": "sc_ted_cc6f41_m20131_4",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20131_4"
+   },
+   {
+    "layer": "sc_map_20381_4",
+    "entity": null,
+    "was": "sc_map_20381_4",
+    "now": "sc_ted_cc6f41_m20381_4",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20381_4"
+   }
+  ],
+  "detail": {
+   "flow ok": 14,
+   "sound ok": 4
   }
  },
  {
@@ -542,6 +651,7 @@
     "new": true
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "flow ok": 1
   }
@@ -565,6 +675,7 @@
     "new": true
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 1,
    "flow ok": 1
@@ -589,6 +700,7 @@
     "new": true
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 1,
    "flow ok": 1
@@ -613,6 +725,7 @@
     "new": true
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 1,
    "flow ok": 1
@@ -637,6 +750,7 @@
     "new": true
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 1,
    "flow ok": 1
@@ -666,6 +780,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 3,
    "flag ok": 1,
@@ -702,6 +817,7 @@
     "new": true
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog choice": 2,
    "dialog ok": 17,
@@ -749,6 +865,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog choice": 2,
    "dialog ok": 14,
@@ -756,6 +873,74 @@
    "flow ok": 19,
    "sound ok": 1,
    "wait ok": 1
+  }
+ },
+ {
+  "event": "CD/40D0",
+  "script": "sc_ted_cd40d0",
+  "pr_map": "Map_20011_11",
+  "translated": {
+   "flow": 5,
+   "sound": 3
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 5013,
+    "was": null,
+    "now": "sc_ted_cd40d0_trig",
+    "script_id": 9572,
+    "object_type": 2,
+    "new": true
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "flow ok": 5,
+   "sound ok": 3
+  }
+ },
+ {
+  "event": "CC/36E8",
+  "script": "sc_ted_cc36e8",
+  "pr_map": "Map_20010",
+  "translated": {
+   "flow": 3,
+   "object": 9,
+   "wait": 2,
+   "dialog": 1,
+   "flag": 1
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0088",
+    "entity": 134,
+    "was": "sc_e_0088",
+    "now": "sc_ted_cc36e8_l0088",
+    "script_id": 9573,
+    "object_type": 2,
+    "vanilla_part": "sc_e_0088"
+   },
+   {
+    "layer": "ev_e_0777",
+    "entity": 112,
+    "was": "sc_e_0777",
+    "now": "sc_ted_cc36e8_l0777",
+    "script_id": 9574,
+    "object_type": 2,
+    "vanilla_part": "sc_e_0777"
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog ok": 1,
+   "flag ok": 1,
+   "flow ok": 3,
+   "object no-op": 4,
+   "object ok": 5,
+   "wait ok": 2
   }
  },
  {
@@ -770,13 +955,14 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5013,
+    "entity": 5014,
     "was": null,
     "now": "sc_ted_cd1c50_new",
     "script_id": 9521,
     "new": true
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 1,
    "flow ok": 1
@@ -794,13 +980,14 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5014,
+    "entity": 5015,
     "was": null,
     "now": "sc_ted_cd1c90_new",
     "script_id": 9522,
     "new": true
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 1,
    "flow ok": 1
@@ -818,13 +1005,14 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5015,
+    "entity": 5016,
     "was": null,
     "now": "sc_ted_cd1cd0_new",
     "script_id": 9523,
     "new": true
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 1,
    "flow ok": 1
@@ -849,6 +1037,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 1,
    "flow ok": 1
@@ -866,13 +1055,14 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5016,
+    "entity": 5017,
     "was": null,
     "now": "sc_ted_cd1cd8_new",
     "script_id": 9525,
     "new": true
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 1,
    "flow ok": 1
@@ -890,13 +1080,14 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5017,
+    "entity": 5018,
     "was": null,
     "now": "sc_ted_cd1d50_new",
     "script_id": 9526,
     "new": true
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 1,
    "flow ok": 1
@@ -921,6 +1112,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 1,
    "flow ok": 1
@@ -938,13 +1130,14 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5018,
+    "entity": 5019,
     "was": null,
     "now": "sc_ted_cd1d94_new",
     "script_id": 9528,
     "new": true
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 1,
    "flow ok": 1
@@ -969,13 +1162,14 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5019,
+    "entity": 5020,
     "was": null,
     "now": "sc_ted_cd32b0_new",
     "script_id": 9529,
     "new": true
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "battle ok": 1,
    "dialog ok": 2,
@@ -1005,13 +1199,14 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5020,
+    "entity": 5021,
     "was": null,
     "now": "sc_ted_cc5bc0_new",
     "script_id": 9530,
     "new": true
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "flow ok": 1,
    "object no-op": 1,
@@ -1032,13 +1227,14 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5021,
+    "entity": 5022,
     "was": null,
     "now": "sc_ted_cd19a0_new",
     "script_id": 9531,
     "new": true
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 3,
    "flag ok": 1,
@@ -1058,13 +1254,14 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5022,
+    "entity": 5023,
     "was": null,
     "now": "sc_ted_cd19c0_new",
     "script_id": 9532,
     "new": true
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 3,
    "flag ok": 1,
@@ -1090,6 +1287,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 1,
    "flow ok": 1
@@ -1114,6 +1312,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 1,
    "flow ok": 1
@@ -1131,16 +1330,52 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5023,
+    "entity": 5024,
     "was": null,
     "now": "sc_ted_cd19e2_new",
     "script_id": 9535,
     "new": true
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 1,
    "flow ok": 1
+  }
+ },
+ {
+  "event": "CD/1A80",
+  "script": "sc_ted_cd1a80",
+  "pr_map": "Map_30011_3",
+  "translated": {
+   "flow": 6,
+   "dialog": 3,
+   "wait": 1,
+   "sound": 1,
+   "item": 1,
+   "flag": 1
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0090",
+    "entity": 13,
+    "was": null,
+    "now": "sc_ted_cd1a80_l0090",
+    "script_id": 9577,
+    "object_type": 6
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog ok": 3,
+   "flag ok": 1,
+   "flow case load": 1,
+   "flow ok": 4,
+   "flow party check": 1,
+   "item ok": 1,
+   "sound ok": 1,
+   "wait ok": 1
   }
  },
  {
@@ -1173,6 +1408,7 @@
     "room": "Map_20371_7"
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog choice": 1,
    "dialog ok": 9,
@@ -1182,9 +1418,35 @@
   }
  },
  {
+  "event": "CA/5F1B",
+  "script": "sc_ted_ca5f1b",
+  "pr_map": "Map_20371_3",
+  "translated": {
+   "flow": 1,
+   "map": 2
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 5025,
+    "was": null,
+    "now": "sc_ted_ca5f1b_trig",
+    "script_id": 9575,
+    "object_type": 2,
+    "new": true
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "flow ok": 1,
+   "map nearest point": 2
+  }
+ },
+ {
   "event": "CA/7D21",
   "script": "sc_ted_ca7d21",
-  "pr_map": "Map_20071_4",
+  "pr_map": "Map_20361_4",
   "translated": {
    "flow": 9,
    "dialog": 5
@@ -1192,14 +1454,24 @@
   "stubs": {},
   "wired": [
    {
+    "layer": "entity_default",
+    "entity": 0,
+    "was": null,
+    "now": "sc_ted_ca7d21_entity_default",
+    "script_id": 9586,
+    "object_type": 6
+   },
+   {
     "layer": "ev_e_0038",
     "entity": 19,
     "was": "sc_npc_20071_4_1",
-    "now": "sc_ted_ca7d21_l0038",
-    "script_id": 9538,
-    "object_type": 6
+    "now": "sc_ted_ca7d21_m20071_4_l0038",
+    "script_id": 9587,
+    "object_type": 6,
+    "room": "Map_20071_4"
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 5,
    "flow ok": 9
@@ -1208,7 +1480,7 @@
  {
   "event": "CA/7D43",
   "script": "sc_ted_ca7d43",
-  "pr_map": "Map_20071_4",
+  "pr_map": "Map_20361_4",
   "translated": {
    "flow": 7,
    "dialog": 4
@@ -1216,22 +1488,33 @@
   "stubs": {},
   "wired": [
    {
+    "layer": "entity_default",
+    "entity": 0,
+    "was": null,
+    "now": "sc_ted_ca7d43_entity_default",
+    "script_id": 11000,
+    "object_type": 6
+   },
+   {
     "layer": "ev_e_0038",
     "entity": 15,
     "was": "sc_npc_20071_4_4",
-    "now": "sc_ted_ca7d43_l0038",
-    "script_id": 9539,
-    "object_type": 6
+    "now": "sc_ted_ca7d43_m20071_4_l0038",
+    "script_id": 9588,
+    "object_type": 6,
+    "room": "Map_20071_4"
    },
    {
     "layer": "ev_e_0065",
     "entity": 20,
     "was": "sc_npc_20071_4_6",
-    "now": "sc_ted_ca7d43_l0065",
-    "script_id": 9540,
-    "object_type": 6
+    "now": "sc_ted_ca7d43_m20071_4_l0065",
+    "script_id": 9589,
+    "object_type": 6,
+    "room": "Map_20071_4"
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 4,
    "flow ok": 7
@@ -1240,7 +1523,7 @@
  {
   "event": "CA/7D5B",
   "script": "sc_ted_ca7d5b",
-  "pr_map": "Map_20071_4",
+  "pr_map": "Map_20361_4",
   "translated": {
    "flow": 7,
    "dialog": 4
@@ -1248,14 +1531,24 @@
   "stubs": {},
   "wired": [
    {
+    "layer": "entity_default",
+    "entity": 0,
+    "was": null,
+    "now": "sc_ted_ca7d5b_entity_default",
+    "script_id": 11001,
+    "object_type": 6
+   },
+   {
     "layer": "ev_e_0038",
     "entity": 16,
     "was": "sc_npc_20071_4_3",
-    "now": "sc_ted_ca7d5b_l0038",
-    "script_id": 9541,
-    "object_type": 6
+    "now": "sc_ted_ca7d5b_m20071_4_l0038",
+    "script_id": 9590,
+    "object_type": 6,
+    "room": "Map_20071_4"
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 4,
    "flow ok": 7
@@ -1289,6 +1582,7 @@
     "room": "Map_20071_3"
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 2,
    "flow ok": 3
@@ -1297,7 +1591,7 @@
  {
   "event": "CD/5803",
   "script": "sc_ted_cd5803",
-  "pr_map": "Map_20071_23",
+  "pr_map": "Map_20361_23",
   "translated": {
    "flow": 3,
    "dialog": 2
@@ -1305,14 +1599,24 @@
   "stubs": {},
   "wired": [
    {
+    "layer": "entity_default",
+    "entity": 0,
+    "was": null,
+    "now": "sc_ted_cd5803_entity_default",
+    "script_id": 11002,
+    "object_type": 6
+   },
+   {
     "layer": "ev_e_0038",
     "entity": 9,
     "was": null,
-    "now": "sc_ted_cd5803_l0038",
-    "script_id": 9544,
-    "object_type": 6
+    "now": "sc_ted_cd5803_m20071_23_l0038",
+    "script_id": 9591,
+    "object_type": 6,
+    "room": "Map_20071_23"
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 2,
    "flow ok": 3
@@ -1337,6 +1641,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog choice": 1,
    "dialog ok": 3,
@@ -1362,6 +1667,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog choice": 1,
    "dialog ok": 3,
@@ -1387,6 +1693,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog choice": 1,
    "dialog ok": 3,
@@ -1412,6 +1719,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog choice": 1,
    "dialog ok": 3,
@@ -1437,6 +1745,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog choice": 1,
    "dialog ok": 3,
@@ -1462,6 +1771,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog choice": 1,
    "dialog ok": 3,
@@ -1487,6 +1797,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 2,
    "flow ok": 3
@@ -1511,6 +1822,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 1,
    "flow ok": 1
@@ -1535,6 +1847,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog choice": 1,
    "dialog ok": 4,
@@ -1560,6 +1873,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog choice": 1,
    "dialog ok": 3,
@@ -1585,6 +1899,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 2,
    "flow ok": 3
@@ -1609,6 +1924,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 2,
    "flow ok": 3
@@ -1633,6 +1949,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 2,
    "flow ok": 3
@@ -1680,6 +1997,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 8,
    "flow ok": 10,
@@ -1707,6 +2025,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 2,
    "flow ok": 3
@@ -1731,6 +2050,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 2,
    "flow ok": 3
@@ -1755,6 +2075,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 3,
    "flow ok": 3
@@ -1779,6 +2100,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 2,
    "flow ok": 3
@@ -1826,6 +2148,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 3,
    "flow ok": 3,
@@ -1851,6 +2174,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 2,
    "flow ok": 3
@@ -1875,6 +2199,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 1,
    "flow ok": 1
@@ -1915,6 +2240,7 @@
     "room": "Map_30851_8"
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "battle ok": 1,
    "dialog choice": 1,
@@ -1933,6 +2259,38 @@
   }
  },
  {
+  "event": "CD/3840",
+  "script": "sc_ted_cd3840",
+  "pr_map": "Map_20451_1",
+  "translated": {
+   "flow": 3,
+   "screen": 1,
+   "sound": 1,
+   "object": 2,
+   "wait": 2
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 5026,
+    "was": null,
+    "now": "sc_ted_cd3840_trig",
+    "script_id": 9576,
+    "object_type": 2,
+    "new": true
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "flow ok": 3,
+   "object ok": 2,
+   "screen ok": 1,
+   "sound ok": 1,
+   "wait ok": 2
+  }
+ },
+ {
   "event": "CD/37A1",
   "script": "sc_ted_cd37a1",
   "pr_map": "Map_20061_1",
@@ -1944,13 +2302,14 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5024,
+    "entity": 5027,
     "was": null,
     "now": "sc_ted_cd37a1_new",
     "script_id": 9568,
     "new": true
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 1,
    "flow ok": 1
@@ -1979,6 +2338,7 @@
     "object_type": 6
    }
   ],
+  "wired_stubs": {},
   "detail": {
    "dialog ok": 3,
    "flag ok": 3,
@@ -1990,9 +2350,186 @@
   }
  },
  {
-  "event": "CD/40D0",
-  "script": "sc_ted_cd40d0",
-  "pr_map": "Map_20011_11",
+  "event": "CB/9797",
+  "script": "sc_ted_cb9797",
+  "pr_map": "Map_20451_8",
+  "translated": {
+   "object": 1,
+   "screen": 1,
+   "flow": 3
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "sc_map_20451_8",
+    "entity": null,
+    "was": "sc_map_20451_8",
+    "now": "sc_ted_cb9797_m20451_8",
+    "script_id": null,
+    "entrance": true
+   },
+   {
+    "layer": "sc_map_20451_4",
+    "entity": null,
+    "was": "sc_map_20451_4",
+    "now": "sc_ted_cb9797_m20451_4",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20451_4"
+   },
+   {
+    "layer": "sc_map_20101_1",
+    "entity": null,
+    "was": "sc_map_20101_1",
+    "now": "sc_ted_cb9797_m20101_1",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20101_1"
+   },
+   {
+    "layer": "sc_map_30851_1",
+    "entity": null,
+    "was": "sc_map_30851_1",
+    "now": "sc_ted_cb9797_m30851_1",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_30851_1"
+   },
+   {
+    "layer": "sc_map_20101_3",
+    "entity": null,
+    "was": "sc_map_20101_3",
+    "now": "sc_ted_cb9797_m20101_3",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20101_3"
+   },
+   {
+    "layer": "sc_map_30851_3",
+    "entity": null,
+    "was": "sc_map_30851_3",
+    "now": "sc_ted_cb9797_m30851_3",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_30851_3"
+   },
+   {
+    "layer": "sc_map_30851_8",
+    "entity": null,
+    "was": "sc_map_30851_8",
+    "now": "sc_ted_cb9797_m30851_8",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_30851_8"
+   },
+   {
+    "layer": "sc_map_20101_8",
+    "entity": null,
+    "was": "sc_map_20101_8",
+    "now": "sc_ted_cb9797_m20101_8",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20101_8"
+   },
+   {
+    "layer": "sc_map_20101_2",
+    "entity": null,
+    "was": "sc_map_20101_2",
+    "now": "sc_ted_cb9797_m20101_2",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20101_2"
+   },
+   {
+    "layer": "sc_map_30851_2",
+    "entity": null,
+    "was": "sc_map_30851_2",
+    "now": "sc_ted_cb9797_m30851_2",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_30851_2"
+   },
+   {
+    "layer": "sc_map_20101_6",
+    "entity": null,
+    "was": "sc_map_20101_6",
+    "now": "sc_ted_cb9797_m20101_6",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20101_6"
+   },
+   {
+    "layer": "sc_map_30851_6",
+    "entity": null,
+    "was": "sc_map_30851_6",
+    "now": "sc_ted_cb9797_m30851_6",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_30851_6"
+   }
+  ],
+  "detail": {
+   "flow ok": 3,
+   "object camera": 1,
+   "object ok": 1,
+   "screen approx": 1
+  }
+ },
+ {
+  "event": "CD/3BBE",
+  "script": "sc_ted_cd3bbe",
+  "pr_map": "Map_20121_1",
+  "translated": {
+   "flow": 4,
+   "sound": 2
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "sc_map_20121_1",
+    "entity": null,
+    "was": "sc_map_20121_1",
+    "now": "sc_ted_cd3bbe_m20121_1",
+    "script_id": null,
+    "entrance": true
+   },
+   {
+    "layer": "sc_map_20201_1",
+    "entity": null,
+    "was": "sc_map_20201_1",
+    "now": "sc_ted_cd3bbe_m20201_1",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20201_1"
+   },
+   {
+    "layer": "sc_map_20071_6",
+    "entity": null,
+    "was": "sc_map_20071_6",
+    "now": "sc_ted_cd3bbe_m20071_6",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20071_6"
+   },
+   {
+    "layer": "sc_map_20071_7",
+    "entity": null,
+    "was": "sc_map_20071_7",
+    "now": "sc_ted_cd3bbe_m20071_7",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20071_7"
+   }
+  ],
+  "detail": {
+   "flow ok": 4,
+   "sound ok": 2
+  }
+ },
+ {
+  "event": "CC/3AF2",
+  "script": "sc_ted_cc3af2",
+  "pr_map": "Map_20380",
   "translated": {
    "flow": 5,
    "sound": 3
@@ -2000,13 +2537,13 @@
   "stubs": {},
   "wired": [
    {
-    "layer": "entity_default",
-    "entity": 5025,
-    "was": null,
-    "now": "sc_ted_cd40d0_trig",
-    "script_id": 9572,
-    "object_type": 2,
-    "new": true
+    "layer": "sc_map_20380",
+    "entity": null,
+    "was": "sc_map_20380",
+    "now": "sc_ted_cc3af2_m20380",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/3AF8"
    }
   ],
   "detail": {
@@ -2015,100 +2552,1314 @@
   }
  },
  {
-  "event": "CC/36E8",
-  "script": "sc_ted_cc36e8",
-  "pr_map": "Map_20010",
+  "event": "CC/6F5C",
+  "script": "sc_ted_cc6f5c",
+  "pr_map": "Map_20131_3",
   "translated": {
-   "flow": 3,
-   "object": 9,
-   "wait": 2,
-   "dialog": 1,
-   "flag": 1
+   "flow": 6,
+   "sound": 2
   },
   "stubs": {},
   "wired": [
    {
-    "layer": "ev_e_0088",
-    "entity": 134,
-    "was": "sc_e_0088",
-    "now": "sc_ted_cc36e8_l0088",
-    "script_id": 9573,
-    "object_type": 2,
-    "vanilla_part": "sc_e_0088"
+    "layer": "sc_map_20131_3",
+    "entity": null,
+    "was": "sc_map_20131_3",
+    "now": "sc_ted_cc6f5c_m20131_3",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/6F62"
    },
    {
-    "layer": "ev_e_0777",
-    "entity": 112,
-    "was": "sc_e_0777",
-    "now": "sc_ted_cc36e8_l0777",
-    "script_id": 9574,
-    "object_type": 2,
-    "vanilla_part": "sc_e_0777"
+    "layer": "sc_map_20131_4",
+    "entity": null,
+    "was": "sc_map_20131_4",
+    "now": "sc_ted_cc6f5c_m20131_4",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/6F62",
+    "room": "Map_20131_4"
+   },
+   {
+    "layer": "sc_map_20131_1",
+    "entity": null,
+    "was": "sc_map_20131_1",
+    "now": "sc_ted_cc6f5c_m20131_1",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/6F62",
+    "room": "Map_20131_1"
+   },
+   {
+    "layer": "sc_map_20381_1",
+    "entity": null,
+    "was": "sc_map_20381_1",
+    "now": "sc_ted_cc6f5c_m20381_1",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/6F62",
+    "room": "Map_20381_1"
+   },
+   {
+    "layer": "sc_map_20131_2",
+    "entity": null,
+    "was": "sc_map_20131_2",
+    "now": "sc_ted_cc6f5c_m20131_2",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/6F62",
+    "room": "Map_20131_2"
+   },
+   {
+    "layer": "sc_map_20381_4",
+    "entity": null,
+    "was": "sc_map_20381_4",
+    "now": "sc_ted_cc6f5c_m20381_4",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/6F62",
+    "room": "Map_20381_4"
    }
   ],
   "detail": {
-   "dialog ok": 1,
-   "flag ok": 1,
-   "flow ok": 3,
-   "object no-op": 4,
-   "object ok": 5,
-   "wait ok": 2
+   "flow ok": 6,
+   "sound ok": 2
   }
  },
  {
-  "event": "CA/5F1B",
-  "script": "sc_ted_ca5f1b",
-  "pr_map": "Map_20371_3",
+  "event": "CD/1750",
+  "script": "sc_ted_cd1750",
+  "pr_map": "Map_30011_3",
   "translated": {
-   "flow": 1,
-   "map": 2
+   "flow": 15,
+   "dialog": 12,
+   "sound": 6,
+   "wait": 10,
+   "flag": 13,
+   "screen": 2,
+   "object": 1
   },
   "stubs": {},
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5026,
+    "entity": 5028,
     "was": null,
-    "now": "sc_ted_ca5f1b_trig",
-    "script_id": 9575,
-    "object_type": 2,
+    "now": "sc_ted_cd1750_new",
+    "script_id": 9578,
     "new": true
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog ok": 12,
+   "flag ok": 13,
+   "flow ok": 15,
+   "object no-op": 1,
+   "screen ok": 2,
+   "sound ok": 4,
+   "sound sound (ted_se_ties)": 2,
+   "wait ok": 10
+  }
+ },
+ {
+  "event": "CD/D640",
+  "script": "sc_ted_cdd640",
+  "pr_map": "Map_30690",
+  "translated": {
+   "object": 5,
+   "wait": 1,
+   "dialog": 2,
+   "map": 1,
+   "camera": 2,
+   "sound": 1,
+   "screen": 1,
+   "flow": 2
+  },
+  "stubs": {
+   "sound": 1
+  },
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 5029,
+    "was": null,
+    "now": "sc_ted_cdd640_new",
+    "script_id": 9579,
+    "new": true
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "camera no-op": 2,
+   "dialog choice": 1,
+   "dialog ok": 1,
+   "flow ok": 2,
+   "map learned arrival": 1,
+   "object ok": 5,
+   "screen ok": 1,
+   "sound ok": 1,
+   "sound stub:sound": 1,
+   "wait ok": 1
+  }
+ },
+ {
+  "event": "CB/AD3A",
+  "script": "sc_ted_cbad3a",
+  "pr_map": "Map_30441_11",
+  "translated": {
+   "dialog": 2,
+   "menu": 1,
+   "flow": 2
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 2,
+    "was": "sc_e_0204",
+    "now": "sc_ted_cbad3a_entity_default",
+    "script_id": 9580,
+    "object_type": 6
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog choice": 1,
+   "dialog ok": 1,
+   "flow ok": 2,
+   "menu ok": 1
+  }
+ },
+ {
+  "event": "CE/A710",
+  "script": "sc_ted_cea710",
+  "pr_map": "Map_30011_3",
+  "translated": {
+   "flow": 1
+  },
+  "stubs": {
+   "screen": 1
+  },
+  "wired": [
+   {
+    "layer": "sc_map_30011_3",
+    "entity": null,
+    "was": "sc_map_30011_3",
+    "now": "sc_ted_cea710_m30011_3",
+    "script_id": null,
+    "entrance": true
+   },
+   {
+    "layer": "sc_map_30011_5",
+    "entity": null,
+    "was": "sc_map_30011_5",
+    "now": "sc_ted_cea710_m30011_5",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_30011_5"
+   },
+   {
+    "layer": "sc_map_30011_4",
+    "entity": null,
+    "was": "sc_map_30011_4",
+    "now": "sc_ted_cea710_m30011_4",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_30011_4"
+   },
+   {
+    "layer": "sc_map_30011_2",
+    "entity": null,
+    "was": "sc_map_30011_2",
+    "now": "sc_ted_cea710_m30011_2",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_30011_2"
    }
   ],
   "detail": {
    "flow ok": 1,
-   "map nearest point": 2
+   "screen stub:bg_palette": 1
   }
  },
  {
-  "event": "CD/3840",
-  "script": "sc_ted_cd3840",
-  "pr_map": "Map_20451_1",
+  "event": "CD/36AA",
+  "script": "sc_ted_cd36aa",
+  "pr_map": "Map_20051_2",
   "translated": {
-   "flow": 3,
-   "screen": 1,
+   "dialog": 2,
+   "wait": 2,
    "sound": 1,
-   "object": 2,
-   "wait": 2
+   "screen": 1,
+   "party": 12,
+   "flow": 3
   },
   "stubs": {},
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5027,
+    "entity": 5030,
     "was": null,
-    "now": "sc_ted_cd3840_trig",
-    "script_id": 9576,
-    "object_type": 2,
+    "now": "sc_ted_cd36aa_new",
+    "script_id": 9581,
     "new": true
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog ok": 2,
+   "flow ok": 3,
+   "party ok": 8,
+   "party status cure": 4,
+   "screen ok": 1,
+   "sound ok": 1,
+   "wait ok": 2
+  }
+ },
+ {
+  "event": "CA/ED73",
+  "script": "sc_ted_caed73",
+  "pr_map": "Map_20071_27",
+  "translated": {
+   "flow": 1
+  },
+  "stubs": {
+   "screen": 1
+  },
+  "wired": [
+   {
+    "layer": "sc_map_20071_27",
+    "entity": null,
+    "was": "sc_map_20071_27",
+    "now": "sc_ted_caed73_m20071_27",
+    "script_id": null,
+    "entrance": true
+   },
+   {
+    "layer": "sc_map_20361_27",
+    "entity": null,
+    "was": "sc_map_20361_27",
+    "now": "sc_ted_caed73_m20361_27",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20361_27"
+   }
+  ],
+  "detail": {
+   "flow ok": 1,
+   "screen stub:bg_palette": 1
+  }
+ },
+ {
+  "event": "CA/ED77",
+  "script": "sc_ted_caed77",
+  "pr_map": "Map_30040",
+  "translated": {
+   "flow": 1
+  },
+  "stubs": {
+   "screen": 1
+  },
+  "wired": [
+   {
+    "layer": "sc_map_30040",
+    "entity": null,
+    "was": "sc_map_30040",
+    "now": "sc_ted_caed77_m30040",
+    "script_id": null,
+    "entrance": true
+   }
+  ],
+  "detail": {
+   "flow ok": 1,
+   "screen stub:bg_palette": 1
+  }
+ },
+ {
+  "event": "CA/ED7C",
+  "script": "sc_ted_caed7c",
+  "pr_map": "Map_30040",
+  "translated": {
+   "flow": 1
+  },
+  "stubs": {
+   "screen": 1
+  },
+  "wired": [
+   {
+    "layer": "sc_map_30040",
+    "entity": null,
+    "was": "sc_map_30040",
+    "now": "sc_ted_caed7c_m30040",
+    "script_id": null,
+    "entrance": true
+   }
+  ],
+  "detail": {
+   "flow ok": 1,
+   "screen stub:bg_palette": 1
+  }
+ },
+ {
+  "event": "CD/81A0",
+  "script": "sc_ted_cd81a0",
+  "pr_map": "Map_20011_3",
+  "translated": {
+   "flow": 3
+  },
+  "stubs": {
+   "screen": 1
+  },
+  "wired": [
+   {
+    "layer": "sc_map_20011_3",
+    "entity": null,
+    "was": "sc_map_20011_3",
+    "now": "sc_ted_cd81a0_m20011_3",
+    "script_id": null,
+    "entrance": true
+   },
+   {
+    "layer": "sc_map_20131_3",
+    "entity": null,
+    "was": "sc_map_20131_3",
+    "now": "sc_ted_cd81a0_m20131_3",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20131_3"
+   },
+   {
+    "layer": "sc_map_20131_4",
+    "entity": null,
+    "was": "sc_map_20131_4",
+    "now": "sc_ted_cd81a0_m20131_4",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20131_4"
+   },
+   {
+    "layer": "sc_map_20381_1",
+    "entity": null,
+    "was": "sc_map_20381_1",
+    "now": "sc_ted_cd81a0_m20381_1",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20381_1"
+   },
+   {
+    "layer": "sc_map_20131_2",
+    "entity": null,
+    "was": "sc_map_20131_2",
+    "now": "sc_ted_cd81a0_m20131_2",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20131_2"
+   },
+   {
+    "layer": "sc_map_20381_4",
+    "entity": null,
+    "was": "sc_map_20381_4",
+    "now": "sc_ted_cd81a0_m20381_4",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20381_4"
    }
   ],
   "detail": {
    "flow ok": 3,
-   "object ok": 2,
+   "screen stub:bg_palette": 1
+  }
+ },
+ {
+  "event": "CD/CEF0",
+  "script": "sc_ted_cdcef0",
+  "pr_map": "Map_30410",
+  "translated": {
+   "flow": 28,
+   "dialog": 20,
+   "object": 151,
+   "flag": 9,
+   "screen": 74,
+   "wait": 25,
+   "party": 15,
+   "map": 3,
+   "camera": 2,
+   "sound": 4,
+   "menu": 1
+  },
+  "stubs": {
+   "flow": 1,
+   "party": 3,
+   "map": 3,
+   "object": 4,
+   "sound": 2
+  },
+  "wired": [
+   {
+    "layer": "ev_e_0099",
+    "entity": 15,
+    "was": "sc_e_0099",
+    "now": "sc_ted_cdcef0_l0099",
+    "script_id": 9582,
+    "object_type": 2
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "camera no-op": 2,
+   "dialog ok": 20,
+   "flag character": 2,
+   "flag engine bit, nothing in the PR": 1,
+   "flag ok": 6,
+   "flow case load": 1,
+   "flow ok": 23,
+   "flow repeat": 2,
+   "flow repeat end": 2,
+   "flow stub:switch": 1,
+   "map learned arrival": 3,
+   "map stub:tiles_set": 3,
+   "menu ok": 1,
+   "object NPC show bit -> Hide": 3,
+   "object camera": 44,
+   "object costume": 1,
+   "object costume palette": 1,
+   "object no-op": 13,
+   "object ok": 133,
+   "object stub:obj_hide": 2,
+   "object stub:obj_show": 2,
+   "party ok": 10,
+   "party party slot": 1,
+   "party status cure": 4,
+   "party stub:char_name": 1,
+   "party stub:char_props": 1,
+   "party stub:party_set": 1,
+   "screen approx": 63,
+   "screen ok": 11,
+   "sound ok": 3,
+   "sound song wait": 1,
+   "sound stub:sound": 2,
+   "wait ok": 25
+  }
+ },
+ {
+  "event": "CD/CF00",
+  "script": "sc_ted_cdcf00",
+  "pr_map": "Map_30410",
+  "translated": {
+   "flow": 28,
+   "dialog": 20,
+   "object": 151,
+   "flag": 9,
+   "screen": 74,
+   "wait": 25,
+   "party": 15,
+   "map": 3,
+   "camera": 2,
+   "sound": 4,
+   "menu": 1
+  },
+  "stubs": {
+   "flow": 1,
+   "party": 3,
+   "map": 3,
+   "object": 4,
+   "sound": 2
+  },
+  "wired": [
+   {
+    "layer": "ev_e_0099",
+    "entity": 13,
+    "was": "sc_e_0099",
+    "now": "sc_ted_cdcf00_l0099",
+    "script_id": 9583,
+    "object_type": 2
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "camera no-op": 2,
+   "dialog ok": 20,
+   "flag character": 2,
+   "flag engine bit, nothing in the PR": 1,
+   "flag ok": 6,
+   "flow case load": 1,
+   "flow ok": 23,
+   "flow repeat": 2,
+   "flow repeat end": 2,
+   "flow stub:switch": 1,
+   "map learned arrival": 3,
+   "map stub:tiles_set": 3,
+   "menu ok": 1,
+   "object NPC show bit -> Hide": 3,
+   "object camera": 44,
+   "object costume": 1,
+   "object costume palette": 1,
+   "object no-op": 13,
+   "object ok": 133,
+   "object stub:obj_hide": 2,
+   "object stub:obj_show": 2,
+   "party ok": 10,
+   "party party slot": 1,
+   "party status cure": 4,
+   "party stub:char_name": 1,
+   "party stub:char_props": 1,
+   "party stub:party_set": 1,
+   "screen approx": 63,
+   "screen ok": 11,
+   "sound ok": 3,
+   "sound song wait": 1,
+   "sound stub:sound": 2,
+   "wait ok": 25
+  }
+ },
+ {
+  "event": "CD/CF10",
+  "script": "sc_ted_cdcf10",
+  "pr_map": "Map_30410",
+  "translated": {
+   "flow": 28,
+   "dialog": 20,
+   "object": 151,
+   "flag": 9,
+   "screen": 74,
+   "wait": 25,
+   "party": 15,
+   "map": 3,
+   "camera": 2,
+   "sound": 4,
+   "menu": 1
+  },
+  "stubs": {
+   "flow": 1,
+   "party": 3,
+   "map": 3,
+   "object": 4,
+   "sound": 2
+  },
+  "wired": [
+   {
+    "layer": "ev_e_0099",
+    "entity": 14,
+    "was": "sc_e_0099",
+    "now": "sc_ted_cdcf10_l0099",
+    "script_id": 9584,
+    "object_type": 2
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "camera no-op": 2,
+   "dialog ok": 20,
+   "flag character": 2,
+   "flag engine bit, nothing in the PR": 1,
+   "flag ok": 6,
+   "flow case load": 1,
+   "flow ok": 23,
+   "flow repeat": 2,
+   "flow repeat end": 2,
+   "flow stub:switch": 1,
+   "map learned arrival": 3,
+   "map stub:tiles_set": 3,
+   "menu ok": 1,
+   "object NPC show bit -> Hide": 3,
+   "object camera": 44,
+   "object costume": 1,
+   "object costume palette": 1,
+   "object no-op": 13,
+   "object ok": 133,
+   "object stub:obj_hide": 2,
+   "object stub:obj_show": 2,
+   "party ok": 10,
+   "party party slot": 1,
+   "party status cure": 4,
+   "party stub:char_name": 1,
+   "party stub:char_props": 1,
+   "party stub:party_set": 1,
+   "screen approx": 63,
+   "screen ok": 11,
+   "sound ok": 3,
+   "sound song wait": 1,
+   "sound stub:sound": 2,
+   "wait ok": 25
+  }
+ },
+ {
+  "event": "CD/1DF0",
+  "script": "sc_ted_cd1df0",
+  "pr_map": "Map_20011_14",
+  "translated": {
+   "flow": 4,
+   "dialog": 3,
+   "item": 1,
+   "sound": 4,
+   "screen": 1,
+   "flag": 2
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0263",
+    "entity": 30,
+    "was": "sc_e_0263",
+    "now": "sc_ted_cd1df0_l0263",
+    "script_id": 9592,
+    "object_type": 6
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog ok": 3,
+   "flag NPC show bit, no NPC here": 1,
+   "flag ok": 1,
+   "flow ok": 4,
+   "item ok": 1,
    "screen ok": 1,
+   "sound jingle": 1,
+   "sound ok": 2,
+   "sound song wait": 1
+  }
+ },
+ {
+  "event": "CC/0AC4",
+  "script": "sc_ted_cc0ac4",
+  "pr_map": "Map_20010",
+  "translated": {
+   "flow": 3,
+   "dialog": 1,
+   "sound": 1,
+   "object": 2
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0703",
+    "entity": 114,
+    "was": "sc_e_0872",
+    "now": "sc_ted_cc0ac4_l0703",
+    "script_id": 9593,
+    "object_type": 5
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog ok": 1,
+   "flow ok": 3,
+   "object NPC show bit -> Hide": 1,
+   "object ok": 1,
+   "sound ok": 1
+  }
+ },
+ {
+  "event": "CD/1DC0",
+  "script": "sc_ted_cd1dc0",
+  "pr_map": "Map_20071_5",
+  "translated": {
+   "flow": 3,
+   "dialog": 2,
+   "screen": 2,
+   "wait": 1,
+   "flag": 4,
+   "object": 3
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 5033,
+    "was": null,
+    "now": "sc_ted_cd1dc0_new",
+    "script_id": 9594,
+    "new": true
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog ok": 2,
+   "flag NPC show bit, no NPC here": 1,
+   "flag ok": 3,
+   "flow ok": 3,
+   "object no-op": 1,
+   "object ok": 2,
+   "screen ok": 2,
+   "wait ok": 1
+  }
+ },
+ {
+  "event": "CA/8681",
+  "script": "sc_ted_ca8681",
+  "pr_map": "Map_20071_10",
+  "translated": {
+   "flow": 24,
+   "object": 63,
+   "wait": 16,
+   "dialog": 9,
+   "camera": 2,
+   "screen": 69,
+   "map": 2,
+   "party": 2,
+   "menu": 1,
+   "flag": 2,
+   "sound": 1
+  },
+  "stubs": {
+   "sound": 2,
+   "party": 2,
+   "map": 1
+  },
+  "wired": [
+   {
+    "layer": "ev_e_0078",
+    "entity": 21,
+    "was": "sc_e_0078",
+    "now": "sc_ted_ca8681_l0078",
+    "script_id": 9595,
+    "object_type": 2
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "camera no-op": 2,
+   "dialog ok": 9,
+   "flag ok": 2,
+   "flow ok": 18,
+   "flow repeat": 3,
+   "flow repeat end": 3,
+   "map learned arrival": 2,
+   "map stub:tiles_set": 1,
+   "menu ok": 1,
+   "object NPC show bit -> Hide": 1,
+   "object NPC show bit -> Show": 1,
+   "object camera": 6,
+   "object costume": 1,
+   "object costume palette": 1,
+   "object no-op": 2,
+   "object ok": 57,
+   "party ok": 1,
+   "party status cure": 1,
+   "party stub:char_name": 1,
+   "party stub:char_props": 1,
+   "screen approx": 63,
+   "screen ok": 6,
    "sound ok": 1,
+   "sound stub:sound": 2,
+   "wait ok": 16
+  }
+ },
+ {
+  "event": "CB/C21E",
+  "script": "sc_ted_cbc21e",
+  "pr_map": "Map_30491_1",
+  "translated": {
+   "flow": 45,
+   "party": 2,
+   "object": 69,
+   "wait": 15,
+   "dialog": 4,
+   "flag": 1
+  },
+  "stubs": {
+   "flow": 1,
+   "party": 15
+  },
+  "wired": [
+   {
+    "layer": "ev_e_0242",
+    "entity": 5,
+    "was": "sc_e_0242",
+    "now": "sc_ted_cbc21e_l0242",
+    "script_id": 9596,
+    "object_type": 2,
+    "vanilla_part": "sc_e_0242"
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog ok": 4,
+   "flag ok": 1,
+   "flow case load": 2,
+   "flow ok": 42,
+   "flow party check": 1,
+   "flow stub:switch": 1,
+   "object NPC show bit -> Hide": 1,
+   "object NPC show bit -> Show": 1,
+   "object no-op": 16,
+   "object ok": 51,
+   "party no-op": 2,
+   "party stub:party_set": 15,
+   "wait ok": 15
+  }
+ },
+ {
+  "event": "CD/D290",
+  "script": "sc_ted_cdd290",
+  "pr_map": "Map_30681_1",
+  "translated": {
+   "flow": 110,
+   "flag": 11,
+   "map": 3,
+   "screen": 8,
+   "camera": 4,
+   "object": 157,
+   "wait": 57,
+   "sound": 8,
+   "dialog": 12,
+   "party": 7
+  },
+  "stubs": {
+   "sound": 1,
+   "object": 3,
+   "flow": 8,
+   "party": 15,
+   "flag": 16
+  },
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 16,
+    "was": "sc_e_0735",
+    "now": "sc_ted_cdd290_entity_default",
+    "script_id": 9597,
+    "object_type": 2
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "camera no-op": 4,
+   "dialog ok": 12,
+   "flag NPC show bit, no NPC here": 2,
+   "flag character": 1,
+   "flag engine bit, nothing in the PR": 2,
+   "flag ok": 6,
+   "flag stub:bit_clear": 8,
+   "flag stub:bit_set": 8,
+   "flow case load": 3,
+   "flow ok": 89,
+   "flow party check": 16,
+   "flow repeat": 1,
+   "flow repeat end": 1,
+   "flow stub:switch": 1,
+   "flow stub:untied_bit": 7,
+   "map nearest point": 3,
+   "object NPC show bit -> Hide": 1,
+   "object camera": 17,
+   "object no-op": 22,
+   "object ok": 134,
+   "object stub:obj_create": 1,
+   "object stub:obj_hide": 1,
+   "object stub:obj_show": 1,
+   "party no-op": 3,
+   "party ok": 2,
+   "party party slot": 1,
+   "party status cure": 1,
+   "party stub:char_level_avg": 1,
+   "party stub:party_set": 14,
+   "screen ok": 8,
+   "sound ok": 8,
+   "sound stub:song": 1,
+   "wait ok": 57
+  }
+ },
+ {
+  "event": "CC/6D87",
+  "script": "sc_ted_cc6d87",
+  "pr_map": "Map_20381_5",
+  "translated": {
+   "flow": 52,
+   "wait": 25,
+   "object": 65,
+   "dialog": 8,
+   "screen": 14,
+   "flag": 3,
+   "map": 3,
+   "party": 4,
+   "camera": 2
+  },
+  "stubs": {
+   "screen": 1,
+   "party": 16,
+   "flow": 2
+  },
+  "wired": [
+   {
+    "layer": "ev_e_0673",
+    "entity": 10,
+    "was": null,
+    "now": "sc_ted_cc6d87_l0673",
+    "script_id": 9598,
+    "object_type": 6
+   }
+  ],
+  "wired_stubs": {
+   "mosaic": 1
+  },
+  "detail": {
+   "camera no-op": 2,
+   "dialog ok": 8,
+   "flag engine bit, nothing in the PR": 2,
+   "flag ok": 1,
+   "flow case load": 4,
+   "flow ok": 45,
+   "flow party check": 3,
+   "flow stub:switch": 1,
+   "flow stub:untied_bit": 1,
+   "map nearest point": 3,
+   "object no-op": 19,
+   "object ok": 46,
+   "party no-op": 4,
+   "party stub:party_set": 16,
+   "screen approx": 2,
+   "screen ok": 12,
+   "screen stub:mosaic": 1,
+   "wait ok": 25
+  }
+ },
+ {
+  "event": "CB/B7EE",
+  "script": "sc_ted_cbb7ee",
+  "pr_map": "Map_30441_9",
+  "translated": {
+   "flow": 40,
+   "flag": 4,
+   "object": 40,
+   "dialog": 7,
+   "party": 2,
+   "sound": 2,
+   "wait": 7,
+   "battle": 1,
+   "screen": 1
+  },
+  "stubs": {
+   "flow": 3,
+   "party": 15,
+   "sound": 1,
+   "map": 1
+  },
+  "wired": [
+   {
+    "layer": "ev_e_0202",
+    "entity": 2,
+    "was": "sc_e_0202",
+    "now": "sc_ted_cbb7ee_l0202",
+    "script_id": 9599,
+    "object_type": 5,
+    "vanilla_part": "sc_e_0202"
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "battle ok": 1,
+   "dialog ok": 7,
+   "flag ok": 4,
+   "flow case load": 1,
+   "flow game over check": 1,
+   "flow ok": 38,
+   "flow stub:engine_bit": 1,
+   "flow stub:switch": 1,
+   "flow stub:untied_bit": 1,
+   "map stub:tiles_set": 1,
+   "object no-op": 7,
+   "object ok": 33,
+   "party no-op": 2,
+   "party stub:party_set": 15,
+   "screen ok": 1,
+   "sound ok": 2,
+   "sound stub:sound": 1,
+   "wait ok": 7
+  }
+ },
+ {
+  "event": "CD/1C54",
+  "script": "sc_ted_cd1c54",
+  "pr_map": "Map_20011_6",
+  "translated": {
+   "flow": 3,
+   "menu": 2
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0001",
+    "entity": 10,
+    "was": null,
+    "now": "sc_ted_cd1c54_l0001",
+    "script_id": 11003,
+    "object_type": 17
+   },
+   {
+    "layer": "ev_e_0259",
+    "entity": 9,
+    "was": null,
+    "now": "sc_ted_cd1c54_l0259",
+    "script_id": 11004,
+    "object_type": 17
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "flow ok": 3,
+   "menu ok": 2
+  }
+ },
+ {
+  "event": "CD/1D10",
+  "script": "sc_ted_cd1d10",
+  "pr_map": "Map_20011_10",
+  "translated": {
+   "flow": 7,
+   "menu": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0001",
+    "entity": 8,
+    "was": null,
+    "now": "sc_ted_cd1d10_l0001",
+    "script_id": 11005,
+    "object_type": 17
+   },
+   {
+    "layer": "ev_e_0259",
+    "entity": 7,
+    "was": null,
+    "now": "sc_ted_cd1d10_l0259",
+    "script_id": 11006,
+    "object_type": 17
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "flow ok": 7,
+   "menu ok": 4
+  }
+ },
+ {
+  "event": "CD/1DA0",
+  "script": "sc_ted_cd1da0",
+  "pr_map": "Map_20011_9",
+  "translated": {
+   "flow": 7,
+   "menu": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0001",
+    "entity": 4,
+    "was": null,
+    "now": "sc_ted_cd1da0_l0001",
+    "script_id": 11007,
+    "object_type": 17
+   },
+   {
+    "layer": "ev_e_0259",
+    "entity": 4,
+    "was": null,
+    "now": "sc_ted_cd1da0_l0259",
+    "script_id": 11008,
+    "object_type": 17
+   },
+   {
+    "layer": "ev_e_0001",
+    "entity": 0,
+    "was": null,
+    "now": "sc_ted_cd1da0_m20271_3_l0001",
+    "script_id": 11009,
+    "object_type": 6,
+    "room": "Map_20271_3"
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "flow ok": 7,
+   "menu ok": 4
+  }
+ },
+ {
+  "event": "CD/1E24",
+  "script": "sc_ted_cd1e24",
+  "pr_map": "Map_20011_8",
+  "translated": {
+   "flow": 7,
+   "menu": 4
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0001",
+    "entity": 6,
+    "was": null,
+    "now": "sc_ted_cd1e24_l0001",
+    "script_id": 11010,
+    "object_type": 17
+   },
+   {
+    "layer": "ev_e_0259",
+    "entity": 7,
+    "was": null,
+    "now": "sc_ted_cd1e24_l0259",
+    "script_id": 11011,
+    "object_type": 17
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "flow ok": 7,
+   "menu ok": 4
+  }
+ },
+ {
+  "event": "CD/19D8",
+  "script": "sc_ted_cd19d8",
+  "pr_map": "Map_30011_3",
+  "translated": {
+   "dialog": 1,
+   "menu": 1,
+   "flow": 1
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_0090",
+    "entity": 10,
+    "was": null,
+    "conflict": "entity runs script 9533 (an earlier event)"
+   }
+  ],
+  "detail": {
+   "dialog ok": 1,
+   "flow ok": 1,
+   "menu ok": 1
+  }
+ },
+ {
+  "event": "CA/787A",
+  "script": "sc_ted_ca787a",
+  "pr_map": "Map_20071_24",
+  "translated": {
+   "flow": 5,
+   "menu": 3,
+   "dialog": 1
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 5,
+    "was": null,
+    "now": "sc_ted_ca787a_entity_default",
+    "script_id": 11012,
+    "object_type": 17
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog ok": 1,
+   "flow ok": 5,
+   "menu ok": 3
+  }
+ },
+ {
+  "event": "CD/4DF0",
+  "script": "sc_ted_cd4df0",
+  "pr_map": "Map_20101_2",
+  "translated": {
+   "dialog": 1,
+   "wait": 1,
+   "menu": 1,
+   "flow": 1
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 5038,
+    "was": null,
+    "now": "sc_ted_cd4df0_new",
+    "script_id": 11013,
+    "new": true
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog ok": 1,
+   "flow ok": 1,
+   "menu ok": 1,
+   "wait ok": 1
+  }
+ },
+ {
+  "event": "CC/451F",
+  "script": "sc_ted_cc451f",
+  "pr_map": "Map_20341_8",
+  "translated": {
+   "flow": 7,
+   "dialog": 4,
+   "wait": 2,
+   "menu": 1
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "ev_e_1003",
+    "entity": 39,
+    "was": null,
+    "now": "sc_ted_cc451f_l1003",
+    "script_id": 11014,
+    "object_type": 6
+   },
+   {
+    "layer": "entity_default",
+    "entity": 7,
+    "was": "sc_npc_20341_8_3",
+    "now": "sc_ted_cc451f_entity_default",
+    "script_id": 11015,
+    "object_type": 6
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog ok": 4,
+   "flow ok": 7,
+   "menu ok": 1,
    "wait ok": 2
+  }
+ },
+ {
+  "event": "CC/69B4",
+  "script": "sc_ted_cc69b4",
+  "pr_map": "Map_20131_2",
+  "translated": {
+   "flow": 5,
+   "menu": 3,
+   "dialog": 1
+  },
+  "stubs": {},
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 0,
+    "was": null,
+    "now": "sc_ted_cc69b4_entity_default",
+    "script_id": 11016,
+    "object_type": 17
+   },
+   {
+    "layer": "entity_default",
+    "entity": 0,
+    "was": null,
+    "now": "sc_ted_cc69b4_m20381_2_entity_default",
+    "script_id": 11017,
+    "object_type": 17,
+    "room": "Map_20381_2"
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog ok": 1,
+   "flow ok": 5,
+   "menu ok": 3
   }
  }
 ]

@@ -23,32 +23,7 @@
   "tiles": []
  },
  "429": {
-  "npcs": [
-   {
-    "index": 1,
-    "script": "sc_tedq_cd2000_npc1",
-    "script_id": 13242,
-    "direction": 2
-   },
-   {
-    "index": 2,
-    "script": "sc_tedq_cd4000_npc2",
-    "script_id": 13248,
-    "direction": 2
-   },
-   {
-    "index": 3,
-    "script": "sc_tedq_cd6001_npc3",
-    "script_id": 13300,
-    "direction": 2
-   },
-   {
-    "index": 4,
-    "script": "sc_tedq_cd8002_npc4",
-    "script_id": 13303,
-    "direction": 2
-   }
-  ],
+  "npcs": [],
   "tiles": [
    {
     "x": 8,
@@ -56,77 +31,27 @@
     "script": "sc_tedq_cc20db_tile",
     "script_id": 13240
    }
-  ]
+  ],
+  "entrance": {
+   "script": "sc_tedq_cd8002_npc_object",
+   "script_id": 13359
+  }
  },
  "431": {
-  "npcs": [
-   {
-    "index": 54,
-    "script": "sc_tedq_cd2000_npc54",
-    "script_id": 13245,
-    "direction": 2
-   },
-   {
-    "index": 55,
-    "script": "sc_tedq_cd4000_npc55",
-    "script_id": 13261,
-    "direction": 2
-   },
-   {
-    "index": 56,
-    "script": "sc_tedq_cd6001_npc56",
-    "script_id": 13301,
-    "direction": 2
-   },
-   {
-    "index": 57,
-    "script": "sc_tedq_cd8002_npc57",
-    "script_id": 13305,
-    "direction": 2
-   }
-  ],
-  "tiles": []
+  "npcs": [],
+  "tiles": [],
+  "entrance": {
+   "script": "sc_tedq_cd8002_npc_object",
+   "script_id": 13359
+  }
  },
  "434": {
-  "npcs": [
-   {
-    "index": 1,
-    "script": "sc_tedq_cd2000_npc1",
-    "script_id": 13242,
-    "direction": 2
-   },
-   {
-    "index": 2,
-    "script": "sc_tedq_cd4000_npc2",
-    "script_id": 13248,
-    "direction": 2
-   },
-   {
-    "index": 3,
-    "script": "sc_tedq_cd4000_npc3",
-    "script_id": 13274,
-    "direction": 2
-   },
-   {
-    "index": 4,
-    "script": "sc_tedq_cd4000_npc4",
-    "script_id": 13287,
-    "direction": 2
-   },
-   {
-    "index": 5,
-    "script": "sc_tedq_cd6001_npc5",
-    "script_id": 13302,
-    "direction": 2
-   },
-   {
-    "index": 6,
-    "script": "sc_tedq_cd8002_npc6",
-    "script_id": 13307,
-    "direction": 2
-   }
-  ],
-  "tiles": []
+  "npcs": [],
+  "tiles": [],
+  "entrance": {
+   "script": "sc_tedq_cd8002_npc_object",
+   "script_id": 13359
+  }
  },
  "472": {
   "npcs": [],
@@ -260,15 +185,12 @@
   "tiles": []
  },
  "441": {
-  "npcs": [
-   {
-    "index": 7,
-    "script": "sc_tedq_cd572e_npc7",
-    "script_id": 9749,
-    "direction": 2
-   }
-  ],
-  "tiles": []
+  "npcs": [],
+  "tiles": [],
+  "entrance": {
+   "script": "sc_tedq_cd572e_npc_object",
+   "script_id": 12047
+  }
  },
  "443": {
   "npcs": [

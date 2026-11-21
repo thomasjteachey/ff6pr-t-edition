@@ -52,6 +52,7 @@ NAMED_SLOTS = {"orichalcum": 0x66, "elven_darts": 0x6C, "valiant_knife": 0x08, "
 KEEP_CURRENT_HP = (0x1E, 0x34, 0x6E, 0x72, 0x9D, 0xAE, 0xB2, 0xBD, 0xCD, 0xDD)   # Gravity .. Missile (T-Edition's ids)
 PERCENT_FLAG = 0x80        # Spell.flags3 (byte 4) bit 7
 FRACTION = 33              # the PR's fraction-damage function
+RAISE, RERAISE_ABILITY = 0x2D, 290   # rule 57: Reraise revives with T-Edition's Raise; the PR casts ability 290
 REVIVE = 34                # the PR's revive with HP, the same value layout (vanilla Raise 34,2,5,8 = power 2)
 DAMAGE = (2, 3)            # the PR's Physical / Magic damage functions (port_spells)
 
@@ -194,6 +195,32 @@ def percent_damage(folder, log=print):
                 table.row(rid)[col] = str(made[fs])
                 changed_tables.add(kind)
                 moved += 1
+    # rule 57: Reraise revives with T-Edition's Raise ($2D; C2/079C), the PR with ability 290 (ReraiseConditionFunction.
+    # ExecuteReraise: vanilla's Life, 1/8 of max HP): its revive function at Raise's power. (The PR's SOS Shell /
+    # Protect cast its own rows 242 / 243, T-Edition's effects already; Doom's expiry kills, as T-Edition's Kill.)
+    raise_spell = spells[RAISE]
+    r290 = current(ab, RERAISE_ABILITY)
+    gid = int(r290["battle_function_group_id"] or 0) if r290 else 0
+    f = funcs(gid) if gid else None
+    rv = [i for i, x in enumerate(f or ()) if x[0] == REVIVE and x[1] == 2 and x[2] in (2, 3, 4, 5)]
+    if rv and raise_spell.power:
+        mode, v3 = _fraction(raise_spell.power, False)
+        x = f[rv[0]]
+        if not (x[2] in (4, 5) and abs(_share(x[2], x[3]) - _share(mode, v3)) < 0.006):
+            fs = tuple(tuple([REVIVE, 2, mode, v3]) if i == rv[0] else x for i, x in enumerate(f))
+            others = [u for u in users.get(gid, []) if not (u[0] == "ability" and u[2] == RERAISE_ABILITY)]
+            if others:
+                if fs not in made:
+                    made[fs] = next_id
+                    next_id += 1
+                    write(made[fs], fs)
+                ab.row(RERAISE_ABILITY)["battle_function_group_id"] = str(made[fs])
+                changed_tables.add("ability")
+                moved += 1
+            else:
+                write(gid, fs)
+                edited += 1
+            kinds.setdefault("reraise (rule 57)", []).append(f"ability {RERAISE_ABILITY}: {x[2]}/{x[3]} -> {mode}/{v3}")
     if edited or made:
         fg.save()
         for kind, table in (("ability", ab), ("item", it)):
@@ -256,6 +283,23 @@ def main(argv):
         items.append({"slot": s.slot, "content": cid, "table": s.table, "row": s.pr_id,
                       "name": text(content[cid]["mes_id_name"]), "how": s.how,
                       "moved": (s.table, s.pr_id) != M.default_item(s.slot)})
+    # the porter's own slot table (ted_items.json: {slot: {table, id, content, name}}) wins where it exists: one
+    # source for every T-Edition slot (the second bank 256-279 included), as the port installed it
+    porter = os.path.join(MOD, "ted_items.json")
+    if os.path.exists(porter):
+        with open(porter, encoding="utf-8") as f:
+            table = json.load(f)["items"]
+        mine = {i["slot"]: i for i in items}
+        items, missing = [], []
+        for k, v in sorted(table.items(), key=lambda kv: int(kv[0])):
+            slot, cid = int(k), int(v["content"])
+            if cid not in content:
+                missing.append(slot)
+                continue
+            how = mine.get(slot, {}).get("how", "porter") if mine.get(slot, {}).get("content") == cid else "porter"
+            items.append({"slot": slot, "content": cid, "table": v["table"], "row": int(v["id"]),
+                          "name": text(content[cid]["mes_id_name"]) or v.get("name", ""), "how": how,
+                          "moved": (v["table"], int(v["id"])) != M.default_item(slot)})
 
     weapons = []
     for r in mod_csv("weapon"):

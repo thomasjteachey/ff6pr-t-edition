@@ -78,6 +78,9 @@ class PercentDamage(unittest.TestCase):
         self.assertEqual(self.fraction(110, X.REVIVE), (4, 63))      # Phoenix revives with 10/16 of max HP
         self.assertEqual(self.fraction(31, X.REVIVE), (5, 4))        # Raise, power 4
 
+    def test_reraise_revives_as_raise(self):
+        self.assertEqual(self.fraction(X.RERAISE_ABILITY, X.REVIVE), (5, 4))   # rule 57: T-Edition's Raise, power 4
+
     def test_not_percent_in_tedition(self):
         self.assertFalse(any(f[0] == X.FRACTION for f in self.funcs(186)))   # Snowball: power 58 magic
         self.assertIn((3, 1, 0, 0), self.funcs(186))

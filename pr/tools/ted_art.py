@@ -2,7 +2,7 @@
 
     python tools/ted_art.py monsters [--out data/ted_monster_images.json] [--sheet build/t-edition/art/monsters.png]
 
-Monsters (MEDIA_INVENTORY.md 2): every T-Edition monster as the SNES draws it (tools/snes_sprites_at.py, T-Edition's
+Monsters (MEDIA_INVENTORY.md 2): every T-Edition monster as the SNES draws it (tools/snes_sprites.py TEDITION layout, T-Edition's
 tables: entries CF/1A00, tiles F0/F4/F5 by monster id, palettes 41/6200; EX's bosses 512-539 from EX's own ROM by
 their EX slot) is compared with vanilla's sprites the way tools/port_sprites.py compares BNW's (classify: same /
 swap / recolor / new):
@@ -35,13 +35,28 @@ try:
     import kitpath  # noqa: F401
 except ImportError:
     pass
-import snes_sprites_at as SA  # noqa: E402
+import snes_sprites as SA  # noqa: E402  (Layout: T-Edition's moved tables)
 
 TED_ROM = os.path.join(ROOT, "..", "build", "t-edition", "T-Edition 3.0.7 (Mato).sfc")
 EX_ROM = os.path.join(ROOT, "..", "build", "t-edition", "T-Edition EX 2.0.6 (Mato).sfc")
 EXT = os.path.join(ROOT, "mods", "TEditionPort", "monster_ext.json")
 OUT = os.path.join(ROOT, "data", "ted_monster_images.json")
 ASSET_BASE = 2000
+
+
+def slot_table(rgba, table):
+    """A color table {PR rgb: new rgb} in MonsterImages' slot form (no game colors in the data): (how many distinct
+    opaque colors the source has, ["k:RRGGBB"]: the k-th of them, sorted as 0xRRGGBB, -> the new color)."""
+    colors = sorted({rgba[i] << 16 | rgba[i + 1] << 8 | rgba[i + 2] for i in range(0, len(rgba), 4) if rgba[i + 3]})
+    rank = {c: k for k, c in enumerate(colors)}
+
+    def word(c):
+        return c if isinstance(c, int) else c[0] << 16 | c[1] << 8 | c[2]
+    missing = [c for c in table if word(c) not in rank]
+    if missing:
+        raise ValueError(f"color table keys not in the source image: {missing[:3]}")
+    return len(colors), sorted((f"{rank[word(c)]}:{word(n):06x}" for c, n in table.items()),
+                               key=lambda s: int(s.split(":")[0]))
 
 
 def pr_id(e):
@@ -158,9 +173,9 @@ def monsters(out=OUT, sheet=None, log=print):
                         continue
                     key = f"{sgroup.upper()}_B{e:03d}"
                     img = pr_art.apply_table(rgba, table)
+                    n_colors, map_slots = slot_table(rgba, table)
                     images.append({"monster": e, "name": name, "key": key, "group": sgroup, "w": w, "h": h,
-                                   "from": src, "from_sha1": PS.sha1(rgba),
-                                   "map": sorted(f"{PS.hexrgb(c)}:{PS.hexrgb(n)}" for c, n in table.items()),
+                                   "from": src, "from_sha1": PS.sha1(rgba), "colors": n_colors, "map_slots": map_slots,
                                    "sha1": PS.sha1(img), "thumb": PS.recolor_thumb(src, key, table)})
                     assets.append({"monster": e, "pr_id": pr_id(e), "kind": "recolor", "asset_id": aid,
                                    "group": sgroup, "asset_name": f"b{e:03d}", "from_asset": asset_id(k)})
@@ -275,7 +290,7 @@ COSTUME_OUT = os.path.join(ROOT, "..", "build", "t-edition", "art", "costumes")
 CAST = ["Terra", "Locke", "Cyan", "Shadow", "Edgar", "Sabin", "Celes", "Strago", "Relm", "Setzer", "Mog", "Gau",
         "Gogo", "Umaro"]
 CHAMELEON = ["Leo", "Banon", "Trance Terra", "Merchant", "Ghost", "Kefka", "Gestahl", "Cid", "Daryl", "Rachel"]   # slots 16-25
-ACCESSORY_LOOKS = [("kappa", 73), ("pig", 74)]   # Kappa's Favor 0x115, Piggy's Badge 0x116: battle sheets 39/3F80, 3E/C600
+ACCESSORY_LOOKS = [("kappa", 73), ("pig", 74)]   # relics Imp's Token / Piggy's Badge: battle sheets 39/3F80, 3E/C600
 COSTUME_RANGES = [(1, range(26, 40)), (2, range(40, 54)), (3, range(54, 68)), (4, list(range(68, 73)) + list(range(76, 85)))]
 
 
@@ -384,7 +399,8 @@ def costumes(out=COSTUME_OUT, walk=False, sheet=None, log=print):
         w.art["ted"] = [{"character": "Gogo", "chameleon": form, "slot": s}]
         w.save()
         review.append((f"Gogo/{form}", {"costume": k % 5, "slot": s}, frames, {}, b"\0" * 6400))
-    # the cosmetic relics: Kappa's Favor (item 0x115) and Piggy's Badge (0x116) draw the wearer in battle as a kappa
+    # the cosmetic relics Imp's Token (ImpToken, the kappa amulet) and Piggy's Badge (PigBadge), armor.html's relics 115
+    # and 116 (Mato's scan tool calls them 0x115 "Kappa's Favor" / 0x116), draw the wearer in battle as a kappa
     # (battle slot 73) or a pig (74), statuses unchanged; one battle-only folder per character
     for acc, s in ACCESSORY_LOOKS:
         L = look(rom, s, 0)
