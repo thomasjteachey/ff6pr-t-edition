@@ -377,6 +377,18 @@ class WineOldMan(unittest.TestCase):
         ops, _ = t.instr(prog().code[(E.parse_addr("CD/D614"), "field")], False, None)
         self.assertEqual(ops[0]["operands"]["sValues"][0], "TED:status add 32 0020")
 
+    def test_random_and_gil(self):
+        # BD a (CA/CD3D: BD 4D CD 00, 50% to CA/CD4D) -> SetRandomValue [7, 2] on a map variable (as vanilla's rolls) and
+        # Branch == 1 to the target; 84 n (CB/3138: 84 D0 07) -> TED:gil 2000
+        import event_translate as T
+        t = TE._translator_class()(prog().rom, "x", alloc=T.FlagAlloc(None), prog=prog())
+        ops, _ = t.instr(prog().code[(E.parse_addr("CA/CD3D"), "field")], False, None)
+        self.assertEqual([(o["mnemonic"], o["operands"]["iValues"][:3], o["operands"]["sValues"][0]) for o in ops],
+                         [("SetRandomValue", [7, 2, 0], "MapLocalVariable"),
+                          ("Branch", [7, 1, "@L_00CD4D"], "MapLocalVariable")])
+        ops, _ = t.instr(prog().code[(E.parse_addr("CB/3138"), "field")], False, None)
+        self.assertEqual([(o["mnemonic"], o["operands"]["sValues"][0]) for o in ops], [("SysCall", "TED:gil 2000")])
+
     def test_load_safe(self):
         # inside a room's load script: fades instant, no waits (ted-8 hung on timed ColorFades there)
         import event_translate as T

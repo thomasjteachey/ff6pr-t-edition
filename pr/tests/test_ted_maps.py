@@ -42,7 +42,7 @@ class Tables(unittest.TestCase):
     def test_counts(self):
         data = ted_rom()
         self.assertEqual(len(T.used_maps(data)), 505)
-        self.assertEqual(len(T.new_maps(data)), 94)   # 93 + the reused slot 415
+        self.assertEqual(len(T.new_maps(data)), 95)   # 93 + the reused slots 415 and 5 (REUSED)
         tot = {k: sum(len(SM.map_data(data, m, T.TED)[k]) for m in T.used_maps(data))
                for k in ("npcs", "events", "exits", "chests")}
         self.assertEqual(tot, {"npcs": 2720, "events": 1695, "exits": 1482, "chests": 367})
@@ -106,7 +106,8 @@ class Build(unittest.TestCase):
         return out
 
     def test_all_built(self):
-        self.assertEqual(len(self.doc["maps"]), 94)
+        # 93 new maps (417-510 less 496) and the two vanilla slots T-Edition reuses (ted_maps.REUSED: 415, 5)
+        self.assertEqual(len(self.doc["maps"]), 93 + len(T.REUSED))
         self.assertEqual([m for m, r in self.doc["maps"].items() if not r["rooms"]], self.UNBUILT)
 
     def test_doors_lead_somewhere(self):

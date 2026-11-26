@@ -22,16 +22,20 @@ namespace TEdition.PR
         // threw KeyNotFoundException on every spell at them. Missing slots are added empty at battle start.
         internal static int SlotsFilled;
 
-        static void FillEquipSlots(BattlePlugManager bm)
+        // true once the party was there to check (ted-gate-1, 2026-11-25: on a battle's first frame the party isn't
+        // built yet, so a one-time fill checked nobody and the exception stayed: retried each frame until it's up)
+        static bool FillEquipSlots(BattlePlugManager bm)
         {
             try
             {
                 var players = bm.GetPlayerUnits();
-                if (players == null) return;
+                if (players == null) return false;
+                int seen = 0;
                 foreach (var u in players)
                 {
                     var eq = u?.TryCast<BattlePlayerData>()?.ownedCharacterData?.EquipmentData;
                     if (eq == null) continue;
+                    seen++;
                     for (int s = 1; s <= 6; s++)
                     {
                         var key = (EquipSlotType)s;
@@ -41,17 +45,20 @@ namespace TEdition.PR
                     }
                 }
                 if (SlotsFilled > 0) Hooks.NoteOnce("ted-equip-slots", () => $"[ted] {SlotsFilled} missing equipment slots added empty (the save's characters lacked them)");
+                return seen > 0;
             }
-            catch (Exception e) { Hooks.WarnOnce("ted-equip-slots", e); }
+            catch (Exception e) { Hooks.WarnOnce("ted-equip-slots", e); return true; }
         }
+
+        static bool filled;
 
         public static void Update()
         {
             if (!Plugin.TedMode) return;
             var bm = BattlePlugManager.Instance();
             bool now = bm != null && bm.IsBattle();
-            if (!now) { if (inBattle) done.Clear(); inBattle = false; return; }
-            if (!inBattle) FillEquipSlots(bm);
+            if (!now) { if (inBattle) done.Clear(); inBattle = false; filled = false; return; }
+            if (!filled) filled = FillEquipSlots(bm);
             inBattle = true;
             int curtain = Plugin.D.BySlot(LunarCurtainSlot)?.Content ?? 0;
             if (curtain <= 0) return;

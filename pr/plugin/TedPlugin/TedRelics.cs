@@ -4,6 +4,7 @@ using Last.Data;
 using Last.Data.User;
 using Last.Management;
 using PrKit;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 
 namespace TEdition.PR
 {
@@ -49,10 +50,10 @@ namespace TEdition.PR
             return false;
         }
 
-        public static bool AnyWears(OwnedCharacterData[] party, string bit)
+        public static bool AnyWears(Il2CppReferenceArray<OwnedCharacterData> party, string bit)
         {
             if (party == null) return false;
-            foreach (var c in party) if (Wears(c, bit)) return true;
+            for (int i = 0; i < party.Length; i++) if (Wears(party[i], bit)) return true;
             return false;
         }
 

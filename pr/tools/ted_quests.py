@@ -449,9 +449,12 @@ def catalog_events():
     path = os.path.join(P.ROOT, "data", "snes_event_ted_catalog.json")
     if not os.path.exists(path):
         return []
+    import ted_events
+    deny = ted_events.denylist()
     return [(r["event"], ("q_" if r.get("pub") else "e_") + r["event"].replace("/", "").lower(), r.get("pub", ""))
             for r in sorted(_json(path), key=lambda r: (r["map"], r["event"]))
             if (r.get("owner") == "ted-ex" or r["map"] in OWN_MAPS) and r["event"] not in BUILT_ELSEWHERE
+            and r["event"] not in deny   # data/ted_event_denylist.json: the vanilla NPC/scene instead (2026-11-25)
             and (r.get("pub") or r["kind"] in BATCH_KINDS or r["map"] in OWN_MAPS)]
 
 

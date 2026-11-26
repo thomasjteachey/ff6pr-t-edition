@@ -27,6 +27,9 @@ namespace TEdition.PR
             Harness.Register("tedcheck", _ => Check(), "tedcheck: the port's rows as the game has them (new weapons, item names, drops)");
             Harness.Register("tedgive", Give, "tedgive ID|sSLOT [n]: a content id (or T-Edition's item slot) into the inventory");
             Harness.Register("tedrules", _ => TedLog.Summary(), "tedrules: the T-Edition rules that have fired");
+            Harness.Register("tedtalk", TedTalk, "tedtalk <script id>: start the event of the field entity that runs that script, " +
+                "as talking to it or stepping on it does (EventProcedure.RequestEntityAction; T-Edition's wired scripts " +
+                "aren't startable by name: the field loads only what its entities name)");
             Harness.Register("tedtile", TedTiles.Harness, "tedtile [#LAYER CELL [TILEID]]: field map layers / a cell's tile / write a tile at runtime (timed; T-Edition's tile changes)");
             Harness.Register("tedequip", Equip, "tedequip <party index 0-3 | character status id 1-14 as c1..c14> <T-Edition item slot> [equip slot 1-6, default 5 (relic 1)]: give it if needed and equip it (memory only)");
             Harness.Register("teduse", Use, "teduse <T-Edition item slot> <party index 0-3>: give it if needed and use it from the menu on that member (the game's OwnedItemClient.UseFunction); stats before/after");
@@ -124,6 +127,31 @@ namespace TEdition.PR
             $"saves {(ModSaves.Tag ?? "shared")}; features {string.Join(", ", Plugin.Features.All.Where(f => f.Enabled).Select(f => f.Name))}; " +
             $"game data {(Master.Ready ? "loaded" : "not loaded yet")}; {TedEnemyAi.Summary()}; counters: {TedCounters.Summary()}";
 
+        // --- tedtalk: an entity's own event, as the player triggers it (first-release plan task 5) --------
+        static string TedTalk(string[] a)
+        {
+            if (a.Length < 1 || !int.TryParse(a[0], out int id)) return "error: tedtalk <script id>";
+            var fc = UnityEngine.Object.FindObjectOfType<global::FieldMap>()?.fieldController;
+            var ep = UnityEngine.Object.FindObjectOfType<global::MainGame>()?.eventProcedure;
+            if (fc?.entityList == null || ep == null) return "error: not on the field";
+            if (MapScripts.Busy) return "error: a script runs";
+            var mine = new List<int>();
+            foreach (var e in fc.entityList)
+            {
+                var pe = e?.Property?.TryCast<Last.Map.PropertyEvent>();
+                if (pe == null) continue;
+                if (pe.ScriptId != id)
+                {
+                    if (pe.ScriptId >= 9000 && !mine.Contains(pe.ScriptId)) mine.Add(pe.ScriptId);
+                    continue;
+                }
+                var act = ep.RequestEntityAction(e);     // what the game calls when the player talks to it / steps on it
+                return act == null ? $"error: script {id}'s entity gave no action (map {MapScripts.MapId})"
+                    : $"tedtalk: script {id} requested (entity {(e.gameObject.activeInHierarchy ? "shown" : "hidden")}, map {MapScripts.MapId})";
+            }
+            return $"error: no entity runs script {id} on map {MapScripts.MapId} (mod scripts here: {string.Join(" ", mine)})";
+        }
+
         // --- the battle result (what dropped: T-Edition's four slots, rule 1) --------------------------
         internal static int Wins;
         internal static string LastResult = "none";
@@ -142,7 +170,8 @@ namespace TEdition.PR
                         var c = Master.Get<Content>(d.ContentId);
                         parts.Add($"{(c == null ? "?" : TedData.Plain(GameText.Get(c.MesIdName)))} (content {d.ContentId}) x{d.DropValue}");
                     }
-                var party = Last.Battle.BattlePlugManager.Instance()?.MonsterParty?.Id ?? TedVictory.BattleParty;
+                int party = Last.Battle.BattlePlugManager.Instance()?.MonsterParty?.Id ?? -1;
+                if (party < 0) party = TedVictory.BattleParty >= 0 ? TedVictory.BattleParty : TedVictory.LastParty;
                 Wins++;
                 LastResult = $"party {party}: EXP {expValue}, gil {gilValue}, drops {(parts.Count == 0 ? "none" : string.Join(", ", parts))}";
                 Kit.Info($"[ted] battle result: {LastResult}");

@@ -33,6 +33,10 @@ OUT = os.path.join(P.ROOT, "mods", "TEdition")
 STAGE = os.path.join(P.ROOT, "mods", "TEditionPort")   # the porter's own output (test_mod checks it), never installed
 SIBLINGS = ["TEditionMaps", "TEditionEvents", "TEditionEX", "TEditionQuests"]   # new maps (+ their events), events on
 # vanilla maps, EX's boss room, the pub quests (ted-maps, ted-events, ted-ex; each session writes only its own folder)
+# left out of the merge, so out of tests and the player zip: the pub quests (0.1.0 "Act 1 preview", 2026-11-25: none
+# ran through its trigger yet, and talking to South Figaro's quest giver left the party unable to leave map 42)
+LEAVE_OUT = []   # (tried 2026-11-25: TEditionMaps' room load scripts call the quests' entrance scripts, so they stay)
+MERGED = [s for s in SIBLINGS if s not in LEAVE_OUT]
 
 
 def port():
@@ -329,6 +333,13 @@ def consumable_rule(folder, log=print):
     T.build()
     raw = {it.id: it.raw for it in S.items(S.Rom(T.MATO))}
     it, fg, cg = MasterRows(folder, "item"), MasterRows(folder, "function_group"), MasterRows(folder, "condition_group")
+    # the stat items' raises: the PR's function 4 takes value1 as a parameter_group id and adds each of that group's rows
+    # (parameter_id, vertical_id 1 up / 2 down, value) to the character (OwnedItemClient.IsPersistenceParameter /
+    # PersistenceParameterExecute, decompiled by the TedPlugin session: tools/decomp/ted_use, ted_use3); FF6 PR ships
+    # parameter_group empty, so each stat item gets its own group row (ted-8's teduse showed them unusable without)
+    pg = MasterRows(folder, "parameter_group")
+    for i in [i for i, r in pg.rows.items() if int(r["group_id"]) >= ITEM_FG_BASE]:
+        del pg.rows[i]
     for i in [i for i, r in cg.rows.items() if int(r["group_id"]) >= ITEM_FG_BASE]:
         del cg.rows[i]
     done, n = [], 0
@@ -350,7 +361,8 @@ def consumable_rule(folder, log=print):
             continue
         fid = ITEM_FG_BASE + n
         n += 1
-        group(fid, [(4, 1, param, 0)])
+        pg.add({"id": fid, "group_id": fid, "parameter_id": param, "vertical_id": 1, "value": amount})
+        group(fid, [(4, fid, 0, 0)])
         row.update(system_id="1", menu_renge_id="7", battle_renge_id="0", battle_function_group_id="0",
                    menu_function_group_id=str(fid), standard_value=str(amount), menu_se_asset_id="585")
         done.append(f"{slot} +{amount} param {param}")
@@ -377,7 +389,7 @@ def consumable_rule(folder, log=print):
         row.update(system_id="1", menu_function_group_id="0", menu_renge_id="0", battle_renge_id="7",
                    accuracy_rate="100", standard_value="0", battle_function_group_id=str(gid))
         done.append(f"{slot} revives (group {gid})")
-    for t in (it, fg, cg):
+    for t in (it, fg, cg, pg):
         t.save()
     log(f"T-Edition data rules: consumables: {'; '.join(done)}")
 
@@ -610,7 +622,7 @@ def merge_into(out, sources, full=False, log=print, manifest=None):
 def verify(log=print):
     """The incremental merge against a full one: mods/TEdition vs a fresh merge in mods/TEdition.verify, file by file."""
     import filecmp
-    sources = [os.path.join(P.ROOT, "mods", s) for s in SIBLINGS if os.path.isdir(os.path.join(P.ROOT, "mods", s))]
+    sources = [os.path.join(P.ROOT, "mods", s) for s in MERGED if os.path.isdir(os.path.join(P.ROOT, "mods", s))]
     real_out, fresh = OUT, OUT + ".verify"
     merge_into(fresh, sources, full=True, log=lambda *a: None, manifest=fresh + ".manifest.json")
     import magicite_merge as MM
@@ -646,7 +658,7 @@ def _build(run_port, full, log):
     import ted_music   # the song pack + bgm rules for BepInEx/TEdition/music (the TedPlugin session; not Magicite)
     ted_music.build(log=log)
     ted_music.install_player(STAGE, log=log)   # the Extras music player's 175 rows and their names (audit: never installed)
-    sources = [os.path.join(P.ROOT, "mods", s) for s in SIBLINGS if os.path.isdir(os.path.join(P.ROOT, "mods", s))]
+    sources = [os.path.join(P.ROOT, "mods", s) for s in MERGED if os.path.isdir(os.path.join(P.ROOT, "mods", s))]
     rep = merge_into(OUT, sources, full=full, log=log)
     for rel, who, what in rep.conflicts:
         log(f"  conflict: {rel} ({who}): {what}")

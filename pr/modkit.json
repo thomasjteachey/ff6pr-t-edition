@@ -16,5 +16,95 @@
     "                     runs to make them (the packager checks the plugin's DLL names it)",
     "  readme_note   extra paragraph in the package README"
   ],
-  "mods": {}
+  "mods": {
+    "tedition": {
+      "name": "TEdition",
+      "game": "ff6",
+      "title": "FINAL FANTASY VI T-Edition 3.0.7 + EX for the Pixel Remaster",
+      "version": "0.1.0",
+      "plugin": {
+        "project": "plugin/TedPlugin",
+        "files": [
+          [
+            "plugin/TedPlugin/bin/Release/net6.0/TEdition.PR.dll",
+            "TEdition.PR.dll"
+          ]
+        ],
+        "data_dir": "BepInEx/TEdition",
+        "data_files": [
+          [
+            "build/t-edition/plugin/ted_data.json",
+            "ted_data.json"
+          ],
+          [
+            "mods/TEdition/monster_ext.json",
+            "monster_ext.json"
+          ],
+          [
+            "mods/TEdition/ted_ai.json",
+            "ted_ai.json"
+          ],
+          [
+            "mods/TEdition/ted_flags.json",
+            "ted_flags.json"
+          ],
+          [
+            "mods/TEdition/ted_items.json",
+            "ted_items.json"
+          ],
+          [
+            "mods/TEdition/ted_map_sets.json",
+            "ted_map_sets.json"
+          ],
+          [
+            "mods/TEdition/ted_rewards.json",
+            "ted_rewards.json"
+          ],
+          [
+            "mods/TEdition/ted_shops.json",
+            "ted_shops.json"
+          ],
+          [
+            "mods/TEdition/ted_tile_cells.json",
+            "ted_tile_cells.json"
+          ],
+          [
+            "build/t-edition/ex/ted_ex_ai.json",
+            "ted_ex_ai.json"
+          ],
+          [
+            "data/ted_monster_images.json",
+            "ted_monster_images.json"
+          ]
+        ],
+        "dirs": [
+          [
+            "build/t-edition/music",
+            "music"
+          ],
+          [
+            "../build/t-edition/art/costumes",
+            "costumes"
+          ]
+        ]
+      },
+      "package_leave_out": [
+        "costumes/backgrounds"
+      ],
+      "magicite": "mods/TEdition",
+      "magicite_skip": [
+        "monster_ext.json",
+        "ted_ai.json",
+        "ted_flags.json",
+        "ted_items.json",
+        "ted_map_sets.json",
+        "ted_rewards.json",
+        "ted_shops.json",
+        "ted_tile_cells.json",
+        "port_report.txt"
+      ],
+      "exclusive": "ff6-game-data",
+      "readme_note": "T-Edition is a mod of its own: don't install it beside Brave New World, Worlds Collide or Beyond Chaos.\nStart a new game after installing. This is a preview: the first act is the part checked so far."
+    }
+  }
 }

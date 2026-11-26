@@ -62,6 +62,24 @@ EXTRA = [
     (0xCC, "char_rebuild", 2, "char:b", "next", "party"),
 ]
 CB_MAP_104 = E.Op(0xCB, "story_reset", 2, "v:b", "next", "flag")
+B6_GOTO = E.Op(0xB6, "choice", 4, "event:a", "choice", "flow")     # one-target B6 (TedDialect._b6_goto)
+OPENING_CHANGEMAP = (572, 1, 1)     # sc_e_0001_3's ChangeMap into sc_e_0001_4 (the PR's opening march), iValues
+
+
+def unequip_run(prog, off, mode="field"):
+    """The start of the run of consecutive 8D (char_unequip) holding `off` when that run unequips all 14 characters
+    (0-13), else None."""
+    def at(o):
+        i = prog.code.get((o, mode))
+        return i if i is not None and i.name == "char_unequip" else None
+    start = off
+    while at(start - 2) is not None:
+        start -= 2
+    chars, o = set(), start
+    while at(o) is not None:
+        chars.add(at(o).args["char"])
+        o += 2
+    return start if chars >= set(range(14)) else None
 
 
 class TedDialect(E.Dialect):
@@ -70,7 +88,19 @@ class TedDialect(E.Dialect):
     def special(self, ins, rom, ctx):
         if ins.op == 0xCB and ctx and ctx.get("map") == MAP_104:
             return CB_MAP_104
+        if ins.op == 0xB6 and self._b6_goto(rom, ins.off):
+            return B6_GOTO
         return None
+
+    @staticmethod
+    def _b6_goto(rom, off):
+        """B6 with one target (T-Edition's Beginner's House clerk, map 104 NPC 0: CC/3392 = B6 CD/4AA0 FE): the
+        engine jumps to the target of the last choice made, 0 with none, so one target is a plain jump. Only when the
+        3 bytes after the first target can't be a second one (FE FE FE there); a real choice's targets all are."""
+        b = rom.ev(off + 1, 6)
+        first = b[0] | b[1] << 8 | b[2] << 16
+        second = b[3] | b[4] << 8 | b[5] << 16
+        return rom.tables.is_code(first) and not rom.tables.is_code(second) and b[3] == 0xFE
 
 
 DIALECT = TedDialect("ted", extra=EXTRA)
@@ -329,6 +359,59 @@ def _translator_class():
                 self.report[("flow", "chest bit -> treasure flag")] += 1
                 return [T.op("Branch", i=[idx, 0, "@L_%06X" % tgt], s=[cat, T.EQ, "imm"],
                              comment="SNES 5B: chest bit %d" % (0x80 + ins.args["bit"]))], True
+            if ins.name == "story_reset":
+                # CB on map 104 (the Beginner's House clerk's New Game+, CC/E647): TedPlugin's TED:ngplus clears and sets
+                # the PR flags of ted_flags.json's ngplus_clear / ngplus_set (ngplus_flags: C0/DA9C's reset)
+                import event_translate as T
+                self.done["flag"] += 1
+                self.report[("flag", "story reset -> TED:ngplus")] += 1
+                return [T.op("SysCall", s=["TED:ngplus"], comment="SNES CB (map 104): New Game+")], True
+            if ins.name == "char_unequip":
+                # a run of 8D covering all 14 characters (New Game+: CC/E64B-E665) -> the PR's "everyone's equipment
+                # off" once, at the run's start; a partial run stays a stub (the PR has no per-character unequip)
+                run = unequip_run(self.prog, ins.off, ins.mode)
+                if run is not None:
+                    import event_translate as T
+                    self.done["party"] += 1
+                    if ins.off != run:
+                        return [], True
+                    self.report[("party", "unequip all -> 全員の装備を外す")] += 1
+                    return [T.op("SysCall", s=["全員の装備を外す"], comment="SNES 8D x14: every character unequipped")], True
+            if ins.name == "cut_magitek_march":
+                # AA (New Game+, CC/E6D1): T-Edition replays the opening (the march, then CC/9A45 = Narshe's outskirts,
+                # then bit 10B) -> set that bit's flag and go into the PR's own opening where sc_e_0001_3 does (the march
+                # with the staff roll, sc_e_0001_4, which goes on to sc_e_0001_5); the rest of the SNES script is moot
+                import event_translate as T
+                nxt = [i for o, i in sorted((k[0], v) for k, v in self.prog.code.items()
+                                            if k[1] == ins.mode and ins.off < k[0] <= ins.off + 16)]
+                out = []
+                for i in nxt:
+                    if i.name == "bit_set":
+                        cat, idx = self.flag(i.args["bit"][0])
+                        out.append(T.op("SetFlag", i=[idx], s=[cat], comment="SNES bit %03X (after the opening)" % i.args["bit"][0]))
+                self.done["cutscene"] += 1
+                self.report[("cutscene", "magitek march -> the PR's opening (sc_e_0001_4)")] += 1
+                return out + [T.op("ChangeMap", i=list(OPENING_CHANGEMAP), s=["sc_e_0001_4"],
+                                   comment="SNES AA + CC/9A45: the PR's opening, as sc_e_0001_3 goes on"),
+                              T.op("Exit")], False
+            if ins.name == "char_rebuild":
+                # CC c (T-Edition's, in the C0-CF range): rebuilds character c's record (New Game+: Terra, CC/E649)
+                return self.left(ins, "T-Edition character rebuild")
+            if ins.name == "random_jump":
+                # BD a: jump with a 50% chance -> SetRandomValue [7, 2] (1 or 2, as the PR's Cid's [2, 4] gives 1-4)
+                # and Branch == 1 right after (map-local 7: the PR has 8; nothing runs between roll and branch)
+                import event_translate as T
+                tgt = next(x for k, x in ins.targets if k == "random")
+                self.done["flow"] += 1
+                self.report[("flow", "random jump")] += 1
+                return [T.op("SetRandomValue", i=[7, 2], s=["MapLocalVariable"], comment="SNES BD: 50%"),
+                        T.op("Branch", i=[7, 1, "@L_%06X" % tgt], s=["MapLocalVariable", T.EQ, "imm"])], True
+            if ins.name == "gil_add" and ins.args.get("gil", 0) > 0:
+                # 84 n: n gil -> TedPlugin's TED:gil (the game's own AddGil; the PR's scripts have none)
+                import event_translate as T
+                self.done["item"] += 1
+                self.report[("item", "gil -> TED:gil")] += 1
+                return [T.op("SysCall", s=["TED:gil %d" % ins.args["gil"]], comment="SNES 84")], True
             if ins.name == "status_add":
                 # 89 cc ll hh: give character cc (00-0F, party slot 31-34) the statuses in byte 1 ll / byte 2 hh ->
                 # TedPlugin's TED:status add <cc> <hhll> (the game's own AddCondition); 88 stays the PR's RemoveCondition
@@ -1410,6 +1493,18 @@ def ngplus_flags(alloc):
     return {"ngplus_clear": [list(f) for f in sorted(clear)], "ngplus_set": [list(f) for f in sorted(set_)]}
 
 
+DENYLIST = os.path.join(E.P.ROOT, "data", "ted_event_denylist.json")
+
+
+def denylist(path=DENYLIST):
+    """{event "CD/5850": why}: T-Edition events left unwired, so the PR's vanilla scene plays (a translated scene on the
+    story path that doesn't end in its test; the first release's rule, 2026-11-25). No file: none."""
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as f:
+        return {k: v for k, v in json.load(f).get("events", {}).items()}
+
+
 TILE_CELLS = os.path.join(E.P.ROOT, "data", "ted_tile_cells.json")
 
 
@@ -2179,8 +2274,14 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
             if (pr_map, snes_map, n) not in created and probe.npc_entity(n) is None:
                 add_npc(pr_map, snes_map, n, dx, dy, off)
 
+    deny = denylist()
     for ev in events:
         off, snes_map, test_bits = ev["event"], ev["map"], ev.get("test_bits", ())
+        if E.fmt(off) in deny:
+            # turned off for players: the vanilla scene plays (data/ted_event_denylist.json says why)
+            report.append({"event": E.fmt(off), "script": None, "pr_map": None, "translated": {}, "stubs": {},
+                           "wired": [], "skipped": "deny-listed: " + deny[E.fmt(off)]})
+            continue
         name = ev.get("name") or "sc_ted_%s" % E.fmt(off).replace("/", "").lower()
         # engine bit 1B4 ("started with the A button"): set when the party talks to an NPC, clear on a step-on
         # tile or a room's entrance (a tile wired to an object to examine sets it per wiring, below)
@@ -2196,6 +2297,8 @@ def _build(out, events, write, T, MG, PD, snes_maps, siblings=False, prog=None, 
             rooms = [mt.pr for mt in snes_maps.pr_maps(snes_map) if mt.pr in tilemaps and map_script_name(mt.pr)
                      and (world is None or pr_world(mt.pr) in (None, world))]
             rooms = list(dict.fromkeys(rooms))
+            # a room turned off for this event alone ("<event>@<room>" in the deny-list): its vanilla entrance plays
+            rooms = [r for r in rooms if "%s@%s" % (E.fmt(off), r) not in deny]
             if start is None or not rooms:
                 report.append({"event": E.fmt(off), "script": None, "pr_map": None, "translated": {}, "stubs": {},
                                "wired": [], "skipped": "the same as vanilla's" if start is None else

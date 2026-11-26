@@ -9,13 +9,115 @@
  ],
  "map_ids": [
   644,
-  759
+  760
  ],
  "script_ids": [
   629,
-  744
+  745
  ],
  "maps": {
+  "5": {
+   "map": 5,
+   "entrance_event": "CA5EA9",
+   "tile_commands": 0,
+   "properties": "00009000130000aac80600643403010000090000000000000f0f000000001f0e00",
+   "how": "convert",
+   "group": "map_30441",
+   "like": "Map_30441_14",
+   "cells": 256,
+   "no_pr_tile": 0,
+   "guessed": 0,
+   "look": {
+    "sets": [
+     42,
+     17,
+     27,
+     0
+    ],
+    "tilesets": [
+     25,
+     26
+    ]
+   },
+   "tiers": [
+    "graphics",
+    "sets",
+    "tilesets",
+    "bg1"
+   ],
+   "rooms": [
+    {
+     "pr_map": "Map_30441_16",
+     "pr_id": 760,
+     "group": "map_30441",
+     "kind": "convert",
+     "source": "Map_30441_14",
+     "dx": 0,
+     "dy": 0,
+     "script": "sc_map_30441_16",
+     "script_id": 745
+    }
+   ],
+   "exits": [],
+   "chests": [],
+   "npcs": [
+    {
+     "index": 0,
+     "x": 0,
+     "y": 0,
+     "event": "CA5EA9",
+     "palette": 5,
+     "bg_scrolls": 0,
+     "show_bit": 255,
+     "no_face": 0,
+     "speed": 2,
+     "sprite": 10,
+     "movement": 0,
+     "layer": 0,
+     "vehicle": 0,
+     "direction": 2,
+     "const_sprite": 0,
+     "bg_layer": 0,
+     "split_sprite": 0,
+     "pr_map": "Map_30441_16",
+     "pr_id": 760,
+     "pr_x": 0,
+     "pr_y": 0
+    }
+   ],
+   "events": [],
+   "song": 0,
+   "random_battles": false,
+   "name_index": 0,
+   "pack": 0,
+   "title": null,
+   "monster_set_id": 0,
+   "bgm_id": 0,
+   "points": [
+    {
+     "pr_map": "Map_30441_16",
+     "pr_id": 760,
+     "pr_x": 8,
+     "pr_y": 7,
+     "point_id": 1,
+     "snes": [
+      8,
+      7
+     ]
+    },
+    {
+     "pr_map": "Map_30441_16",
+     "pr_id": 760,
+     "pr_x": 20,
+     "pr_y": 21,
+     "point_id": 2,
+     "snes": [
+      20,
+      21
+     ]
+    }
+   ]
+  },
   "415": {
    "map": 415,
    "entrance_event": "CA5EA9",
@@ -32145,6 +32247,18 @@
   }
  ],
  "warps": [
+  [
+   5,
+   8,
+   7,
+   3
+  ],
+  [
+   5,
+   20,
+   21,
+   2
+  ],
   [
    421,
    22,

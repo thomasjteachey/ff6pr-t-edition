@@ -34,22 +34,22 @@ stalled ("the battle doesn't end") and ted-monsters hit `KeyNotFoundException` i
 
 | Area | Rows | TESTED | PORTED | PARTIAL | MISSING | LEFT OUT |
 |---|---:|---:|---:|---:|---:|---:|
-| Mechanics/battle | 44 | 5 | 34 | 3 | 1 | 1 |
+| Mechanics/battle | 44 | 9 | 30 | 4 | 0 | 1 |
 | Items and equipment | 21 | 1 | 19 | 1 | 0 | 0 |
-| Characters/commands/espers/magic | 31 | 1 | 21 | 6 | 3 | 0 |
+| Characters/commands/espers/magic | 31 | 3 | 22 | 4 | 1 | 1 |
 | Monsters/formations/AI | 9 | 1 | 6 | 2 | 0 | 0 |
 | Maps | 9 | 2 | 5 | 2 | 0 | 0 |
-| Events/story scenes | 44 | 0 | 7 | 32 | 5 | 0 |
+| Events/story scenes | 44 | 0 | 8 | 31 | 5 | 0 |
 | Pub quests | 20 | 0 | 7 | 13 | 0 | 0 |
 | NG+/post-game | 8 | 0 | 3 | 5 | 0 | 0 |
 | Costumes/dressing room | 10 | 0 | 6 | 3 | 0 | 1 |
 | Music | 8 | 0 | 4 | 3 | 1 | 0 |
 | Graphics | 14 | 1 | 5 | 6 | 1 | 1 |
 | Menus/UI/rooms (Collection, Achievements, Track Record) | 11 | 0 | 7 | 3 | 0 | 1 |
-| Text/translation | 10 | 1 | 5 | 0 | 2 | 2 |
+| Text/translation | 10 | 1 | 7 | 0 | 0 | 2 |
 | EX | 13 | 0 | 9 | 1 | 0 | 3 |
 | Platform patches (outside the game) | 4 | 0 | 0 | 0 | 0 | 4 |
-| **All** | **256** | **12** | **138** | **80** | **13** | **13** |
+| **All** | **256** | **18** | **138** | **78** | **8** | **14** |
 
 ## 2. Weighted completion
 
@@ -58,22 +58,22 @@ as a battle rule), so this is a feature count, not the effort-weighted table in 
 
 | Area | Counted rows | Done (T + P + PARTIAL/2) | Completion |
 |---|---:|---:|---:|
-| Mechanics/battle | 43 | 40.5 | 94% |
+| Mechanics/battle | 43 | 41 | 95% |
 | Items and equipment | 21 | 20.5 | 98% |
-| Characters/commands/espers/magic | 31 | 25 | 81% |
+| Characters/commands/espers/magic | 30 | 27 | 90% |
 | Monsters/formations/AI | 9 | 8 | 89% |
 | Maps | 9 | 8 | 89% |
-| Events/story scenes | 44 | 23 | 52% |
+| Events/story scenes | 44 | 23.5 | 53% |
 | Pub quests | 20 | 13.5 | 68% |
 | NG+/post-game | 8 | 5.5 | 69% |
 | Costumes/dressing room | 9 | 7.5 | 83% |
 | Music | 8 | 5.5 | 69% |
 | Graphics | 13 | 9 | 69% |
 | Menus/UI/rooms (Collection, Achievements, Track Record) | 10 | 8.5 | 85% |
-| Text/translation | 8 | 6 | 75% |
+| Text/translation | 8 | 8 | 100% |
 | EX | 10 | 9.5 | 95% |
 | Platform patches (outside the game) | 0 | 0 | (all LEFT OUT) |
-| **All** | **243** | **190** | **78%** |
+| **All** | **242** | **195** | **81%** |
 
 Read with care: only 12 of the 244 counted rows (5%) have been seen working in game; the 92 PORTED rows are code or data
 that has never run through its real trigger. PORTING.md's own estimate (~60%, effort-weighted) is close to this count,
@@ -91,13 +91,13 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 
 | ID | Feature | Source | Status | Evidence | Work needed [owner] |
 |---|---|---|---|---|---|
-| M1 | ATB and time stop while an action plays (FF5-like) | change.html §1 "ATB System" | PORTED | `TedStatuses.cs:54-57` (spec 44: UpdateGaugeIncrease/UpdateChantTime held, status clock held); ted-7 expected "rule 44" and saw it 0 times (its battle stalled) | — |
+| M1 | ATB and time stop while an action plays (FF5-like) | change.html §1 "ATB System" | TESTED | TESTED 2026-11-25 (ted-gate-1, PC): on the kit's SnesActionFreeze now (TED's own hooks never held); log "rule 44", "action freeze: time held 1.61-2.36 s for an action"; `TedStatuses.cs:54-57` (spec 44: UpdateGaugeIncrease/UpdateChantTime held, status clock held); ted-7 expected "rule 44" and saw it 0 times (its battle stalled) | — |
 | M2 | Battle speed: monster ATB 255-4*speed, Haste 96 / Slow 32 | history (reverted note), spec 45 | PORTED | `Plugin.cs:112-119`; ted-7 log "rule 45: ATB: Haste x144, monster speed term 4" (hook installed) | — |
 | M3 | Command wait times per command (Blitz/Bushido/Lore slower, X-Magic slightly faster) | readme.html §7 FAQ; spec 46 | PORTED | `Plugin.cs:112`, `TedRules/StatusMath.cs:24` | — |
 | M4 | Accuracy/evasion bug fixed (physical uses Evade) | readme.html §6 "Evasion Bug"; change §2 "Accuracy Bug" | PORTED | spec 19 "none: the PR already uses Evade" | — |
 | M5 | Blind lowers hit rate (vanilla bug fixed) | readme.html §6 "Blind Bug"; change §2 "Blind Status" | PORTED | the PR's own: PhysicalExecution halves a blinded attacker's hit rate and skips it for 255-accuracy (never-miss) attacks (tools/decomp/physical; BnwPlugin/BlindRules.cs notes), which is T-Edition's rule 20 (vanilla's halving, now reached) | tedprobe blind in ted-8pc confirms |
 | M6 | Vanish no longer lets every spell (X-Zone) land | readme.html §6 "Vanish Magic Bug" | PORTED | spec 23 "the PR already fixed Vanish + Doom (patch 1.0.5)" | — |
-| M7 | No hit-rate change from the target's statuses | spec 21 | PORTED | `Plugin.cs:163-180`; ted-7 log "rule 21: no hit-rate change ... (both lists emptied)" (installed) | — |
+| M7 | No hit-rate change from the target's statuses | spec 21 | TESTED | TESTED 2026-11-25 (ted-gate-1/ted-battles, PC): rule 21 logged in every battle; `Plugin.cs:163-180`; ted-7 log "rule 21: no hit-rate change ... (both lists emptied)" (installed) | — |
 | M8 | Drop odds 68/20/8/4 over four drop slots | change §2 "Item Drop Rate" | PORTED | 2026-11-21 lead: verified offline that every drop slot T-Edition fills is in the port, by slot: monsters 0-383 (set_drop_slots, drop_content_id1..4) and the 104 new monsters (port_monster_ext); the in-game tedcheck's 3-4-slot count mismatch is the check's counting, not missing data | in game: what the PR does when its pick lands on an empty slot |
 | M9 | Back/pincer/side attack odds fix; Back Guard (Alarm Earring) stronger | change §2 "Back Attack/Pincer..." | PORTED | 2026-11-21 TedPlugin TedEncounters: back/pincer/side odds and Back Guard; builds, Ted.Tests 21 | test in game |
 | M10 | Pre-emptive strike chance doubled, Gale Hairpin x4 | change §2 "Pre-emptive Strike Increase" | PORTED | 2026-11-21 TedPlugin TedEncounters: Gale Hairpin pre-emptive 1 in 2 (x4), no enemy first strike | test in game |
@@ -110,8 +110,8 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | M17 | "Critical Health" element: percent spells only inflict Near Fatal; Near-Fatal-immune monsters dodge them | change §2; EX history (Gravity/Tornado change) | PORTED | percent groups as data (rule 49); TedNearFatal.cs: BattleFunction2.HitCalc postfix turns a hit of a percent spell (ted_data percent_abilities, 15) on a monster immune to Near Fatal (ted_data near_fatal_immune: byte $15 bit 1, 229 of 512) into a miss | whether the PR still misses death-immune bosses (spec 48: death immunity no longer matters): probe Gravity on a boss |
 | M18 | Percent damage: listed spells on current HP, the rest (Diabolos 3/4, Wave Cannon 9/16) on max HP | history 2.9.5/2.9.7; spec 49 | PORTED | `ted_plugin_data.percent_damage` run by `ted_build.py:88-89` | — |
 | M19 | Stop shorter than Sleep (9 steps) | change §2 "Stop Status" | PORTED | `Plugin.cs:125-127`; ted-7 log "rule 51: status clock: Stop 9 steps" (installed) | — |
-| M20 | Poison 1/8 max HP a tick, cap 999 | change §2 "Poison Status" | PORTED | `TedStatuses.cs:71-95`, `StatusMath.cs:13`; ted-7 expected "rule 50" and saw it 0 times | — |
-| M21 | Regen 1/8 (party) / 1/16 (monsters), cap 999, no Stamina | change §2 "Regen Status" | PORTED | `TedStatuses.cs:97-109`, `StatusMath.cs:14` | — |
+| M20 | Poison 1/8 max HP a tick, cap 999 | change §2 "Poison Status" | TESTED | TESTED 2026-11-25 (ted-gate-1, PC): "rule 50: Poison tick on a character: max HP/8 = 999 (the game's 624)"; `TedStatuses.cs:71-95`, `StatusMath.cs:13`; ted-7 expected "rule 50" and saw it 0 times | — |
+| M21 | Regen 1/8 (party) / 1/16 (monsters), cap 999, no Stamina | change §2 "Regen Status" | TESTED | TESTED 2026-11-25 (ted-gate-1, PC): "rule 50: Regen tick on a character: max HP/8 = 999 (the game's 255)"; `TedStatuses.cs:97-109`, `StatusMath.cs:14` | — |
 | M22 | Sap renamed Disease, drains MP | change §2 "Disease Status" | PORTED | `TedStatuses.cs:111-125` (MP/16 per the code; docs say 1/8) | — |
 | M23 | Critical hit rate 8% | change §2 "Critical Hit Rate" | PORTED | `profile_tedition.py:625`, `ted_build.py:48-74` | — |
 | M24 | Espers summonable any number of times | change §2 "Summoning Eidolons" | PORTED | `TedStatuses.cs:52-53` (spec 55); MP costs are esper data (C9) | — |
@@ -129,7 +129,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | M36 | Bonus vs flying: darts/cards x2 vs Float under Fight | change §4 "Extra Damage to Flying Monsters"; 3.0.0 | PORTED | `TedDamage.cs:51-71` (spec 16) | — |
 | M37 | Image lost on half of dodges | spec 22 | PORTED | `profile_tedition.py:611` | — |
 | M38 | Golem/Interceptor blocker defense 119 | spec 11 | PORTED | TedBlocker.cs: T-Edition C2/0CD0-0CD8 (either block flag -> defense #$78 = 119); the PR's PhysicalExecution (tools/decomp/physical) only logs 192 and uses the target's ConfirmedDefense, moving a Golem block into the pool inside: a prefix marks the blocked target (isDefendInvoked/isDefencedGolem) and PlayerCharacterParameter.ConfirmedDefense answers 119 for it during that calculation | see 'rule 11' with a Golem block in game |
-| M39 | New multi-hit spell effects (Tiger Rush 3 hits, Meteor 2-4, 8-hit effect) | change §3 Sabin; EX history (Meteor); spec 26 | MISSING | no data or code found for effects $14/$46/$47 | hit counts as ability data where the PR has the shape, else a hook [lead] |
+| M39 | New multi-hit spell effects (Tiger Rush 3 hits, Meteor 2-4, 8-hit effect) | change §3 Sabin; EX history (Meteor); spec 26 | PARTIAL | Tiger Rush (effect $14, 3 hits): ted_plugin_data.multi_hit_rule gives ability 138 the PR's multi-hit shape (Flurry's: function 2 value1 2 value2 3, range 13 random enemy) at power 69; effects $46/$47 are used by no 3.0.7 spell | Meteor (spell $23, PR 75; effect $4E -> 47/1823: 2 hits, +1 if rand<84, +1 more if rand<36 = 2/3/4 hits at 67/19/14%): the PR's shape takes a fixed count, so a hook that varies it per cast [TedPlugin] |
 | M40 | Coliseum fights under the player's control | change §1 "Coliseum Battles" | PARTIAL | `TedStatuses.cs:40-47`, but behind `[Battle] ColiseumControl` default false (`Plugin.cs:63-64`) | test in game, then default on [TedPlugin] |
 | M41 | Steal: (Lv+70-target Lv)/99, rare 1/4 | change §4 "Steal" | TESTED | `TedCommands.cs:95-125`; ted-7 "tedsteal: 264/400 stolen (66.0%), T-Edition's chance 68% ... ok" | — |
 | M42 | Gil Toss: Lv x180 gil, Lv x90 to every target; monsters' own rule | change §4 "Gil Toss"; EX history | PORTED | characters: TedCommands.cs Gil Toss cost (Lv x180, once per act) + TedDamage rule 29 (Lv x90 each, no split); monsters: TedDamage rule 29 'monster Gil Toss' (GIL_THROW by an enemy: min(Lv x180, its gil) / 2 / targets via CommandMath.MonsterGilToss) | see both in game (log 'rule 29') |
@@ -147,7 +147,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | I5 | Relic effects T-Edition re-coded (relic bits) | armor.html; history ("changed the address of the effect setting") | PORTED | 2026-11-21 TedPlugin TedRelics + ted_data relic_bits (9.0/9.1 +25%, 11.7 +50%, 11.0, 11.2 Sketch up, 12.2 Blade Grasp as +20 evasion, 12.7 multi-jump, 13.5, 13.6, 13.2, 12.0); profile relic_bit_funcs 9.2 HP+25%, 9.3 HP+50%, 12.0 as PR wear functions | test in game |
 | I6 | Relic command swaps: Zeidrich (Shock), Maiden's Prayer (Pray), Embroidered Tippet (Spirit), Pheasant Strap (Animal), Gem Box, Dragon Horn, Thief, Heiji's Jitte | change §3 Terra/Celes/Relm/Mog; spec 31 | PORTED | `profile_tedition.py:630-637`; `ted_build.py:221-239` (Pray casts Sunbath, Spirit Bless, Animal random) | — |
 | I7 | Sprint Shoes and Fake Mustache removed (hold B to dash) | change §1 "Movement Speed"; §3 Relm | PORTED | neither in `mods/TEditionPort/ted_items.json`; the PR dashes by itself | — |
-| I8 | Stat Tabs, Golden Apple, Soma Drop raise stats | 3.0.0 "Tab items"; Quick Advice | PORTED | `ted_build.py:276-319` (layout "inferred, not seen: check one Tab in game") | — |
+| I8 | Stat Tabs, Golden Apple, Soma Drop raise stats | 3.0.0 "Tab items"; Quick Advice | PORTED | `ted_build.py` consumable_rule: each stat item gets its own parameter_group row and function 4 points at it (the PR's IsPersistenceParameter reads value1 as a parameter_group id; TedPlugin's decompile, 11-21). ted-8's teduse had 241/244 unusable before this fix; check queued in ted-8c | in-game: teduse in ted-8c |
 | I9 | Combined cure items; Reincarnation | 3.0.0 "Added and combined status recovery items" | PORTED | `ted_build.py:277-342` | — |
 | I10 | Orichalcum: power from steal count, shown in the item screen | change §3 Locke | PORTED | `TedCommands.cs:251-282` (spec 28, menu value via ConfirmedAttack); ted-7 only gave one ("gave 1 x Orichalcum") | — |
 | I11 | Ultima (Atma) Weapon on Stamina, not Level | change §5 "Ultima Weapon" | PORTED | `DamageSteps.cs:190-196` (spec 17) | — |
@@ -177,26 +177,26 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | C9 | Esper data: spells taught, MP costs, new espers (Titan, Odin, Leviathan, Asura, Bahamut, Diabolos, Ultima, ...) | change §2 "Summoning Eidolons"; Mato README | PORTED | port_report "learning: 177 rows changed (60 esper spells)"; docs/tedition.md:35 "espers (27, 181 learning rows)" | — |
 | C10 | Trance: x1.5 damage, magic taken x2/3 | change §3 Terra | TESTED | teddamage "Fight by a Morphed character ... [40] ok" and "monster Fire on a Morphed character ... [10] ok" | — |
 | C11 | Cyan: Bushido effects/accuracy (Tiger = MaxHP-HP; Snow/Moon/Flower) | change §3 Cyan | PORTED | 2026-11-21 lead: Bushido named from Mato's own SWDTCH NAMES table (55/A990: Fang, Sky, Tiger, Dance, Dragon, Snow, Moon, Flower, the menu's Tachi prefix dropped as the PR's names have none); the spell table's leftover at slot 85 (Joker Doom) no longer renames Fang; Mato's Bushido descriptions (T4); effects through the spell data | test in game |
-| C12 | Cyan: Bushido gauge fills faster | change §3 Cyan | MISSING | the PR's Bushido has no filling gauge: the level is picked, then Cyan charges (the Accumulate condition, ConditionType 421); T-Edition's faster gauge (C1, not located) has no direct counterpart | lead's call: shorten the PR's charge time by T-Edition's factor once found in C1, or LEFT OUT [TedPlugin] |
+| C12 | Cyan: Bushido gauge fills faster | change §3 Cyan | LEFT OUT | the PR's Bushido has no filling gauge: the level is picked first, then Cyan charges (the Accumulate condition, ConditionType 421); T-Edition's faster SNES gauge (C1 menu code, not located in a bank-C1 diff against the JP ROM) has no counterpart to port |  |
 | C13 | Shadow: Interceptor blocks 2/3, one fixed counter (Twin Fang) | change §3 Shadow | PORTED | `TedCommands.cs:284-313` (spec 38) | — |
-| C14 | Shadow never leaves at random | change §3 Shadow | PORTED | `TedVictory.cs:118-128` (spec 58) | — |
+| C14 | Shadow never leaves at random | change §3 Shadow | TESTED | TESTED 2026-11-25 (ted-battles, PC): "rule 58: Shadow's after-battle draw: he stays" after every won battle; `TedVictory.cs:118-128` (spec 58) | — |
 | C15 | Shadow: ninja swords dual-wield, scroll changes, Throw without its built-in x2 | change §3 Shadow; spec 42 | PARTIAL | swords/scrolls through the item data; Throw: T-Edition's C2/1888 stores $BD = 0 (vanilla 2); the PR's PhysicalExecution (tools/decomp/physical, ability type 609 Throw) takes the thrown item's ability UseValue as attack and has no x2 step for Throw | compare a Throw's damage with the thrown weapon's attack in game (tedcast); hook only if the PR doubles somewhere else [TedPlugin] |
 | C16 | Edgar: Tools changed (Particle Bomb new, Debilitator gone, Air Anchor inflicts Heat, single/all target) | change §3 Edgar | PARTIAL | port_report "tools: 7 tool items changed (power/hit only)"; Particle Bomb in `ted_items.json` slot 167 | Air Anchor's Heat and targeting [lead] |
-| C17 | Sabin: Blitz changes (Tiger Rush, Phantom Rush physical, Chakra cures Poison) | change §3 Sabin | PARTIAL | names MSG_MAGIC_NAME_115/116; port_report "physical spells: 10 damage functions switched"; Tiger Rush's 3 hits = M39 | see M39 [lead] |
+| C17 | Sabin: Blitz changes (Tiger Rush, Phantom Rush physical, Chakra cures Poison) | change §3 Sabin | PORTED | names MSG_MAGIC_NAME_115/116; Phantom Rush physical (fg 2022 function 2); Chakra cures (fg 2020: function 23 + condition group 2010); Tiger Rush: the porter had read T-Edition's effect $14 as vanilla's Spiraler (power 9999, the user's life for the party's HP); multi_hit_rule makes it 3 random physical hits at power 69 (M39) | use the Blitzes in game |
 | C18 | Celes: Runic speed changed | change §3 Celes | MISSING | spec 62 "not located" | locate and port [TedPlugin] |
 | C19 | Strago: Lores replaced (Mind Blast, Magic Hammer, Ancient Prayer) and retuned | change §3 Strago | PORTED | MSG_MAGIC_NAME_119/135/137 in the port's text | — |
 | C20 | Relm: Sketch with Relm's stats, 75% move / 25% Wishing Star, works without a brush, brushes raise odds | change §3 Relm | PARTIAL | sketch table as data (port_report: sketch 349 monsters; 75% the monster's move / 25% Wishing Star); hit odds: TedRelics.Sketch_Postfix + RandPlus_Postfix answer the PR's roll (UniqueUpdateParameterProvider.HitCalc: rand(100) < (its Lv-difference threshold), tools/decomp/gilthrow) with T-Edition's min(1, Relm Lv / target Lv), target Lv x170/256 with an Enhanced Sketch item (bit 11.2) | sketched attacks with Relm's Mag.Pwr / battle power (spec 30: C2/6710, CE/0000): check the PR in game |
 | C21 | Relm: Control removed | change §3 Relm; spec 32 | PORTED | `ted_build.py:221-239` (command slot 19 is Snowstorm) | — |
 | C22 | Setzer: Slots retuned; Mysidian Bunny Lv x power, not split | change §3 Setzer | PORTED | `TedDamage.cs:198-213` (spec 37); teddamage flags "Mysidian Rabbit ... (CHECK: the game's split isn't 1/n)" | — |
-| C23 | Mog: Dance always works, one dance per turn | change §3 Mog | PARTIAL | one dance per command: `TedCommands.cs:55-56, 183-197`; the PR's 50% stumble off-terrain stays (`tools/port_dances.py:5`, no `dance_rules` in `profile_tedition.py`) | no-stumble dance groups (a dance_rules mode) [lead] |
+| C23 | Mog: Dance always works, one dance per turn | change §3 Mog | PORTED | one dance per command: TedCommands; always works: ted_plugin_data.dance_rule (data_rules) sets the off-background groups 37-44 to the native odds with the stumble (ability 262) at 0 (40 rows; the porter and profile untouched) | dance off its own background in game |
 | C24 | Gau: Fight instead of Leap (ends the Shadow/Leap crash) | change §3 Gau; readme.html §6 | PORTED | `ted_build.py:224` (Leap slot = Animal); spec 63 | — |
 | C25 | Gau learns Rages from any won battle | change §3 Gau | PORTED | `TedVictory.cs:12-15, 65-80` (spec 34) | — |
-| C26 | Gau equips weapons (Rages keep his weapon) | change §3 Gau; Readme A7 | PARTIAL | equip lists in job_group (port_report); Rage animations with his own weapon not handled | Rage weapon graphic [TedPlugin] |
+| C26 | Gau equips weapons (Rages keep his weapon) | change §3 Gau; Readme A7 | PARTIAL | equip lists in job_group (port_report); Rage animations with his own weapon not handled | art/sound: needs the art owner (ted-maps) or LEFT OUT [lead decides] |
 | C27 | Gogo and Umaro equip espers and learn magic | change §3; 3.0.0 | PORTED | `TedMagicite.cs:8-66`; ted-7 log "rule 35: ... 3 checks hooked" | — |
 | C28 | Umaro controllable, Snowstorm command, Berserker Ring / Power Belt procs on Fight | change §3 Umaro | PORTED | 2026-11-21: TedPlugin TedUmaro (player commands; T-Edition's Fight table: Charge/Rampage/Throw Ally); ted_build umaro_rule (Attack, Snowstorm, Magic, Items; no initial Umalo); ted_plugin_data rampage_rule (ability 9903, power 96, physical, all enemies) | test in game |
-| C29 | Magitek: six options for every character | change §3 "Character Overview"; spec 61 | PORTED | 2026-11-21 TedPlugin: every character has T-Edition's six Magitek options (PR 220-225) | test in game |
+| C29 | Magitek: six options for every character | change §3 "Character Overview"; spec 61 | TESTED | TESTED 2026-11-25 (ted-gate-1, PC): "rule 61: Magitek for everyone: T-Edition's six (220-225)"; 2026-11-21 TedPlugin: every character has T-Edition's six Magitek options (PR 220-225) | test in game |
 | C30 | Veldt holds formations up to 511 | change §2 "Registering Monster Formations to the Veldt" | PORTED | `profile_tedition.py:623`; port_report "veldt: 511 formations in 64 groups" | — |
-| C31 | Dispel and Vanish usable outside battle | history ("You can now use Dispel and Vanish in the field") | MISSING | the spell porter keeps the template's field use (`port_spells.py:236-237`) | menu use for the two spells [lead] |
+| C31 | Dispel and Vanish usable outside battle | history ("You can now use Dispel and Vanish in the field") | PORTED | ted_plugin_data.field_spells_rule (data_rules): a spell is menu-usable with a menu function group and range; the port's Dispel row (ability 55) already has them (group 468, range 7); Vanish (ability 33) gets its battle group 463 and range | use both from the field menu in game |
 
 ### Monsters/formations/AI
 
@@ -239,7 +239,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | E7 | New Kefka battle on the Floating Continent | readme.html §7; Mato README | MISSING | no wired event found (CA/5A0C, map 10, unscripted) | find and wire [ted-events] |
 | E8 | Shadow always gets off the Floating Continent | change §3 Shadow | MISSING | not located in the catalog | [ted-events] |
 | E9 | WoR Figaro cave: collapsed soldier heals for free | readme.html §7 | MISSING | not located | [ted-events] |
-| E10 | Water's Harmony learnable in the WoR | change §3 Mog | PARTIAL | Underwater Cave (map 481) events scripted (69 commands); the lead-status tests translate through TED:leadstatus (11-21) | logic stubs: 6 status_add [ted-events]; test in game |
+| E10 | Water's Harmony learnable in the WoR | change §3 Mog | PORTED | Underwater Cave (map 481) events scripted (69 commands), no stubs: lead-status tests via TED:leadstatus, status changes via TED:status add (11-21) | test in game |
 | E11 | Final battle: Gogo/Umaro lines, party select | history | PARTIAL | map 12: CA/3F2B/3F3B/3F73 scripted, CA/3F13, CD/15E0 not | [ted-events] |
 | E12 | New merchants (Phantom Train ghost, Doma, Esper Village, Mobliz, Fanatics' Tower, Narshe WoR) | history 3.0.0 and earlier | PARTIAL | `TedSysCalls.cs:47-58` TED:shop; used in 59 script files of mods/TEdition; not run | play one shop [ted-events] |
 | E13 | Beginner's House tutors rewritten, advanced-info NPC | readme translation; history | PARTIAL | maps 104-107 talk events scripted with 0 stubs; CD/4C79, CD/4B62 not | [ted-events] |
@@ -339,7 +339,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | S5 | Songs and jingles in events | bgm.html | PARTIAL | translator emits bgm 1000+n; stubs left in mods/TEdition: `SNES:song_ctrl` 19, `SNES:song` 9, `SNES:sound_wait` 20 | [ted-events] |
 | S6 | Music Player in Config > Sound (GBA-style), its 277 entries | change §1 "Music Player" | PORTED | 2026-11-21 ted_build calls ted_music.install_player: 175 Extras player rows (ids 159-333) and their names in 12 languages | test in game |
 | S7 | Developer's Room music room: extra songs, patrons who comment on the song playing | Mato README | PARTIAL | TED:song [var] and TED:cmp 1300 give the song playing (pack slot, or a vanilla track's SNES song via ted_music.json pr_songs); the patrons' events are ted-events' | wire the Developer's Room patrons (ted-events) |
-| S8 | Battle sound effects changed (FF5 Bio, whip, Time magic) | EX history | MISSING | no battle SE work found (`data/ted_se_ties.json` is field events only) | [TedPlugin] |
+| S8 | Battle sound effects changed (FF5 Bio, whip, Time magic) | EX history | MISSING | no battle SE work found (`data/ted_se_ties.json` is field events only) | art/sound: needs the art owner (ted-maps) or LEFT OUT [lead decides] |
 
 ### Graphics
 
@@ -355,7 +355,7 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | G8 | New and edited battle backgrounds (Crystal Room, Phoenix Cave fire, WoR variants ...) | background.html; 3.0.0 | PARTIAL | T-Ed's bg table (26F800, 6 B) + palettes (26FC00) decoded (tools/ted_battle_bgs.py): of 0-57, entries 4/10/43/49/56 are recolours, served as ArtSwap sprites at BG_FF6_05/11/44/50/57 from costumes/default (PR painting recoloured in Lab from vanilla to T-Ed palette); 5/42/45 need nothing. SNES battle-bg format solved, renderer matches the game (notes: ted-bg-new-design.md). In-game probe: QA ted-maps-5 | after ted-maps-5 proves ArtSwap reaches battle bgs: new entries 64-78 (14, on ~66 maps; recolours of vanilla graphics, 64/66/73/74 unchanged vanilla looks) as new PR groups bg_ff6_65+ (lead: battle_background_asset rows + porter map) [ted-maps]; 80 (new graphics, Fanatics'/Mirage Tower) with a known gap, stand-in: SNES render (softened 2x; painted art only from an artist later) |
 | G9 | Collection Room paintings | Mato README "Collection Room"; history | PARTIAL | the Collection Room's paintings (map 469) are NPC sprites 191/195/198-202/213/214, not tiles; each gets T-Edition's own drawing via the G6 NPC art (ted_npc_looks 'ted art': new groups mo_ted_s191..s214, mo_ff6_n048_c05 for 195; frames in costumes/default/ted_npc_NNN.png) | see them in game: the paintings show once their EX boss bits are set (X8's play test, ted-ex); the group serving is proved by ted-10's mo_ted_s192 probe |
 | G10 | Animations for new/changed spells (Blink, Flood, Comet, Toad, Holy's new graphic ...) | change §2 "Magic"; 3.0.0 | PARTIAL | port_report "spells using their own slot's look (no name match): 10:Toad, 19:Flood, 20:Scourge, ... 32:Comet, 50:Blink ..." | pick PR effects per spell [lead] |
-| G11 | Casting motions (White, Summon), Time magic animation and sound, Trance casting, Cyan's battle entry | change §2 "Magic Casting Motions"; §3 | MISSING | no code | [TedPlugin] |
+| G11 | Casting motions (White, Summon), Time magic animation and sound, Trance casting, Cyan's battle entry | change §2 "Magic Casting Motions"; §3 | MISSING | no code | art/sound: needs the art owner (ted-maps) or LEFT OUT [lead decides] |
 | G12 | MP damage in pink, MP healing in blue | change §2 "MP Damage/Recovery Display" | PORTED | 2026-11-21 TedPlugin: MP numbers in T-Edition's colours (kit SnesMpNumbers, reviewed) | test in game |
 | G13 | Window types 2-8 after other Square games | change §1 "Window Type"; windowtype.html | LEFT OUT | the PR draws its own windows: T-Edition's SNES window types (after other Square games) have no counterpart; the PR's own window options stay (lead, 2026-11-21) |  |
 | G14 | Weapon and item icons/battle sprites changed | EX history | PARTIAL | item identity: new rows take a template item's look (port_report "48 rows took their template's look") | [bc-sprites] |
@@ -385,8 +385,8 @@ brackets. `C2/xxxx`-style rule numbers refer to `pr/ted/BATTLE_SPEC.md`'s rule t
 | T3 | Spell and Lore descriptions (19 characters) | change §1 "Magic Skill Description" | PORTED | MSG_MAG_INF rows (63) | — |
 | T4 | Blitz, Bushido, esper and Rage descriptions (Rage menu shows the attack) | change §3 Gau; EX history | PORTED | 2026-11-21 lead: profile_tedition DESC_TABLES espers CF/FE40, blitz CF/FF9E, bushido CF/FFAE -> extra_messages ("descriptions: Mato's on 27 espers, 8 bushido, 8 blitz"); rage_descriptions() -> port_dances names 252 Rages' attacks | test in game |
 | T5 | Mato's dialogue in new and changed scenes | Mato README FAQ | TESTED | maps-2: "Hummingway: Want to hear music not in the Music Player?" with Yes!/No! (`shots/maps2/sc_tedm_03FAA5_1.png`); Namingway (`sc_tedm_037370_1.png`) | coverage follows the event rows |
-| T6 | Element names Fire / Earth / Darkness / Light | change §1 "Attribute Names" | MISSING | no rename found in the port's text or tools | [lead] |
-| T7 | Job titles (Mog "Moogle Knight", others) | change §3 Mog; EX history | MISSING | not in the port's text | [lead] |
+| T6 | Element names Fire / Earth / Darkness / Light | change §1 "Attribute Names" | PORTED | ted_plugin_data.element_names_rule (data_rules): MSG_SYSTEM_377 Poison -> Darkness, MSG_SYSTEM_375 Holy -> Light (the element keys; the Poison status keeps MSG_SYSTEM_112); English Fire / Earth were already right; English only |  |
+| T7 | Job titles (Mog "Moogle Knight", others) | change §3 Mog; EX history | PORTED | MSG_JOB_NAME_11 Moogle -> Moogle Knight (ted_plugin_data JOB_TITLES); costume titles (D7) restore this base |  |
 | T8 | Monster battle lines and battle messages | (AI F3) | PORTED | Mato's battle lines from its moved table (CF/E000, text bank 55; tools/ted_dialog.BattleMessages) as story_mes TED_BTL_<n>_<line>: profile_tedition battle_messages + battle_lines (port_ai's new profile hook); port_report: 211 lines, only message 62 (empty in the ROM) without one; test_mod OK on TEditionPort | see a line in a fight (Ultros 474) |
 | T9 | English Lua translation layer | Lua readme | LEFT OUT | emulator-only (snes9x-rr Lua); the port uses Mato's text | — |
 | T10 | Added kanji and fonts | change §1 "Additional Kanji" | LEFT OUT | Japanese ROM font; the PR has its own fonts | — |

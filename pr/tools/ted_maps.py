@@ -131,11 +131,13 @@ def used_maps(data):
     return [m for m in range(TED.maps) if any(data[TED.props + 33 * m:TED.props + 33 * m + 33])]
 
 
-REUSED = (415,)   # vanilla's unused slot 415 (garbage properties in the JP/US ROMs) is a T-Edition map
+REUSED = (415,    # vanilla's unused slot 415 (garbage properties in the JP/US ROMs) is a T-Edition map
+          5)      # vanilla's blank 16x16 stage (one NPC; the PR has no room for it): T-Edition's scenes play on it
+                  # (the dressing room's outfit talk CD/5A39 and CD/7EEB, ted-ex's CC/E55C x7), so it's built as a room
 
 
 def new_maps(data):
-    """The maps T-Edition added (416-510), and the vanilla slot it reused (415)."""
+    """The maps T-Edition added (416-510), and the vanilla slots it reuses (REUSED: 415, 5)."""
     return [m for m in used_maps(data) if m >= VANILLA_MAPS or m in REUSED]
 
 

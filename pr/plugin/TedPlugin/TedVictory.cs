@@ -32,10 +32,20 @@ namespace TEdition.PR
             var lot = AccessTools.Method(typeof(Last.Interpreter.Instructions.SystemCall.Current), "LotSecedeShadow");
             if (lot != null) h.Patch(lot, prefix: new HarmonyMethod(typeof(TedVictory), nameof(LotSecedeShadow_Prefix)));
             else Kit.Warn("[ted] no Current.LotSecedeShadow: Shadow may leave after a battle");
+            // the party a battle is made from (InstantiateManager.Create's first argument, as the kit's AI host reads
+            // it): a battle an event or the harness starts (EncountBoss) has MonsterParty.Id -1 all through
+            var create = AccessTools.Method(typeof(InstantiateManager), "Create");
+            if (create != null) h.Patch(create, postfix: new HarmonyMethod(typeof(TedVictory), nameof(Create_Postfix)));
+        }
+
+        public static void Create_Postfix(int __0)
+        {
+            if (__0 >= 0) BattleParty = __0;
         }
 
         // the battle under way (the formation is gone by the time the result is built: BNW's BattleRewards)
         internal static int BattleParty = -1;
+        internal static int LastParty = -1;     // the battle that just ended (BattleParty is reset at its result)
         internal static bool GauFought;
 
         public override void Update()
@@ -43,7 +53,10 @@ namespace TEdition.PR
             if (!On) return;
             var battle = BattlePlugManager.Instance();
             if (battle == null || !battle.IsBattle()) return;
-            BattleParty = battle.MonsterParty?.Id ?? BattleParty;
+            // (ted-gate-1, 2026-11-25: the party's Id reads -1 once the battle is won, so the rages and the result
+            //  line lost the party: keep the last real one)
+            int id = battle.MonsterParty?.Id ?? -1;
+            if (id >= 0) BattleParty = id;
             var players = battle.GetPlayerUnits();
             bool gau = false;
             if (players != null)
@@ -57,6 +70,7 @@ namespace TEdition.PR
             if (!On || !Hooks.IsA<Last.Systems.BattleResultProvider>(__instance)) return;
             try { LastRages = LearnRages(BattleParty, GauFought); }
             catch (Exception e) { Hooks.WarnOnce("TedVictory.Rages", e); }
+            LastParty = BattleParty;
             BattleParty = -1;
             GauFought = false;
         }

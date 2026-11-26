@@ -7,7 +7,7 @@ using Last.Systems;
 using PrKit;
 using TEdition.Rules;
 using UnityEngine;
-using ActState = Last.Battle.BattleActExection.ActState;
+using PrKit.Ff6;
 
 namespace TEdition.PR
 {
@@ -51,9 +51,13 @@ namespace TEdition.PR
             Hooks.Patch(h, typeof(BattleFunction13), "GetAbsorptionValues", typeof(TedStatuses), postfix: nameof(Absorb_Postfix));
             Hooks.Patch(h, typeof(BattlePlugManager), "MemorizeUsedMagicStoneAbility", typeof(TedStatuses), prefix: nameof(Memorize_Prefix));
             Hooks.Patch(h, typeof(BattlePlugManager), "IsUsedMagicStoneAbilityInBattle", typeof(TedStatuses), postfix: nameof(IsUsed_Postfix));
-            Hooks.Patch(h, typeof(BattleProgressATB), "UpdateGaugeIncrease", typeof(TedStatuses), prefix: nameof(Time_Prefix));
-            Hooks.Patch(h, typeof(BattleProgressATB), "UpdateChantTime", typeof(TedStatuses), prefix: nameof(Time_Prefix));
-            // before the kit's own prefix on the same method (registered later in Plugin.Load): the status clock holds
+            // 44 on the kit's action freeze (BNW's nATB: the gauge, chants, the status timers and the status clock;
+            // ted-gate-1, 2026-11-25: TED's own hooks never held: the FF6 update doesn't call UpdateGaugeIncrease and
+            // the game never writes BattleActExection.nowState)
+            SnesActionFreeze.Tag = "[ted]";
+            SnesActionFreeze.On = () => On;
+            SnesActionFreeze.WhileTurnUp = () => false;
+            SnesActionFreeze.Patch(h);
             Hooks.Patch(h, typeof(BattleConditionController), "Update", typeof(TedStatuses), prefix: nameof(Clock_Prefix));
         }
 
@@ -181,66 +185,29 @@ namespace TEdition.PR
         }
 
         // --- 44: time stops while an action plays -------------------------------------------------------------
+        // The holding itself is the kit's SnesActionFreeze (patched in Apply); this logs the rule and counts.
 
-        static float frozenSince = -1f;
-        static bool gaveUp;
         internal static int FrozenFrames;
-        internal static float LongestFreeze;
-
-        static bool Animating()
-        {
-            var ex = BattlePlugManager.Instance()?.BattleActExection;
-            if (ex == null) return false;
-            var s = ex.nowState;
-            return s == ActState.InPrepare || s == ActState.InAction || s == ActState.InAfterAction ||
-                   s == ActState.CounterAct || s == ActState.CounterAI;
-        }
-
         static int lastFrame = -1;
-        static bool frozenThisFrame;
 
         static bool Frozen()
         {
             int f = Time.frameCount;
-            if (f == lastFrame) return frozenThisFrame;
+            if (f == lastFrame || !On) return false;
             lastFrame = f;
-            frozenThisFrame = false;
-            if (!On || gaveUp) return false;
             try
             {
-                float now = Time.unscaledTime;
-                if (!Animating())
-                {
-                    if (frozenSince >= 0f) LongestFreeze = Math.Max(LongestFreeze, now - frozenSince);
-                    frozenSince = -1f;
-                    return false;
-                }
-                if (frozenSince < 0f)
-                {
-                    frozenSince = now;
+                if (!SnesActionFreeze.Held()) return false;
+                if (FrozenFrames++ == 0)
                     TedLog.Rule(44, "", () => "time stops while an action plays (ATB, chanting, the status clock)");
-                }
-                else if (now - frozenSince > 15f)
-                {
-                    gaveUp = true;
-                    Kit.Warn($"[ted] an action state lasted {now - frozenSince:0} s: time no longer stops for actions this session");
-                    return false;
-                }
-                FrozenFrames++;
-                frozenThisFrame = true;
-                AppDomain.CurrentDomain.SetData("pr.battle.timeHeldFrame", f);   // PrKit SnesStatusTicks holds its clock
                 return true;
             }
             catch (Exception e)
             {
-                gaveUp = true;
                 Hooks.WarnOnce("TedStatuses.Freeze", e);
                 return false;
             }
         }
-
-        // false = skip the game's update this frame (time stopped)
-        public static bool Time_Prefix() => !Frozen();
 
         public static void Clock_Prefix() => Frozen();
     }

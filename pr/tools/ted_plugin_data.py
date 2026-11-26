@@ -102,6 +102,123 @@ def data_rules(folder, log=print):
     rampage_rule(folder, log)
     percent_damage(folder, log)
     chest_rule(folder, log)
+    element_names_rule(folder, log)
+    field_spells_rule(folder, log)
+    dance_rule(folder, log)
+    multi_hit_rule(folder, log)
+
+
+# audit T6 (change.html §1 "Attribute Names": Flame -> Fire, Land -> Earth, Poison -> Darkness, Holy -> Light): the PR's
+# element names (MSG_SYSTEM_373-380; the Poison status is MSG_SYSTEM_112, its own key); English already says Fire / Earth
+ELEMENT_NAMES = {"MSG_SYSTEM_377": "Darkness", "MSG_SYSTEM_375": "Light"}
+# audit T7 (change.html §3 Mog: "Moogle" -> "Moogle Knight"): his job title's key (MSG_JOB_NAME_11; TedCostumes reads the
+# base title from the text when a costume changes it, so costume 0 gives this back)
+JOB_TITLES = {"MSG_JOB_NAME_11": "Moogle Knight"}
+
+
+# audit C31 (history: "You can now use Dispel and Vanish in the field"): a spell is usable from the menu when its ability row
+# has a menu function group and range. The port's Dispel row has them (its template's); Vanish gets its battle ones.
+FIELD_SPELLS = ("Dispel", "Vanish")
+
+
+def field_spells_rule(folder, log=print):
+    import ted_build as B
+    import profile_tedition as T
+    T.build()
+    names = S.spell_names(S.Rom(T.MATO))
+    ab = B.MasterRows(folder, "ability")
+    done = []
+    for want in FIELD_SPELLS:
+        sid = next((i for i, n in enumerate(names) if n and n.strip() == want), None)
+        aid = M.spell(sid) if sid is not None else None
+        if aid is None:
+            log(f"T-Edition field spells: no ability for {want}")
+            continue
+        row = ab.row(aid)
+        if row.get("menu_function_group_id", "0") in ("", "0"):
+            row.update(menu_function_group_id=row["battle_function_group_id"], menu_renge_id=row["battle_renge_id"])
+            done.append(f"{want} (ability {aid}) now")
+        else:
+            done.append(f"{want} (ability {aid}) already")
+    ab.save()
+    log(f"T-Edition field spells: {', '.join(done)} usable from the menu")
+
+
+# audit C23 (change.html §3 Mog: "Dance always works"): the PR picks a dance's step group by background (ActSelectDance):
+# its own background groups 1-8, elsewhere 37-44 with ability 262 (stumble) at 50% and the steps at half odds
+# (tools/port_dances.py). Elsewhere becomes like its own background: the stumble at 0, the steps at the native odds
+# (as Worlds Collide's -dns plan there; done here so the porter and the profile stay as they are).
+DANCE_NATIVE, DANCE_ELSEWHERE, DANCE_STUMBLE = 1, 37, 262
+
+
+def dance_rule(folder, log=print):
+    import ted_build as B
+    arg = B.MasterRows(folder, "ability_random_group")
+    groups = {}
+    for i in sorted(arg.ids()):
+        r = arg.rows.get(i) or arg.van[i]
+        groups.setdefault(int(r["group_id"]), []).append(i)
+    changed = 0
+    for k in range(8):
+        native = [arg.rows.get(i) or arg.van[i] for i in groups.get(DANCE_NATIVE + k, [])]
+        rates = [r["invocation_rate"] for r in native]
+        steps = [i for i in groups.get(DANCE_ELSEWHERE + k, [])
+                 if int((arg.rows.get(i) or arg.van[i])["ability_id"]) != DANCE_STUMBLE]
+        stumble = [i for i in groups.get(DANCE_ELSEWHERE + k, [])
+                   if int((arg.rows.get(i) or arg.van[i])["ability_id"]) == DANCE_STUMBLE]
+        if len(steps) != len(rates):
+            log(f"T-Edition dances: group {DANCE_ELSEWHERE + k} has {len(steps)} steps vs {len(rates)} native: left alone")
+            continue
+        for i, rate in zip(steps, rates):
+            row = arg.row(i)
+            if row["invocation_rate"] != rate:
+                row["invocation_rate"] = rate
+                changed += 1
+        for i in stumble:
+            row = arg.row(i)
+            if row["invocation_rate"] != "0":
+                row["invocation_rate"] = "0"
+                changed += 1
+    arg.save()
+    log(f"T-Edition dances: no stumble off their own background ({changed} rows changed)")
+
+
+# audit M39 / C17 (spec 26): T-Edition's spell effect $14 is "2 extra strikes" (C2/651A: $3A70 = 2, 3 hits on random
+# targets), used by Tiger Rush ($63). The porter reads effect $14 as vanilla's (Soul Spiral: the user's life for the
+# party's HP), so the port's row was a 9999-power heal. Tiger Rush becomes the PR's multi-hit shape (Flurry, ability
+# 127: function 2 with value1 2, value2 = hits; range 13, a random enemy each hit) at T-Edition's power and 3 hits.
+# (Effects $46 / $47, 2 and 8 hits, are used by no 3.0.7 spell; EX's own spells are ted-ex's.)
+MULTI_HIT = {0x63: 3}       # T-Edition spell: hits
+MULTI_HIT_GROUP = 9970      # function groups 9970+ (ted_build's consumables use 9920-9929)
+
+
+def multi_hit_rule(folder, log=print):
+    import ted_build as B
+    import profile_tedition as T
+    T.build()
+    spells = S.spells(S.Rom(T.MATO))
+    ab, fg = B.MasterRows(folder, "ability"), B.MasterRows(folder, "function_group")
+    done = []
+    for k, (sid, hits) in enumerate(sorted(MULTI_HIT.items())):
+        aid = M.spell(sid)
+        if aid is None:
+            continue
+        gid = MULTI_HIT_GROUP + k
+        g = {c: "0" for c in fg.header}
+        g.update(id=str(gid), function1_id="2", function1_value1="2", function1_value2=str(hits))
+        fg.add(g)
+        ab.row(aid).update(battle_function_group_id=str(gid), renge_id="13", battle_renge_id="13",
+                           standard_value=str(spells[sid].power), system_id="3")
+        done.append(f"{spells[sid].name} (ability {aid}) {hits} hits at power {spells[sid].power}")
+    ab.save()
+    fg.save()
+    log(f"T-Edition multi-hit: {'; '.join(done)}")
+
+
+def element_names_rule(folder, log=print):
+    import ted_build as B
+    B.set_messages(folder, {**ELEMENT_NAMES, **JOB_TITLES})
+    log(f"T-Edition names: {', '.join(f'{k} {v}' for k, v in {**ELEMENT_NAMES, **JOB_TITLES}.items())}")
 
 
 CHEST_KEY = "TED_CHEST_{:02d}"   # + lead character 0-13 (TedChestLines.cs)

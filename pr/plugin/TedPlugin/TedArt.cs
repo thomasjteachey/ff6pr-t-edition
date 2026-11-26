@@ -45,6 +45,11 @@ namespace TEdition.PR
                 ArtSwap.Tag = "[ted art]";
                 ArtSwap.Install(h);
                 ArtLine = ArtSwap.Load(dir);
+                // the recoloured battle backgrounds (the PR's own paintings recoloured: a test install has them, a
+                // player zip doesn't) as a layer of their own
+                var bg = Path.Combine(dataDir, "costumes", "backgrounds");
+                if (File.Exists(Path.Combine(bg, "art.json")))
+                    ArtLine += "; backgrounds: " + ArtSwap.SetLayer("ted-backgrounds", bg);
                 Plugin.L.LogInfo($"[ted art] base looks: {ArtLine}");
             }
             catch (Exception e)

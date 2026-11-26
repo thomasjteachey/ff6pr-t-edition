@@ -63,8 +63,8 @@
    "wait ok": 3
   },
   "build": {
-   "added_npcs": 47,
-   "hidden_by_map_script": 17,
+   "added_npcs": 44,
+   "hidden_by_map_script": 15,
    "standins": [
     {
      "sprite": 12,
@@ -72,7 +72,7 @@
      "npc": 18,
      "pr_map": "Map_20171_2",
      "look": 51,
-     "entity": 5041,
+     "entity": 5038,
      "event": "CB/43CA"
     },
     {
@@ -81,7 +81,7 @@
      "npc": 19,
      "pr_map": "Map_20171_2",
      "look": 51,
-     "entity": 5042,
+     "entity": 5039,
      "event": "CB/43D2"
     },
     {
@@ -90,7 +90,7 @@
      "npc": 12,
      "pr_map": "Map_20391_1",
      "look": 51,
-     "entity": 5046,
+     "entity": 5043,
      "event": "CA/3F73"
     }
    ],
@@ -517,63 +517,12 @@
  },
  {
   "event": "CC/6F41",
-  "script": "sc_ted_cc6f41",
-  "pr_map": "Map_20131_1",
-  "translated": {
-   "flow": 14,
-   "sound": 4
-  },
+  "script": null,
+  "pr_map": null,
+  "translated": {},
   "stubs": {},
-  "wired": [
-   {
-    "layer": "sc_map_20131_1",
-    "entity": null,
-    "was": "sc_map_20131_1",
-    "now": "sc_ted_cc6f41_m20131_1",
-    "script_id": null,
-    "entrance": true
-   },
-   {
-    "layer": "sc_map_20381_1",
-    "entity": null,
-    "was": "sc_map_20381_1",
-    "now": "sc_ted_cc6f41_m20381_1",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20381_1"
-   },
-   {
-    "layer": "sc_map_20131_3",
-    "entity": null,
-    "was": "sc_map_20131_3",
-    "now": "sc_ted_cc6f41_m20131_3",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20131_3"
-   },
-   {
-    "layer": "sc_map_20131_4",
-    "entity": null,
-    "was": "sc_map_20131_4",
-    "now": "sc_ted_cc6f41_m20131_4",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20131_4"
-   },
-   {
-    "layer": "sc_map_20381_4",
-    "entity": null,
-    "was": "sc_map_20381_4",
-    "now": "sc_ted_cc6f41_m20381_4",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20381_4"
-   }
-  ],
-  "detail": {
-   "flow ok": 14,
-   "sound ok": 4
-  }
+  "wired": [],
+  "skipped": "deny-listed: map 100's entrance (Map_20131_3, with CC/6F5C): the room never finishes loading (ted-gate-act1 PC, 2026-11-25)"
  },
  {
   "event": "CA/6C7B",
@@ -1617,114 +1566,30 @@
  },
  {
   "event": "CA/7D21",
-  "script": "sc_ted_ca7d21",
-  "pr_map": "Map_20361_4",
-  "translated": {
-   "flow": 9,
-   "dialog": 5
-  },
+  "script": null,
+  "pr_map": null,
+  "translated": {},
   "stubs": {},
-  "wired": [
-   {
-    "layer": "entity_default",
-    "entity": 0,
-    "was": null,
-    "now": "sc_ted_ca7d21_entity_default",
-    "script_id": 9586,
-    "object_type": 6
-   },
-   {
-    "layer": "ev_e_0038",
-    "entity": 19,
-    "was": "sc_npc_20071_4_1",
-    "now": "sc_ted_ca7d21_m20071_4_l0038",
-    "script_id": 9587,
-    "object_type": 6,
-    "room": "Map_20071_4"
-   }
-  ],
-  "wired_stubs": {},
-  "detail": {
-   "dialog ok": 5,
-   "flow ok": 9
-  }
+  "wired": [],
+  "skipped": "deny-listed: South Figaro, map 42 (Map_20071_4): after its script the party can't leave the map (warps don't land, the map's entities gone) (ted-recheck2 laptop, 2026-11-25 18:40)"
  },
  {
   "event": "CA/7D43",
-  "script": "sc_ted_ca7d43",
-  "pr_map": "Map_20361_4",
-  "translated": {
-   "flow": 7,
-   "dialog": 4
-  },
+  "script": null,
+  "pr_map": null,
+  "translated": {},
   "stubs": {},
-  "wired": [
-   {
-    "layer": "entity_default",
-    "entity": 0,
-    "was": null,
-    "now": "sc_ted_ca7d43_entity_default",
-    "script_id": 11000,
-    "object_type": 6
-   },
-   {
-    "layer": "ev_e_0038",
-    "entity": 15,
-    "was": "sc_npc_20071_4_4",
-    "now": "sc_ted_ca7d43_m20071_4_l0038",
-    "script_id": 9588,
-    "object_type": 6,
-    "room": "Map_20071_4"
-   },
-   {
-    "layer": "ev_e_0065",
-    "entity": 20,
-    "was": "sc_npc_20071_4_6",
-    "now": "sc_ted_ca7d43_m20071_4_l0065",
-    "script_id": 9589,
-    "object_type": 6,
-    "room": "Map_20071_4"
-   }
-  ],
-  "wired_stubs": {},
-  "detail": {
-   "dialog ok": 4,
-   "flow ok": 7
-  }
+  "wired": [],
+  "skipped": "deny-listed: South Figaro, map 42 (Map_20071_4): after its script the party can't leave the map (warps don't land, the map's entities gone) (ted-recheck2 laptop, 2026-11-25 18:40)"
  },
  {
   "event": "CA/7D5B",
-  "script": "sc_ted_ca7d5b",
-  "pr_map": "Map_20361_4",
-  "translated": {
-   "flow": 7,
-   "dialog": 4
-  },
+  "script": null,
+  "pr_map": null,
+  "translated": {},
   "stubs": {},
-  "wired": [
-   {
-    "layer": "entity_default",
-    "entity": 0,
-    "was": null,
-    "now": "sc_ted_ca7d5b_entity_default",
-    "script_id": 11001,
-    "object_type": 6
-   },
-   {
-    "layer": "ev_e_0038",
-    "entity": 16,
-    "was": "sc_npc_20071_4_3",
-    "now": "sc_ted_ca7d5b_m20071_4_l0038",
-    "script_id": 9590,
-    "object_type": 6,
-    "room": "Map_20071_4"
-   }
-  ],
-  "wired_stubs": {},
-  "detail": {
-   "dialog ok": 4,
-   "flow ok": 7
-  }
+  "wired": [],
+  "skipped": "deny-listed: South Figaro, map 42 (Map_20071_4): after its script the party can't leave the map (warps don't land, the map's entities gone) (ted-recheck2 laptop, 2026-11-25 18:40)"
  },
  {
   "event": "CD/5840",
@@ -2550,15 +2415,6 @@
     "room": "Map_20451_4"
    },
    {
-    "layer": "sc_map_20101_1",
-    "entity": null,
-    "was": "sc_map_20101_1",
-    "now": "sc_ted_cb9797_m20101_1",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20101_1"
-   },
-   {
     "layer": "sc_map_20101_3",
     "entity": null,
     "was": "sc_map_20101_3",
@@ -2709,42 +2565,6 @@
     "now": "sc_ted_cd3bbe_m20121_1",
     "script_id": null,
     "entrance": true
-   },
-   {
-    "layer": "sc_map_20351_1",
-    "entity": null,
-    "was": "sc_map_20351_1",
-    "now": "sc_ted_cd3bbe_m20351_1",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20351_1"
-   },
-   {
-    "layer": "sc_map_20201_1",
-    "entity": null,
-    "was": "sc_map_20201_1",
-    "now": "sc_ted_cd3bbe_m20201_1",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20201_1"
-   },
-   {
-    "layer": "sc_map_20071_6",
-    "entity": null,
-    "was": "sc_map_20071_6",
-    "now": "sc_ted_cd3bbe_m20071_6",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20071_6"
-   },
-   {
-    "layer": "sc_map_20071_7",
-    "entity": null,
-    "was": "sc_map_20071_7",
-    "now": "sc_ted_cd3bbe_m20071_7",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20071_7"
    }
   ],
   "detail": {
@@ -2779,78 +2599,12 @@
  },
  {
   "event": "CC/6F5C",
-  "script": "sc_ted_cc6f5c",
-  "pr_map": "Map_20131_3",
-  "translated": {
-   "flow": 6,
-   "sound": 2
-  },
+  "script": null,
+  "pr_map": null,
+  "translated": {},
   "stubs": {},
-  "wired": [
-   {
-    "layer": "sc_map_20131_3",
-    "entity": null,
-    "was": "sc_map_20131_3",
-    "now": "sc_ted_cc6f5c_m20131_3",
-    "script_id": null,
-    "entrance": true,
-    "from": "CC/6F62"
-   },
-   {
-    "layer": "sc_map_20131_4",
-    "entity": null,
-    "was": "sc_map_20131_4",
-    "now": "sc_ted_cc6f5c_m20131_4",
-    "script_id": null,
-    "entrance": true,
-    "from": "CC/6F62",
-    "room": "Map_20131_4"
-   },
-   {
-    "layer": "sc_map_20131_1",
-    "entity": null,
-    "was": "sc_map_20131_1",
-    "now": "sc_ted_cc6f5c_m20131_1",
-    "script_id": null,
-    "entrance": true,
-    "from": "CC/6F62",
-    "room": "Map_20131_1"
-   },
-   {
-    "layer": "sc_map_20381_1",
-    "entity": null,
-    "was": "sc_map_20381_1",
-    "now": "sc_ted_cc6f5c_m20381_1",
-    "script_id": null,
-    "entrance": true,
-    "from": "CC/6F62",
-    "room": "Map_20381_1"
-   },
-   {
-    "layer": "sc_map_20131_2",
-    "entity": null,
-    "was": "sc_map_20131_2",
-    "now": "sc_ted_cc6f5c_m20131_2",
-    "script_id": null,
-    "entrance": true,
-    "from": "CC/6F62",
-    "room": "Map_20131_2"
-   },
-   {
-    "layer": "sc_map_20381_4",
-    "entity": null,
-    "was": "sc_map_20381_4",
-    "now": "sc_ted_cc6f5c_m20381_4",
-    "script_id": null,
-    "entrance": true,
-    "from": "CC/6F62",
-    "room": "Map_20381_4"
-   }
-  ],
-  "detail": {
-   "flow ok": 6,
-   "sound ok": 2
-  }
+  "wired": [],
+  "skipped": "deny-listed: map 100's entrance (Map_20131_3, with CC/6F41): the room never finishes loading (ted-gate-act1 PC, 2026-11-25)"
  },
  {
   "event": "CD/1750",
@@ -3045,37 +2799,12 @@
  },
  {
   "event": "CA/ED73",
-  "script": "sc_ted_caed73",
-  "pr_map": "Map_20071_27",
-  "translated": {
-   "flow": 1
-  },
-  "stubs": {
-   "screen": 1
-  },
-  "wired": [
-   {
-    "layer": "sc_map_20071_27",
-    "entity": null,
-    "was": "sc_map_20071_27",
-    "now": "sc_ted_caed73_m20071_27",
-    "script_id": null,
-    "entrance": true
-   },
-   {
-    "layer": "sc_map_20361_27",
-    "entity": null,
-    "was": "sc_map_20361_27",
-    "now": "sc_ted_caed73_m20361_27",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20361_27"
-   }
-  ],
-  "detail": {
-   "flow ok": 1,
-   "screen stub:bg_palette": 1
-  }
+  "script": null,
+  "pr_map": null,
+  "translated": {},
+  "stubs": {},
+  "wired": [],
+  "skipped": "deny-listed: South Figaro, map 65's entrance (Map_20071_27): the room never finishes loading (ted-gate-act1 PC, 2026-11-25 17:4x)"
  },
  {
   "event": "CA/ED77",
@@ -3145,51 +2874,6 @@
     "now": "sc_ted_cd81a0_m20011_3",
     "script_id": null,
     "entrance": true
-   },
-   {
-    "layer": "sc_map_20131_3",
-    "entity": null,
-    "was": "sc_map_20131_3",
-    "now": "sc_ted_cd81a0_m20131_3",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20131_3"
-   },
-   {
-    "layer": "sc_map_20131_4",
-    "entity": null,
-    "was": "sc_map_20131_4",
-    "now": "sc_ted_cd81a0_m20131_4",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20131_4"
-   },
-   {
-    "layer": "sc_map_20381_1",
-    "entity": null,
-    "was": "sc_map_20381_1",
-    "now": "sc_ted_cd81a0_m20381_1",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20381_1"
-   },
-   {
-    "layer": "sc_map_20131_2",
-    "entity": null,
-    "was": "sc_map_20131_2",
-    "now": "sc_ted_cd81a0_m20131_2",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20131_2"
-   },
-   {
-    "layer": "sc_map_20381_4",
-    "entity": null,
-    "was": "sc_map_20381_4",
-    "now": "sc_ted_cd81a0_m20381_4",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20381_4"
    }
   ],
   "detail": {
@@ -3475,38 +3159,12 @@
  },
  {
   "event": "CD/1DC0",
-  "script": "sc_ted_cd1dc0",
-  "pr_map": "Map_20071_5",
-  "translated": {
-   "flow": 3,
-   "dialog": 2,
-   "screen": 2,
-   "wait": 1,
-   "flag": 4,
-   "object": 3
-  },
+  "script": null,
+  "pr_map": null,
+  "translated": {},
   "stubs": {},
-  "wired": [
-   {
-    "layer": "entity_default",
-    "entity": 5032,
-    "was": null,
-    "now": "sc_ted_cd1dc0_new",
-    "script_id": 9594,
-    "new": true
-   }
-  ],
-  "wired_stubs": {},
-  "detail": {
-   "dialog ok": 2,
-   "flag NPC show bit, no NPC here": 1,
-   "flag ok": 3,
-   "flow ok": 3,
-   "object no-op": 1,
-   "object ok": 2,
-   "screen ok": 2,
-   "wait ok": 1
-  }
+  "wired": [],
+  "skipped": "deny-listed: South Figaro, map 43 (Map_20071_5): its new NPC's room script keeps the map change from finishing ('field state ChangeMap' for 90 s; ted-final PC, 2026-11-25 19:17)"
  },
  {
   "event": "CA/8681",
@@ -4003,32 +3661,12 @@
  },
  {
   "event": "CD/4DF0",
-  "script": "sc_ted_cd4df0",
-  "pr_map": "Map_20101_2",
-  "translated": {
-   "dialog": 1,
-   "wait": 1,
-   "menu": 1,
-   "flow": 1
-  },
+  "script": null,
+  "pr_map": null,
+  "translated": {},
   "stubs": {},
-  "wired": [
-   {
-    "layer": "entity_default",
-    "entity": 5037,
-    "was": null,
-    "now": "sc_ted_cd4df0_new",
-    "script_id": 11013,
-    "new": true
-   }
-  ],
-  "wired_stubs": {},
-  "detail": {
-   "dialog ok": 1,
-   "flow ok": 1,
-   "menu ok": 1,
-   "wait ok": 1
-  }
+  "wired": [],
+  "skipped": "deny-listed: map 77's new NPC (Map_20101_2): talking to it leaves the game between scenes (ted-gate-act1 PC, 2026-11-25)"
  },
  {
   "event": "CC/451F",
@@ -4105,45 +3743,12 @@
  },
  {
   "event": "CB/A295",
-  "script": "sc_ted_cba295",
-  "pr_map": "Map_20101_1",
-  "translated": {
-   "flow": 3,
-   "flag": 3,
-   "object": 21,
-   "dialog": 7,
-   "map": 2,
-   "sound": 3,
-   "wait": 8,
-   "camera": 2
-  },
+  "script": null,
+  "pr_map": null,
+  "translated": {},
   "stubs": {},
-  "wired": [
-   {
-    "layer": "ev_e_0119",
-    "entity": 1,
-    "was": "sc_e_0119",
-    "now": "sc_ted_cba295_l0119",
-    "script_id": 11018,
-    "object_type": 2,
-    "vanilla_part": "sc_e_0119"
-   }
-  ],
-  "wired_stubs": {},
-  "detail": {
-   "camera no-op": 2,
-   "dialog ok": 7,
-   "flag engine bit, nothing in the PR": 1,
-   "flag ok": 2,
-   "flow ok": 3,
-   "map learned arrival": 1,
-   "map tiles -> CueAnim": 1,
-   "object camera": 6,
-   "object no-op": 1,
-   "object ok": 20,
-   "sound ok": 3,
-   "wait ok": 8
-  }
+  "wired": [],
+  "skipped": "deny-listed: map 76 (Map_20101_1, layer ev_e_0119): its script never ends (ted-recheck laptop, 2026-11-25 18:4x: sc_ted_cba295_l0119 still running after 120 s)"
  },
  {
   "event": "CB/42AA",
@@ -4314,7 +3919,7 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5039,
+    "entity": 5036,
     "was": null,
     "now": "sc_ted_cb42f2_new",
     "script_id": 11022,
@@ -4664,7 +4269,7 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5040,
+    "entity": 5037,
     "was": null,
     "now": "sc_ted_cb439a_new",
     "script_id": 11029,
@@ -4764,7 +4369,7 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5041,
+    "entity": 5038,
     "was": null,
     "now": "sc_ted_cb43ca_new",
     "script_id": 11031,
@@ -4814,7 +4419,7 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5042,
+    "entity": 5039,
     "was": null,
     "now": "sc_ted_cb43d2_new",
     "script_id": 11032,
@@ -4864,7 +4469,7 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5043,
+    "entity": 5040,
     "was": null,
     "now": "sc_ted_cd2ce0_new",
     "script_id": 11033,
@@ -5012,7 +4617,7 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5044,
+    "entity": 5041,
     "was": null,
     "now": "sc_ted_ca3f3b_new",
     "script_id": 11036,
@@ -5111,7 +4716,7 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5045,
+    "entity": 5042,
     "was": null,
     "now": "sc_ted_cd2d00_new",
     "script_id": 11038,
@@ -5161,7 +4766,7 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5046,
+    "entity": 5043,
     "was": null,
     "now": "sc_ted_ca3f73_new",
     "script_id": 11039,
@@ -5242,190 +4847,21 @@
  },
  {
   "event": "CD/3290",
-  "script": "sc_ted_cd3290",
-  "pr_map": "Map_20011_6",
-  "translated": {
-   "flow": 5,
-   "sound": 2
-  },
+  "script": null,
+  "pr_map": null,
+  "translated": {},
   "stubs": {},
-  "wired": [
-   {
-    "layer": "sc_map_20011_6",
-    "entity": null,
-    "was": "sc_map_20011_6",
-    "now": "sc_ted_cd3290_m20011_6",
-    "script_id": null,
-    "entrance": true
-   },
-   {
-    "layer": "sc_map_20011_7",
-    "entity": null,
-    "was": "sc_map_20011_7",
-    "now": "sc_ted_cd3290_m20011_7",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20011_7"
-   },
-   {
-    "layer": "sc_map_20011_5",
-    "entity": null,
-    "was": "sc_map_20011_5",
-    "now": "sc_ted_cd3290_m20011_5",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20011_5"
-   },
-   {
-    "layer": "sc_map_20011_14",
-    "entity": null,
-    "was": "sc_map_20011_14",
-    "now": "sc_ted_cd3290_m20011_14",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20011_14"
-   },
-   {
-    "layer": "sc_map_20011_11",
-    "entity": null,
-    "was": "sc_map_20011_11",
-    "now": "sc_ted_cd3290_m20011_11",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20011_11"
-   },
-   {
-    "layer": "sc_map_20011_12",
-    "entity": null,
-    "was": "sc_map_20011_12",
-    "now": "sc_ted_cd3290_m20011_12",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20011_12"
-   },
-   {
-    "layer": "sc_map_20011_8",
-    "entity": null,
-    "was": "sc_map_20011_8",
-    "now": "sc_ted_cd3290_m20011_8",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20011_8"
-   },
-   {
-    "layer": "sc_map_20011_10",
-    "entity": null,
-    "was": "sc_map_20011_10",
-    "now": "sc_ted_cd3290_m20011_10",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20011_10"
-   }
-  ],
-  "detail": {
-   "flow engine bit (as on a walk-in)": 1,
-   "flow ok": 5,
-   "sound ok": 2
-  }
+  "wired": [],
+  "skipped": "deny-listed: Narshe, map 10's entrance (Map_20011_6/7): the room never finishes loading (ted-gate-act1 on the laptop, 2026-11-25 17:27: 'scene other, map 10' for 30 s)"
  },
  {
   "event": "CC/3950",
-  "script": "sc_ted_cc3950",
-  "pr_map": "Map_20011_10",
-  "translated": {
-   "flow": 6,
-   "sound": 2,
-   "object": 1
-  },
+  "script": null,
+  "pr_map": null,
+  "translated": {},
   "stubs": {},
-  "wired": [
-   {
-    "layer": "sc_map_20011_10",
-    "entity": null,
-    "was": "sc_map_20011_10",
-    "now": "sc_ted_cc3950_m20011_10",
-    "script_id": null,
-    "entrance": true,
-    "from": "CC/3956"
-   },
-   {
-    "layer": "sc_map_20011_5",
-    "entity": null,
-    "was": "sc_map_20011_5",
-    "now": "sc_ted_cc3950_m20011_5",
-    "script_id": null,
-    "entrance": true,
-    "from": "CC/3956",
-    "room": "Map_20011_5"
-   },
-   {
-    "layer": "sc_map_20011_14",
-    "entity": null,
-    "was": "sc_map_20011_14",
-    "now": "sc_ted_cc3950_m20011_14",
-    "script_id": null,
-    "entrance": true,
-    "from": "CC/3956",
-    "room": "Map_20011_14"
-   },
-   {
-    "layer": "sc_map_20011_11",
-    "entity": null,
-    "was": "sc_map_20011_11",
-    "now": "sc_ted_cc3950_m20011_11",
-    "script_id": null,
-    "entrance": true,
-    "from": "CC/3956",
-    "room": "Map_20011_11"
-   },
-   {
-    "layer": "sc_map_20011_12",
-    "entity": null,
-    "was": "sc_map_20011_12",
-    "now": "sc_ted_cc3950_m20011_12",
-    "script_id": null,
-    "entrance": true,
-    "from": "CC/3956",
-    "room": "Map_20011_12"
-   },
-   {
-    "layer": "sc_map_20011_8",
-    "entity": null,
-    "was": "sc_map_20011_8",
-    "now": "sc_ted_cc3950_m20011_8",
-    "script_id": null,
-    "entrance": true,
-    "from": "CC/3956",
-    "room": "Map_20011_8"
-   },
-   {
-    "layer": "sc_map_20011_6",
-    "entity": null,
-    "was": "sc_map_20011_6",
-    "now": "sc_ted_cc3950_m20011_6",
-    "script_id": null,
-    "entrance": true,
-    "from": "CC/3956",
-    "room": "Map_20011_6"
-   },
-   {
-    "layer": "sc_map_20011_9",
-    "entity": null,
-    "was": "sc_map_20011_9",
-    "now": "sc_ted_cc3950_m20011_9",
-    "script_id": null,
-    "entrance": true,
-    "from": "CC/3956",
-    "room": "Map_20011_9"
-   }
-  ],
-  "detail": {
-   "flow engine bit (as on a walk-in)": 2,
-   "flow ok": 6,
-   "object camera": 1,
-   "object ok": 1,
-   "sound ok": 2
-  }
+  "wired": [],
+  "skipped": "deny-listed: Narshe, map 11's entrance (Map_20011_8): the room never finishes loading (ted-gate-act1 laptop, 2026-11-25 17:5x; the same warp loads under BNW)"
  },
  {
   "event": "EA/0960",
@@ -5472,51 +4908,6 @@
     "now": "sc_ted_cd4a90_m20011_4",
     "script_id": null,
     "entrance": true
-   },
-   {
-    "layer": "sc_map_20131_3",
-    "entity": null,
-    "was": "sc_map_20131_3",
-    "now": "sc_ted_cd4a90_m20131_3",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20131_3"
-   },
-   {
-    "layer": "sc_map_20131_4",
-    "entity": null,
-    "was": "sc_map_20131_4",
-    "now": "sc_ted_cd4a90_m20131_4",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20131_4"
-   },
-   {
-    "layer": "sc_map_20381_1",
-    "entity": null,
-    "was": "sc_map_20381_1",
-    "now": "sc_ted_cd4a90_m20381_1",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20381_1"
-   },
-   {
-    "layer": "sc_map_20131_2",
-    "entity": null,
-    "was": "sc_map_20131_2",
-    "now": "sc_ted_cd4a90_m20131_2",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20131_2"
-   },
-   {
-    "layer": "sc_map_20381_4",
-    "entity": null,
-    "was": "sc_map_20381_4",
-    "now": "sc_ted_cd4a90_m20381_4",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20381_4"
    }
   ],
   "detail": {
@@ -5542,51 +4933,6 @@
     "now": "sc_ted_ce76b0_m20011_2",
     "script_id": null,
     "entrance": true
-   },
-   {
-    "layer": "sc_map_20131_3",
-    "entity": null,
-    "was": "sc_map_20131_3",
-    "now": "sc_ted_ce76b0_m20131_3",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20131_3"
-   },
-   {
-    "layer": "sc_map_20131_4",
-    "entity": null,
-    "was": "sc_map_20131_4",
-    "now": "sc_ted_ce76b0_m20131_4",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20131_4"
-   },
-   {
-    "layer": "sc_map_20381_1",
-    "entity": null,
-    "was": "sc_map_20381_1",
-    "now": "sc_ted_ce76b0_m20381_1",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20381_1"
-   },
-   {
-    "layer": "sc_map_20131_2",
-    "entity": null,
-    "was": "sc_map_20131_2",
-    "now": "sc_ted_ce76b0_m20131_2",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20131_2"
-   },
-   {
-    "layer": "sc_map_20381_4",
-    "entity": null,
-    "was": "sc_map_20381_4",
-    "now": "sc_ted_ce76b0_m20381_4",
-    "script_id": null,
-    "entrance": true,
-    "room": "Map_20381_4"
    }
   ],
   "detail": {

@@ -2,6 +2,7 @@ using System;
 using Last.Battle;
 using Last.Data.User;
 using PrKit;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 
 namespace TEdition.PR
 {
@@ -26,13 +27,15 @@ namespace TEdition.PR
                 postfix: nameof(Weight_Postfix));
         }
 
-        static bool Wears(OwnedCharacterData[] party, int slot)   // T-Edition's 219 Gale Hairpin, 218 Alarm Earring
+        // (the game's arrays are Il2Cpp arrays: a hook that declared OwnedCharacterData[] / int[] read garbage, threw an NRE at
+        //  every battle's opening and corrupted memory: the coreclr crashes of ted-gate-1, 2026-11-25)
+        static bool Wears(Il2CppReferenceArray<OwnedCharacterData> party, int slot)   // T-Edition's 219 Gale Hairpin, 218 Alarm Earring
         {
             if (party == null) return false;
             int content = Plugin.D.BySlot(slot)?.Content ?? 0;
-            foreach (var c in party)
+            for (int i = 0; i < party.Length; i++)
             {
-                var eq = c?.EquipmentData;
+                var eq = party[i]?.EquipmentData;
                 if (eq == null) continue;
                 foreach (var kv in eq)
                     if (kv.Value != null && content > 0 && kv.Value.ContentId == content) return true;
@@ -42,7 +45,7 @@ namespace TEdition.PR
 
         // the PR's other weights (game_constant_int *_WALKING_*: Normal 68, BackAttack 13, pincer 3, SideAttack 3), each
         // only when the party's battle_pattern allows it
-        static int Others(int[] flags, bool alarm)
+        static int Others(Il2CppStructArray<int> flags, bool alarm)
         {
             int[] w = { 68, 0, 13, 0, 3, 3 };
             int sum = 0;
@@ -55,8 +58,8 @@ namespace TEdition.PR
             return sum;
         }
 
-        public static void Weight_Postfix(OwnedCharacterData[] targetDatum, BattlePopPlug.PreeMptiveState preeMptiveState,
-                                          int baseValue, int[] preeMptiveFlags, bool isExceptAlarmEarrings, ref int __result)
+        public static void Weight_Postfix(Il2CppReferenceArray<OwnedCharacterData> targetDatum, BattlePopPlug.PreeMptiveState preeMptiveState,
+                                          int baseValue, Il2CppStructArray<int> preeMptiveFlags, bool isExceptAlarmEarrings, ref int __result)
         {
             try
             {
@@ -80,7 +83,13 @@ namespace TEdition.PR
                     TedLog.Rule(24, $"w{state}", () => $"opening odds: {preeMptiveState} {was} -> {now} (T-Edition's pre-emptive relic x4, no enemy first strike)");
                 }
             }
-            catch (Exception e) { Hooks.WarnOnce("ted-encounters", e); }
+            catch (Exception e)
+            {
+                // (ted-gate-1, 2026-11-25: an NRE at battle 72's opening; the whole trace once, to find its line)
+                if (!traced) { traced = true; Kit.Warn($"[ted-encounters] state {preeMptiveState}, party {targetDatum?.Length}: {e}"); }
+            }
         }
+
+        static bool traced;
     }
 }

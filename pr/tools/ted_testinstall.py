@@ -32,6 +32,7 @@ Build first:  cd plugin/TedPlugin && dotnet build -c Release;  .venv/Scripts/pyt
 import glob
 import json
 import os
+import time
 import shutil
 import sys
 
@@ -145,6 +146,12 @@ def install():
 
 def restore():
     g = game()
+    # a test's game that just quit (or crashed) takes a few seconds to go (ted-gate-1, 2026-11-25: the run's undo
+    # came while it closed, and the test install stayed): wait up to 30 s
+    for _ in range(30):
+        if not g.running():
+            break
+        time.sleep(1)
     if g.running():
         raise SystemExit("the game is running: wait for it to close")
     state_path = os.path.join(g.bepinex, STATE)

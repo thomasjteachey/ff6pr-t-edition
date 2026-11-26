@@ -147,7 +147,8 @@ namespace TEdition.PR
                 {
                     // T-Edition's event command 84 (add gil; the PR's scripts only remove it): the game's own AddGil
                     new global::Last.Management.OwnedItemClient().AddGil(gil);
-                    Hooks.NoteOnce($"ted-gil-{gil}", () => $"[ted] {name}: +{gil} gil (now {global::Last.Management.UserDataManager.Instance()?.OwendGil})");
+                    int now = global::Last.Management.UserDataManager.Instance()?.OwendGil ?? 0;
+                    Hooks.NoteOnce($"ted-gil-{gil}", () => $"[ted] {name}: +{gil} gil (now {now})");
                 }
                 else if (parts.Length == 4 && parts[0] == "status" && (parts[1] == "add" || parts[1] == "remove"))
                 {
