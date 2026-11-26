@@ -7,7 +7,7 @@
    "npc": 18,
    "pr_map": "Map_20171_2",
    "look": 51,
-   "entity": 5038,
+   "entity": 5040,
    "event": "CB/43CA"
   },
   {
@@ -16,7 +16,7 @@
    "npc": 19,
    "pr_map": "Map_20171_2",
    "look": 51,
-   "entity": 5039,
+   "entity": 5041,
    "event": "CB/43D2"
   },
   {
@@ -25,7 +25,7 @@
    "npc": 12,
    "pr_map": "Map_20391_1",
    "look": 51,
-   "entity": 5043,
+   "entity": 5045,
    "event": "CA/3F73"
   },
   {

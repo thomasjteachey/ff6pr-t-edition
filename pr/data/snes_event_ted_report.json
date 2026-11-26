@@ -63,8 +63,8 @@
    "wait ok": 3
   },
   "build": {
-   "added_npcs": 44,
-   "hidden_by_map_script": 15,
+   "added_npcs": 46,
+   "hidden_by_map_script": 17,
    "standins": [
     {
      "sprite": 12,
@@ -72,7 +72,7 @@
      "npc": 18,
      "pr_map": "Map_20171_2",
      "look": 51,
-     "entity": 5038,
+     "entity": 5040,
      "event": "CB/43CA"
     },
     {
@@ -81,7 +81,7 @@
      "npc": 19,
      "pr_map": "Map_20171_2",
      "look": 51,
-     "entity": 5039,
+     "entity": 5041,
      "event": "CB/43D2"
     },
     {
@@ -90,7 +90,7 @@
      "npc": 12,
      "pr_map": "Map_20391_1",
      "look": 51,
-     "entity": 5043,
+     "entity": 5045,
      "event": "CA/3F73"
     }
    ],
@@ -3394,12 +3394,38 @@
  },
  {
   "event": "CD/1DC0",
-  "script": null,
-  "pr_map": null,
-  "translated": {},
+  "script": "sc_ted_cd1dc0",
+  "pr_map": "Map_20071_5",
+  "translated": {
+   "flow": 3,
+   "dialog": 2,
+   "screen": 2,
+   "wait": 1,
+   "flag": 4,
+   "object": 3
+  },
   "stubs": {},
-  "wired": [],
-  "skipped": "deny-listed: South Figaro, map 43 (Map_20071_5): its new NPC's room script keeps the map change from finishing ('field state ChangeMap' for 90 s; ted-final PC, 2026-11-25 19:17)"
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 5032,
+    "was": null,
+    "now": "sc_ted_cd1dc0_new",
+    "script_id": 9594,
+    "new": true
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog ok": 2,
+   "flag NPC show bit, no NPC here": 1,
+   "flag ok": 3,
+   "flow ok": 3,
+   "object no-op": 1,
+   "object ok": 2,
+   "screen ok": 2,
+   "wait ok": 1
+  }
  },
  {
   "event": "CA/8681",
@@ -3896,12 +3922,32 @@
  },
  {
   "event": "CD/4DF0",
-  "script": null,
-  "pr_map": null,
-  "translated": {},
+  "script": "sc_ted_cd4df0",
+  "pr_map": "Map_20101_2",
+  "translated": {
+   "dialog": 1,
+   "wait": 1,
+   "menu": 1,
+   "flow": 1
+  },
   "stubs": {},
-  "wired": [],
-  "skipped": "deny-listed: map 77's new NPC (Map_20101_2), a merchant: its script's SysCall TED:shop 997 opened the shop and the game ended right after (ted-act1-3 PC, 2026-11-25 17:27: a new BepInEx log follows '[ted] shop 997 opened'); the 23:27 retest (ted-deny-1) ran the talk but the shop never opened. Off until the shop opens and closes in a test"
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 5037,
+    "was": null,
+    "now": "sc_ted_cd4df0_new",
+    "script_id": 11013,
+    "new": true
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog ok": 1,
+   "flow ok": 1,
+   "menu ok": 1,
+   "wait ok": 1
+  }
  },
  {
   "event": "CC/451F",
@@ -3983,7 +4029,7 @@
   "translated": {},
   "stubs": {},
   "wired": [],
-  "skipped": "deny-listed: map 76 (Map_20101_1, layer ev_e_0119): its script never ends (ted-recheck laptop, 2026-11-25 18:4x: sc_ted_cba295_l0119 still running after 120 s)"
+  "skipped": "deny-listed: map 76 (Map_20101_1, layer ev_e_0119: the Doman sentry's tile, script 11018): triggered from a New Game state its script stays in its opening (field state Event, script alive, no map change for 150 s; ted-deny-2 PC 2026-11-26 11:41), and the PR's own scene on that tile (sc_e_0119, script 148) does exactly the same from that state (ted-deny-3 A/B, 11:56): the hang is the scene out of story order, not T-Edition's lines. Off until checked from its story state (a save at Doma): T-Edition's part runs after the vanilla part's own ChangeMap to map 83 (two map changes in one script)"
  },
  {
   "event": "CB/42AA",
@@ -4154,7 +4200,7 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5036,
+    "entity": 5038,
     "was": null,
     "now": "sc_ted_cb42f2_new",
     "script_id": 11022,
@@ -4504,7 +4550,7 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5037,
+    "entity": 5039,
     "was": null,
     "now": "sc_ted_cb439a_new",
     "script_id": 11029,
@@ -4604,7 +4650,7 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5038,
+    "entity": 5040,
     "was": null,
     "now": "sc_ted_cb43ca_new",
     "script_id": 11031,
@@ -4654,7 +4700,7 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5039,
+    "entity": 5041,
     "was": null,
     "now": "sc_ted_cb43d2_new",
     "script_id": 11032,
@@ -4704,7 +4750,7 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5040,
+    "entity": 5042,
     "was": null,
     "now": "sc_ted_cd2ce0_new",
     "script_id": 11033,
@@ -4852,7 +4898,7 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5041,
+    "entity": 5043,
     "was": null,
     "now": "sc_ted_ca3f3b_new",
     "script_id": 11036,
@@ -4951,7 +4997,7 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5042,
+    "entity": 5044,
     "was": null,
     "now": "sc_ted_cd2d00_new",
     "script_id": 11038,
@@ -5001,7 +5047,7 @@
   "wired": [
    {
     "layer": "entity_default",
-    "entity": 5043,
+    "entity": 5045,
     "was": null,
     "now": "sc_ted_ca3f73_new",
     "script_id": 11039,

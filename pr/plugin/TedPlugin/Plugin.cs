@@ -19,7 +19,7 @@ namespace TEdition.PR
     public partial class Plugin : BasePlugin
     {
         public const string Guid = "ff6mod.tedition";
-        public const string Version = "0.1.1";
+        public const string Version = "0.1.2";
         public const string ModFolder = "TEdition";   // its Magicite folder, its data folder (BepInEx/TEdition), its saves
         internal static ManualLogSource L;
         internal static bool TedMode;                 // T-Edition's data is installed: the rules are on
