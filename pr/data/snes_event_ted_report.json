@@ -517,12 +517,63 @@
  },
  {
   "event": "CC/6F41",
-  "script": null,
-  "pr_map": null,
-  "translated": {},
+  "script": "sc_ted_cc6f41",
+  "pr_map": "Map_20131_1",
+  "translated": {
+   "flow": 14,
+   "sound": 4
+  },
   "stubs": {},
-  "wired": [],
-  "skipped": "deny-listed: map 100's entrance (Map_20131_3, with CC/6F5C): the room never finishes loading (ted-gate-act1 PC, 2026-11-25)"
+  "wired": [
+   {
+    "layer": "sc_map_20131_1",
+    "entity": null,
+    "was": "sc_map_20131_1",
+    "now": "sc_ted_cc6f41_m20131_1",
+    "script_id": null,
+    "entrance": true
+   },
+   {
+    "layer": "sc_map_20381_1",
+    "entity": null,
+    "was": "sc_map_20381_1",
+    "now": "sc_ted_cc6f41_m20381_1",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20381_1"
+   },
+   {
+    "layer": "sc_map_20131_3",
+    "entity": null,
+    "was": "sc_map_20131_3",
+    "now": "sc_ted_cc6f41_m20131_3",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20131_3"
+   },
+   {
+    "layer": "sc_map_20131_4",
+    "entity": null,
+    "was": "sc_map_20131_4",
+    "now": "sc_ted_cc6f41_m20131_4",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20131_4"
+   },
+   {
+    "layer": "sc_map_20381_4",
+    "entity": null,
+    "was": "sc_map_20381_4",
+    "now": "sc_ted_cc6f41_m20381_4",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20381_4"
+   }
+  ],
+  "detail": {
+   "flow ok": 14,
+   "sound ok": 4
+  }
  },
  {
   "event": "CA/6C7B",
@@ -1566,30 +1617,114 @@
  },
  {
   "event": "CA/7D21",
-  "script": null,
-  "pr_map": null,
-  "translated": {},
+  "script": "sc_ted_ca7d21",
+  "pr_map": "Map_20361_4",
+  "translated": {
+   "flow": 9,
+   "dialog": 5
+  },
   "stubs": {},
-  "wired": [],
-  "skipped": "deny-listed: South Figaro, map 42 (Map_20071_4): after its script the party can't leave the map (warps don't land, the map's entities gone) (ted-recheck2 laptop, 2026-11-25 18:40)"
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 0,
+    "was": null,
+    "now": "sc_ted_ca7d21_entity_default",
+    "script_id": 9586,
+    "object_type": 6
+   },
+   {
+    "layer": "ev_e_0038",
+    "entity": 19,
+    "was": "sc_npc_20071_4_1",
+    "now": "sc_ted_ca7d21_m20071_4_l0038",
+    "script_id": 9587,
+    "object_type": 6,
+    "room": "Map_20071_4"
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog ok": 5,
+   "flow ok": 9
+  }
  },
  {
   "event": "CA/7D43",
-  "script": null,
-  "pr_map": null,
-  "translated": {},
+  "script": "sc_ted_ca7d43",
+  "pr_map": "Map_20361_4",
+  "translated": {
+   "flow": 7,
+   "dialog": 4
+  },
   "stubs": {},
-  "wired": [],
-  "skipped": "deny-listed: South Figaro, map 42 (Map_20071_4): after its script the party can't leave the map (warps don't land, the map's entities gone) (ted-recheck2 laptop, 2026-11-25 18:40)"
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 0,
+    "was": null,
+    "now": "sc_ted_ca7d43_entity_default",
+    "script_id": 11000,
+    "object_type": 6
+   },
+   {
+    "layer": "ev_e_0038",
+    "entity": 15,
+    "was": "sc_npc_20071_4_4",
+    "now": "sc_ted_ca7d43_m20071_4_l0038",
+    "script_id": 9588,
+    "object_type": 6,
+    "room": "Map_20071_4"
+   },
+   {
+    "layer": "ev_e_0065",
+    "entity": 20,
+    "was": "sc_npc_20071_4_6",
+    "now": "sc_ted_ca7d43_m20071_4_l0065",
+    "script_id": 9589,
+    "object_type": 6,
+    "room": "Map_20071_4"
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog ok": 4,
+   "flow ok": 7
+  }
  },
  {
   "event": "CA/7D5B",
-  "script": null,
-  "pr_map": null,
-  "translated": {},
+  "script": "sc_ted_ca7d5b",
+  "pr_map": "Map_20361_4",
+  "translated": {
+   "flow": 7,
+   "dialog": 4
+  },
   "stubs": {},
-  "wired": [],
-  "skipped": "deny-listed: South Figaro, map 42 (Map_20071_4): after its script the party can't leave the map (warps don't land, the map's entities gone) (ted-recheck2 laptop, 2026-11-25 18:40)"
+  "wired": [
+   {
+    "layer": "entity_default",
+    "entity": 0,
+    "was": null,
+    "now": "sc_ted_ca7d5b_entity_default",
+    "script_id": 11001,
+    "object_type": 6
+   },
+   {
+    "layer": "ev_e_0038",
+    "entity": 16,
+    "was": "sc_npc_20071_4_3",
+    "now": "sc_ted_ca7d5b_m20071_4_l0038",
+    "script_id": 9590,
+    "object_type": 6,
+    "room": "Map_20071_4"
+   }
+  ],
+  "wired_stubs": {},
+  "detail": {
+   "dialog ok": 4,
+   "flow ok": 7
+  }
  },
  {
   "event": "CD/5840",
@@ -2415,6 +2550,15 @@
     "room": "Map_20451_4"
    },
    {
+    "layer": "sc_map_20101_1",
+    "entity": null,
+    "was": "sc_map_20101_1",
+    "now": "sc_ted_cb9797_m20101_1",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20101_1"
+   },
+   {
     "layer": "sc_map_20101_3",
     "entity": null,
     "was": "sc_map_20101_3",
@@ -2599,12 +2743,78 @@
  },
  {
   "event": "CC/6F5C",
-  "script": null,
-  "pr_map": null,
-  "translated": {},
+  "script": "sc_ted_cc6f5c",
+  "pr_map": "Map_20131_3",
+  "translated": {
+   "flow": 6,
+   "sound": 2
+  },
   "stubs": {},
-  "wired": [],
-  "skipped": "deny-listed: map 100's entrance (Map_20131_3, with CC/6F41): the room never finishes loading (ted-gate-act1 PC, 2026-11-25)"
+  "wired": [
+   {
+    "layer": "sc_map_20131_3",
+    "entity": null,
+    "was": "sc_map_20131_3",
+    "now": "sc_ted_cc6f5c_m20131_3",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/6F62"
+   },
+   {
+    "layer": "sc_map_20131_4",
+    "entity": null,
+    "was": "sc_map_20131_4",
+    "now": "sc_ted_cc6f5c_m20131_4",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/6F62",
+    "room": "Map_20131_4"
+   },
+   {
+    "layer": "sc_map_20131_1",
+    "entity": null,
+    "was": "sc_map_20131_1",
+    "now": "sc_ted_cc6f5c_m20131_1",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/6F62",
+    "room": "Map_20131_1"
+   },
+   {
+    "layer": "sc_map_20381_1",
+    "entity": null,
+    "was": "sc_map_20381_1",
+    "now": "sc_ted_cc6f5c_m20381_1",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/6F62",
+    "room": "Map_20381_1"
+   },
+   {
+    "layer": "sc_map_20131_2",
+    "entity": null,
+    "was": "sc_map_20131_2",
+    "now": "sc_ted_cc6f5c_m20131_2",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/6F62",
+    "room": "Map_20131_2"
+   },
+   {
+    "layer": "sc_map_20381_4",
+    "entity": null,
+    "was": "sc_map_20381_4",
+    "now": "sc_ted_cc6f5c_m20381_4",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/6F62",
+    "room": "Map_20381_4"
+   }
+  ],
+  "detail": {
+   "flow ok": 6,
+   "sound ok": 2
+  }
  },
  {
   "event": "CD/1750",
@@ -2799,12 +3009,37 @@
  },
  {
   "event": "CA/ED73",
-  "script": null,
-  "pr_map": null,
-  "translated": {},
-  "stubs": {},
-  "wired": [],
-  "skipped": "deny-listed: South Figaro, map 65's entrance (Map_20071_27): the room never finishes loading (ted-gate-act1 PC, 2026-11-25 17:4x)"
+  "script": "sc_ted_caed73",
+  "pr_map": "Map_20071_27",
+  "translated": {
+   "flow": 1
+  },
+  "stubs": {
+   "screen": 1
+  },
+  "wired": [
+   {
+    "layer": "sc_map_20071_27",
+    "entity": null,
+    "was": "sc_map_20071_27",
+    "now": "sc_ted_caed73_m20071_27",
+    "script_id": null,
+    "entrance": true
+   },
+   {
+    "layer": "sc_map_20361_27",
+    "entity": null,
+    "was": "sc_map_20361_27",
+    "now": "sc_ted_caed73_m20361_27",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20361_27"
+   }
+  ],
+  "detail": {
+   "flow ok": 1,
+   "screen stub:bg_palette": 1
+  }
  },
  {
   "event": "CA/ED77",
@@ -3666,7 +3901,7 @@
   "translated": {},
   "stubs": {},
   "wired": [],
-  "skipped": "deny-listed: map 77's new NPC (Map_20101_2): talking to it leaves the game between scenes (ted-gate-act1 PC, 2026-11-25)"
+  "skipped": "deny-listed: map 77's new NPC (Map_20101_2), a merchant: its script's SysCall TED:shop 997 opened the shop and the game ended right after (ted-act1-3 PC, 2026-11-25 17:27: a new BepInEx log follows '[ted] shop 997 opened'); the 23:27 retest (ted-deny-1) ran the talk but the shop never opened. Off until the shop opens and closes in a test"
  },
  {
   "event": "CC/451F",
@@ -4847,21 +5082,190 @@
  },
  {
   "event": "CD/3290",
-  "script": null,
-  "pr_map": null,
-  "translated": {},
+  "script": "sc_ted_cd3290",
+  "pr_map": "Map_20011_6",
+  "translated": {
+   "flow": 5,
+   "sound": 2
+  },
   "stubs": {},
-  "wired": [],
-  "skipped": "deny-listed: Narshe, map 10's entrance (Map_20011_6/7): the room never finishes loading (ted-gate-act1 on the laptop, 2026-11-25 17:27: 'scene other, map 10' for 30 s)"
+  "wired": [
+   {
+    "layer": "sc_map_20011_6",
+    "entity": null,
+    "was": "sc_map_20011_6",
+    "now": "sc_ted_cd3290_m20011_6",
+    "script_id": null,
+    "entrance": true
+   },
+   {
+    "layer": "sc_map_20011_7",
+    "entity": null,
+    "was": "sc_map_20011_7",
+    "now": "sc_ted_cd3290_m20011_7",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20011_7"
+   },
+   {
+    "layer": "sc_map_20011_5",
+    "entity": null,
+    "was": "sc_map_20011_5",
+    "now": "sc_ted_cd3290_m20011_5",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20011_5"
+   },
+   {
+    "layer": "sc_map_20011_14",
+    "entity": null,
+    "was": "sc_map_20011_14",
+    "now": "sc_ted_cd3290_m20011_14",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20011_14"
+   },
+   {
+    "layer": "sc_map_20011_11",
+    "entity": null,
+    "was": "sc_map_20011_11",
+    "now": "sc_ted_cd3290_m20011_11",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20011_11"
+   },
+   {
+    "layer": "sc_map_20011_12",
+    "entity": null,
+    "was": "sc_map_20011_12",
+    "now": "sc_ted_cd3290_m20011_12",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20011_12"
+   },
+   {
+    "layer": "sc_map_20011_8",
+    "entity": null,
+    "was": "sc_map_20011_8",
+    "now": "sc_ted_cd3290_m20011_8",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20011_8"
+   },
+   {
+    "layer": "sc_map_20011_10",
+    "entity": null,
+    "was": "sc_map_20011_10",
+    "now": "sc_ted_cd3290_m20011_10",
+    "script_id": null,
+    "entrance": true,
+    "room": "Map_20011_10"
+   }
+  ],
+  "detail": {
+   "flow engine bit (as on a walk-in)": 1,
+   "flow ok": 5,
+   "sound ok": 2
+  }
  },
  {
   "event": "CC/3950",
-  "script": null,
-  "pr_map": null,
-  "translated": {},
+  "script": "sc_ted_cc3950",
+  "pr_map": "Map_20011_10",
+  "translated": {
+   "flow": 6,
+   "sound": 2,
+   "object": 1
+  },
   "stubs": {},
-  "wired": [],
-  "skipped": "deny-listed: Narshe, map 11's entrance (Map_20011_8): the room never finishes loading (ted-gate-act1 laptop, 2026-11-25 17:5x; the same warp loads under BNW)"
+  "wired": [
+   {
+    "layer": "sc_map_20011_10",
+    "entity": null,
+    "was": "sc_map_20011_10",
+    "now": "sc_ted_cc3950_m20011_10",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/3956"
+   },
+   {
+    "layer": "sc_map_20011_5",
+    "entity": null,
+    "was": "sc_map_20011_5",
+    "now": "sc_ted_cc3950_m20011_5",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/3956",
+    "room": "Map_20011_5"
+   },
+   {
+    "layer": "sc_map_20011_14",
+    "entity": null,
+    "was": "sc_map_20011_14",
+    "now": "sc_ted_cc3950_m20011_14",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/3956",
+    "room": "Map_20011_14"
+   },
+   {
+    "layer": "sc_map_20011_11",
+    "entity": null,
+    "was": "sc_map_20011_11",
+    "now": "sc_ted_cc3950_m20011_11",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/3956",
+    "room": "Map_20011_11"
+   },
+   {
+    "layer": "sc_map_20011_12",
+    "entity": null,
+    "was": "sc_map_20011_12",
+    "now": "sc_ted_cc3950_m20011_12",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/3956",
+    "room": "Map_20011_12"
+   },
+   {
+    "layer": "sc_map_20011_8",
+    "entity": null,
+    "was": "sc_map_20011_8",
+    "now": "sc_ted_cc3950_m20011_8",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/3956",
+    "room": "Map_20011_8"
+   },
+   {
+    "layer": "sc_map_20011_6",
+    "entity": null,
+    "was": "sc_map_20011_6",
+    "now": "sc_ted_cc3950_m20011_6",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/3956",
+    "room": "Map_20011_6"
+   },
+   {
+    "layer": "sc_map_20011_9",
+    "entity": null,
+    "was": "sc_map_20011_9",
+    "now": "sc_ted_cc3950_m20011_9",
+    "script_id": null,
+    "entrance": true,
+    "from": "CC/3956",
+    "room": "Map_20011_9"
+   }
+  ],
+  "detail": {
+   "flow engine bit (as on a walk-in)": 2,
+   "flow ok": 6,
+   "object camera": 1,
+   "object ok": 1,
+   "sound ok": 2
+  }
  },
  {
   "event": "EA/0960",

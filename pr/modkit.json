@@ -21,7 +21,7 @@
       "name": "TEdition",
       "game": "ff6",
       "title": "FINAL FANTASY VI T-Edition 3.0.7 + EX for the Pixel Remaster",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "plugin": {
         "project": "plugin/TedPlugin",
         "files": [

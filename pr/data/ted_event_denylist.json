@@ -1,12 +1,6 @@
 {
  "_doc": "T-Edition events left unwired for players: the PR's vanilla scene plays instead (tools/ted_events.py denylist(); the first release's rule, 2026-11-25: a translated scene on the story path must end in its test or be turned off). Remove an entry once its test passes (build/batches/ted-gate-act1.py). \"<event>@<PR room>\" turns off one room of an entrance event.",
  "events": {
-  "CD/3290": "Narshe, map 10's entrance (Map_20011_6/7): the room never finishes loading (ted-gate-act1 on the laptop, 2026-11-25 17:27: 'scene other, map 10' for 30 s)",
-  "CA/ED73": "South Figaro, map 65's entrance (Map_20071_27): the room never finishes loading (ted-gate-act1 PC, 2026-11-25 17:4x)",
-  "CC/6F41": "map 100's entrance (Map_20131_3, with CC/6F5C): the room never finishes loading (ted-gate-act1 PC, 2026-11-25)",
-  "CC/6F5C": "map 100's entrance (Map_20131_3, with CC/6F41): the room never finishes loading (ted-gate-act1 PC, 2026-11-25)",
-  "CD/4DF0": "map 77's new NPC (Map_20101_2): talking to it leaves the game between scenes (ted-gate-act1 PC, 2026-11-25)",
-  "CC/3950": "Narshe, map 11's entrance (Map_20011_8): the room never finishes loading (ted-gate-act1 laptop, 2026-11-25 17:5x; the same warp loads under BNW)",
   "CD/81A0@Map_20131_2": "its Narshe part runs; in rooms of another place sharing the layout (maps 100/101 = Map_20131_3/4) the room never finishes loading (ted-gate-act1 PC, 2026-11-25 18:0x)",
   "CD/81A0@Map_20131_3": "its Narshe part runs; in rooms of another place sharing the layout (maps 100/101 = Map_20131_3/4) the room never finishes loading (ted-gate-act1 PC, 2026-11-25 18:0x)",
   "CD/81A0@Map_20131_4": "its Narshe part runs; in rooms of another place sharing the layout (maps 100/101 = Map_20131_3/4) the room never finishes loading (ted-gate-act1 PC, 2026-11-25 18:0x)",
@@ -22,16 +16,13 @@
   "CE/76B0@Map_20131_4": "its Narshe part runs; in rooms of another place sharing the layout (maps 100/101 = Map_20131_3/4) the room never finishes loading (ted-gate-act1 PC, 2026-11-25 18:0x)",
   "CE/76B0@Map_20381_1": "its Narshe part runs; in rooms of another place sharing the layout (maps 100/101 = Map_20131_3/4) the room never finishes loading (ted-gate-act1 PC, 2026-11-25 18:0x)",
   "CE/76B0@Map_20381_4": "its Narshe part runs; in rooms of another place sharing the layout (maps 100/101 = Map_20131_3/4) the room never finishes loading (ted-gate-act1 PC, 2026-11-25 18:0x)",
-  "CB/9797@Map_20101_1": "map 76's entrance (Map_20101_1): the room never finishes loading (ted-gate-act1 PC, 2026-11-25 18:0x; its Map_20101_2 room loads)",
   "CB/A295": "map 76 (Map_20101_1, layer ev_e_0119): its script never ends (ted-recheck laptop, 2026-11-25 18:4x: sc_ted_cba295_l0119 still running after 120 s)",
-  "CA/7D21": "South Figaro, map 42 (Map_20071_4): after its script the party can't leave the map (warps don't land, the map's entities gone) (ted-recheck2 laptop, 2026-11-25 18:40)",
-  "CA/7D43": "South Figaro, map 42 (Map_20071_4): after its script the party can't leave the map (warps don't land, the map's entities gone) (ted-recheck2 laptop, 2026-11-25 18:40)",
-  "CA/7D5B": "South Figaro, map 42 (Map_20071_4): after its script the party can't leave the map (warps don't land, the map's entities gone) (ted-recheck2 laptop, 2026-11-25 18:40)",
   "CA/7D09": "pub quest giver on South Figaro's map 42 (Map_20071_4, the old man): after talking to him the party can't leave the map (ted-final PC, 2026-11-25 19:0x; the same warps work under BNW)",
   "CD/1DC0": "South Figaro, map 43 (Map_20071_5): its new NPC's room script keeps the map change from finishing ('field state ChangeMap' for 90 s; ted-final PC, 2026-11-25 19:17)",
   "CD/3BBE@Map_20071_6": "map 93's entrance event (Map_20121_1) also wired into rooms of other places (South Figaro maps 44/45 = Map_20071_6/7): the same cross-place wiring as CD/81A0's, off until checked (2026-11-25)",
   "CD/3BBE@Map_20071_7": "map 93's entrance event (Map_20121_1) also wired into rooms of other places (South Figaro maps 44/45 = Map_20071_6/7): the same cross-place wiring as CD/81A0's, off until checked (2026-11-25)",
   "CD/3BBE@Map_20201_1": "map 93's entrance event (Map_20121_1) also wired into rooms of other places (South Figaro maps 44/45 = Map_20071_6/7): the same cross-place wiring as CD/81A0's, off until checked (2026-11-25)",
-  "CD/3BBE@Map_20351_1": "map 93's entrance event (Map_20121_1) also wired into rooms of other places (South Figaro maps 44/45 = Map_20071_6/7): the same cross-place wiring as CD/81A0's, off until checked (2026-11-25)"
+  "CD/3BBE@Map_20351_1": "map 93's entrance event (Map_20121_1) also wired into rooms of other places (South Figaro maps 44/45 = Map_20071_6/7): the same cross-place wiring as CD/81A0's, off until checked (2026-11-25)",
+  "CD/4DF0": "map 77's new NPC (Map_20101_2), a merchant: its script's SysCall TED:shop 997 opened the shop and the game ended right after (ted-act1-3 PC, 2026-11-25 17:27: a new BepInEx log follows '[ted] shop 997 opened'); the 23:27 retest (ted-deny-1) ran the talk but the shop never opened. Off until the shop opens and closes in a test"
  }
 }
